@@ -19,7 +19,7 @@ export default function Home() {
             By{' '}
             <Image
               src="/favicon.io"
-              alt="Vercel Logo"
+              alt="Zach Logo"
               className={styles.vercelLogo}
               width={100}
               height={24}
