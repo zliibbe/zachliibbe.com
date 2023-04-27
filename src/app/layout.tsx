@@ -7,6 +7,13 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata = {
   title: 'Zach Liibbe',
   description: 'A site to demonstrate the who and what of Zach',
+  icons: {
+    icon: {
+      url: "/favicon.png",
+      type: "image/png",
+    },
+    shortcut: { url: "/favicon.png", type: "image/png" },
+  },
 }
 
 export default function RootLayout({
