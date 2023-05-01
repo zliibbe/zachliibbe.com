@@ -104,9 +104,15 @@
   transform: translateZ(0);
 }
 
+.divider {
+  height: 10px;
+  border: 0;
+  box-shadow: 0 10px 10px -10px #8c8b8b inset;
+}
+
 .flex {
   display: flex;
-  
+
 }
 
 .logo {
