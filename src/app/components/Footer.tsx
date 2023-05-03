@@ -1,4 +1,3 @@
-import Layout from "../dashboard/layout";
 import styles from '../page.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faGithub,
