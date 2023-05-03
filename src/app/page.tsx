@@ -11,7 +11,7 @@ export default function Home() {
     <Layout>
       <main className={styles.description}>
         <section className={styles.description}>
-          <h5 className={styles.description}>Hey there, I'm Zach!</h5>
+          <h5 className={styles.description}>{`Hey there, I'm Zach!`}</h5>
           <h1 className={styles.description}>Full Stack Engineer</h1>
           <br></br>
           <p className={styles.description}>simple design, powerful impact</p>

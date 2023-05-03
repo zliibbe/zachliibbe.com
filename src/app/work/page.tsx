@@ -8,7 +8,7 @@ export default  function Work() {
       <p className="overview"> overview in 3-5 lines goes here</p>
   
       <div className="month">
-        What I'm up to in "$ {"month"}"
+        {`What I'm up to in "$ {"month"}"`}
         <ul>
           <li>Something technical</li>
           <li>Something non-techincal</li>
