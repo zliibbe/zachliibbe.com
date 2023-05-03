@@ -45,20 +45,20 @@ main {
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
 
-  --primary-glow: conic-gradient(
+  /* --primary-glow: conic-gradient(
     from 180deg at 50% 50%,
     #16abff33 0deg,
     #0885ff33 55deg,
     #54d6ff33 120deg,
     #0071ff33 160deg,
     transparent 360deg
-  );
-  --secondary-glow: radial-gradient(
+  ); */
+  /* --secondary-glow: radial-gradient(
     rgba(255, 255, 255, 1),
     rgba(255, 255, 255, 0)
-  );
+  ); */
 
-  --tile-start-rgb: 239, 245, 249;
+  /* --tile-start-rgb: 239, 245, 249;
   --tile-end-rgb: 228, 232, 233;
   --tile-border: conic-gradient(
     #00000080,
@@ -68,12 +68,43 @@ main {
     #00000010,
     #00000010,
     #00000080
-  );
+  ); */
 
   --callout-rgb: 238, 240, 241;
   --callout-border-rgb: 172, 175, 176;
   --card-rgb: 180, 185, 188;
   --card-border-rgb: 131, 134, 135;
+
+  --headingColor: #3a3a3a;
+  --textColor: #425466;
+  --lightGray: #b6b6b6;
+  --lightGrayContrast: #a5a5a5;
+  --borderGray: #e0e0e0;
+  --offWhite: #faf9f6;
+  --stravaColor: #fc4c02;
+  --spotifyColor: #1ed760;
+  --fontFamilyBase: "Source Sans Pro";
+  --fontFamilyAlt: "Poppins";
+  --fontWeightLight: 300;
+  --fontWeightRegular: 400;
+  --fontWeightSemibold: 600;
+  --fontWeightBold: 700;
+  --gapNormal: 8px;
+  --gapMedium: 24px;
+  --gapLarge: 32px;
+  --gapXLarge: 64px;
+  --theme-color: #ec2F4B;
+  --theme-complement: #2fecd0;
+  --gradientOne: #009FFF;
+  --gradientTwo: #ec2F4B;
+  --gradientThree: #ec2F4B;
+  --animationRunningState: running;
+  --baseBackgroundColor: #ffffff;
+  --offWhiteBackgroundColor: #f8f8f8;
+  --offWhiteBackgroundColorHover: #f8f8f8;
+  --stravaHeatmapEmptyColor: #f3f3f3;
+  --textColor: #425466;
+  --headingColor: #3a3a3a;
 }
 
 @media (prefers-color-scheme: dark) {
