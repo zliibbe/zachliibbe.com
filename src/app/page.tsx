@@ -24,7 +24,7 @@ export default function Home() {
             />
         </section>
         
-        <h1>Heading in <code>src/app/page.tsx</code></h1>
+        <h1><code>currently a Work In Progress...</code></h1>
         <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempore dolorem perferendis et eveniet rem expedita accusantium eius, voluptatum sequi blanditiis quibusdam beatae quasi enim, ullam ratione libero? Inventore, beatae amet.</p>
         <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus sed dolore deleniti dolorum hic vero!</p>
       </main>
