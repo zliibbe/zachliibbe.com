@@ -1,7 +1,6 @@
 import Layout from "../dashboard/layout";
 import styles from '../page.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 import {faLinkedin,
         faGithub,
       } from '@fortawesome/free-brands-svg-icons'
@@ -19,11 +18,11 @@ export default  function Footer() {
             <p className="strava">Strava</p>
             <p className="spotify">Spotify</p>
           </div>
-          <div className="footer-social-and-copywright">
-            <div className="footer-social">
-            <a href="https://linkedin.com/in/zachliibbe"> <FontAwesomeIcon icon={faLinkedin} /> </a>
-            <a href="https://github.com/zliibbe"> <FontAwesomeIcon icon={faGithub} /> </a>
-            <a href="/contact"> <FontAwesomeIcon icon={faEnvelope} /> </a>  
+          <div className="footer-social-and-byline">
+            <div className="footer-social-icon">
+              <a href="https://linkedin.com/in/zachliibbe"> <FontAwesomeIcon icon={faLinkedin} /> </a>
+              <a href="https://github.com/zliibbe"> <FontAwesomeIcon icon={faGithub} /> </a>
+              <a href="/contact"> <FontAwesomeIcon icon={faEnvelope} /> </a>  
             </div>
             <div className="footer-copywright">
               Built using 
