@@ -1,8 +1,10 @@
 import Layout from "../dashboard/layout";
 import styles from '../page.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faLinkedin,
-        faGithub,
+import {faGithub,
+        faSpotify,
+        faStrava,
+        faLinkedinIn,
       } from '@fortawesome/free-brands-svg-icons'
 import { faEnvelope, 
          } from '@fortawesome/free-regular-svg-icons';
@@ -15,14 +17,24 @@ export default  function Footer() {
         <div className={`footer-grid, ${styles.grid}`}>
           <div className={`footer-grid, ${styles.description}`}>
             <p className="live-feed">Live Feed</p>
-            <p className="strava">Strava</p>
-            <p className="spotify">Spotify</p>
+            <a href="https://www.strava.com/athletes/zachliibbe"> 
+              <FontAwesomeIcon icon={faStrava} /> <p className="strava">Strava</p> 
+            </a>
+            <a href="https://open.spotify.com/user/zliibbe86?si=NsI7mNaCSYuBRLlYryIwYw">
+              <FontAwesomeIcon icon={faSpotify} /> <p className="strava">Spotify</p> 
+            </a>
           </div>
           <div className="footer-social-and-byline">
             <div className="footer-social-icon">
-              <a href="https://linkedin.com/in/zachliibbe"> <FontAwesomeIcon icon={faLinkedin} /> </a>
-              <a href="https://github.com/zliibbe"> <FontAwesomeIcon icon={faGithub} /> </a>
-              <a href="/contact"> <FontAwesomeIcon icon={faEnvelope} /> </a>  
+              <a href="https://linkedin.com/in/zachliibbe"> 
+                <FontAwesomeIcon icon={faLinkedinIn} /> 
+              </a>
+              <a href="https://github.com/zliibbe">
+                <FontAwesomeIcon icon={faGithub} />
+              </a>
+              <a href="/contact">
+                <FontAwesomeIcon icon={faEnvelope} />
+              </a>  
             </div>
             <div className="footer-copywright">
               Built using 
