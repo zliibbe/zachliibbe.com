@@ -1,4 +1,6 @@
 import styles from '../page.module.css';
+import Image from 'next/image';
+import nextSvg from '../../../public/next.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faGithub,
         faSpotify,
@@ -37,9 +39,29 @@ export default  function Footer() {
             </div>
             <div className="footer-copywright">
               Built using 
-              <strong><a href="https://nextjs.org"> Next.js </a></strong>
+              <strong>
+                <a href="https://nextjs.org"> 
+                  <span className={styles.logo}>
+                    <Image 
+                      src="/next.svg"
+                      alt="Next.js logo"
+                      height={25}
+                      width={25}/> 
+                  </span>
+                </a>
+              </strong>
               and
-              <strong><a href="https://vercel.com/"> Vercel </a></strong>
+              <strong>
+                <a href="https://vercel.com/"> 
+                  <span className={styles.logo}>
+                    <Image 
+                      src='/vercel.svg' 
+                      alt='Vercel logo' 
+                      width={25} 
+                      height={25}/>
+                  </span>
+                </a>
+              </strong>
               in     
               <strong> Colorado Springs, CO</strong>
             </div>
