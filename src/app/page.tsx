@@ -21,6 +21,7 @@ export default function Home() {
           <Image 
             src={zachPic}
             alt="Zach standing" 
+            height="350"
             />
         </section>
         
