@@ -37,4 +37,8 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ### Automatic Linting and Formatting
 
-This project uses [Prettier](https://prettier.io/docs/en/index.html) and [ESLint](https://eslint.org/docs/latest/) in pre-commit hook (using [Husky]()). In order for Prettier and ESLint to not conflict, [es-lint-config-prettier](https://github.com/prettier/eslint-config-prettier) is used, leveraging default settings. 
+This project uses [Prettier](https://prettier.io/docs/en/index.html) and [ESLint](https://eslint.org/docs/latest/) in pre-commit hook (using [Husky]()). 
+
+In order for Prettier and ESLint to not conflict, [es-lint-config-prettier](https://github.com/prettier/eslint-config-prettier) is used, leveraging default settings. 
+
+This project also implements [lint-staged](https://github.com/okonet/lint-staged) to run linting and formatting against staged files. 
