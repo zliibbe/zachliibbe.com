@@ -3,15 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbo",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "prettier --check .",
+    "lint": "next lint",
     "prepare": "husky install",
     "format": "prettier --write .",
     "husky": {
       "hooks": {
-        "pre-commit": "npm run format && git add -A"
+        "pre-commit": "npm run lint && npm run format && git add -A"
       }
     }
   },
@@ -32,6 +32,7 @@
     "typescript": "5.0.4"
   },
   "devDependencies": {
+    "eslint-config-prettier": "^8.8.0",
     "husky": "^8.0.3",
     "prettier": "2.8.8"
   }
