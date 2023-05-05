@@ -6,10 +6,13 @@
     "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "prettier --check .",
     "prepare": "husky install",
+    "format": "prettier --write .",
     "husky": {
-      "hooks": {}
+      "hooks": {
+        "pre-commit": "npm run format && git add -A"
+      }
     }
   },
   "dependencies": {

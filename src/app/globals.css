@@ -1,9 +1,10 @@
-
 /*
   Josh's Custom CSS Reset
   https://www.joshwcomeau.com/css/custom-css-reset/
 */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 * {
@@ -13,33 +14,46 @@
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  
 }
-img, picture, video, canvas, svg {
+img,
+picture,
+video,
+canvas,
+svg {
   display: block;
   max-width: 100%;
 }
-input, button, textarea, select {
+input,
+button,
+textarea,
+select {
   font: inherit;
 }
-p, h1, h2, h3, h4, h5, h6 {
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   overflow-wrap: break-word;
-  font-family: 'Rockwell', serif;
+  font-family: "Rockwell", serif;
 }
-#root, #__next {
+#root,
+#__next {
   isolation: isolate;
 }
 
 main {
-  font-family: 'Bembo', sans-serif;
+  font-family: "Bembo", sans-serif;
 }
 
 :root {
   --max-width: 1100px;
   --border-radius: 12px;
-  --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
-    'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
-    'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
+  --font-mono: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono",
+    "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro",
+    "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
 
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -93,11 +107,11 @@ main {
   --gapMedium: 24px;
   --gapLarge: 32px;
   --gapXLarge: 64px;
-  --theme-color: #ec2F4B;
+  --theme-color: #ec2f4b;
   --theme-complement: #2fecd0;
-  --gradientOne: #009FFF;
-  --gradientTwo: #ec2F4B;
-  --gradientThree: #ec2F4B;
+  --gradientOne: #009fff;
+  --gradientTwo: #ec2f4b;
+  --gradientThree: #ec2f4b;
   --animationRunningState: running;
   --baseBackgroundColor: #ffffff;
   --offWhiteBackgroundColor: #f8f8f8;

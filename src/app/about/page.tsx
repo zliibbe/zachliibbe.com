@@ -1,6 +1,5 @@
 import Layout from "../dashboard/layout";
-import styles from '../page.module.css'
-
+import styles from "../page.module.css";
 
 export default function About() {
   return (
@@ -9,5 +8,5 @@ export default function About() {
         <h1>About page</h1>
       </main>
     </Layout>
-  )
+  );
 }

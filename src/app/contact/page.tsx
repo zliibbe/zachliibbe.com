@@ -1,6 +1,5 @@
 import Layout from "../dashboard/layout";
-import styles from '../page.module.css'
-
+import styles from "../page.module.css";
 
 export default function Contact() {
   return (
@@ -11,5 +10,5 @@ export default function Contact() {
         </main>
       </Layout>
     </>
-  )
+  );
 }
