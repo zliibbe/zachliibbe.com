@@ -18,28 +18,36 @@ export default function Footer() {
       <div className={`footer-grid, ${styles.grid}`}>
         <div className={`footer-grid, ${styles.description}`}>
           <p className="live-feed">Live Feed</p>
-          <a href="https://www.strava.com/athletes/zachliibbe"
+          <a
+            href="https://www.strava.com/athletes/zachliibbe"
             target="_blank"
-            rel="noopener noreferrer">
+            rel="noopener noreferrer"
+          >
             <FontAwesomeIcon icon={faStrava} /> <p className="strava">Strava</p>
           </a>
-          <a href="https://open.spotify.com/user/zliibbe86?si=NsI7mNaCSYuBRLlYryIwYw"
+          <a
+            href="https://open.spotify.com/user/zliibbe86?si=NsI7mNaCSYuBRLlYryIwYw"
             target="_blank"
-            rel="noopener noreferrer">
+            rel="noopener noreferrer"
+          >
             <FontAwesomeIcon icon={faSpotify} />{" "}
             <p className="strava">Spotify</p>
           </a>
         </div>
         <div className="footer-social-and-byline">
           <div className="footer-social-icon">
-            <a href="https://linkedin.com/in/zachliibbe"
-            target="_blank"
-            rel="noopener noreferrer">
+            <a
+              href="https://linkedin.com/in/zachliibbe"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <FontAwesomeIcon icon={faLinkedinIn} />
             </a>
-            <a href="https://github.com/zliibbe"
-            target="_blank"
-            rel="noopener noreferrer">
+            <a
+              href="https://github.com/zliibbe"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <FontAwesomeIcon icon={faGithub} />
             </a>
             <a href="/contact">
@@ -49,9 +57,11 @@ export default function Footer() {
           <div className="footer-copywright">
             Built using
             <strong>
-              <a href="https://nextjs.org"
-            target="_blank"
-            rel="noopener noreferrer">
+              <a
+                href="https://nextjs.org"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <span className={styles.logo}>
                   <Image
                     src="/next.svg"
@@ -64,9 +74,11 @@ export default function Footer() {
             </strong>
             and
             <strong>
-              <a href="https://vercel.com/"
-            target="_blank"
-            rel="noopener noreferrer">
+              <a
+                href="https://vercel.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <span className={styles.logo}>
                   <Image
                     src="/vercel.svg"
