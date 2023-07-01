@@ -7,6 +7,25 @@
   min-height: 100vh;
 }
 
+.layout_gradient {
+  --gradientTiming: 12s;
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  width: 100%;
+  outline: 1px solid transparent;
+  height: 70vh;
+  background: linear-gradient(
+    45deg,
+    var(--gradientOne),
+    var(--gradientTwo),
+    var(--gradientThree)
+  );
+  background-size: 400% 400%;
+  background-repeat: no-repeat;
+  transform: translateZ(0);
+}
+
 /* .description {
   display: inherit;
   justify-content: inherit;
