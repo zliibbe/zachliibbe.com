@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Zach Liibbe Portfolio",
-  description: "A site to demonstrate the who and what of Zach",
+  description: "Zach Liibbe's own little corner of the web",
   icons: {
     icon: {
       url: "/favicon.png",
