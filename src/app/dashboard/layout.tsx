@@ -1,12 +1,9 @@
 import "../globals.css";
 import styles from "../page.module.css";
 
-import { Inter } from "next/font/google";
 import Link from "next/link";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Zach Liibbe Portfolio",
@@ -20,12 +17,18 @@ export const metadata = {
   },
 };
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <main>
-      <Header />
-      {children}
-      <Footer />
+      <section className="layout_gradient">
+        <Header />
+        {children}
+        <Footer />
+      </section>
     </main>
   );
 }
