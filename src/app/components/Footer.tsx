@@ -63,7 +63,7 @@ export default function Footer() {
               <FontAwesomeIcon icon={faEnvelope} className="w-7 p-2 m-2"/>
             </a>
           </div>
-          <div className={`footer-copywright, flex`}>
+          <div className={`footer-copywright, `}>
             Built using
             <strong>
               <a
@@ -75,8 +75,8 @@ export default function Footer() {
                   <Image
                     src="/next.svg"
                     alt="Next.js logo"
-                    height={25}
-                    width={25}
+                    height={44}
+                    width={44}
                   />
                 </span>
               </a>
