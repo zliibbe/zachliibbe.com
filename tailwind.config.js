@@ -3,6 +3,7 @@ module.exports = {
   mode: "jit",
   // purge: [],
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
+  prefix: 'tw-',
   theme: {
     extend: {
       fontFamily: {
