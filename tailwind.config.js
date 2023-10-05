@@ -10,8 +10,8 @@ module.exports = {
         mono: ["var(--font-roboto-mono)"],
       },
       colors: {
-        // primary: '#000000',
-        // secondary: 'ffffff',
+        primary: '#000000',
+        secondary: 'ffffff',
       },
     },
   },

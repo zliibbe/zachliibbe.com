@@ -26,7 +26,7 @@ export default function DashboardLayout({
     <main>
       <section className="layout_gradient">
         <Header />
-        {children}
+          {children}
         <Footer />
       </section>
     </main>
