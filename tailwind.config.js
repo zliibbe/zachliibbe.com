@@ -3,7 +3,7 @@ module.exports = {
   mode: "jit",
   // purge: [],
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
-  prefix: 'tw-',
+  prefix: "tw-",
   theme: {
     extend: {
       fontFamily: {
@@ -11,8 +11,8 @@ module.exports = {
         mono: ["var(--font-roboto-mono)"],
       },
       colors: {
-        primary: '#000000',
-        secondary: 'ffffff',
+        primary: "#000000",
+        secondary: "ffffff",
       },
     },
   },
