@@ -1,0 +1,14 @@
+fa-gear {
+  color: black;
+}
+
+/* a:hover  {
+  color: 
+} */
+
+.changeColor {
+  color: white;
+}
+.changeColor:hover {
+  color: rgba(255, 255, 255, 0.3);;
+}

@@ -1,40 +1,66 @@
 import Link from "next/link";
 import styles from "../page.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMountainSun, faBars } from "@fortawesome/free-solid-svg-icons";
+import { FaMountainSun, FaGear } from "react-icons/fa6";
+import { PiGear } from "react-icons/pi";
+import { IconContext } from "react-icons/lib";
+import { createContext } from "react";
 
 const Header = () => {
   return (
-    <nav className={`tw-flex tw-w-full tw-justify-center tw-content-center`}>
-      <div className={`tw-flex tw-items-center tw-content-start`}>
-        <Link href="/" className={`home-icon ${styles.description} tw-hover:text-cyan-700 hover:duration-300 tw-hover:backdrop:before:first-letter:text-white`}>
-            <FontAwesomeIcon icon={faMountainSun} />
+    <nav className={`tw-flex tw-w-full tw-justify-between tw-content-center tw-px-4 tw-mx-6`}>
+      <div className={`tw-flex tw-items-center tw-content-start tw-mx-1`}>
+        <span className="changeColor">
+          <Link
+            href="/"
+            className={`home-icon tw-p-5 `}
+          >
+            <FaMountainSun className="home-icon " color="white" fontSize={`1.8rem`} />
           </Link>
+        </span>
       </div>
-      
-      <ul className={`home flex`}>
-        <li className={`tw-flex-initial tw-p-3 tw-hover:text-cyan-700 tw-hover:underline tw-hover:duration-500`}>
-          <Link href="/"></Link>
-        </li>
 
+      <ul className={`home-logo tw-flex`}>
         <div className={`navbar tw-flex tw-items-center `}>
-          <li className={`tw-p-3 tw-hover:text-cyan-700 tw-hover:underline tw-hover:duration-500`}>
-            <Link href="/about" className={styles.description}>About</Link>
-          </li>
-          <li className={`tw-p-3 tw-hover:text-cyan-700 tw-hover:underline tw-hover:duration-500`}>
-            <Link href="/work" className={styles.description}>Work</Link>
-          </li>
-          <li className={`tw-p-3 tw-hover:text-cyan-700 tw-hover:underline tw-hover:duration-500`}>
-            <Link href="/contact" className={styles.description}>Contact</Link>
-          </li>
-        </div>
 
-        <div className="prefs-menu">
-          <li  className={`p-3 hover:text-cyan-100 hover:duration-500`}>
-            <FontAwesomeIcon icon={faBars}/>
+          <span className="tw-hover:bg-slate-500">
+            <li
+              className={`tw-p-1 tw-hover:bg-cyan-700 tw-hover:underline tw-hover:duration-500`}
+            >
+              <Link
+                href="/about"
+                className={
+                  "tw-p-3 tw-hover:tw-font-extrabold tw-hover:text-cyan-700 tw-hover:underline tw-hover:duration-500"
+                }
+              >
+                About
+              </Link>
+            </li>
+          </span>
+
+          <li
+            className={`tw-p-3 tw-hover:text-slate-500 w-hover:underline tw-hover:duration-500`}
+          >
+            <Link href="/work" className={`${styles.description}`}>
+              Work
+            </Link>
+          </li>
+          <li
+            className={`tw-p-3`}
+          >
+            <Link href="/contact" className={styles.description}>
+              Contact
+            </Link>
           </li>
         </div>
       </ul>
+
+      <div className="prefs-menu">
+        <div
+          className={`gear-logo tw-p-5`}
+        >
+          <PiGear color="white" fontSize={`1.6rem`} />
+        </div>
+      </div>
     </nav>
   );
 };
