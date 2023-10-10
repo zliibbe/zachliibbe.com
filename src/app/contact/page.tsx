@@ -12,17 +12,21 @@ export default function Contact() {
             className={`${styles.main} tw-flex tw-content-center tw-justify-center`}
           >
             <div className="tw-flex-col">
-              <h1 className="tw-flex tw-justify-center tw-align-middle tw-py-4">
+              <h1 className="tw-flex tw-justify-center tw-align-middle tw-py-4 tw-text-xl">
                 Contact page
               </h1>
               <p className="tw-flex tw-justify-center tw-py-3">
                 The quickest way to reach me is to send me an email:
+              </p>
+              <p className="tw-flex tw-justify-center tw-text-lg">
                 zliibbe@gmail.com
               </p>
-              <p className="tw-flex tw-justify-center tw-py-3">...</p>
+              <br />
               <p className="tw-flex tw-justify-center tw-py-3">
-                Check back here soon to see more features added to this work in
-                progress...
+                <i>
+                  Check back here to see more features on this work in
+                  progress...
+                </i>
               </p>
             </div>
           </main>
