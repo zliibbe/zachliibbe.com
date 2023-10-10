@@ -105,11 +105,11 @@ p {
 /* arch blur from Brendan:*/
 .background-shape {
   /* position: absolute; */
-  bottom: 50;
-  left: 50;
+  /* bottom: 50; */
+  /* left: 50; */
   width: 100%;
-  height: 350px;
-  border-radius: 100% 100% 4px 4px;
+  height: 488px;
+  border-radius: 100% 100% 3px 3px;
   box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
   z-index: 0;
   -webkit-backdrop-filter: blur(4px);
@@ -133,8 +133,6 @@ p {
   background-size: 400% 400%;
   background-repeat: no-repeat;
   transform: translateZ(0);
-  /* 10/6 0849 2 lines below effectively creates the shape I want, but it cuts off content too, not just the gradient*/
-  /* -webkit-clip-path: polygon(0 0, 100% 0, 100% 61%, 0% 100%); */
   animation: dropBackground 0.6s ease-in-out forwards;
   animation-iteration-count: 1;
   clip-path: polygon(0 0, 1600px 0, 1600px 75%, 0 100%);
@@ -157,6 +155,10 @@ p {
   background-color: #3498db; /* Change to your desired background color */
 
 /* } */
+
+a:hover {
+  text-decoration: underline;
+}
 
 @keyframes dropBackground {
   0% {
