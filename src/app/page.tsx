@@ -12,11 +12,15 @@ export default function Home() {
         <section
           className={`tw-flex tw-flex-col tw-justify-center tw-content-center`}
         >
-          <h5 className={styles.description}>{`Hey there, I'm Zach!`}</h5>
-          <h1 className={styles.description}>Full Stack Software Engineer</h1>
-          <br></br>
-          <p className={styles.description}>
-            I'm all about simple design and powerful impact
+          <p className={`tw-py-6 tw-text-2xl tw-text-white`}>
+            Hey there, I'm Zach!
+          </p>
+          <h1 className={`tw-py-6 tw-text-5xl tw-flex-wrap tw-text-white`}>
+            <strong className="tw-mb-2">Full Stack Web Developer </strong>
+            <br></br>&<strong> code craftsman</strong>
+          </h1>
+          <p className={`tw-text-white tw-text-xl`}>
+            Passionate about simple design and powerful impact
           </p>
         </section>
 
@@ -26,8 +30,7 @@ export default function Home() {
               <Image
                 src={zachPic}
                 alt="Photo of Zach"
-                width="250"
-                height="400"
+                width="350"
                 decoding="async"
                 placeholder="empty"
               />
