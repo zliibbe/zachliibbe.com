@@ -24,11 +24,10 @@ export default function DashboardLayout({
 }) {
   return (
     <main>
-      <section className="layout_gradient">
-        <Header />
-          {children}
-        <Footer />
-      </section>
+      <div className="layout_gradient"></div>
+      <Header />
+      {children}
+      <Footer />
     </main>
   );
 }
