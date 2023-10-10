@@ -1,0 +1,10 @@
+.page_page {
+    flex-grow: 1;
+    height: 100%;
+    width: 100%;
+    background: #fff;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    margin: 3rem auto;
+    padding: 2rem;
+}
