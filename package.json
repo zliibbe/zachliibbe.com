@@ -10,7 +10,7 @@
     "eslint": "npm run",
     "prepare": "husky install",
     "format": "prettier --check --ignore-path .gitignore .",
-    "format:fix": "prettier --write --ignore-path .gitignore ."    
+    "format:fix": "prettier --write --ignore-path .gitignore ."
   },
   "dependencies": {
     "@types/node": "18.16.0",
