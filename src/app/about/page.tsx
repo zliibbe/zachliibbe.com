@@ -7,7 +7,7 @@ export default function About() {
       <div
         className={`${styles.page_page} tw-flex tw-flex-col tw-bg-white tw-h-screen tw-mx-32 tw-my-0 tw-rounded-lg tw-p-8`}
       >
-        <div className="image-circle">
+        <div className="image-circle tw-flex tw-content-center tw-justify-center">
           <img alt="headshot of zach"></img>
         </div>
         <div>
