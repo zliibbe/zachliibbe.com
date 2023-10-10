@@ -10,7 +10,7 @@
 .code {
   font-weight: 700;
   font-family: var(--font-mono);
-} 
+}
 
 @media (hover: hover) and (pointer: fine) {
   .card:hover {

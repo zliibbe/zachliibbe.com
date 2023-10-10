@@ -15,7 +15,9 @@ export default function Home() {
           <h5 className={styles.description}>{`Hey there, I'm Zach!`}</h5>
           <h1 className={styles.description}>Full Stack Software Engineer</h1>
           <br></br>
-          <p className={styles.description}>I'm all about simple design and powerful impact</p>
+          <p className={styles.description}>
+            I'm all about simple design and powerful impact
+          </p>
         </section>
 
         <section className={`home-hero-image tw-flex-col`}>
