@@ -1,46 +1,6 @@
-/*
-  Josh's Custom CSS Reset (Lines 5-51)
-  https://www.joshwcomeau.com/css/custom-css-reset/
-*/
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-* {
-  margin: 0;
-}
-
-html,
-body {
-  height: 100%;
-}
-
-body {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-}
-img,
-picture,
-video,
-canvas,
-svg {
-  display: block;
-  max-width: 100%;
-}
-/* 
-a {
-  color: inherit;
-  text-decoration: none;
-}
-input,
-button,
-textarea,
-select {
-  font: inherit;
-} */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 h1,
 h2,
@@ -49,23 +9,21 @@ h4,
 h5,
 h6 {
   overflow-wrap: break-word;
-  font-family: "Rockwell", serif;
+  font-family: var(--font-jakartaSans);
 }
-/* #root, #__next {
-  isolation: isolate;
-} */
 
 main,
 p {
-  font-family: "Bembo", sans-serif;
+  font-family: var(--font-ebGaramond);
 }
 
 :root {
   --max-width: 1100px;
   --border-radius: 12px;
-  --font-mono: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono",
+  --font-mono: var(--font-roboto-mono);
+  /* ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono",
     "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro",
-    "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
+    "Fira Mono", "Droid Sans Mono", "Courier New", monospace; */
   /* --font-sans: font-family: "Bembo", sans-serif; */
   /* --font-serif: font-family: "Rockwell", serif;  */
 
@@ -116,6 +74,11 @@ p {
   backdrop-filter: blur(4px);
 }
 
+.headshot_circle {
+  border-radius: 50%;
+  box-shadow: 0 0 16px 0 var(--gradientThree), 0 0 14px 0px var(--gradientOne);
+}
+
 .layout_gradient {
   --gradientTiming: 12s;
   position: absolute;
@@ -137,6 +100,14 @@ p {
   animation-iteration-count: 1;
   clip-path: polygon(0 0, 1600px 0, 1600px 75%, 0 100%);
   z-index: -1;
+}
+
+.hr_about {
+  border: 0;
+  height: 0;
+  width: 50%;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .layout_container {
@@ -233,6 +204,4 @@ body {
   }
 } */
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+
