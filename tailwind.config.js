@@ -7,7 +7,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-plus-jakarta-sans)"],
+        jakartaSans: ["var(--font-jakarta-sans)"],
+        ebGaramond: ["var(--font-ebGaramond"],
         mono: ["var(--font-roboto-mono)"],
       },
       colors: {
