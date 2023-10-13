@@ -9,12 +9,13 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-.social_link {
-}
+/* .feed_icon:hover link:hover {
+  color:red;
+} */
 
-.linkedinIcon:hover {
+/* .linkedinIcon:hover {
   fill: #575757;
-}
+} */
 
 .link {
   display: flex;
@@ -26,5 +27,6 @@
   padding-bottom: 50px;
 }
 
-.social_and_byline {
+.social_link:hover svg:hover P{
+  fill: #ffffff4d;
 }

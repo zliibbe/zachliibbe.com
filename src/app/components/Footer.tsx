@@ -1,3 +1,4 @@
+"use client";
 // import styles from "../page.module.css";
 import styles from "./Footer.module.css";
 import Image from "next/image";
@@ -9,7 +10,6 @@ import {
   FaLinkedin,
   FaEnvelope,
 } from "react-icons/fa6";
-import { IconContext } from "react-icons";
 
 const liveFeedIcon = {
   color: "#000",
@@ -27,7 +27,7 @@ export default function Footer() {
     <footer className="footer ">
       <div className="tw-flex tw-justify-between tw-mx-5">
         <div className={`live_feed tw-flex tw-flex-col tw-m-3 tw-py-4`}>
-          <h4 className="live_feed_header tw-flex">Find Me On:</h4>
+          <h4 className="live_feed_header tw-flex">See What I've Been Up To:</h4>
 
           <div className="tw-flex tw-my-3">
             <a
