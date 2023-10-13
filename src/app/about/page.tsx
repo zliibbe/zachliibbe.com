@@ -1,5 +1,8 @@
 import Layout from "../dashboard/layout";
 import styles from "../page.module.css";
+import Image from "next/image";
+import headshot from "../../assets/headshot.png";
+import Footer from "../components/Footer";
 
 export default function About() {
   return (
@@ -8,7 +11,14 @@ export default function About() {
         className={`${styles.page_page} tw-flex tw-flex-col tw-bg-white tw-h-screen tw-mx-32 tw-my-0 tw-rounded-lg tw-p-8`}
       >
         <div className="image-circle tw-flex tw-content-center tw-justify-center">
-          <img alt="headshot of zach"></img>
+          <Image
+            className="headshot_circle"
+            alt="Zach's Face"
+            src={headshot}
+            width="200"
+            decoding="async"
+            placeholder="blur"
+          />
         </div>
         <div>
           <p>Welcome!</p>
@@ -32,7 +42,7 @@ export default function About() {
           `
         </div>
 
-        <hr className="tw-flex tw-justify-center tw-content-center tw-align-middle tw-w-32 tw-p-6 tw-c" />
+        <hr className="hr_about tw-flex-row tw-justify-center tw-content-center tw-align-middle tw-w-32 tw-p-6 tw-c" />
         <p>Outside of work hours, you are most likely to find me:</p>
         <ul>
           <li>Example activity 1</li>
@@ -50,7 +60,8 @@ export default function About() {
         </p>
         <br />
         <br />
-        <p className="tw-flex tw-justify-end tw-content-end">-Zach</p>
+        <p className="tw-flex tw-justify-end tw-content-end tw-mr-4">-Zach</p>
+        <Footer/> 
       </div>
     </Layout>
   );
