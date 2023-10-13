@@ -27,7 +27,7 @@ export default function Footer() {
     <footer className="footer ">
       <div className="tw-flex tw-justify-between tw-mx-5">
         <div className={`live_feed tw-flex tw-flex-col tw-m-3 tw-py-4`}>
-          <h4 className="live_feed_header tw-flex">Live Feed</h4>
+          <h4 className="live_feed_header tw-flex">Find Me On:</h4>
 
           <div className="tw-flex tw-my-3">
             <a
@@ -39,7 +39,7 @@ export default function Footer() {
               <span className={styles.feed_icon}>
                 <FaStrava style={liveFeedIcon} />
               </span>
-              <p className="strava_text tw-ml-2">Strava: api integration</p>
+              <p className="strava_text tw-ml-2">Strava</p>
             </a>
           </div>
 
@@ -53,7 +53,7 @@ export default function Footer() {
               <span className={`tw-flex ${styles.feed_icon}`}>
                 <FaSpotify style={liveFeedIcon} />
               </span>
-              <p className="spotify_text tw-ml-2">Spotify: api integration</p>
+              <p className="spotify_text tw-ml-2">Spotify</p>
             </a>
           </div>
         </div>
