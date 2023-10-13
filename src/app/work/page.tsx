@@ -11,19 +11,19 @@ export default function Work() {
         <div className="tw-flex tw-border-dashed">
           <div className="overview tw-mx-16 tw-mb-4 tw-align-middle">
             <h2 className="tw-text-xl tw-my-4 tw-bord">Overview</h2>
-            <p className="tw-mb-3">
+            <p className=" tw-mb-4" >
               Experienced Front End Engineer with a passion for simple, clean
               design that deliver a clear message to users.
             </p>
-            <p className="tw-mb-3">Excited about blah, blah, blah.</p>
-            <p className="tw-mb-3">
+            <p className="tw-mb-4">I am excited about finding a team of people who I can collaborate with. My observation in tech, is there are often </p>
+            <p className="tw-mb-4">
               In the past, I was a cardiac nurse manager.
             </p>
-            <p className="tw-mb-3">
-              In the past, I studied Philosophy & English in undergrad.
+            <p className="tw-mb-4">
+              In the past, I studied Philosophy & English in undergrad. Studying and discussing these subjects has filled me with a zest for life. 
             </p>
           </div>
-          <div className="recently tw-flex tw-flex-col">
+          <div className="work_recently tw-p-4 tw-flex tw-flex-col tw-rounded-lg">
             <h6 className="tw-py-3">What I've been up to recently...</h6>
             <li className="tw-py-2">
               Studying for the AWS Certified Cloud Solutions Architect exam. 🤓
@@ -39,22 +39,23 @@ export default function Work() {
           </div>
         </div>
         <br />
-        <div className="tw-flex tw-justify-center"></div>
         <br />
-        <h2 className="overview tw-flex tw-justify-start tw-m-2 tw-text-xl">
-          Experience
-        </h2>
-        <p className="overview tw-flex tw-justify-start tw-m-2">
-          Job component(s) go here
-        </p>
-        <hr />
-        <p className="overview tw-flex tw-justify-start tw-m-2">
-          Job component(s) go here
-        </p>
-        <hr />
-        <p className="overview tw-flex tw-justify-start tw-m-2">
-          Job component(s) go here
-        </p>
+        <div className="tw-flex-col tw-justify-center">
+          <h2 className="overview tw-flex tw-justify-start tw-m-2 tw-text-xl">
+            Experience
+          </h2>
+          <p className="overview tw-flex tw-justify-start tw-m-2">
+            Job component(s) go here (coming soon)
+          </p>
+          <hr />
+          <p className="overview tw-flex tw-justify-start tw-m-2">
+            Job component(s) go here (coming soon)
+          </p>
+          <hr />
+          <p className="overview tw-flex tw-justify-start tw-m-2">
+            Job component(s) go here (coming soon)
+          </p>
+        </div>
       </div>
       <Footer />
     </Layout>
