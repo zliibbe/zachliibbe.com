@@ -27,13 +27,13 @@ export default function Home() {
 
         <section className={`home-hero-image tw-flex-col`}>
           <div>
-            <div className="background-shape">
+            <div className="arch_blur">
               <Image
                 src={zachPic}
                 alt="Photo of Zach"
                 width="350"
-                decoding="async"
                 placeholder="empty"
+                priority={true}
               />
             </div>
           </div>
