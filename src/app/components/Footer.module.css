@@ -2,28 +2,18 @@
   flex: 1 0 auto;
 }
 
-.footer {
-  flex-shrink: 0;
-  background: var(--linkedInColor);
-  position: relative;
-  min-height: 200px;
-  z-index: 0;
-  display: flex;
-  align-items: center;
-}
-
 .hr {
   border: 0;
   height: 0;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
-/* .live-feed {
-  width: 750px;
-
-} */
 
 .social_link {
+}
+
+.linkedinIcon:hover {
+  fill: #575757;
 }
 
 .link {

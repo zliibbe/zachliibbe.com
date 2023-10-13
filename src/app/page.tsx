@@ -4,6 +4,7 @@ import styles from "./page.module.css";
 import Head from "next/head";
 import Layout from "./dashboard/layout";
 import Link from "next/link";
+import Footer from "./components/Footer";
 
 export default function Home() {
   return (
@@ -38,6 +39,7 @@ export default function Home() {
           </div>
         </section>
       </main>
+      <Footer />
     </Layout>
   );
 }

@@ -1,5 +1,6 @@
 import Layout from "../dashboard/layout";
 import styles from "./page.module.css";
+import Footer from "../components/Footer";
 
 export default function Work() {
   return (
@@ -55,6 +56,7 @@ export default function Work() {
           Job component(s) go here
         </p>
       </div>
+      <Footer />
     </Layout>
   );
 }

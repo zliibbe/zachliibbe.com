@@ -1,5 +1,6 @@
 import Layout from "../dashboard/layout";
 import styles from "../page.module.css";
+import Footer from "../components/Footer";
 
 export default function Contact() {
   return (
@@ -31,6 +32,7 @@ export default function Contact() {
             </div>
           </main>
         </div>
+        <Footer />
       </Layout>
     </>
   );

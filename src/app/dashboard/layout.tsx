@@ -27,7 +27,6 @@ export default function DashboardLayout({
       <div className="layout_gradient"></div>
       <Header />
       {children}
-      <Footer />
     </main>
   );
 }
