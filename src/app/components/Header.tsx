@@ -1,9 +1,7 @@
 import Link from "next/link";
-import styles from "../page.module.css";
-import { FaMountainSun, FaGear } from "react-icons/fa6";
+import styles from "./Header.module.css";
+import { FaMountainSun } from "react-icons/fa6";
 import { PiGear } from "react-icons/pi";
-import { IconContext } from "react-icons/lib";
-import { createContext } from "react";
 
 const Header = () => {
   return (
@@ -23,7 +21,7 @@ const Header = () => {
       </div>
 
       <ul className={`home-logo tw-flex`}>
-        <div className={`navbar tw-flex tw-items-center `}>
+        <div className={`navbar tw-flex tw-items-center tw-text-white`}>
           <span className="tw-hover:bg-slate-500">
             <li
               className={`tw-p-1 tw-hover:bg-cyan-700 tw-hover:underline tw-hover:duration-500`}
