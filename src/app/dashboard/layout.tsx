@@ -1,16 +1,13 @@
 import "../globals.css";
 import styles from "../page.module.css";
 
-import { Inter } from "next/font/google";
 import Link from "next/link";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
-const inter = Inter({ subsets: ["latin"] });
-
 export const metadata = {
   title: "Zach Liibbe Portfolio",
-  description: "A site to demonstrate the who and what of Zach",
+  description: "Zach Liibbe's own little corner of the web",
   icons: {
     icon: {
       url: "/favicon.png",
@@ -20,12 +17,16 @@ export const metadata = {
   },
 };
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <main>
+      <div className="layout_gradient"></div>
       <Header />
       {children}
-      <Footer />
     </main>
   );
 }

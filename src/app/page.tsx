@@ -4,36 +4,42 @@ import styles from "./page.module.css";
 import Head from "next/head";
 import Layout from "./dashboard/layout";
 import Link from "next/link";
+import Footer from "./components/Footer";
 
 export default function Home() {
   return (
     <Layout>
-      <main className={styles.description}>
-        <section className={styles.description}>
-          <h5 className={styles.description}>{`Hey there, I'm Zach!`}</h5>
-          <h1 className={styles.description}>Full Stack Engineer</h1>
-          <br></br>
-          <p className={styles.description}>simple design, powerful impact</p>
-        </section>
-        <section>
-          <div className="background-shape"></div>
-          <Image src={zachPic} alt="Zach standing" height="350" />
+      <main className={`tw-flex tw-justify-evenly`}>
+        <section
+          className={`tw-flex tw-flex-col tw-justify-center tw-content-center`}
+        >
+          <p className={`tw-py-6 tw-text-2xl tw-text-white`}>
+            Hey there, I'm Zach!
+          </p>
+          <h1 className={`tw-py-6 tw-text-5xl tw-flex-wrap tw-text-white`}>
+            <strong className="tw-mb-2">Full Stack Web Developer </strong>
+            <br></br>&<strong> code craftsman</strong>
+          </h1>
+          <p className={`tw-text-white tw-text-xl`}>
+            Passionate about simple design and powerful impact
+          </p>
         </section>
 
-        <h1>
-          <code>currently a Work In Progress...</code>
-        </h1>
-        <p>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempore
-          dolorem perferendis et eveniet rem expedita accusantium eius,
-          voluptatum sequi blanditiis quibusdam beatae quasi enim, ullam ratione
-          libero? Inventore, beatae amet.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus sed
-          dolore deleniti dolorum hic vero!
-        </p>
+        <section className={`home-hero-image tw-flex-col`}>
+          <div>
+            <div className="arch_blur">
+              <Image
+                src={zachPic}
+                alt="Photo of Zach"
+                width="350"
+                placeholder="empty"
+                priority={true}
+              />
+            </div>
+          </div>
+        </section>
       </main>
+      <Footer />
     </Layout>
   );
 }

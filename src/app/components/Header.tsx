@@ -1,34 +1,62 @@
 import Link from "next/link";
-import styles from "../page.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMountainSun, faBars } from "@fortawesome/free-solid-svg-icons";
+import styles from "./Header.module.css";
+import { FaMountainSun } from "react-icons/fa6";
+import { PiGear } from "react-icons/pi";
 
 const Header = () => {
   return (
-    <nav className={styles.flex}>
-      <ul className={styles.flex}>
-        <li>
-          <Link href="/" className={`home-icon ${styles.description}`}>
-            <FontAwesomeIcon icon={faMountainSun} />
+    <nav
+      className={`tw-flex tw-w-full tw-justify-between tw-content-center tw-px-4 tw-mx-6`}
+    >
+      <div className={`tw-flex tw-items-center tw-content-start tw-mx-1`}>
+        <span className="changeColor">
+          <Link href="/" className={`home-icon tw-p-5 `}>
+            <FaMountainSun
+              className="home-icon "
+              color="white"
+              fontSize={`1.8rem`}
+            />
           </Link>
-        </li>
-        <li>
-          <Link href="/about" className={styles.description}>
-            About
-          </Link>
-        </li>
-        <li>
-          <Link href="/work" className={styles.description}>
-            Work
-          </Link>
-        </li>
-        <li>
-          <Link href="/contact" className={styles.description}>
-            Contact
-          </Link>
-        </li>
-        <FontAwesomeIcon icon={faBars} />
+        </span>
+      </div>
+
+      <ul className={`home-logo tw-flex`}>
+        <div className={`navbar tw-flex tw-items-center tw-text-white`}>
+          <span className="tw-hover:bg-slate-500">
+            <li
+              className={`tw-p-1 tw-hover:bg-cyan-700 tw-hover:underline tw-hover:duration-500`}
+            >
+              <Link
+                href="/about"
+                className={
+                  "tw-p-3 tw-hover:tw-font-extrabold tw-hover:text-cyan-700 tw-hover:underline tw-hover:duration-500"
+                }
+              >
+                About
+              </Link>
+            </li>
+          </span>
+
+          <li
+            className={`tw-p-3 tw-hover:text-slate-500 w-hover:underline tw-hover:duration-500`}
+          >
+            <Link href="/work" className={`${styles.description}`}>
+              Work
+            </Link>
+          </li>
+          <li className={`tw-p-3`}>
+            <Link href="/contact" className={styles.description}>
+              Contact
+            </Link>
+          </li>
+        </div>
       </ul>
+
+      <div className="prefs-menu">
+        <div className={`gear-logo tw-p-5`}>
+          <PiGear color="white" fontSize={`1.6rem`} />
+        </div>
+      </div>
     </nav>
   );
 };
