@@ -37,18 +37,19 @@ const Jobs = () => {
 
   const jobCards  = jobs.map(job => {
     return (
-      <Job 
-        title = {job.title}
-        role = {job.role}
-        companyName = {job.companyName}
-        companyLink = {job.companyLink}
-        description = {job.description}
-        taskList = {job.taskList}
-        timeframe = {job.timeframe}
-        id = {job.id}
-      />
-    )};
-  )
+      <></>
+      // <Job 
+      //   title = {job.title}
+      //   role = {job.role}
+      //   companyName = {job.companyName}
+      //   companyLink = {job.companyLink}
+      //   description = {job.description}
+      //   taskList = {job.taskList}
+      //   timeframe = {job.timeframe}
+      //   id = {job.id}
+      // />
+    );
+    })
     
   return (
       <div className='jobs-container'>
