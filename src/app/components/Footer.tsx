@@ -24,12 +24,14 @@ const socialIcons = {
 
 export default function Footer() {
   return (
-    <footer className="footer ">
-      <div className="tw-flex tw-justify-between tw-mx-5">
+    <footer className="footer">
+      <div className="">
         <div className={`live_feed tw-flex tw-flex-col tw-m-3 tw-py-4`}>
-          <h4 className="live_feed_header tw-flex">See What I've Been Up To:</h4>
+          <h4 className="live_feed_header tw-flex">
+            See What I've Been Up To:
+          </h4>
 
-          <div className="tw-flex tw-my-3">
+          <div className="">
             <a
               className="feed_icon tw-flex"
               href="https://www.strava.com/athletes/zachliibbe"
@@ -70,7 +72,7 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
             >
-                <FaLinkedin className="linkedinIcon" style={socialIcons} />
+              <FaLinkedin className="linkedinIcon" style={socialIcons} />
             </a>
 
             <a
