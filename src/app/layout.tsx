@@ -1,4 +1,9 @@
-import { EB_Garamond, Plus_Jakarta_Sans, Roboto_Mono } from "next/font/google";
+import {
+  EB_Garamond,
+  Lexend,
+  Plus_Jakarta_Sans,
+  Roboto_Mono,
+} from "next/font/google";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -18,16 +23,19 @@ const robotoMono = Roboto_Mono({
   variable: "--font-roboto-mono",
 });
 
+const lexend = Lexend({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-lexend",
+});
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      className={`${plusJakartaSans.variable} ${garamond.variable} ${robotoMono.variable}`}
-    >
+    <html lang="en" className={`${lexend.variable}`}>
       <body>{children}</body>
     </html>
   );
