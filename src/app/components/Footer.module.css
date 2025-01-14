@@ -1,32 +1,144 @@
-.content {
-  flex: 1 0 auto;
+.footer {
+  display: flex;
+  margin-top: auto;
+  width: 100%;
 }
 
-.hr {
-  border: 0;
-  height: 0;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+.container {
+  display: flex;
+  justify-content: space-around;
+  min-height: auto;
+  width: 100%;
+  padding: 1rem;
 }
 
-/* .feed_icon:hover link:hover {
-  color:red;
-} */
+.liveFeed {
+  display: flex;
+  flex-direction: column;
+}
 
-/* .linkedinIcon:hover {
-  fill: #575757;
-} */
+.liveFeedHeader {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 1rem;
+  color: var(--text-primary);
+}
 
-.link {
+.liveFeedList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.liveFeedItem {
+  display: flex;
+  text-decoration: none;
+  align-items: center;
+  padding: 0 0.5rem;
+  transition: opacity 0.2s ease;
+}
+
+.liveFeedItem:hover {
+  opacity: 0.8;
+}
+
+.liveFeedText {
+  color: var(--text-primary);
+  margin-left: 0.5rem;
+}
+
+.feedIcon {
   display: flex;
   align-items: center;
+  margin: 0.25rem;
+}
+
+.stravaIcon:hover {
+  fill: var(--stravaColor);
+}
+
+.spotifyIcon:hover {
+  fill: var(--spotifyColor);
+}
+
+.socialsAndCopywrite {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.socials {
+  display: flex;
+  margin: 0 1rem;
   justify-content: center;
+  gap: 1rem;
 }
 
-.live-feed-header {
-  padding-bottom: 50px;
+.socialLink {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
 }
 
-.social_link:hover svg:hover P{
-  fill: #ffffff4d;
+.socialIcon {
+  font-size: 2.75rem;
+  fill: var(--clr-neutral-900);
+  padding: 0 0.5rem;
+}
+
+.socialLink:hover .socialIcon {
+  fill: var(--clr-neutral-600);
+}
+
+.copywrite {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.techLink {
+  display: flex;
+  align-items: center;
+  transition: opacity 0.2s ease;
+}
+
+.techLink:hover {
+  opacity: 0.8;
+}
+
+.nextVercelIcon {
+  height: 3rem;
+  margin: 0 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .copywrite {
+    font-size: var(--fs-300);
+    text-align: center;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0.5rem;
+  }
+
+  .socialIcon {
+    font-size: 2rem;
+  }
+
+  .nextVercelIcon {
+    height: 2rem;
+  }
 }

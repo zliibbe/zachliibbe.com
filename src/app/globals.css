@@ -1,57 +1,66 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  overflow-wrap: break-word;
-  font-family: var(--font-jakartaSans);
-}
-
-main,
-p {
-  font-family: var(--font-ebGaramond);
-}
-
-html,
-body {
-  height: 100%;
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
 :root {
-  --max-width: 1100px;
-  --border-radius: 12px;
-  --font-mono: var(--font-roboto-mono);
-  --headingColor: #3a3a3a;
-  --textColor: #425466;
-  --lightGray: #b6b6b6;
-  --lightGrayContrast: #a5a5a5;
-  --borderGray: #e0e0e0;
-  --offWhite: #faf9f6;
-  --stravaColor: #fc4c02;
-  --spotifyColor: #1ed760;
-  --linkedInColor: #0e76a8;
-  --fontFamilyBase: "Source Sans Pro";
-  --fontFamilyAlt: "Poppins";
-  --fontWeightLight: 300;
-  --fontWeightRegular: 400;
-  --fontWeightSemibold: 600;
-  --fontWeightBold: 700;
-  --gapNormal: 8px;
-  --gapMedium: 24px;
-  --gapLarge: 32px;
-  --gapXLarge: 64px;
+  --headingColor: #3a3a3a; /**/
+  --textColor: #425466; /**/
+  /* --lightGray: #b6b6b6;  */
+  /* --lightGrayContrast: #a5a5a5;  */
+  --borderGray: #e0e0e0; /**/
+
   --theme-color: #56b4d3;
   --theme-complement: #d37556;
   --gradientOne: #348f50;
   --gradientTwo: #56b4d3;
   --gradientThree: #56b4d3;
+
+  --clr-accent-400: ;
+  --clr-accent-300: ;
+
+  --clr-primary-400: ;
+
+  --clr-neutral-200: hsla(0, 0%, 71%);
+  --clr-neutral-250: hsl(0, 0%, 65%);
+
+  --clr-neutral-300: rgba(27, 28, 30, 0.3);
+  --clr-neutral-900: rgba(27, 28, 30, 1);
+
+  /* font family */
+  --ff-primary: var(--font-lexend);
+  --font-mono: var(--font-roboto-mono);
+
+  --ff-body: var(--ff-primary);
+  --ff-accent: var(--ff-primary);
+
+  /* font weight */
+  --fw-light: 200;
+  --fw-regular: 400;
+  --fw-semi-bold: 600;
+  --fw-bold: 700;
+
+  /* font size */
+  --fs-300: 0.875rem; /* 14px */
+  --fs-400: 1rem; /* 16px */
+  --fs-600: 1.25rem; /* 20px */
+  --fs-700: 1.5rem; /* 24px */
+  --fs-800: 2em; /* 32px */
+
+  --fs-button: var(var(--fs-300));
+  --fs-body: var(--fs-400);
+  --fs-primary-heading: var(var(--fs-800));
+  --fs-secondary-heading: var(var(--fs-700));
+
+  /* Leftovers below*/
+  --max-width: 1100px;
+  --border-radius: 12px;
+
+  --offWhite: #faf9f6;
+  --stravaColor: #fc4c02;
+  --spotifyColor: #1ed760;
+  --linkedInColor: #0e76a8;
+
+  --gapNormal: 8px;
+  --gapMedium: 24px;
+  --gapLarge: 32px;
+  --gapXLarge: 64px;
+
   --animationRunningState: running;
   --baseBackgroundColor: #ffffff;
   --offWhiteBackgroundColor: #f8f8f8;
@@ -61,17 +70,68 @@ body {
   --headingColor: #3a3a3a;
 }
 
-.arch_blur {
-  /* position: absolute; */
-  /* bottom: 50; */
-  /* left: 50; */
-  width: 100%;
-  height: 488px;
-  border-radius: 100% 100% 3px 3px;
-  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
-  z-index: 0;
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+  font: inherit;
+}
+
+ul[role="list"],
+ol[role="list"] {
+  list-style: none;
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+#root,
+#__next {
+  isolation: isolate;
+}
+
+main,
+p {
+  font-family: var(--font-lexend);
+}
+
+html,
+body {
+  height: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+html:focus-within {
+  scroll-behavior: smooth;
 }
 
 .headshot_circle {
@@ -129,6 +189,23 @@ a:hover {
   /* color: #ffffff6d; */
 }
 
+.customImage {
+  z-index: 11;
+}
+
+.srOnly,
+button.srOnly {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
 @keyframes dropBackground {
   0% {
     transform: translateY(-100%);
@@ -147,3 +224,20 @@ a:hover {
     /* color-scheme: dark; */
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Utility classes */

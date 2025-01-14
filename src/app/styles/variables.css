@@ -1,0 +1,29 @@
+:root {
+  /* Breakpoints */
+  --mobile: 320px;
+  --tablet: 481px;
+  --small-screen: 769px;
+  --large-screen: 1025px;
+  --xl-screen: 1201px;
+
+  /* Colors */
+  --primary: #007bff;
+  --secondary: #6c757d;
+  --background: #ffffff;
+  --text: #333333;
+
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+
+  /* Font sizes */
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.875rem;
+  --fs-md: 1rem;
+  --fs-lg: 1.25rem;
+  --fs-xl: 1.5rem;
+  --fs-2xl: 2rem;
+} 

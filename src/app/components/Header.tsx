@@ -1,63 +1,59 @@
+"use client";
 import Link from "next/link";
 import styles from "./Header.module.css";
-import { FaMountainSun } from "react-icons/fa6";
+import { FaMountainSun, FaBars } from "react-icons/fa6";
 import { PiGear } from "react-icons/pi";
+import { useState, useEffect } from "react";
+import PrimaryNav from "./PrimaryNav";
 
 const Header = () => {
+  const [isNavOpen, setIsNavOpen] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 769);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const toggleNav = () => {
+    setIsNavOpen(!isNavOpen);
+  };
+
   return (
-    <nav
-      className={`tw-flex tw-w-full tw-justify-between tw-content-center tw-px-4 tw-mx-6`}
-    >
-      <div className={`tw-flex tw-items-center tw-content-start tw-mx-1`}>
-        <span className="changeColor">
-          <Link href="/" className={`home-icon tw-p-5 `}>
-            <FaMountainSun
-              className="home-icon "
-              color="white"
-              fontSize={`1.8rem`}
-            />
-          </Link>
-        </span>
+    <header className={`${styles.header} ${isNavOpen ? styles.navOpen : ""}`}>
+      <div className={styles.logoContainer}>
+        <Link href="/">
+          <FaMountainSun className={styles.homeIcon} />
+        </Link>
       </div>
 
-      <ul className={`home-logo tw-flex`}>
-        <div className={`navbar tw-flex tw-items-center tw-text-white`}>
-          <span className="tw-hover:bg-slate-500">
-            <li
-              className={`tw-p-1 tw-hover:bg-cyan-700 tw-hover:underline tw-hover:duration-500`}
-            >
-              <Link
-                href="/about"
-                className={
-                  "tw-p-3 tw-hover:tw-font-extrabold tw-hover:text-cyan-700 tw-hover:underline tw-hover:duration-500"
-                }
-              >
-                About
-              </Link>
-            </li>
-          </span>
+      <div className={styles.headerCenter}>{isDesktop && <PrimaryNav />}</div>
 
-          <li
-            className={`tw-p-3 tw-hover:text-slate-500 w-hover:underline tw-hover:duration-500`}
+      <div className={styles.headerRight}>
+        {!isDesktop && (
+          <button
+            onClick={toggleNav}
+            className={styles.mobileNavToggle}
+            aria-controls="primaryNav"
+            aria-expanded={isNavOpen}
           >
-            <Link href="/work" className={`${styles.description}`}>
-              Work
-            </Link>
-          </li>
-          <li className={`tw-p-3`}>
-            <Link href="/contact" className={styles.description}>
-              Contact
-            </Link>
-          </li>
-        </div>
-      </ul>
-
-      <div className="prefs-menu">
-        <div className={`gear-logo tw-p-5`}>
-          <PiGear color="white" fontSize={`1.6rem`} />
-        </div>
+            {isNavOpen ? "✕" : <FaBars />}
+          </button>
+        )}
+        <PiGear className={styles.gearLogo} />
       </div>
-    </nav>
+
+      {!isDesktop && isNavOpen && (
+        <nav className={styles.mobileNav} id="primaryNav">
+          <PrimaryNav />
+        </nav>
+      )}
+    </header>
   );
 };
 
