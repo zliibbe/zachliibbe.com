@@ -1,0 +1,124 @@
+.header {
+  display: flex;
+  position: relative;
+  width: 100%;
+  justify-content: space-between;
+  align-content: center;
+  padding: 1rem;
+  color: white;
+}
+
+.flex {
+  display: flex;
+  gap: var(--gap, 2rem);
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  /* margin-left: 0.25rem; */
+  /* margin-right: 0.25rem; */
+}
+
+.headerRight {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.primaryNav {
+  display: flex;
+  justify-content: center;
+  color: white;
+  list-style-type: none;
+  text-decoration: none;
+}
+
+/* .mobileNavToggle {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+} */
+
+.navLink {
+  padding: 0 1rem;
+  /* margin: 0; */
+  text-decoration: none;
+  color: white;
+}
+
+.navLink:hover {
+  text-decoration: underline;
+  transition-duration: 500ms;
+}
+
+.barsLogo {
+  font-size: var(--fs-);
+}
+
+.gearLogo,
+.homeIcon {
+  /* margin: 1rem; */
+  font-size: var(--fs-800);
+}
+
+.gearLogo:hover,
+.homeIcon:hover,
+.logoContainer:hover {
+  fill: var(--clr-neutral-200);
+}
+
+.prefsMenu {
+  width: 4em;
+  display: flex;
+  /* Add styles for preferences menu */
+}
+
+@media (min-width: 769px) {
+  .header {
+    justify-content: space-between;
+  }
+
+  .logoContainer {
+    flex: 1;
+  }
+
+  .headerRight {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .gearContainer {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+/* Styles for smaller screens */
+@media (max-width: 768px) {
+  .header {
+    flex-wrap: wrap;
+  }
+
+  .logoContainer {
+    order: 1;
+  }
+
+  .gearContainer {
+    order: 2;
+    margin-left: auto;
+  }
+
+  .headerRight {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+}

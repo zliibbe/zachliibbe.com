@@ -1,8 +1,6 @@
 "use client";
-// import styles from "../page.module.css";
 import styles from "./Footer.module.css";
 import Image from "next/image";
-import nextSvg from "../../../public/next.svg";
 import {
   FaGithub,
   FaSpotify,
@@ -11,115 +9,98 @@ import {
   FaEnvelope,
 } from "react-icons/fa6";
 
-const liveFeedIcon = {
-  color: "#000",
-  fontSize: "2rem",
-};
-
-const socialIcons = {
-  color: "#000",
-  fontSize: "2rem",
-  cursor: "pointer",
-};
-
 export default function Footer() {
   return (
-    <footer className="footer">
-      <div className="">
-        <div className={`live_feed tw-flex tw-flex-col tw-m-3 tw-py-4`}>
-          <h4 className="live_feed_header tw-flex">
-            See What I've Been Up To:
-          </h4>
-
-          <div className="">
+    <footer className={styles.footer}>
+      <div className={styles.container}>
+        <div className={styles.liveFeed}>
+          <p className={styles.liveFeedHeader}>See What I've Been Up To:</p>
+          <div className={styles.liveFeedList}>
             <a
-              className="feed_icon tw-flex"
+              className={styles.liveFeedItem}
               href="https://www.strava.com/athletes/zachliibbe"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <span className={styles.feed_icon}>
-                <FaStrava style={liveFeedIcon} />
+              <span className={styles.feedIcon}>
+                <FaStrava className={styles.stravaIcon} size={30} />
               </span>
-              <p className="strava_text tw-ml-2">Strava</p>
+              <p className={styles.liveFeedText}>Strava</p>
             </a>
-          </div>
 
-          <div className="tw-flex tw-gap-1">
             <a
-              className="feed_icon tw-flex"
+              className={styles.liveFeedItem}
               href="https://open.spotify.com/user/zliibbe86?si=NsI7mNaCSYuBRLlYryIwYw"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <span className={`tw-flex ${styles.feed_icon}`}>
-                <FaSpotify style={liveFeedIcon} />
+              <span className={styles.feedIcon}>
+                <FaSpotify className={styles.spotifyIcon} size={30} />
               </span>
-              <p className="spotify_text tw-ml-2">Spotify</p>
+              <p className={styles.liveFeedText}>Spotify</p>
             </a>
           </div>
         </div>
 
-        <div
-          className={`social_and_byline tw-flex tw-flex-col tw-m-3 tw-py-4 tw-justify-items-center tw-align-middle`}
-        >
-          <div
-            className={`social_icons tw-flex tw-flex-row-reverse tw-mx-4 tw-mb-4 `}
-          >
+        <div className={styles.socialsAndCopywrite}>
+          <div className={styles.socials}>
             <a
-              className="social_link linkedin tw-mx-4"
-              href="https://linkedin.com/in/zachliibbe"
+              className={styles.socialLink}
+              href="https://linkedin.com/in/zach-liibbe"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <FaLinkedin className="linkedinIcon" style={socialIcons} />
+              <FaLinkedin
+                className={`${styles.socialIcon} ${styles.linkedinIcon}`}
+              />
             </a>
 
             <a
-              className="social_link tw-mx-4"
+              className={styles.socialLink}
               href="https://github.com/zliibbe"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <FaGithub style={socialIcons} />
+              <FaGithub className={styles.socialIcon} />
             </a>
 
-            <a className="social_link tw-mx-4" href="/contact">
-              <FaEnvelope style={socialIcons} />
+            <a className={styles.socialLink} href="/contact">
+              <FaEnvelope className={styles.socialIcon} />
             </a>
           </div>
-          <div className={`copywrite tw-flex tw-space-x-2 tw-py-4`}>
-            © 2023, built using
+          <div className={styles.copywrite}>
+            © 2024, built using
             <a
-              className="tw-mx-1 tw-items-center tw-justify-center tw-mt-2"
               href="https://nextjs.org"
               target="_blank"
               rel="noopener noreferrer"
+              className={styles.techLink}
             >
               <Image
+                className={styles.nextVercelIcon}
                 src="/next.svg"
                 alt="Next.js logo"
+                sizes="60"
                 height={60}
                 width={60}
               />
             </a>
             and
             <a
-              className="vercel_logo tw-mr-2  tw-items-center tw-justify-center tw-mt-2 tw-hover:bg-violet-600"
+              className={styles.techLink}
               href="https://vercel.com/"
               target="_blank"
               rel="noopener noreferrer"
             >
               <Image
-                className="tw-hover:bg-violet-600 tw-mr-2"
+                className={styles.nextVercelIcon}
                 src="/vercel.svg"
                 alt="Vercel logo"
                 width={60}
                 height={60}
               />
             </a>
-            in
-            <strong> Colorado Springs, CO</strong>
+            in Colorado Springs, CO
           </div>
         </div>
       </div>
