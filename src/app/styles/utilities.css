@@ -1,0 +1,17 @@
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: block;
+}
+
+@media (min-width: 769px) {
+  .hidden-desktop {
+    display: none;
+  }
+
+  .visible-desktop {
+    display: block;
+  }
+} 
