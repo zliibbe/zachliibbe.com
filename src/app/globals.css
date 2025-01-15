@@ -89,6 +89,7 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  font-family: var(--font-lexend);
 }
 img,
 picture,
@@ -120,7 +121,7 @@ h6 {
 
 main,
 p {
-  font-family: var(--font-lexend);
+  font-family: var(--ff-primary);
 }
 
 html,
