@@ -16,6 +16,7 @@
 
   --clr-primary-400: ;
 
+  --clr-neutral-100: hsl(0, 0%, 100%);
   --clr-neutral-200: hsla(0, 0%, 71%);
   --clr-neutral-250: hsl(0, 0%, 65%);
 
@@ -54,6 +55,7 @@
   --offWhite: #faf9f6;
   --stravaColor: #fc4c02;
   --spotifyColor: #1ed760;
+  --goodreadsColor: #75420e;
   --linkedInColor: #0e76a8;
 
   --gapNormal: 8px;
