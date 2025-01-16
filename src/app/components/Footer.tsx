@@ -30,7 +30,7 @@ export default function Footer() {
 
             <a
               className={styles.liveFeedItem}
-              href="https://www.goodreads.com/review/list/24890536-zach?shelf=zach-read"
+              href="https://www.goodreads.com/review/list/24890536-zach?shelf=zach-read&sort=date_read"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -71,7 +71,7 @@ export default function Footer() {
             </a>
           </div>
           <div className={styles.copywrite}>
-            © 2024, built using
+            © 2025, built using
             <a
               href="https://nextjs.org"
               target="_blank"
