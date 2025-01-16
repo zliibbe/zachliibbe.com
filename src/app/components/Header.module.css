@@ -1,23 +1,17 @@
 .header {
   display: flex;
   position: relative;
-  width: 100%;
   justify-content: space-between;
-  align-content: center;
+  align-items: center;
   padding: 1rem;
   color: white;
 }
 
-.flex {
-  display: flex;
-  gap: var(--gap, 2rem);
-}
-
-.logoContainer {
+.headerLeft {
   display: flex;
   align-items: center;
-  /* margin-left: 0.25rem; */
-  /* margin-right: 0.25rem; */
+  gap: 1rem;
+  padding: 0 1rem;
 }
 
 .headerRight {
@@ -25,6 +19,8 @@
   justify-content: flex-end;
   align-items: center;
   gap: 1rem;
+  margin-left: auto;
+  padding-right: 1rem;
 }
 
 .primaryNav {
@@ -35,7 +31,7 @@
   text-decoration: none;
 }
 
-/* .mobileNavToggle {
+.mobileNavToggle {
   background: none;
   border: none;
   color: white;
@@ -43,11 +39,10 @@
   cursor: pointer;
   padding: 0;
   line-height: 1;
-} */
+}
 
 .navLink {
   padding: 0 1rem;
-  /* margin: 0; */
   text-decoration: none;
   color: white;
 }
@@ -57,14 +52,9 @@
   transition-duration: 500ms;
 }
 
-.barsLogo {
-  font-size: var(--fs-);
-}
-
 .gearLogo {
   justify-content: flex-end;
   padding: 0 0.5rem 0 0;
-  /* padding: 0 1rem; */
 }
 
 .homeIcon {
@@ -78,7 +68,7 @@
 
 .gearLogo:hover,
 .homeIcon:hover,
-.logoContainer:hover {
+.headerLeft:hover {
   fill: var(--clr-neutral-200);
 }
 
@@ -90,16 +80,23 @@
 
 @media (min-width: 769px) {
   .header {
-    justify-content: space-between;
+    flex-wrap: nowrap;
   }
 
-  .logoContainer {
+  .headerLeft {
     flex: 1;
+  }
+
+  .headerCenter {
+    background-color: red;
+    width: 6rem;
   }
 
   .headerRight {
     flex: 1;
-    justify-content: center;
+    justify-content: flex-end;
+    width: auto;
+    order: 2;
   }
 
   .gearContainer {
@@ -112,22 +109,29 @@
 /* Styles for smaller screens */
 @media (max-width: 768px) {
   .header {
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    justify-content: space-between;
   }
 
-  .logoContainer {
+  .headerLeft {
     order: 1;
   }
 
-  .gearContainer {
+  .mobileNav {
     order: 2;
-    margin-left: auto;
+    display: flex;
+    justify-content: center;
+    flex: 1;
+    margin: 0 1rem;
   }
 
   .headerRight {
     order: 3;
-    width: 100%;
-    justify-content: center;
+    justify-content: flex-end;
     margin-top: 1rem;
+  }
+  .primaryNav {
+    order: 2;
+    justify-content: center;
   }
 }
