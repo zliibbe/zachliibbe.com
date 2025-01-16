@@ -14,7 +14,7 @@ export default function About() {
             className={styles.headshot}
             alt="Zach's Face"
             src={headshot}
-            width="200"
+            width={200}
             decoding="async"
             placeholder="blur"
           />
@@ -26,9 +26,10 @@ export default function About() {
           <p className={styles.paragraph}>
             My name is Zach and I'm glad you've somehow ended up here.
           </p>
+          <p>I'm a software engineer currently between jobs.</p>
           <p>
-            I'm a software engineer currently between jobs. I'm looking to join
-            a company whose mission I believe in and whose values I share.
+            I'm looking to join a company whose mission I believe in and whose
+            values I share.
           </p>
           <br />
           <div>
@@ -50,20 +51,21 @@ export default function About() {
           Outside of work hours, you are most likely to find me:
         </ul>
         <br />
-        <li className={styles.listItem}>Out running with my dog, Panda.</li>
+        <li className={styles.listItem}>
+          Out on a run with my dog, Panda, or swimming laps in my local pool.
+        </li>
+        <li className={styles.listItem}>
+          Curled up with a good book. Check out my{" "}
+          <a href="https://www.goodreads.com/review/list/24890536-zach?shelf=zach-read">
+            Goodreads
+          </a>{" "}
+          to see what I'm reading or what I've read recently.
+        </li>
         <li className={styles.listItem}>
           Building websites in order to learn more about my craft.
         </li>
         <li className={styles.listItem}>
-          Reading science-fiction books. I'm currently enjoying book one of
-          four:{" "}
-          <a href="https://www.amazon.com/We-Are-Legion-Bob-Bobiverse/dp/1680680587">
-            We Are Legion (We Are Bob)
-          </a>{" "}
-          by Dennis E Taylor
-        </li>
-        <li className={styles.listItem}>
-          Hanging out at home with my wife and two young daughters.
+          Hanging out at home with my wife, Laura, and our two young daughters.
         </li>
         <br />
         <p className={styles.contentWrapper}>

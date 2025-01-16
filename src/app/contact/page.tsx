@@ -1,6 +1,7 @@
 import Layout from "../dashboard/layout";
 import styles from "./page.module.css";
 import Footer from "../components/Footer";
+import { Metadata } from "next";
 
 export default function Contact() {
   return (
@@ -13,10 +14,6 @@ export default function Contact() {
               The quickest way to reach me is to send me an email:
             </p>
             <p className={styles.emailText}>zliibbe@gmail.com</p>
-            <br />
-            <p className={styles.italicText}>
-              Check back here to see more features on this work in progress...
-            </p>
           </div>
         </main>
       </div>
@@ -24,3 +21,7 @@ export default function Contact() {
     </Layout>
   );
 }
+
+export const metadata: Metadata = {
+  title: "Contact | zachliibbe.com",
+};
