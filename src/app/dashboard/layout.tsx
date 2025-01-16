@@ -7,7 +7,7 @@ import Header from "../components/Header";
 import { usePathname } from "next/navigation";
 
 // export const metadata = {
-//   title: "Zach Liibbe Portfolio",
+//   title: "Zach Liibbe Webpage",
 //   description: "Zach Liibbe's own little corner of the web",
 //   icons: {
 //     icon: {
