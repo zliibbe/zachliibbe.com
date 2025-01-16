@@ -40,6 +40,7 @@
 }
 
 .archBlur {
+  /* TODO Remove Comments*/
   /* position: absolute; */
   /* bottom: 50; */
   /* left: 50; */
@@ -99,6 +100,8 @@
   .content {
     padding: 4rem;
   }
+
+  /* TODO Remove Comments*/
 
   /* .grid {
     grid-template-columns: 1fr;
