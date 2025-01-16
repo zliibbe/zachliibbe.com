@@ -25,14 +25,20 @@ const Header = () => {
   };
 
   return (
-    <header className={`${styles.header} ${isNavOpen ? styles.navOpen : ""}`}>
-      <div className={styles.logoContainer}>
+    <header className={`${styles.header} `}>
+      <div className={styles.headerLeft}>
         <Link href="/">
           <FaMountainSun className={styles.homeIcon} />
         </Link>
       </div>
 
-      <div className={styles.headerCenter}>{isDesktop && <PrimaryNav />}</div>
+      {!isDesktop && isNavOpen && (
+        <nav className={styles.mobileNav} id="primaryNav">
+          <PrimaryNav />
+        </nav>
+      )}
+
+      {isDesktop && <PrimaryNav />}
 
       <div className={styles.headerRight}>
         {!isDesktop && (
@@ -47,12 +53,6 @@ const Header = () => {
         )}
         <PiGear className={styles.gearLogo} />
       </div>
-
-      {!isDesktop && isNavOpen && (
-        <nav className={styles.mobileNav} id="primaryNav">
-          <PrimaryNav />
-        </nav>
-      )}
     </header>
   );
 };
