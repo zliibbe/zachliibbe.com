@@ -133,6 +133,10 @@
   margin: 0 0.5rem;
 }
 
+.nextVercelIcon:hover {
+  opacity: 0.6;
+}
+
 @media (max-width: 768px) {
   .container {
     flex-direction: column;
