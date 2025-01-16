@@ -48,10 +48,10 @@ const Header = () => {
             aria-controls="primaryNav"
             aria-expanded={isNavOpen}
           >
-            {isNavOpen ? "✕" : <FaBars />}
+            {isNavOpen ? "✕" : <FaBars className={styles.barsIcon} />}
           </button>
         )}
-        <PiGear className={styles.gearLogo} />
+        <PiGear className={styles.gearIcon} />
       </div>
     </header>
   );

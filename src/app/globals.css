@@ -133,8 +133,19 @@ body {
   overflow-x: hidden;
 }
 
+body {
+  min-height: 100vh;
+  width: 100%;
+}
+
 html:focus-within {
   scroll-behavior: smooth;
+}
+
+.main {
+  max-width: 2560px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .headshot_circle {
@@ -161,7 +172,7 @@ html:focus-within {
   transform: translateZ(0);
   animation: dropBackground 0.6s ease-in-out forwards;
   animation-iteration-count: 1;
-  clip-path: polygon(0 0, 1600px 0, 1600px 75%, 0 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 75%, 0 100%);
   z-index: -1;
 }
 
@@ -209,6 +220,18 @@ button.srOnly {
   border: 0 !important;
 }
 
+@media (max-width: 800px) {
+  .layout_gradient {
+    height: 70vh; /* Adjust this value to match your portrait height */
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% 100%,
+      0 100%
+    ); /* Straight line at bottom */
+  }
+}
+
 @keyframes dropBackground {
   0% {
     transform: translateY(-100%);
@@ -216,7 +239,7 @@ button.srOnly {
   }
   100% {
     transform: translateY(0);
-    clip-path: polygon(0 0, 1600px 0, 1600px 75%, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 75%, 0 100%);
   }
 }
 
