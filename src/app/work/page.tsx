@@ -8,7 +8,7 @@ export default function Work() {
     <Layout>
       <div className={styles.container}>
         <div className={styles.contentWrapper}>
-          <div className={styles.overview}>
+          <div className={styles.overviewSection}>
             <h2 className={styles.overviewTitle}>Overview</h2>
             <p className={styles.overviewText}>
               Experienced Front End Engineer with a passion for simple, clean
