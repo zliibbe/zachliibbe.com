@@ -1,22 +1,5 @@
-import {
-  // EB_Garamond,
-  Lexend,
-  // Plus_Jakarta_Sans,
-  Roboto_Mono,
-} from "next/font/google";
+import { Lexend, Roboto_Mono } from "next/font/google";
 import styles from "./layout.module.css";
-
-// const plusJakartaSans = Plus_Jakarta_Sans({
-//   subsets: ["latin"],
-//   display: "swap",
-//   variable: "--font-plus-jakarta-sans",
-// });
-
-// const garamond = EB_Garamond({
-//   subsets: ["latin"],
-//   display: "swap",
-//   variable: "--font-garamond",
-// });
 
 const robotoMono = Roboto_Mono({
   subsets: ["latin"],
@@ -27,7 +10,6 @@ const robotoMono = Roboto_Mono({
 const lexend = Lexend({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-lexend",
 });
 
 export default function RootLayout({
@@ -36,8 +18,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${lexend.variable}`}>
-      <body>{children}</body>
+    <html lang="en">
+      <body className={lexend.className}>{children}</body>
     </html>
   );
 }

@@ -4,11 +4,15 @@ import styles from "./Header.module.css";
 import { FaMountainSun, FaBars } from "react-icons/fa6";
 import { PiGear } from "react-icons/pi";
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import PrimaryNav from "./PrimaryNav";
 
 const Header = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
+  const pathname = usePathname();
+
+  const shouldHaveGradient = ["/work", "/about", "/contact"].includes(pathname);
 
   useEffect(() => {
     const handleResize = () => {
@@ -25,14 +29,24 @@ const Header = () => {
   };
 
   return (
-    <header className={`${styles.header} ${isNavOpen ? styles.navOpen : ""}`}>
-      <div className={styles.logoContainer}>
+    <header
+      className={`${styles.header} ${
+        shouldHaveGradient ? styles.gradientHeader : ""
+      }`}
+    >
+      <div className={styles.headerLeft}>
         <Link href="/">
           <FaMountainSun className={styles.homeIcon} />
         </Link>
       </div>
 
-      <div className={styles.headerCenter}>{isDesktop && <PrimaryNav />}</div>
+      {!isDesktop && isNavOpen && (
+        <nav className={styles.mobileNav} id="primaryNav">
+          <PrimaryNav />
+        </nav>
+      )}
+
+      {isDesktop && <PrimaryNav />}
 
       <div className={styles.headerRight}>
         {!isDesktop && (
@@ -42,17 +56,11 @@ const Header = () => {
             aria-controls="primaryNav"
             aria-expanded={isNavOpen}
           >
-            {isNavOpen ? "✕" : <FaBars />}
+            {isNavOpen ? "✕" : <FaBars className={styles.barsIcon} />}
           </button>
         )}
-        <PiGear className={styles.gearLogo} />
+        <PiGear className={styles.gearIcon} />
       </div>
-
-      {!isDesktop && isNavOpen && (
-        <nav className={styles.mobileNav} id="primaryNav">
-          <PrimaryNav />
-        </nav>
-      )}
     </header>
   );
 };

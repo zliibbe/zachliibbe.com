@@ -16,6 +16,7 @@
 
   --clr-primary-400: ;
 
+  --clr-neutral-100: hsl(0, 0%, 100%);
   --clr-neutral-200: hsla(0, 0%, 71%);
   --clr-neutral-250: hsl(0, 0%, 65%);
 
@@ -54,6 +55,7 @@
   --offWhite: #faf9f6;
   --stravaColor: #fc4c02;
   --spotifyColor: #1ed760;
+  --goodreadsColor: #75420e;
   --linkedInColor: #0e76a8;
 
   --gapNormal: 8px;
@@ -89,6 +91,7 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  font-family: var(--font-lexend);
 }
 img,
 picture,
@@ -120,7 +123,7 @@ h6 {
 
 main,
 p {
-  font-family: var(--font-lexend);
+  font-family: var(--ff-primary);
 }
 
 html,
@@ -130,8 +133,19 @@ body {
   overflow-x: hidden;
 }
 
+body {
+  min-height: 100vh;
+  width: 100%;
+}
+
 html:focus-within {
   scroll-behavior: smooth;
+}
+
+.main {
+  max-width: 2560px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .headshot_circle {
@@ -158,7 +172,7 @@ html:focus-within {
   transform: translateZ(0);
   animation: dropBackground 0.6s ease-in-out forwards;
   animation-iteration-count: 1;
-  clip-path: polygon(0 0, 1600px 0, 1600px 75%, 0 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 75%, 0 100%);
   z-index: -1;
 }
 
@@ -206,6 +220,18 @@ button.srOnly {
   border: 0 !important;
 }
 
+@media (max-width: 800px) {
+  .layout_gradient {
+    height: 70vh; /* Adjust this value to match your portrait height */
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% 100%,
+      0 100%
+    ); /* Straight line at bottom */
+  }
+}
+
 @keyframes dropBackground {
   0% {
     transform: translateY(-100%);
@@ -213,7 +239,7 @@ button.srOnly {
   }
   100% {
     transform: translateY(0);
-    clip-path: polygon(0 0, 1600px 0, 1600px 75%, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 75%, 0 100%);
   }
 }
 

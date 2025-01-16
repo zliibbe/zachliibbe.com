@@ -3,7 +3,7 @@ import styles from "./Footer.module.css";
 import Image from "next/image";
 import {
   FaGithub,
-  FaSpotify,
+  FaGoodreads,
   FaStrava,
   FaLinkedin,
   FaEnvelope,
@@ -30,14 +30,14 @@ export default function Footer() {
 
             <a
               className={styles.liveFeedItem}
-              href="https://open.spotify.com/user/zliibbe86?si=NsI7mNaCSYuBRLlYryIwYw"
+              href="https://www.goodreads.com/review/list/24890536-zach?shelf=zach-read&sort=date_read"
               target="_blank"
               rel="noopener noreferrer"
             >
               <span className={styles.feedIcon}>
-                <FaSpotify className={styles.spotifyIcon} size={30} />
+                <FaGoodreads className={styles.goodreadsIcon} size={30} />
               </span>
-              <p className={styles.liveFeedText}>Spotify</p>
+              <p className={styles.liveFeedText}>Goodreads</p>
             </a>
           </div>
         </div>
@@ -51,7 +51,7 @@ export default function Footer() {
               rel="noopener noreferrer"
             >
               <FaLinkedin
-                className={`${styles.socialIcon} ${styles.linkedinIcon}`}
+                className={`${styles.socialIcon} ${styles.linkedInIcon}`}
               />
             </a>
 
@@ -65,11 +65,13 @@ export default function Footer() {
             </a>
 
             <a className={styles.socialLink} href="/contact">
-              <FaEnvelope className={styles.socialIcon} />
+              <FaEnvelope
+                className={`${styles.socialIcon} ${styles.emailIcon}`}
+              />
             </a>
           </div>
           <div className={styles.copywrite}>
-            © 2024, built using
+            © 2025, built using
             <a
               href="https://nextjs.org"
               target="_blank"

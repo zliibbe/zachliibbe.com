@@ -1,6 +1,7 @@
 .main {
   display: flex;
-
+  justify-content: space-around;
+  align-items: center;
   min-height: 70vh;
 }
 
@@ -39,6 +40,7 @@
 }
 
 .archBlur {
+  /* TODO Remove Comments*/
   /* position: absolute; */
   /* bottom: 50; */
   /* left: 50; */
@@ -50,6 +52,7 @@
   z-index: 0;
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
+  margin: 0 auto;
 }
 
 .code {
@@ -80,6 +83,16 @@
     flex-direction: column;
   }
 
+  .title {
+    font-size: var(--fs-800);
+    margin: 0 2rem;
+  }
+  .greeting,
+  .subtitle {
+    font-size: var(--fs-600);
+    margin: 0 2rem;
+  }
+
   .archBlur {
     margin: 1rem 0;
   }
@@ -87,6 +100,8 @@
   .content {
     padding: 4rem;
   }
+
+  /* TODO Remove Comments*/
 
   /* .grid {
     grid-template-columns: 1fr;
@@ -184,11 +199,3 @@
     transform: rotate(0deg);
   }
 } */
-
-.homeImage {
-  /* existing styles */
-}
-
-.customImage {
-  /* existing styles */
-}

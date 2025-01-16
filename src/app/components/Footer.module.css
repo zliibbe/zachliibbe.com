@@ -43,7 +43,7 @@
 }
 
 .liveFeedText {
-  color: var(--text-primary);
+  color: var(--clr-neutral-900);
   margin-left: 0.5rem;
 }
 
@@ -53,12 +53,21 @@
   margin: 0.25rem;
 }
 
-.stravaIcon:hover {
+.stravaIcon,
+.goodreadsIcon {
+  fill: var(--clr-neutral-900);
+}
+
+.liveFeedItem:hover .stravaIcon {
   fill: var(--stravaColor);
 }
 
-.spotifyIcon:hover {
-  fill: var(--spotifyColor);
+.liveFeedItem:hover .goodreadsIcon {
+  fill: var(--goodreadsColor);
+}
+
+.liveFeedItem:hover .liveFeedText {
+  text-decoration: underline;
 }
 
 .socialsAndCopywrite {
@@ -89,7 +98,15 @@
 }
 
 .socialLink:hover .socialIcon {
-  fill: var(--clr-neutral-600);
+  fill: var(--clr-neutral-250);
+}
+
+.socialLink:hover .linkedInIcon {
+  fill: var(--linkedInColor);
+}
+
+.socialLink:hover .emailIcon {
+  fill: var(--gradientThree);
 }
 
 .copywrite {
@@ -114,6 +131,10 @@
 .nextVercelIcon {
   height: 3rem;
   margin: 0 0.5rem;
+}
+
+.nextVercelIcon:hover {
+  opacity: 0.6;
 }
 
 @media (max-width: 768px) {

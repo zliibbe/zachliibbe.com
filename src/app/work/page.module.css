@@ -2,26 +2,27 @@
   display: flex;
   flex-direction: column;
   background: white;
-  height: 100vh;
-  margin: 0 8rem;
+  min-height: 100vh;
   border-radius: 0.5rem;
-  padding: 2rem;
   opacity: 1;
+  margin-bottom: 2rem;
 }
 
 .contentWrapper {
   display: flex;
+  gap: 2rem;
+  padding: 2rem;
 }
 
-.overview {
-  margin: 0 4rem;
-  margin-bottom: 1rem;
-  align-items: center;
+.overviewSection {
+  flex: 1;
+  margin: 0;
 }
 
 .overviewTitle {
   font-size: 1.25rem;
   margin: 1rem 0;
+  font-weight: var(--fw-bold);
 }
 
 .overviewText {
@@ -29,18 +30,23 @@
 }
 
 .recentSection {
-  padding: 1rem;
+  flex: 1;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
   border-radius: 0.5rem;
+  background: #f8f8f8;
+  margin: 0;
 }
 
 .recentTitle {
   padding: 0.75rem 0;
+  margin-bottom: 1rem;
+  font-weight: var(--fw-bold);
 }
 
 .recentItem {
-  padding: 0.5rem 0;
+  padding: 0.75rem 0;
 }
 
 .experienceSection {
@@ -60,4 +66,22 @@
   display: flex;
   justify-content: flex-start;
   margin: 0.5rem;
+}
+
+/* smaller screens */
+@media (max-width: 768px) {
+  .container {
+    margin: 0 1rem;
+    font-size: var(--fs-300);
+  }
+
+  .contentWrapper {
+    flex-direction: column;
+  }
+}
+/* larger screens */
+@media (min-width: 769px) {
+  .container {
+    margin: 0 4rem;
+  }
 }
