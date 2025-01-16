@@ -57,18 +57,16 @@
 .gearIcon {
   height: 2rem;
   width: 2rem;
+  fill: hsl(0, 0%, 100%);
 }
 
 .gearIcon {
   justify-content: flex-end;
 }
 
-.homeIcon {
-  fill: var(--clr-neutral-100);
-}
-
 .gearIcon:hover,
 .homeIcon:hover,
+.barsIcon:hover,
 .headerLeft:hover {
   fill: var(--clr-neutral-200);
 }
