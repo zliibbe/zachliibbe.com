@@ -4,11 +4,15 @@ import styles from "./Header.module.css";
 import { FaMountainSun, FaBars } from "react-icons/fa6";
 import { PiGear } from "react-icons/pi";
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import PrimaryNav from "./PrimaryNav";
 
 const Header = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
+  const pathname = usePathname();
+
+  const shouldHaveGradient = ["/work", "/about", "/contact"].includes(pathname);
 
   useEffect(() => {
     const handleResize = () => {
@@ -25,7 +29,11 @@ const Header = () => {
   };
 
   return (
-    <header className={`${styles.header} `}>
+    <header
+      className={`${styles.header} ${
+        shouldHaveGradient ? styles.gradientHeader : ""
+      }`}
+    >
       <div className={styles.headerLeft}>
         <Link href="/">
           <FaMountainSun className={styles.homeIcon} />

@@ -73,6 +73,15 @@
   fill: var(--clr-neutral-200);
 }
 
+.gradientHeader {
+  background: linear-gradient(
+    45deg,
+    var(--gradientOne),
+    var(--gradientTwo),
+    var(--gradientThree)
+  );
+}
+
 .prefsMenu {
   width: 4em;
   display: flex;
