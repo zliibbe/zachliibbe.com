@@ -65,3 +65,21 @@
   justify-content: flex-end;
   margin-right: 3rem;
 }
+
+/* smaller screens */
+@media (max-width: 768px) {
+  .container {
+    margin: 0 1rem;
+    font-size: var(--fs-300);
+  }
+
+  .contentWrapper {
+    flex-direction: column;
+  }
+}
+/* larger screens */
+@media (min-width: 769px) {
+  .container {
+    margin: 0 4rem;
+  }
+}
