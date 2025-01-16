@@ -52,21 +52,22 @@
   transition-duration: 500ms;
 }
 
-.gearLogo {
+.homeIcon,
+.barsIcon,
+.gearIcon {
+  height: 2rem;
+  width: 2rem;
+}
+
+.gearIcon {
   justify-content: flex-end;
-  padding: 0 0.5rem 0 0;
 }
 
 .homeIcon {
   fill: var(--clr-neutral-100);
 }
 
-.gearLogo,
-.homeIcon {
-  font-size: var(--fs-800);
-}
-
-.gearLogo:hover,
+.gearIcon:hover,
 .homeIcon:hover,
 .headerLeft:hover {
   fill: var(--clr-neutral-200);
@@ -75,7 +76,7 @@
 .prefsMenu {
   width: 4em;
   display: flex;
-  /* Add styles for preferences menu */
+  /* TODO Add styles for preferences menu */
 }
 
 @media (min-width: 769px) {
