@@ -2,21 +2,25 @@
   display: flex;
   flex-direction: column;
   background: white;
-  height: 100vh;
-  margin: 8rem 2rem;
+  min-height: 100vh;
+  margin: 0 8rem;
   border-radius: 0.5rem;
   padding: 2rem;
+  margin-bottom: 2rem;
 }
 
 .imageContainer {
   display: flex;
-  content-center: center;
   justify-content: center;
+  margin-bottom: 1rem;
 }
 
 .headshot {
   border-radius: 50%;
-  box-shadow: 0 0 16 0 var(--gradientThree);
+  box-shadow: 0 0 16px 0px var(--gradientThree), 0 0 14px 0px var(--gradientOne);
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
 }
 
 .contentWrapper {
@@ -38,12 +42,10 @@
 }
 
 .divider {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  border: none;
+  border-top: 1px solid var(--clr-neutral-200);
+  margin: 2rem auto;
   width: 8rem;
-  padding: 1.5rem;
 }
 
 .listContainer {
@@ -61,5 +63,23 @@
 .signature {
   display: flex;
   justify-content: flex-end;
-  margin-right: 1rem;
+  margin-right: 3rem;
+}
+
+/* smaller screens */
+@media (max-width: 768px) {
+  .container {
+    margin: 0 1rem;
+    font-size: var(--fs-300);
+  }
+
+  .contentWrapper {
+    flex-direction: column;
+  }
+}
+/* larger screens */
+@media (min-width: 769px) {
+  .container {
+    margin: 0 4rem;
+  }
 }
