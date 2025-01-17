@@ -49,6 +49,21 @@
   display: flex;
   justify-content: center;
   font-size: 1.125rem;
+  cursor: pointer;
+}
+
+.notification {
+  display: flex;
+  justify-content: center;
+  padding: 0.75rem 0;
+  font-style: italic;
+  color: var(--theme-color);
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.notification.visible {
+  opacity: 1;
 }
 
 .italicText {

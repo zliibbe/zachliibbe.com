@@ -65,12 +65,43 @@
 }
 
 .gradientHeader {
+  --gradientTiming: 12s;
   background: linear-gradient(
     45deg,
     var(--gradientOne),
     var(--gradientTwo),
     var(--gradientThree)
   );
+  background-size: 400% 400%;
+  background-repeat: no-repeat;
+  background-position: left;
+  background-position: 0% 50%;
+  -webkit-animation: gradientAnimation var(--gradientTiming) ease infinite;
+  animation: gradientAnimation var(--gradientTiming) ease infinite;
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@-webkit-keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .prefsMenu {
