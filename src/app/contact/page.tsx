@@ -1,5 +1,6 @@
 import Layout from "../dashboard/layout";
 import styles from "./page.module.css";
+import EmailCopy from "./EmailCopy";
 import Footer from "../components/Footer";
 import { Metadata } from "next";
 
@@ -13,7 +14,7 @@ export default function Contact() {
             <p className={styles.text}>
               The quickest way to reach me is to send me an email:
             </p>
-            <p className={styles.emailText}>zliibbe@gmail.com</p>
+            <EmailCopy />
           </div>
         </main>
       </div>

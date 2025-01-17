@@ -9,7 +9,7 @@
   --theme-complement: #d37556;
   --gradientOne: #348f50;
   --gradientTwo: #56b4d3;
-  --gradientThree: #56b4d3;
+  --gradientThree: #cb2048;
 
   --clr-accent-400: ;
   --clr-accent-300: ;
@@ -170,8 +170,10 @@ html:focus-within {
   background-size: 400% 400%;
   background-repeat: no-repeat;
   transform: translateZ(0);
-  animation: dropBackground 0.6s ease-in-out forwards;
-  animation-iteration-count: 1;
+  animation: dropBackground 0.6s ease-in-out forwards,
+    bg-animation var(--gradientTiming) infinite alternate;
+  /* animation-iteration-count: 1; */
+
   clip-path: polygon(0 0, 100% 0, 100% 75%, 0 100%);
   z-index: -1;
 }
@@ -223,12 +225,9 @@ button.srOnly {
 @media (max-width: 800px) {
   .layout_gradient {
     height: 70vh; /* Adjust this value to match your portrait height */
-    clip-path: polygon(
-      0 0,
-      100% 0,
-      100% 100%,
-      0 100%
-    ); /* Straight line at bottom */
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    animation: ease 1s forwards;
+    animation-iteration-count: 1;
   }
 }
 
@@ -240,6 +239,15 @@ button.srOnly {
   100% {
     transform: translateY(0);
     clip-path: polygon(0 0, 100% 0, 100% 75%, 0 100%);
+  }
+}
+
+@keyframes bg-animation {
+  0% {
+    background-position: left;
+  }
+  100% {
+    background-position: right;
   }
 }
 
