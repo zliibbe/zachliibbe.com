@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function PrimaryNav() {
   return (
-    <ul id="primaryNav" className={styles.primaryNav}>
+    <ul id="primaryNav" className={styles.nav}>
       <li>
         <Link href="/about" className={styles.navLink}>
           About
