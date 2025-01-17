@@ -16,7 +16,7 @@ const Header = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsDesktop(window.innerWidth >= 769);
+      setIsDesktop(window.innerWidth >= 500);
     };
 
     handleResize();
