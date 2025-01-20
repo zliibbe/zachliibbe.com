@@ -20,7 +20,7 @@
 .liveFeedHeader {
   display: flex;
   flex-direction: column;
-  padding-bottom: 1rem;
+  padding: 1rem 0;
   color: var(--text-primary);
 }
 
@@ -153,10 +153,6 @@
 @media (max-width: 480px) {
   .container {
     padding: 0.5rem;
-  }
-
-  .socialIcon {
-    font-size: 2rem;
   }
 
   .nextVercelIcon {
