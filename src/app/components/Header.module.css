@@ -6,6 +6,7 @@
   padding: 1rem 0.25rem;
   color: white;
   min-height: 4rem;
+  z-index: 100;
 }
 
 .headerLeft {
@@ -23,16 +24,43 @@
   padding-right: 1rem;
 }
 
+.homeLink {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-decoration: none;
+}
+
+.name {
+  padding-left: 0.5rem;
+  font-size: 1rem;
+  color: white;
+}
+
+.name .homeLink {
+  font-size: 1rem;
+  color: white;
+  text-decoration: none;
+}
+
 .nav {
   display: flex;
   justify-content: center;
   list-style-type: none;
-  gap: 2rem;
+  margin: 0;
+  padding: 0;
 }
+
+.nav li {
+  padding: 0;
+  margin: 0;
+}
+
 .navLink {
   color: white;
   text-decoration: none;
-  padding: 0.5rem;
+  padding: 0.15rem;
+  display: inline-block;
 }
 
 .navLink:hover {
@@ -56,6 +84,11 @@
   fill: var(--clr-neutral-200);
 }
 
+.header:not(.gradientHeader) .mobileNav {
+  background: inherit;
+  position: relative;
+}
+
 .mobileNavToggle {
   background: none;
   border: none;
@@ -65,7 +98,7 @@
 }
 
 .gradientHeader {
-  --gradientTiming: 12s;
+  --gradientTiming: var(--gradientTiming);
   background: linear-gradient(
     45deg,
     var(--gradientOne),
@@ -101,6 +134,24 @@
   }
   100% {
     background-position: 0% 50%;
+  }
+}
+
+.primaryNav {
+  position: relative;
+  background: transparent;
+  width: 100%;
+}
+
+/* For mobile nav when open */
+.primaryNav[data-visible="true"] {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .primaryNav {
+    transform: translateY(-100%);
+    transition: transform 350ms ease-out;
   }
 }
 
