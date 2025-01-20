@@ -25,7 +25,6 @@ export default function DashboardLayout({
   const isHomePage = pathname === "/";
   return (
     <main>
-      {isHomePage && <div className="layout_gradient"></div>}
       <Header />
       {children}
     </main>

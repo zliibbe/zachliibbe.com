@@ -65,7 +65,7 @@
 }
 
 .gradientHeader {
-  --gradientTiming: 12s;
+  --gradientTiming: var(--gradientTiming);
   background: linear-gradient(
     45deg,
     var(--gradientOne),
@@ -101,6 +101,29 @@
   }
   100% {
     background-position: 0% 50%;
+  }
+}
+
+.primaryNav {
+  position: absolute; /* Change from fixed to absolute */
+  top: 100%; /* Position right below header */
+  left: 0;
+  right: 0;
+  background: inherit; /* Inherit the gradient background */
+  z-index: 9; /* Just below header but above other content */
+}
+
+/* For mobile nav when open */
+.primaryNav[data-visible="true"] {
+  transform: translateY(0%);
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .primaryNav {
+    padding: 2rem 1rem;
+    transform: translateY(-100%);
+    transition: transform 350ms ease-out;
   }
 }
 
