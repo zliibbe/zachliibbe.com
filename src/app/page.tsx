@@ -30,7 +30,15 @@ export default function Home() {
                 <Image
                   src={zachPic}
                   alt="Photo of Zach"
-                  width="350"
+                  width={0}
+                  height={0}
+                  sizes="(min-width: 1024px) 600px,
+                  (min-width: 768px) 450px,
+                  350px"
+                  style={{
+                    width: "auto",
+                    height: "100%",
+                  }}
                   placeholder="empty"
                   priority={true}
                   className={styles.customImage}

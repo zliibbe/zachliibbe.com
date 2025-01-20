@@ -5,7 +5,7 @@
   margin-top: -4rem;
   padding-top: 4rem;
   overflow: visible;
-  z-index: -1;
+  z-index: 0;
 }
 
 .heroGradient {
@@ -30,21 +30,21 @@
 
 @media (max-width: 320px) {
   .heroGradient {
-    height: calc(110.6vh + 4rem);
+    height: 119vh;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
   }
 }
 
 @media (min-width: 375px) {
   .heroGradient {
-    height: calc(107.5vh + 4rem);
+    height: 116vh;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
   }
 }
 
 @media (min-width: 425px) {
   .heroGradient {
-    height: cal(107.2vh + 4rem);
+    height: 116vh;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
   }
 }
@@ -59,12 +59,13 @@
 .main {
   position: relative;
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
   align-items: center;
   min-height: 70vh;
   padding-top: 1rem;
   overflow: visible;
-  z-index: 1;
+  z-index: 2;
 }
 
 .heroSection {
@@ -83,7 +84,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  aspect-ratio: 1/1;
 }
 
 .greeting {
@@ -128,22 +128,9 @@
   font-family: var(--font-mono);
 }
 
-/* Tablet */
-@media (max-width: 768px) {
-  .main {
-    flex-direction: column;
-  }
-
-  .archBlur {
-    margin: 1rem 0;
-  }
-
-  .content {
-    padding: 4rem;
-  }
-
+@media (min-width: 320px) {
   .greeting {
-    padding: 1.5rem 0;
+    padding-top: 1.5rem;
     font-size: 1rem;
   }
 
@@ -156,6 +143,53 @@
   .subtitle {
     color: white;
     font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+}
+
+/* Tablet and larger*/
+@media (min-width: 768px) {
+  .main {
+    flex-direction: row;
+  }
+
+  .archBlur {
+    margin: 1rem 0;
+  }
+
+  .content {
+    padding: 4rem;
+  }
+
+  .homeImage {
+    max-width: 450px;
+  }
+}
+
+/* Desktop and larger */
+@media (min-width: 1024px) {
+  .greeting {
+    font-size: 1.5rem;
+  }
+
+  .title {
+    padding: 1.5rem 0;
+    font-size: 3rem;
+    line-height: 1;
+  }
+
+  .subtitle {
+    font-size: 1.25rem;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .primaryNav {
+    font-size: 2.5rem;
+  }
+
+  .homeImage {
+    max-width: 600px;
   }
 }
 
