@@ -8,35 +8,38 @@ import Footer from "./components/Footer";
 export default function Home() {
   return (
     <Layout>
-      <main className={styles.main}>
-        <section className={styles.heroSection}>
-          <p className={styles.greeting}>Hey there, I'm Zach!</p>
-          <h1 className={styles.title}>
-            <strong className={styles.titleText}>
-              Full Stack Web Developer{" "}
-            </strong>
-            <br />&<strong> code craftsman</strong>
-          </h1>
-          <p className={styles.subtitle}>
-            Passionate about simple design and powerful impact
-          </p>
-        </section>
+      <div className={styles.heroContainer}>
+        <div className={styles.heroGradient} />
+        <main className={styles.main}>
+          <section className={styles.heroSection}>
+            <p className={styles.greeting}>Hey there, I'm Zach!</p>
+            <h1 className={styles.title}>
+              <strong className={styles.titleText}>
+                Full Stack Web Developer{" "}
+              </strong>
+              <br />&<strong> code craftsman</strong>
+            </h1>
+            <p className={styles.subtitle}>
+              Passionate about simple design and powerful impact
+            </p>
+          </section>
 
-        <section className={styles.homeImage}>
-          <div>
-            <div className={styles.archBlur}>
-              <Image
-                src={zachPic}
-                alt="Photo of Zach"
-                width="350"
-                placeholder="empty"
-                priority={true}
-                className={styles.customImage}
-              />
+          <section className={styles.homeImage}>
+            <div>
+              <div className={styles.archBlur}>
+                <Image
+                  src={zachPic}
+                  alt="Photo of Zach"
+                  width="350"
+                  placeholder="empty"
+                  priority={true}
+                  className={styles.customImage}
+                />
+              </div>
             </div>
-          </div>
-        </section>
-      </main>
+          </section>
+        </main>
+      </div>
       <Footer />
     </Layout>
   );
