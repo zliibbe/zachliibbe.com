@@ -12,7 +12,7 @@ const Header = () => {
   const [isDesktop, setIsDesktop] = useState(false);
   const pathname = usePathname();
 
-  const shouldHaveGradient = ["/work", "/about", "/contact"].includes(pathname);
+  const isNotHomePage = pathname !== "/";
 
   useEffect(() => {
     const handleResize = () => {
@@ -31,12 +31,13 @@ const Header = () => {
   return (
     <header
       className={`${styles.header} ${
-        shouldHaveGradient ? styles.gradientHeader : ""
+        isNotHomePage ? styles.gradientHeader : ""
       }`}
     >
       <div className={styles.headerLeft}>
-        <Link href="/">
+        <Link href="/" className={styles.homeLink}>
           <FaMountainSun className={styles.homeIcon} />
+          {isNotHomePage && <h1 className={styles.name}>zach liibbe</h1>}
         </Link>
       </div>
 
