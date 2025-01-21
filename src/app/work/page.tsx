@@ -2,6 +2,7 @@ import Layout from "../dashboard/layout";
 import styles from "./page.module.css";
 import Footer from "../components/Footer";
 import { Metadata } from "next";
+import { Jobs } from "../components/Jobs";
 
 export default function Work() {
   return (
@@ -64,17 +65,7 @@ export default function Work() {
         <br />
         <div className={styles.experienceSection}>
           <h2 className={styles.experienceTitle}>Experience</h2>
-          <p className={styles.experienceItem}>
-            Job component(s) go here (coming soon)
-          </p>
-          <hr />
-          <p className={styles.experienceItem}>
-            Job component(s) go here (coming soon)
-          </p>
-          <hr />
-          <p className={styles.experienceItem}>
-            Job component(s) go here (coming soon)
-          </p>
+          <Jobs />
         </div>
       </div>
       <Footer />
