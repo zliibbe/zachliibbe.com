@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import styles from "./job.module.css";
 
 import beatLogo from "@/public/beat-logo.png";
@@ -14,7 +14,7 @@ interface JobProps {
   description: string;
   taskList: string[];
   timeframe: string;
-  logo?: string;
+  logo?: StaticImageData;
   id: number;
 }
 
