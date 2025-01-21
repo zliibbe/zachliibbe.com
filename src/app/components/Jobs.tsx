@@ -2,20 +2,8 @@ import React from "react";
 import Job from "./Job";
 import beatLogo from "../../assets/beat-logo.png";
 import quantumLogo from "../../assets/quantum-logo.jpeg";
-import bluestaqLogo from "../../assets/bluestaq-logo.png";
+import bluestaqLogo from "../../assets/bluestaq-logo.jpeg";
 import { StaticImageData } from "next/image";
-
-export interface JobsProps {
-  title: string;
-  logo: StaticImageData;
-  role: string;
-  companyName: string;
-  companyLink: string;
-  description: string;
-  taskList: string[];
-  timeframe: string;
-  id: number;
-}
 
 export const Jobs = () => {
   const jobs = [
@@ -66,10 +54,7 @@ export const Jobs = () => {
       id: 1,
     },
   ];
-  const jobCards = jobs.map((job) => {
-    const { logo, ...restProps } = job;
-    return <Job key={job.id} {...job} />;
-  });
+  const jobCards = jobs.map((job) => <Job key={job.id} {...job} />);
 
   return <div className="jobs-container">{jobCards}</div>;
 };
