@@ -19,6 +19,7 @@
   --clr-neutral-100: hsl(0, 0%, 100%);
   --clr-neutral-200: hsla(0, 0%, 71%);
   --clr-neutral-250: hsl(0, 0%, 65%);
+  --clr-neutral-300: hsl(0, 0%, 50%);
 
   --clr-neutral-300: rgba(27, 28, 30, 0.3);
   --clr-neutral-900: rgba(27, 28, 30, 1);
