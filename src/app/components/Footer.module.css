@@ -106,7 +106,7 @@
 }
 
 .socialLink:hover .emailIcon {
-  fill: var(--theme-complement);
+  fill: var(--theme-color);
 }
 
 .copywrite {
