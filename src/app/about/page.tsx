@@ -47,26 +47,29 @@ export default function About() {
 
         <hr className={styles.divider} />
 
-        <ul className={styles.listContainer}>
+        <p className={styles.listTitle}>
           Outside of work hours, you are most likely to find me:
+        </p>
+        <ul className={styles.listContainer}>
+          <br />
+          <li className={styles.listItem}>
+            Out on a run with my dog, Panda, or swimming laps in my local pool.
+          </li>
+          <li className={styles.listItem}>
+            Curled up with a good book. Check out my{" "}
+            <a href="https://www.goodreads.com/review/list/24890536-zach?shelf=zach-read">
+              Goodreads
+            </a>{" "}
+            to see what I'm reading or what I've read recently.
+          </li>
+          <li className={styles.listItem}>
+            Building websites in order to learn more about my craft.
+          </li>
+          <li className={styles.listItem}>
+            Hanging out at home with my wife, Laura, and our two young
+            daughters.
+          </li>
         </ul>
-        <br />
-        <li className={styles.listItem}>
-          Out on a run with my dog, Panda, or swimming laps in my local pool.
-        </li>
-        <li className={styles.listItem}>
-          Curled up with a good book. Check out my{" "}
-          <a href="https://www.goodreads.com/review/list/24890536-zach?shelf=zach-read">
-            Goodreads
-          </a>{" "}
-          to see what I'm reading or what I've read recently.
-        </li>
-        <li className={styles.listItem}>
-          Building websites in order to learn more about my craft.
-        </li>
-        <li className={styles.listItem}>
-          Hanging out at home with my wife, Laura, and our two young daughters.
-        </li>
         <br />
         <p className={styles.contentWrapper}>
           Everyone deserves a place on the web to call their own and this is my
