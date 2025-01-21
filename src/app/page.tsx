@@ -5,6 +5,18 @@ import Head from "next/head";
 import Layout from "./dashboard/layout";
 import Footer from "./components/Footer";
 
+export const metadata = {
+  title: "Zach Liibbe Webpage",
+  description: "Zach Liibbe's own little corner of the web",
+  icons: {
+    icon: {
+      url: "/favicon.png",
+      type: "image/png",
+    },
+    shortcut: { url: "/favicon.png", type: "image/png" },
+  },
+};
+
 export default function Home() {
   return (
     <Layout>

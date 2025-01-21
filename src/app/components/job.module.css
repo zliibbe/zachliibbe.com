@@ -1,3 +1,71 @@
 .jobContainer {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.job_titleAndCompany {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem 0 0 0;
+}
+
+.companyLogo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.companyLink {
+  display: flex;
+  justify-content: center;
+  color: var(--theme-color);
+  text-decoration: none;
+}
+
+.companyLink:hover {
+  text-decoration: underline;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.timeframe {
+  display: flex;
+  justify-content: center;
+  color: var(--clr-neutral-300);
+  margin-bottom: 2rem;
+}
+
+.role {
+  margin-right: 10px;
+}
+
+.description {
+  display: flex;
+  justify-content: center;
+}
+
+.divider {
+  margin: 2.5rem 0;
+  width: 90%;
+}
+
+.taskList {
+  margin: 0 1.5rem;
+  padding: 0 1.5rem;
+}
+
+.taskList > li {
+  padding-bottom: 1rem;
 }
