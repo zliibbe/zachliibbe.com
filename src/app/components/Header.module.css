@@ -77,6 +77,45 @@
   fill: hsl(0, 0%, 100%);
 }
 
+.gearWrapper {
+  position: relative;
+  cursor: pointer;
+}
+
+.gearIcon {
+  height: 2rem;
+  width: 2rem;
+  fill: hsl(0, 0%, 100%);
+}
+
+.gearTooltip {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.5rem;
+  border-radius: 4px;
+  opacity: 0; /* Hidden by default */
+  visibility: hidden; /* Hidden by default */
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  height: 50px;
+  width: 50px;
+  object-fit: contain;
+  aspect-ratio: 1/1;
+}
+
+.gearWrapper:hover .gearTooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+.tooltipImage {
+  display: block;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
 .gearIcon:hover,
 .homeIcon:hover,
 .barsIcon:hover,
