@@ -60,6 +60,8 @@
   justify-content: flex-start;
   margin: 0.5rem 0;
   font-size: 1.25rem;
+  font-weight: var(--fw-bold);
+  padding-left: 2rem;
 }
 
 .experienceItem {
