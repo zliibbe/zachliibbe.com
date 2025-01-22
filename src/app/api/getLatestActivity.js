@@ -1,16 +1,12 @@
 export default async function getLatestActivity() {
   try {
-    console.log("1. Starting activity fetch process...");
-
     // First refresh the token
     const refreshResponse = await fetch("/api/refresh-token", {
       method: "POST",
       cache: "no-store",
     });
 
-    console.log("2. Refresh token response status:", refreshResponse.status);
     const refreshData = await refreshResponse.text();
-    console.log("3. Refresh token response body:", refreshData);
 
     if (!refreshResponse.ok) {
       throw new Error(
@@ -48,7 +44,7 @@ export default async function getLatestActivity() {
 
     return activities[0];
   } catch (error) {
-    console.error("9. Error in getLatestActivity:", error.message);
+    console.error("Error in getLatestActivity:", error.message);
     throw error;
   }
 }

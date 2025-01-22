@@ -6,16 +6,6 @@ const STRAVA_CLIENT_SECRET = process.env.STRAVA_CLIENT_SECRET;
 const STRAVA_REFRESH_TOKEN = process.env.STRAVA_REFRESH_TOKEN;
 
 export async function POST() {
-  console.log("Starting token refresh...");
-
-  // Debug environment variables (safely)
-  console.log("Environment check:", {
-    hasClientId: typeof STRAVA_CLIENT_ID === "string",
-    hasClientSecret: typeof STRAVA_CLIENT_SECRET === "string",
-    hasRefreshToken: typeof STRAVA_REFRESH_TOKEN === "string",
-    clientIdFirstChar: STRAVA_CLIENT_ID?.charAt(0) || "missing",
-  });
-
   if (!STRAVA_CLIENT_ID || !STRAVA_CLIENT_SECRET || !STRAVA_REFRESH_TOKEN) {
     console.error("Missing environment variables:", {
       clientId: !STRAVA_CLIENT_ID,
@@ -42,9 +32,7 @@ export async function POST() {
       }),
     });
 
-    console.log("Strava response status:", response.status);
     const data = await response.text();
-    console.log("Strava response body:", data);
 
     if (!response.ok) {
       return NextResponse.json(
