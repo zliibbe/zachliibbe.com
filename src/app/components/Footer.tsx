@@ -194,7 +194,7 @@ export default function Footer() {
             </a>
           </div>
           <div className={styles.copywrite}>
-            © 2025, built using
+            <span>© 2025, built using</span>
             <a
               href="https://nextjs.org"
               target="_blank"
@@ -210,7 +210,7 @@ export default function Footer() {
                 width={60}
               />
             </a>
-            and
+            <span>and</span>
             <a
               className={styles.techLink}
               href="https://vercel.com/"
@@ -225,7 +225,7 @@ export default function Footer() {
                 height={60}
               />
             </a>
-            in Colorado Springs, CO
+            <span>in Colorado Springs, CO</span>
           </div>
         </div>
       </div>
