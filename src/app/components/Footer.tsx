@@ -116,7 +116,7 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className={styles.container}>
         <div className={styles.liveFeed}>
-          <p className={styles.liveFeedHeader}>See What I've Been Up To:</p>
+          <p className={styles.liveFeedHeader}>Live Feed:</p>
           <div className={styles.liveFeedList}>
             <a
               className={styles.liveFeedItem}
