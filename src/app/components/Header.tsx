@@ -38,8 +38,10 @@ const Header = () => {
     >
       <div className={styles.headerLeft}>
         <Link href="/" className={styles.homeLink}>
-          <FaMountainSun className={styles.homeIcon} />
-          {isNotHomePage && <h1 className={styles.name}>zach liibbe</h1>}
+          <div className={styles.homeLinkContent}>
+            <FaMountainSun className={styles.homeIcon} />
+            {isNotHomePage && <h1 className={styles.name}>zach liibbe</h1>}
+          </div>
         </Link>
       </div>
 

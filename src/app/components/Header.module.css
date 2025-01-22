@@ -28,18 +28,33 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  text-decoration: none;
+  text-decoration: none !important;
+  gap: 0.5rem;
+}
+.homeLinkContent {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.homeIcon {
+  height: 2rem;
+  width: 2rem;
+  fill: white;
+  transition-duration: 500ms;
 }
 
 .name {
-  padding-left: 0.5rem;
   font-size: 1rem;
   color: white;
+  transition-duration: 500ms;
 }
 
-.name .homeLink {
-  font-size: 1rem;
-  color: white;
+.homeLink:hover .homeIcon,
+.homeLink:hover .name {
+  fill: var(--clr-neutral-200);
+  color: var(--clr-neutral-200);
   text-decoration: none;
 }
 
@@ -116,6 +131,11 @@
   height: auto;
   object-fit: contain;
   opacity: 0.8;
+  transition: transform 0.2s ease;
+}
+
+.gearWrapper:hover .tooltipImage {
+  transform: scale(1.4);
 }
 
 .gearIcon:hover,

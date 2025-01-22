@@ -70,6 +70,10 @@
   text-decoration: underline;
 }
 
+.loadingText {
+  color: var(--clr-neutral-200);
+}
+
 .socialsAndCopywrite {
   display: flex;
   flex-direction: column;
@@ -110,10 +114,10 @@
 }
 
 .copywrite {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+  display: inline-flex;
+  flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
   margin-top: 1rem;
 }
@@ -122,6 +126,7 @@
   display: flex;
   align-items: center;
   transition: opacity 0.2s ease;
+  line-height: 1.5;
 }
 
 .techLink:hover {
@@ -131,7 +136,6 @@
 .nextVercelIcon {
   height: auto;
   width: 4rem;
-  margin: 0 0.5rem;
 }
 
 .nextVercelIcon:hover {
@@ -146,8 +150,9 @@
 
   .copywrite {
     font-size: var(--fs-300);
-    text-align: center;
+    justify-content: center;
     flex-wrap: wrap;
+    text-align: center;
   }
 }
 
