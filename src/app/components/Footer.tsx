@@ -56,7 +56,22 @@ export default function Footer() {
   };
 
   const getDaysAgo = (activity: any) => {
-    return moment(activity.start_date_local).startOf("day").fromNow();
+    const localTimeString = activity.start_date_local.replace("Z", "");
+    const activityDate = moment(localTimeString);
+    const now = moment();
+    const hoursSince = now.diff(activityDate, "hours");
+
+    if (hoursSince < 1) {
+      return "less than an hour ago";
+    }
+
+    if (hoursSince < 24) {
+      return `${hoursSince} hour${hoursSince === 1 ? "" : "s"} ago`;
+    }
+    if (hoursSince < 48) {
+      return "yesterday";
+    }
+    return activityDate.fromNow();
   };
 
   const formatElapsedTime = (seconds: number) => {
@@ -67,7 +82,11 @@ export default function Footer() {
     const remainingMinutes = minutes % 60;
 
     if (hours === 0) {
-      return `${minutes} min`;
+      if (minutes === 1) {
+        return "1 minute";
+      } else {
+        return `${minutes} minutes`;
+      }
     }
 
     return remainingMinutes > 0
@@ -89,7 +108,9 @@ export default function Footer() {
             activity.distance
           )} walk ${getDaysAgo(activity)}.`; // Recorded a *3 mile walk* six days ago TODO*link to /feed*
         case "WeightTraining":
-          return `Lifted weights for ${activity.elapsed_time} ${daysAgo}.`; // Lifted weights for 30 minutes 2 days ago.
+          return `Lifted weights for ${formatElapsedTime(
+            activity.elapsed_time
+          )} ${daysAgo}.`; // Lifted weights for 30 minutes 2 days ago.
         case "Ride":
           return `Recorded a ${formatDistanceToMiles(
             activity.distance
