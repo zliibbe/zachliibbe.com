@@ -131,6 +131,11 @@
   height: auto;
   object-fit: contain;
   opacity: 0.8;
+  transition: transform 0.2s ease;
+}
+
+.gearWrapper:hover .tooltipImage {
+  transform: scale(1.4);
 }
 
 .gearIcon:hover,
