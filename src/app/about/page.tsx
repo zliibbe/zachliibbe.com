@@ -71,7 +71,7 @@ export default function About() {
           </li>
         </ul>
         <br />
-        <p className={styles.contentWrapper}>
+        <p className={styles.personalNote}>
           Everyone deserves a place on the web to call their own and this is my
           litte spot. I do my best to ensure my spot feels like a living,
           breathing thing. Thanks for stopping by!
