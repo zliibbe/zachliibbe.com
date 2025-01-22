@@ -59,8 +59,9 @@
 .navLink {
   color: white;
   text-decoration: none;
-  margin: 0 0.35rem;
+  margin: 0 1rem;
   display: inline-block;
+  font-size: var(--fs-600);
 }
 
 .navLink:hover {
@@ -75,6 +76,46 @@
   height: 2rem;
   width: 2rem;
   fill: hsl(0, 0%, 100%);
+}
+
+.gearWrapper {
+  position: relative;
+  cursor: pointer;
+}
+
+.gearIcon {
+  height: auto;
+  width: 2rem;
+  fill: hsl(0, 0%, 100%);
+}
+
+.gearTooltip {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.5rem;
+  border-radius: 4px;
+  opacity: 0; /* Hidden by default */
+  visibility: hidden; /* Hidden by default */
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  height: 50px;
+  width: auto;
+  object-fit: contain;
+  aspect-ratio: 1/1;
+}
+
+.gearWrapper:hover .gearTooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+.tooltipImage {
+  display: block;
+  width: 40px;
+  height: auto;
+  object-fit: contain;
+  opacity: 0.8;
 }
 
 .gearIcon:hover,
@@ -152,6 +193,10 @@
   .primaryNav {
     transform: translateY(-100%);
     transition: transform 350ms ease-out;
+  }
+
+  .navLink {
+    font-size: 1rem;
   }
 }
 

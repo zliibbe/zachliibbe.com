@@ -1,7 +1,6 @@
 import Image from "next/image";
 import zachPic from "../assets/just-zach.png";
 import styles from "./page.module.css";
-import Head from "next/head";
 import Layout from "./dashboard/layout";
 import Footer from "./components/Footer";
 
@@ -17,7 +16,7 @@ export const metadata = {
   },
 };
 
-export default function Home() {
+export default async function Home() {
   return (
     <Layout>
       <div className={styles.heroContainer}>
