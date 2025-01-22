@@ -95,9 +95,9 @@ export default function Footer() {
   };
 
   const getActivityDisplay = () => {
-    if (loading) return "Loading...";
-    if (error) return error;
-    if (!activity) return "No recent activity";
+    if (loading) return { text: "Loading...", isLoading: true };
+    if (error) return { text: error, isLoading: false };
+    if (!activity) return { text: "No recent activity", isLoading: false };
 
     const getActivityText = () => {
       const daysAgo = getDaysAgo(activity);
@@ -130,7 +130,7 @@ export default function Footer() {
       }
     };
 
-    return getActivityText();
+    return { text: getActivityText(), isLoading: false };
   };
 
   return (
@@ -148,7 +148,13 @@ export default function Footer() {
               <span className={styles.feedIcon}>
                 <FaStrava className={styles.stravaIcon} size={30} />
               </span>
-              <p className={styles.liveFeedText}>{getActivityDisplay()}</p>
+              <p
+                className={`${styles.liveFeedText} ${
+                  loading ? styles.loadingText : ""
+                }`}
+              >
+                {getActivityDisplay().text}
+              </p>
             </a>
 
             <a

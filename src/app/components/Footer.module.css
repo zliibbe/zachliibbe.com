@@ -70,6 +70,10 @@
   text-decoration: underline;
 }
 
+.loadingText {
+  color: var(--clr-neutral-200);
+}
+
 .socialsAndCopywrite {
   display: flex;
   flex-direction: column;
