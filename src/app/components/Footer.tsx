@@ -56,10 +56,6 @@ export default function Footer() {
   };
 
   const getDaysAgo = (activity: any) => {
-    console.log(
-      "MOMENT: ",
-      moment(activity.start_date_local).startOf("day").fromNow()
-    );
     return moment(activity.start_date_local).startOf("day").fromNow();
   };
 
