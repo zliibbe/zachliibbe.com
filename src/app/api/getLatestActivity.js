@@ -1,16 +1,24 @@
 export default async function getLatestActivity() {
   try {
+    console.log("1. Starting activity fetch process...");
+
     // First refresh the token
     const refreshResponse = await fetch("/api/refresh-token", {
       method: "POST",
       cache: "no-store",
     });
 
+    console.log("2. Refresh token response status:", refreshResponse.status);
+    const refreshData = await refreshResponse.text();
+    console.log("3. Refresh token response body:", refreshData);
+
     if (!refreshResponse.ok) {
-      throw new Error(`Failed to refresh token: ${refreshResponse.status}`);
+      throw new Error(
+        `Failed to refresh token: ${refreshResponse.status} - ${refreshData}`
+      );
     }
 
-    const tokenData = await refreshResponse.json();
+    const tokenData = JSON.parse(refreshData);
 
     // Use the new access token
     const activitiesUrl =
