@@ -29,11 +29,9 @@ const Job: React.FC<JobProps> = ({
   logo,
   id,
 }) => {
-  const taskListItems = taskList.map((task) => <li key={task}>{task}</li>);
-
   return (
     <div className={`${styles.jobContainer} job${id}`}>
-      <div className={styles.job_titleAndCompany}>
+      <div className={styles.jobImage}>
         {logo && (
           <Image
             src={logo}
@@ -43,20 +41,31 @@ const Job: React.FC<JobProps> = ({
             className={styles.companyLogo}
           />
         )}
-        <h3 className={styles.title}>{role}</h3>
-        <a
-          href={companyLink}
-          className={styles.companyLink}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {companyName}
-        </a>
       </div>
-      <p className={styles.timeframe}>{timeframe}</p>
-      <p className={styles.description}>{description}</p>
-      <ul className={styles.taskList}>{taskListItems}</ul>
-      <hr className={styles.divider} />
+      <div className={styles.jobTitle}>
+        <div className={styles.jobTitleAndCompany}>
+          <h3>{role}</h3>
+          <a
+            href={companyLink}
+            className={styles.companyLink}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {companyName}
+          </a>
+        </div>
+        <div className={styles.jobTimeframe}>{timeframe}</div>
+      </div>
+      <div className={styles.jobDetails}>
+        <p>{description}</p>
+        <ul>
+          {taskList.map((task) => (
+            <li key={task} className={styles.jobListItem}>
+              {task}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

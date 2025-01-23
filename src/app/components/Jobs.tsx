@@ -1,8 +1,8 @@
 import React from "react";
 import Job from "./Job";
-import beatLogo from "../../assets/beat-logo.png";
-import quantumLogo from "../../assets/quantum-logo.jpeg";
-import bluestaqLogo from "../../assets/bluestaq-logo.jpeg";
+import beatLogo from "../../../public/beat-logo.png";
+import quantumLogo from "../../../public/quantum-logo.jpeg";
+import bluestaqLogo from "../../../public/bluestaq-logo.jpeg";
 import { StaticImageData } from "next/image";
 
 export const Jobs = () => {
