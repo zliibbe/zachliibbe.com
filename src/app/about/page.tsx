@@ -1,7 +1,7 @@
 import Layout from "../dashboard/layout";
 import styles from "./page.module.css";
 import Image from "next/image";
-import headshot from "../../assets/headshot.png";
+import headshot from "../../../public/headshot.png";
 import Footer from "../components/Footer";
 import { Metadata } from "next";
 

@@ -20,9 +20,13 @@
   --clr-neutral-200: hsla(0, 0%, 71%);
   --clr-neutral-250: hsl(0, 0%, 65%);
   --clr-neutral-300: hsl(0, 0%, 50%);
-
-  --clr-neutral-300: rgba(27, 28, 30, 0.3);
-  --clr-neutral-900: rgba(27, 28, 30, 1);
+  --clr-neutral-350: hsl(0, 0%, 45%);
+  --clr-neutral-400: hsl(0, 0%, 40%);
+  --clr-neutral-500: hsl(0, 0%, 30%);
+  --clr-neutral-600: hsl(0, 0%, 20%);
+  --clr-neutral-700: hsl(0, 0%, 10%);
+  --clr-neutral-800: hsl(0, 0%, 5%);
+  --clr-neutral-900: hsl(0, 0%, 0%);
 
   /* font family */
   --ff-primary: var(--font-lexend);
