@@ -82,12 +82,19 @@
   margin-bottom: 0;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .jobContainer {
     grid-template-columns: 1fr;
   }
 
   .jobTitle {
     flex-direction: column;
+  }
+
+  .companyLogo {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    height: 3rem;
   }
 }
