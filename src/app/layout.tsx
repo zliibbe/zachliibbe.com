@@ -23,3 +23,11 @@ export default function RootLayout({
     </html>
   );
 }
+
+export const metadata = {
+  title: "Zach Liibbe",
+  description: "Zach Liibbe's own little corner of the web",
+  icons: {
+    icon: [{ url: "/favicon.ico", sizes: "any" }],
+  },
+};
