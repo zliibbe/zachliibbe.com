@@ -1,5 +1,5 @@
 import Image from "next/image";
-import zachPic from "../assets/just-zach.png";
+import zachPic from "../../public/just-zach.png";
 import styles from "./page.module.css";
 import Layout from "./dashboard/layout";
 import Footer from "./components/Footer";

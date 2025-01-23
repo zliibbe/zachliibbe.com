@@ -1,71 +1,100 @@
 .jobContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  margin-bottom: 2rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: var(--clr-neutral-100);
+  border-radius: 8px;
+  margin-bottom: 1rem;
 }
 
-.job_titleAndCompany {
+.jobImage {
+  grid-row: span 2;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 1rem 0 0 0;
+  align-items: flex-start;
 }
 
 .companyLogo {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 40px;
-  height: 40px;
+  border-radius: 8px;
   object-fit: contain;
+  width: 100%;
+  height: auto;
+  margin: 0.5rem 2rem 0 5rem;
 }
 
-.companyLink {
+.jobTitle {
   display: flex;
-  justify-content: center;
-  color: var(--theme-color);
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.jobTitleAndCompany {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.jobTitleAndCompany h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: var(--fw-semi-bold);
+  color: var(--clr-neutral-900);
+}
+
+.jobTitleAndCompany a {
+  color: var(--clr-primary-500);
   text-decoration: none;
 }
 
-.companyLink:hover {
+.jobTitleAndCompany a.companyLink {
+  color: var(--theme-color) !important; /* Force theme color */
+  text-decoration: none;
+  font-size: 1.2rem;
+}
+
+.jobTitleAndCompany a.companyLink:hover {
   text-decoration: underline;
 }
 
-.title {
-  display: flex;
-  justify-content: center;
-  margin-top: 0.5rem;
+.jobTimeframe {
+  color: var(--clr-neutral-350);
+  font-size: 1rem;
 }
 
-.timeframe {
-  display: flex;
-  justify-content: center;
-  color: var(--clr-neutral-300);
-  margin-bottom: 2rem;
+.jobDetails ul {
+  list-style-type: disc;
+  margin: 0;
+  padding-left: 1.25rem;
 }
 
-.role {
-  margin-right: 10px;
+.jobDetails li {
+  color: var(--clr-neutral-700);
+  margin-bottom: 1.75rem;
 }
 
-.description {
-  display: flex;
-  justify-content: center;
+.jobListItem {
+  color: var(--clr-neutral-700);
 }
 
-.divider {
-  margin: 2.5rem 0;
-  width: 90%;
+/* Remove margin from last list item */
+.jobListItem:last-child {
+  margin-bottom: 0;
 }
 
-.taskList {
-  margin: 0 1.5rem;
-  padding: 0 1.5rem;
-}
+@media (max-width: 767px) {
+  .jobContainer {
+    grid-template-columns: 1fr;
+  }
 
-.taskList > li {
-  padding-bottom: 1rem;
+  .jobTitle {
+    flex-direction: column;
+  }
+
+  .companyLogo {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    height: 3rem;
+  }
 }
