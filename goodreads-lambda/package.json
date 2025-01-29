@@ -1,0 +1,15 @@
+{
+  "name": "goodreads-scraper",
+  "version": "1.0.0",
+  "dependencies": {
+    "@playwright/test": "^1.50.0",
+    "aws-lambda": "^1.0.7",
+    "playwright": "^1.50.0",
+    "playwright-core": "^1.50.0"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.134",
+    "esbuild": "^0.20.2",
+    "serverless-offline": "^14.4.0"
+  }
+}
