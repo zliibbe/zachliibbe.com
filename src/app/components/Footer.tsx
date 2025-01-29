@@ -12,12 +12,24 @@ import {
 } from "react-icons/fa6";
 import getLatestActivity from "../api/getLatestActivity";
 import moment from "moment";
+import CurrentlyReading from "./CurrentlyReading";
+type Book = {
+  title: string;
+  currentPage: number | null;
+  totalPages: number | null;
+};
 
 export default function Footer() {
   const [activity, setActivity] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [currentlyReading, setCurrentlyReading] = useState<Book[]>([]);
+  const [bookLoading, setBookLoading] = useState(true);
+  const [bookError, setBookError] = useState<string | null>(null);
 
+  const year = moment().year();
+
+  // Strava Activity Fetching
   async function fetchActivity() {
     try {
       setLoading(true);
@@ -33,14 +45,42 @@ export default function Footer() {
     }
   }
 
+  // Goodreads Book Fetching
+  async function fetchBooks() {
+    try {
+      setBookLoading(true);
+      setBookError(null);
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_GOODREADS_LAMBDA_URL || ""
+      );
+      if (!response.ok) throw new Error("Failed to fetch books");
+      const data = await response.json();
+      setCurrentlyReading(data.books);
+    } catch (err) {
+      setBookError(
+        err instanceof Error ? err.message : "Failed to fetch books"
+      );
+    } finally {
+      setBookLoading(false);
+    }
+  }
+
   useEffect(() => {
     fetchActivity();
+    fetchBooks();
 
-    const interval = setInterval(() => {
+    const activityInterval = setInterval(() => {
       fetchActivity();
     }, 300000);
 
-    return () => clearInterval(interval);
+    const booksInterval = setInterval(() => {
+      fetchBooks();
+    }, 300000);
+
+    return () => {
+      clearInterval(activityInterval);
+      clearInterval(booksInterval);
+    };
   }, []);
 
   const formatDistanceToMiles = (meters: number) => {
@@ -61,16 +101,10 @@ export default function Footer() {
     const now = moment();
     const hoursSince = now.diff(activityDate, "hours");
 
-    if (hoursSince < 1) {
-      return "less than an hour ago";
-    }
-
-    if (hoursSince < 24) {
+    if (hoursSince < 1) return "less than an hour ago";
+    if (hoursSince < 24)
       return `${hoursSince} hour${hoursSince === 1 ? "" : "s"} ago`;
-    }
-    if (hoursSince < 48) {
-      return "yesterday";
-    }
+    if (hoursSince < 48) return "yesterday";
     return activityDate.fromNow();
   };
 
@@ -82,11 +116,7 @@ export default function Footer() {
     const remainingMinutes = minutes % 60;
 
     if (hours === 0) {
-      if (minutes === 1) {
-        return "1 minute";
-      } else {
-        return `${minutes} minutes`;
-      }
+      return minutes === 1 ? "1 minute" : `${minutes} minutes`;
     }
 
     return remainingMinutes > 0
@@ -124,7 +154,7 @@ export default function Footer() {
             activity.distance
           )} swim in ${formatElapsedTime(activity.elapsed_time)} ${daysAgo}.`; // Recorded a 800 yard swim in 40 minutes 2 days ago.
         default:
-          return `Recorded a ${activity.name} - ${formatDistanceToMiles(
+          return `Recorded ${activity.name} - ${formatDistanceToMiles(
             activity.distance
           )} ${daysAgo}.`;
       }
@@ -166,7 +196,9 @@ export default function Footer() {
               <span className={styles.feedIcon}>
                 <FaGoodreads className={styles.goodreadsIcon} size={30} />
               </span>
-              <p className={styles.liveFeedText}>Goodreads</p>
+              <p className={styles.liveFeedText}>
+                <CurrentlyReading />
+              </p>
             </a>
           </div>
         </div>
@@ -200,7 +232,7 @@ export default function Footer() {
             </a>
           </div>
           <div className={styles.copywrite}>
-            <span>© 2025, built using</span>
+            <span>© {year}, built using</span>
             <a
               href="https://nextjs.org"
               target="_blank"
