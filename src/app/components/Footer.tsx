@@ -53,13 +53,20 @@ export default function Footer() {
       const response = await fetch(
         process.env.NEXT_PUBLIC_GOODREADS_LAMBDA_URL || ""
       );
-      if (!response.ok) throw new Error("Failed to fetch books");
+      if (!response.ok) {
+        throw new Error(`Failed to fetch books: ${response.status}`);
+      }
       const data = await response.json();
+      if (!data.books) {
+        throw new Error("No books data received");
+      }
       setCurrentlyReading(data.books);
     } catch (err) {
+      console.error("Error fetching books:", err);
       setBookError(
         err instanceof Error ? err.message : "Failed to fetch books"
       );
+      setCurrentlyReading([]); // Reset books on error
     } finally {
       setBookLoading(false);
     }
@@ -69,13 +76,8 @@ export default function Footer() {
     fetchActivity();
     fetchBooks();
 
-    const activityInterval = setInterval(() => {
-      fetchActivity();
-    }, 300000);
-
-    const booksInterval = setInterval(() => {
-      fetchBooks();
-    }, 300000);
+    const activityInterval = setInterval(fetchActivity, 1800000); // 30 minutes
+    const booksInterval = setInterval(fetchBooks, 3600000); // 60 minutes
 
     return () => {
       clearInterval(activityInterval);
@@ -125,7 +127,7 @@ export default function Footer() {
   };
 
   const getActivityDisplay = () => {
-    if (loading) return { text: "Loading...", isLoading: true };
+    if (loading) return { text: "Loading activity...", isLoading: true };
     if (error) return { text: error, isLoading: false };
     if (!activity) return { text: "No recent activity", isLoading: false };
 
@@ -187,19 +189,20 @@ export default function Footer() {
               </p>
             </a>
 
-            <a
-              className={styles.liveFeedItem}
-              href="https://www.goodreads.com/review/list/24890536-zach?shelf=zach-read&sort=date_read"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <span className={styles.feedIcon}>
-                <FaGoodreads className={styles.goodreadsIcon} size={30} />
-              </span>
+            <div className={styles.liveFeedItem}>
+              <a
+                href="https://www.goodreads.com/review/list/24890536-zach?shelf=zach-read&sort=date_read"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span className={styles.feedIcon}>
+                  <FaGoodreads className={styles.goodreadsIcon} size={30} />
+                </span>
+              </a>
               <p className={styles.liveFeedText}>
                 <CurrentlyReading />
               </p>
-            </a>
+            </div>
           </div>
         </div>
 
