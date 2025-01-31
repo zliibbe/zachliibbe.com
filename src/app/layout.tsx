@@ -25,8 +25,7 @@ export default function RootLayout({
 }
 
 export const metadata = {
-  title:
-    "Zach Liibbe’s corner of the web—part work, part words, all curiosity.",
+  title: "Zach Liibbe - Always Iterating...",
   description:
     "Zach Liibbe’s corner of the web—thinking, tinkering, and typing it all out. Part work, part words, all curiosity (with the occasional tangent).",
   icons: {
