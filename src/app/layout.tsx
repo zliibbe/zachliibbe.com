@@ -25,8 +25,10 @@ export default function RootLayout({
 }
 
 export const metadata = {
-  title: "Zach Liibbe",
-  description: "Zach Liibbe's own little corner of the web",
+  title:
+    "Zach Liibbe’s corner of the web—part work, part words, all curiosity.",
+  description:
+    "Zach Liibbe’s corner of the web—thinking, tinkering, and typing it all out. Part work, part words, all curiosity (with the occasional tangent).",
   icons: {
     icon: [{ url: "/favicon.ico", sizes: "any" }],
   },
