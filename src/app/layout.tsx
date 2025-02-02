@@ -1,5 +1,6 @@
 import { Lexend, Roboto_Mono } from "next/font/google";
 import styles from "./layout.module.css";
+import React from "react";
 
 const robotoMono = Roboto_Mono({
   subsets: ["latin"],
