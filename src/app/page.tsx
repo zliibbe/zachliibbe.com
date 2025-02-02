@@ -29,7 +29,8 @@ export default async function Home() {
               <strong className={styles.titleText}>
                 Full Stack Web Developer{" "}
               </strong>
-              <br />&amp;<strong> code craftsman</strong>
+              <br />
+              &amp;<strong> code craftsman</strong>
             </h1>
             <p className={styles.subtitle}>
               Passionate about simple design and powerful impact

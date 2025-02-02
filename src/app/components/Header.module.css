@@ -113,7 +113,9 @@
   border-radius: 4px;
   opacity: 0; /* Hidden by default */
   visibility: hidden; /* Hidden by default */
-  transition: opacity 0.2s ease, visibility 0.2s ease;
+  transition:
+    opacity 0.2s ease,
+    visibility 0.2s ease;
   height: 50px;
   width: auto;
   object-fit: contain;

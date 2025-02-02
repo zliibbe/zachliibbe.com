@@ -26,7 +26,7 @@ export async function GET() {
 
     if (!response.ok) {
       throw new Error(
-        `Lambda returned ${response.status}: ${await response.text()}`
+        `Lambda returned ${response.status}: ${await response.text()}`,
       );
     }
 
@@ -52,7 +52,7 @@ export async function GET() {
           "Access-Control-Allow-Methods": "GET",
           "Access-Control-Allow-Headers": "Content-Type",
         },
-      }
+      },
     );
   }
 }

@@ -24,7 +24,7 @@ export default function CurrentlyReading() {
     for (let i = 0; i < retries; i++) {
       try {
         const response = await fetch(
-          process.env.NEXT_PUBLIC_GOODREADS_LAMBDA_URL || ""
+          process.env.NEXT_PUBLIC_GOODREADS_LAMBDA_URL || "",
         );
 
         if (!response.ok) {
