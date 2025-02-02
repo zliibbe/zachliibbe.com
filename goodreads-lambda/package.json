@@ -11,8 +11,9 @@
     "playwright-core": "^1.50.0"
   },
   "devDependencies": {
-    "@types/aws-lambda": "^8.10.134",
+    "@types/aws-lambda": "^8.10.147",
     "esbuild": "^0.20.2",
+    "eslint-plugin-prettier": "^5.2.3",
     "serverless-offline": "^14.4.0"
   }
 }
