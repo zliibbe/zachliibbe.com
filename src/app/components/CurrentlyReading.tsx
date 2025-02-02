@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import styles from "./CurrentlyReading.module.css";
 import footerStyles from "./Footer.module.css";
+import moment from "moment";
 
 interface Book {
   title: string;
@@ -11,6 +12,7 @@ interface Book {
   link: string;
   currentPage: number | null;
   totalPages: number | null;
+  lastUpdated: string | null;
 }
 
 export default function CurrentlyReading() {
@@ -83,16 +85,14 @@ export default function CurrentlyReading() {
       {book && (
         <>
           <a
-            href={`https://www.goodreads.com/book/show/${book.link
-              .split("/")
-              .pop()}`}
+            href={book.link}
             className={styles.bookTitle}
             target="_blank"
             rel="noopener noreferrer"
             style={
               book.coverImg
                 ? ({
-                    "--cover-image": `url(${book.coverImg})`,
+                    "--cover-image": `url("${book.coverImg}")`,
                   } as React.CSSProperties)
                 : {}
             }
@@ -100,9 +100,13 @@ export default function CurrentlyReading() {
             {book.title}
           </a>
           {book.author && ` by ${book.author}`}
-          {book.currentPage && book.totalPages
-            ? ` (pg ${book.currentPage}/${book.totalPages})`
-            : ""}
+          {book.currentPage && book.totalPages && (
+            <span className={styles.readingProgress}>
+              {` (on page ${book.currentPage}/${book.totalPages}`}
+              {book.lastUpdated && ` ${moment(book.lastUpdated).fromNow()}`}
+              {")"}
+            </span>
+          )}
         </>
       )}
     </>
