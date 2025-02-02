@@ -9,7 +9,8 @@
   "plugins": ["prettier"],
   "rules": {
     "no-unused-vars": "error",
-    "indent": "error",
+    "indent": "off",
+    "@typescript-eslint/indent": "off",
     "prettier/prettier": "error",
     "arrow-body-style": "off",
     "prefer-arrow-callback": "off"
