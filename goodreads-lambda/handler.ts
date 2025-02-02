@@ -99,6 +99,12 @@ export const getCurrentlyReading = async (
       throw new Error("Could not parse book title and author");
     }
 
+    // Extract the book URL from the description
+    const bookUrlMatch = currentlyReading.description.match(/href="([^"]+)"/);
+    const bookUrl = bookUrlMatch
+      ? `https://www.goodreads.com${bookUrlMatch[1]}`
+      : null;
+
     const [title, author] = titleMatch[1]
       .split(" by ")
       .map((s: string) => s.trim());
@@ -108,18 +114,25 @@ export const getCurrentlyReading = async (
     const currentPage = pageMatch ? parseInt(pageMatch[1]) : null;
     const totalPages = pageMatch ? parseInt(pageMatch[2]) : null;
 
-    // Get cover image URL
+    // Get cover image URL and upgrade the resolution
     const coverMatch = currentlyReading.description.match(/src="([^"]+)"/);
-    const coverImg = coverMatch ? coverMatch[1] : null;
+    const coverImg = coverMatch
+      ? coverMatch[1]
+          .replace("._SY75_", "") // Remove the size constraint
+          .replace("photo.goodreads.com", "images.gr-assets.com") // Use high-res domain
+          .replace("compressed.", "") // Remove compression indicator
+      : null;
+
+    // console.log("currentlyReading.link:", currentlyReading.link);
 
     const bookDetails = {
       title: decodeHtmlEntities(title),
-      author: decodeHtmlEntities(author),
-      currentPage,
-      totalPages,
-      link: currentlyReading.link,
-      coverImg,
-      lastReadHours: 0,
+      author: author ? decodeHtmlEntities(author) : null,
+      coverImg: coverImg || null,
+      link: bookUrl || process.env.GOODREADS_PROFILE_URL,
+      currentPage: currentPage || null,
+      totalPages: totalPages || null,
+      lastUpdated: currentlyReading.pubDate || null,
     };
 
     // Cache and return response

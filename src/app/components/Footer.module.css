@@ -20,7 +20,7 @@
 .liveFeedHeader {
   display: flex;
   flex-direction: column;
-  padding: 1rem 0;
+  padding: 0 0 1rem 0;
   color: var(--text-primary);
 }
 
@@ -66,7 +66,7 @@
   fill: var(--goodreadsColor);
 }
 
-.liveFeedItem:hover .liveFeedText {
+.liveFeedItem:hover .liveFeedText .stravaIcon {
   text-decoration: underline;
 }
 

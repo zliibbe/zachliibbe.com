@@ -6,34 +6,49 @@
   cursor: pointer;
   position: relative;
   display: inline-block;
-  text-decoration: underline;
-}
-
-.bookTitle:hover {
   text-decoration: none;
+  color: var(--theme-color);
+  /* isolation: isolate; */
+
+  .bookTitle::before {
+    content: "";
+    position: absolute;
+    top: -140px;
+    top: -140px;
+    transform: translateX(-50%);
+    width: 90px;
+    height: 135px;
+    background-image: var(--cover-image);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    z-index: 1000;
+    isolation: isolate;
+    mix-blend-mode: normal;
+    transform-style: preserve-3d;
+    will-change: opacity;
+  }
+
+  /* Override liveFeedText styles specifically for the book cover */
+  :global(.liveFeedText) .bookTitle::before {
+    opacity: 0;
+    background-color: white !important;
+  }
+
+  :global(.liveFeedText) .bookTitle:hover::before {
+    opacity: 1 !important;
+  }
 }
 
-.bookTitle::before {
-  content: "";
-  position: absolute;
-  top: -130px; /* Adjust baced on your layout */
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80px;
-  height: 120px;
-  background-image: var(--cover-image);
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-color: white;
-  border-radius: 4px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease;
-  z-index: 10;
-}
-
-.bookTitle:hover::before {
-  opacity: 1;
+.readingProgress {
+  display: block;
+  margin-top: 0.25rem; /* Adds some space between the title and progress */
+  font-style: italic;
+  color: var(--clr-neutral-350);
 }
