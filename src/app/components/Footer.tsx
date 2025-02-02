@@ -12,12 +12,24 @@ import {
 } from "react-icons/fa6";
 import getLatestActivity from "../api/getLatestActivity";
 import moment from "moment";
+import CurrentlyReading from "./CurrentlyReading";
+type Book = {
+  title: string;
+  currentPage: number | null;
+  totalPages: number | null;
+};
 
 export default function Footer() {
   const [activity, setActivity] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [currentlyReading, setCurrentlyReading] = useState<Book[]>([]);
+  const [bookLoading, setBookLoading] = useState(true);
+  const [bookError, setBookError] = useState<string | null>(null);
 
+  const year = moment().year();
+
+  // Strava Activity Fetching
   async function fetchActivity() {
     try {
       setLoading(true);
@@ -33,14 +45,44 @@ export default function Footer() {
     }
   }
 
+  // Goodreads Book Fetching
+  async function fetchBooks() {
+    try {
+      setBookLoading(true);
+      setBookError(null);
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_GOODREADS_LAMBDA_URL || "",
+      );
+      if (!response.ok) {
+        throw new Error(`Failed to fetch books: ${response.status}`);
+      }
+      const data = await response.json();
+      if (!data.books) {
+        throw new Error("No books data received");
+      }
+      setCurrentlyReading(data.books);
+    } catch (err) {
+      console.error("Error fetching books:", err);
+      setBookError(
+        err instanceof Error ? err.message : "Failed to fetch books",
+      );
+      setCurrentlyReading([]); // Reset books on error
+    } finally {
+      setBookLoading(false);
+    }
+  }
+
   useEffect(() => {
     fetchActivity();
+    fetchBooks();
 
-    const interval = setInterval(() => {
-      fetchActivity();
-    }, 300000);
+    const activityInterval = setInterval(fetchActivity, 1800000); // 30 minutes
+    const booksInterval = setInterval(fetchBooks, 3600000); // 60 minutes
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(activityInterval);
+      clearInterval(booksInterval);
+    };
   }, []);
 
   const formatDistanceToMiles = (meters: number) => {
@@ -61,16 +103,10 @@ export default function Footer() {
     const now = moment();
     const hoursSince = now.diff(activityDate, "hours");
 
-    if (hoursSince < 1) {
-      return "less than an hour ago";
-    }
-
-    if (hoursSince < 24) {
+    if (hoursSince < 1) return "less than an hour ago";
+    if (hoursSince < 24)
       return `${hoursSince} hour${hoursSince === 1 ? "" : "s"} ago`;
-    }
-    if (hoursSince < 48) {
-      return "yesterday";
-    }
+    if (hoursSince < 48) return "yesterday";
     return activityDate.fromNow();
   };
 
@@ -82,11 +118,7 @@ export default function Footer() {
     const remainingMinutes = minutes % 60;
 
     if (hours === 0) {
-      if (minutes === 1) {
-        return "1 minute";
-      } else {
-        return `${minutes} minutes`;
-      }
+      return minutes === 1 ? "1 minute" : `${minutes} minutes`;
     }
 
     return remainingMinutes > 0
@@ -95,7 +127,7 @@ export default function Footer() {
   };
 
   const getActivityDisplay = () => {
-    if (loading) return { text: "Loading...", isLoading: true };
+    if (loading) return { text: "Loading activity...", isLoading: true };
     if (error) return { text: error, isLoading: false };
     if (!activity) return { text: "No recent activity", isLoading: false };
 
@@ -105,27 +137,27 @@ export default function Footer() {
       switch (activity.type) {
         case "Walk":
           return `Recorded a ${formatDistanceToMiles(
-            activity.distance
+            activity.distance,
           )} walk ${getDaysAgo(activity)}.`; // Recorded a *3 mile walk* six days ago TODO*link to /feed*
         case "WeightTraining":
           return `Lifted weights for ${formatElapsedTime(
-            activity.elapsed_time
+            activity.elapsed_time,
           )} ${daysAgo}.`; // Lifted weights for 30 minutes 2 days ago.
         case "Ride":
           return `Recorded a ${formatDistanceToMiles(
-            activity.distance
+            activity.distance,
           )} ${daysAgo}.`;
         case "Run":
           return `Recorded a ${formatDistanceToMiles(
-            activity.formatDistanceToYards
+            activity.formatDistanceToYards,
           )} run ${daysAgo}.`; // Recorded a 3 mile run 2 days ago.
         case "Swim":
           return `Recorded a ${formatDistanceToYards(
-            activity.distance
+            activity.distance,
           )} swim in ${formatElapsedTime(activity.elapsed_time)} ${daysAgo}.`; // Recorded a 800 yard swim in 40 minutes 2 days ago.
         default:
-          return `Recorded a ${activity.name} - ${formatDistanceToMiles(
-            activity.distance
+          return `Recorded ${activity.name} - ${formatDistanceToMiles(
+            activity.distance,
           )} ${daysAgo}.`;
       }
     };
@@ -157,17 +189,20 @@ export default function Footer() {
               </p>
             </a>
 
-            <a
-              className={styles.liveFeedItem}
-              href="https://www.goodreads.com/review/list/24890536-zach?shelf=zach-read&sort=date_read"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <span className={styles.feedIcon}>
-                <FaGoodreads className={styles.goodreadsIcon} size={30} />
-              </span>
-              <p className={styles.liveFeedText}>Goodreads</p>
-            </a>
+            <div className={styles.liveFeedItem}>
+              <a
+                href="https://www.goodreads.com/review/list/24890536-zach?shelf=zach-read&sort=date_read"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span className={styles.feedIcon}>
+                  <FaGoodreads className={styles.goodreadsIcon} size={30} />
+                </span>
+              </a>
+              <p className={styles.liveFeedText}>
+                <CurrentlyReading />
+              </p>
+            </div>
           </div>
         </div>
 
@@ -200,7 +235,7 @@ export default function Footer() {
             </a>
           </div>
           <div className={styles.copywrite}>
-            <span>© 2025, built using</span>
+            <span>© {year}, built using</span>
             <a
               href="https://nextjs.org"
               target="_blank"

@@ -29,22 +29,22 @@ export default function Work() {
             <p className={styles.overviewText}>
               I studied Philosophy & English in undergrad. My foundation in
               Philosophy and English has proven surprisingly powerful in
-              software engineering. Philosophy's emphasis on logical analysis
-              and breaking down complex arguments mirrors the process of system
-              design, while the pattern recognition I developed studying
-              literature translates directly to understanding programming
-              languages. Combined with the ability to question fundamental
-              assumptions and communicate complex ideas clearly, this
-              unconventional background helps me create elegant, well-documented
-              systems that others can readily build upon.
+              software engineering. Philosophyu&apos;s emphasis on logical
+              analysis and breaking down complex arguments mirrors the process
+              of system design, while the pattern recognition I developed
+              studying literature translates directly to understanding
+              programming languages. Combined with the ability to question
+              fundamental assumptions and communicate complex ideas clearly,
+              this unconventional background helps me create elegant,
+              well-documented systems that others can readily build upon.
             </p>
           </div>
           <div className={styles.recentSection}>
             <h6 className={styles.recentTitle}>
-              What I've been up to recently...
+              What I&apos;ve been up to recently...
             </h6>
             <li className={styles.recentItem}>
-              Lifting weights at the gym in the early morning (I'm really
+              Lifting weights at the gym in the early morning (I&apos;m really
               enjoying the progressive overload of{" "}
               <a href="https://stronglifts.com/5x5/">Stronglifts 5x5</a>) 🏋🏼
             </li>
