@@ -28,27 +28,88 @@
   pointer-events: none;
 }
 
+/* Mobile S */
 @media (max-width: 320px) {
+  .heroContainer {
+    min-height: auto;
+    position: relative;
+  }
+
   .heroGradient {
-    height: 119vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+
+  .main {
+    position: relative;
+    z-index: 1;
+    padding-bottom: 0;
+  }
+
+  .homeImage {
+    margin-bottom: 0;
   }
 }
 
-@media (min-width: 375px) {
+/* Mobile M */
+@media (min-width: 321px) and (max-width: 375px) {
+  .heroContainer {
+    min-height: auto;
+    position: relative;
+  }
+
   .heroGradient {
-    height: 116vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+
+  .main {
+    position: relative;
+    z-index: 1;
+    padding-bottom: 0;
+  }
+
+  .homeImage {
+    margin-bottom: 0;
   }
 }
 
-@media (min-width: 425px) {
+/* Mobile L */
+@media (min-width: 376px) and (max-width: 425px) {
+  .heroContainer {
+    min-height: auto;
+    position: relative;
+  }
+
   .heroGradient {
-    height: 116vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+
+  .main {
+    position: relative;
+    z-index: 1;
+    padding-bottom: 0;
+  }
+
+  .homeImage {
+    margin-bottom: 0;
   }
 }
 
+/* Tablet and above */
 @media (min-width: 768px) {
   .heroGradient {
     height: 100%;

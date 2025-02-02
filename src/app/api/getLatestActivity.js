@@ -10,7 +10,7 @@ export default async function getLatestActivity() {
 
     if (!refreshResponse.ok) {
       throw new Error(
-        `Failed to refresh token: ${refreshResponse.status} - ${refreshData}`
+        `Failed to refresh token: ${refreshResponse.status} - ${refreshData}`,
       );
     }
 
@@ -32,7 +32,7 @@ export default async function getLatestActivity() {
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(
-        `Failed to fetch activities: ${response.status} - ${errorText}`
+        `Failed to fetch activities: ${response.status} - ${errorText}`,
       );
     }
 

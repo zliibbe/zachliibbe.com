@@ -5,8 +5,9 @@ import Layout from "./dashboard/layout";
 import Footer from "./components/Footer";
 
 export const metadata = {
-  title: "Zach Liibbe Webpage",
-  description: "Zach Liibbe's own little corner of the web",
+  title: "Zach Liibbe | Always Iterating",
+  description:
+    "Zach Liibbe&apos;s corner of the web—thinking, tinkering, and typing it all out. Part work, part words, all curiosity (with the occasional tangent).",
   icons: {
     icon: {
       url: "/favicon.png",
@@ -23,12 +24,13 @@ export default async function Home() {
         <div className={styles.heroGradient} />
         <main className={styles.main}>
           <section className={styles.heroSection}>
-            <p className={styles.greeting}>Hey there, I'm Zach!</p>
+            <p className={styles.greeting}>Hey there, I&apos;m Zach!</p>
             <h1 className={styles.title}>
               <strong className={styles.titleText}>
                 Full Stack Web Developer{" "}
               </strong>
-              <br />&<strong> code craftsman</strong>
+              <br />
+              &amp;<strong> code craftsman</strong>
             </h1>
             <p className={styles.subtitle}>
               Passionate about simple design and powerful impact

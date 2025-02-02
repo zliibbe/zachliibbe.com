@@ -5,7 +5,7 @@
   /* --lightGrayContrast: #a5a5a5;  */
   --borderGray: #e0e0e0; /**/
 
-  --theme-color: #56b4d3;
+  --theme-color: #2795ba;
   --theme-complement: #d37556;
   --gradientOne: #348f50;
   --gradientTwo: #56b4d3;
@@ -155,7 +155,9 @@ html:focus-within {
 
 .headshot_circle {
   border-radius: 50%;
-  box-shadow: 0 0 16px 0 var(--gradientThree), 0 0 14px 0px var(--gradientOne);
+  box-shadow:
+    0 0 16px 0 var(--gradientThree),
+    0 0 14px 0px var(--gradientOne);
 }
 
 .layout_container {
