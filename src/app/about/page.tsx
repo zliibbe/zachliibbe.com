@@ -24,11 +24,11 @@ export default function About() {
             <strong>Welcome!</strong>
           </h3>
           <p className={styles.paragraph}>
-            My name is Zach and I'm glad you've somehow ended up here.
+            My name is Zach and I&apos;m glad you've somehow ended up here.
           </p>
-          <p>I'm a software engineer currently between jobs.</p>
+          <p>I&apos;m a software engineer currently between jobs.</p>
           <p>
-            I'm looking to join a company whose mission I believe in and whose
+            I&apos;m looking to join a company whose mission I believe in and whose
             values I share.
           </p>
           <br />
@@ -60,7 +60,7 @@ export default function About() {
             <a href="https://www.goodreads.com/review/list/24890536-zach?shelf=zach-read">
               Goodreads
             </a>{" "}
-            to see what I'm reading or what I've read recently.
+            to see what I&apos;m reading or what I&apos;ve read recently.
           </li>
           <li className={styles.listItem}>
             Building websites in order to learn more about my craft.
