@@ -24,7 +24,8 @@ export default function About() {
             <strong>Welcome!</strong>
           </h3>
           <p className={styles.paragraph}>
-            My name is Zach and I&apos;m glad you've somehow ended up here.
+            My name is Zach and I&apos;m glad youu&apos;ve somehow ended up
+            here.
           </p>
           <p>I&apos;m a software engineer currently between jobs.</p>
           <p>

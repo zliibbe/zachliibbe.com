@@ -29,14 +29,14 @@ export default function Work() {
             <p className={styles.overviewText}>
               I studied Philosophy & English in undergrad. My foundation in
               Philosophy and English has proven surprisingly powerful in
-              software engineering. Philosophy's emphasis on logical analysis
-              and breaking down complex arguments mirrors the process of system
-              design, while the pattern recognition I developed studying
-              literature translates directly to understanding programming
-              languages. Combined with the ability to question fundamental
-              assumptions and communicate complex ideas clearly, this
-              unconventional background helps me create elegant, well-documented
-              systems that others can readily build upon.
+              software engineering. Philosophyu&apos;s emphasis on logical
+              analysis and breaking down complex arguments mirrors the process
+              of system design, while the pattern recognition I developed
+              studying literature translates directly to understanding
+              programming languages. Combined with the ability to question
+              fundamental assumptions and communicate complex ideas clearly,
+              this unconventional background helps me create elegant,
+              well-documented systems that others can readily build upon.
             </p>
           </div>
           <div className={styles.recentSection}>
