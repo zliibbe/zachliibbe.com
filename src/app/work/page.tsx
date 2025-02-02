@@ -1,3 +1,4 @@
+import React from "react";
 import Layout from "../dashboard/layout";
 import styles from "./page.module.css";
 import Footer from "../components/Footer";
