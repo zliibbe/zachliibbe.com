@@ -1,3 +1,4 @@
+import React from "react";
 import Image from "next/image";
 import zachPic from "../../public/just-zach.png";
 import styles from "./page.module.css";
