@@ -42,7 +42,7 @@ function decodeHtmlEntities(text: string): string {
 }
 
 export const getCurrentlyReading = async (
-  event: APIGatewayProxyEvent
+  event: APIGatewayProxyEvent,
 ): Promise<APIGatewayProxyResult> => {
   console.log("Lambda execution started");
 
@@ -68,7 +68,7 @@ export const getCurrentlyReading = async (
 
     console.log("Fetching Goodreads RSS feed");
     const response = await fetch(
-      `https://www.goodreads.com/user/updates_rss/${userId}`
+      `https://www.goodreads.com/user/updates_rss/${userId}`,
     );
 
     if (!response.ok) {

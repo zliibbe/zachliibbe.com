@@ -14,7 +14,7 @@ export async function POST() {
     });
     return NextResponse.json(
       { error: "Server configuration error - missing required variables" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 
@@ -37,7 +37,7 @@ export async function POST() {
     if (!response.ok) {
       return NextResponse.json(
         { error: `Token refresh failed: ${response.status} - ${data}` },
-        { status: response.status }
+        { status: response.status },
       );
     }
 
@@ -47,7 +47,7 @@ export async function POST() {
     console.error("Error refreshing token:", error);
     return NextResponse.json(
       { error: `Failed to refresh token: ${error.message}` },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

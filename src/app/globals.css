@@ -155,7 +155,9 @@ html:focus-within {
 
 .headshot_circle {
   border-radius: 50%;
-  box-shadow: 0 0 16px 0 var(--gradientThree), 0 0 14px 0px var(--gradientOne);
+  box-shadow:
+    0 0 16px 0 var(--gradientThree),
+    0 0 14px 0px var(--gradientOne);
 }
 
 .layout_container {

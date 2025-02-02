@@ -51,7 +51,7 @@ export default function Footer() {
       setBookLoading(true);
       setBookError(null);
       const response = await fetch(
-        process.env.NEXT_PUBLIC_GOODREADS_LAMBDA_URL || ""
+        process.env.NEXT_PUBLIC_GOODREADS_LAMBDA_URL || "",
       );
       if (!response.ok) {
         throw new Error(`Failed to fetch books: ${response.status}`);
@@ -64,7 +64,7 @@ export default function Footer() {
     } catch (err) {
       console.error("Error fetching books:", err);
       setBookError(
-        err instanceof Error ? err.message : "Failed to fetch books"
+        err instanceof Error ? err.message : "Failed to fetch books",
       );
       setCurrentlyReading([]); // Reset books on error
     } finally {
@@ -137,27 +137,27 @@ export default function Footer() {
       switch (activity.type) {
         case "Walk":
           return `Recorded a ${formatDistanceToMiles(
-            activity.distance
+            activity.distance,
           )} walk ${getDaysAgo(activity)}.`; // Recorded a *3 mile walk* six days ago TODO*link to /feed*
         case "WeightTraining":
           return `Lifted weights for ${formatElapsedTime(
-            activity.elapsed_time
+            activity.elapsed_time,
           )} ${daysAgo}.`; // Lifted weights for 30 minutes 2 days ago.
         case "Ride":
           return `Recorded a ${formatDistanceToMiles(
-            activity.distance
+            activity.distance,
           )} ${daysAgo}.`;
         case "Run":
           return `Recorded a ${formatDistanceToMiles(
-            activity.formatDistanceToYards
+            activity.formatDistanceToYards,
           )} run ${daysAgo}.`; // Recorded a 3 mile run 2 days ago.
         case "Swim":
           return `Recorded a ${formatDistanceToYards(
-            activity.distance
+            activity.distance,
           )} swim in ${formatElapsedTime(activity.elapsed_time)} ${daysAgo}.`; // Recorded a 800 yard swim in 40 minutes 2 days ago.
         default:
           return `Recorded ${activity.name} - ${formatDistanceToMiles(
-            activity.distance
+            activity.distance,
           )} ${daysAgo}.`;
       }
     };

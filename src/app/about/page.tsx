@@ -28,8 +28,8 @@ export default function About() {
           </p>
           <p>I&apos;m a software engineer currently between jobs.</p>
           <p>
-            I&apos;m looking to join a company whose mission I believe in and whose
-            values I share.
+            I&apos;m looking to join a company whose mission I believe in and
+            whose values I share.
           </p>
           <br />
           <div>
