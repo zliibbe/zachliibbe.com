@@ -1,5 +1,6 @@
 import { Lexend, Roboto_Mono } from "next/font/google";
-import styles from "./layout.module.css";
+import "./globals.css";
+import Header from "./components/Header";
 import React from "react";
 
 const robotoMono = Roboto_Mono({
@@ -20,7 +21,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={lexend.className}>{children}</body>
+      <body className={lexend.className}>
+        <Header />
+        {children}
+      </body>
     </html>
   );
 }
@@ -28,7 +32,7 @@ export default function RootLayout({
 export const metadata = {
   title: "Zach Liibbe - Always Iterating...",
   description:
-    "Zach Liibbe’s corner of the web—thinking, tinkering, and typing it all out. Part work, part words, all curiosity (with the occasional tangent).",
+    "Zach Liibbe's corner of the web—thinking, tinkering, and typing it all out. Part work, part words, all curiosity (with the occasional tangent).",
   icons: {
     icon: [{ url: "/favicon.ico", sizes: "any" }],
   },

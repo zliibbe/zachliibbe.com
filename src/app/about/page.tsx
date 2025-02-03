@@ -1,5 +1,4 @@
 import React from "react";
-import Layout from "../dashboard/layout";
 import styles from "./page.module.css";
 import Image from "next/image";
 import headshot from "../../../public/headshot.png";
@@ -8,7 +7,7 @@ import { Metadata } from "next";
 
 export default function About() {
   return (
-    <Layout>
+    <>
       <div className={styles.container}>
         <div className={styles.imageContainer}>
           <Image
@@ -58,7 +57,11 @@ export default function About() {
           </li>
           <li className={styles.listItem}>
             Curled up with a good book. Check out my{" "}
-            <a href="https://www.goodreads.com/review/list/24890536-zach?shelf=zach-read">
+            <a
+              href="https://www.goodreads.com/review/list/24890536-zach?shelf=zach-read"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Goodreads
             </a>{" "}
             to see what I&apos;m reading or what I&apos;ve read recently.
@@ -82,7 +85,7 @@ export default function About() {
         <p className={styles.signature}>-Zach</p>
         <Footer />
       </div>
-    </Layout>
+    </>
   );
 }
 
