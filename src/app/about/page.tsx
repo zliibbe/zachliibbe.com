@@ -57,7 +57,11 @@ export default function About() {
           </li>
           <li className={styles.listItem}>
             Curled up with a good book. Check out my{" "}
-            <a href="https://www.goodreads.com/review/list/24890536-zach?shelf=zach-read">
+            <a
+              href="https://www.goodreads.com/review/list/24890536-zach?shelf=zach-read"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Goodreads
             </a>{" "}
             to see what I&apos;m reading or what I&apos;ve read recently.
