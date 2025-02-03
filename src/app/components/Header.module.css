@@ -95,7 +95,7 @@
 
 .gearWrapper {
   position: relative;
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 
 .gearIcon {
