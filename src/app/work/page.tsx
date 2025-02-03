@@ -1,5 +1,4 @@
 import React from "react";
-import Layout from "../dashboard/layout";
 import styles from "./page.module.css";
 import Footer from "../components/Footer";
 import { Metadata } from "next";
@@ -7,7 +6,7 @@ import { Jobs } from "../components/Jobs";
 
 export default function Work() {
   return (
-    <Layout>
+    <>
       <div className={styles.container}>
         <div className={styles.contentWrapper}>
           <div className={styles.overviewSection}>
@@ -70,7 +69,7 @@ export default function Work() {
         </div>
       </div>
       <Footer />
-    </Layout>
+    </>
   );
 }
 

@@ -1,5 +1,4 @@
 import React from "react";
-import Layout from "../dashboard/layout";
 import styles from "./page.module.css";
 import Image from "next/image";
 import headshot from "../../../public/headshot.png";
@@ -8,7 +7,7 @@ import { Metadata } from "next";
 
 export default function About() {
   return (
-    <Layout>
+    <>
       <div className={styles.container}>
         <div className={styles.imageContainer}>
           <Image
@@ -82,7 +81,7 @@ export default function About() {
         <p className={styles.signature}>-Zach</p>
         <Footer />
       </div>
-    </Layout>
+    </>
   );
 }
 

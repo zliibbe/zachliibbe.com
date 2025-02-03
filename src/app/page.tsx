@@ -2,7 +2,6 @@ import React from "react";
 import Image from "next/image";
 import zachPic from "../../public/just-zach.png";
 import styles from "./page.module.css";
-import Layout from "./dashboard/layout";
 import Footer from "./components/Footer";
 
 export const metadata = {
@@ -20,7 +19,7 @@ export const metadata = {
 
 export default async function Home() {
   return (
-    <Layout>
+    <>
       <div className={styles.heroContainer}>
         <div className={styles.heroGradient} />
         <main className={styles.main}>
@@ -63,6 +62,6 @@ export default async function Home() {
         </main>
       </div>
       <Footer />
-    </Layout>
+    </>
   );
 }
