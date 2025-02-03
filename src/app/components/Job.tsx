@@ -1,38 +1,41 @@
 import React from "react";
 import Image, { StaticImageData } from "next/image";
 import styles from "./job.module.css";
-
-import beatLogo from "@/public/beat-logo.png";
-import quantumLogo from "@/public/quantum-logo.png";
-import bluestaqLogo from "@/public/bluestaq-logo.png";
-
 interface JobProps {
   title: string;
+  logo: StaticImageData | string;
   role: string;
   companyName: string;
   companyLink: string;
   description: string;
   taskList: string[];
   timeframe: string;
-  logo?: StaticImageData;
   id: number;
 }
 
 const Job: React.FC<JobProps> = ({
   title,
+  logo,
   role,
   companyName,
   companyLink,
   description,
   taskList,
   timeframe,
-  logo,
   id,
 }) => {
   return (
     <div className={`${styles.jobContainer} job${id}`}>
       <div className={styles.jobImage}>
-        {logo && (
+        {typeof logo === "string" ? (
+          <Image
+            src={logo}
+            alt={`${companyName} logo`}
+            width={40}
+            height={40}
+            className={styles.companyLogo}
+          />
+        ) : (
           <Image
             src={logo}
             alt={`${companyName} logo`}
