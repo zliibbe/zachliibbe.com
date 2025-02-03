@@ -3,7 +3,6 @@ import Job from "./Job";
 import beatLogo from "../../../public/beat-logo.png";
 import quantumLogo from "../../../public/quantum-logo.jpeg";
 import bluestaqLogo from "../../../public/bluestaq-logo.jpeg";
-import { StaticImageData } from "next/image";
 
 export const Jobs = () => {
   const jobs = [

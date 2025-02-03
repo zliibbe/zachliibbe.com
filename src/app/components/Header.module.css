@@ -95,7 +95,9 @@
 
 .gearWrapper {
   position: relative;
-  cursor: pointer;
+  /* TODO: Add cursor pointer */
+  /* TODO: Add color-change menu */
+  /* cursor: pointer; */
 }
 
 .gearIcon {
@@ -161,7 +163,6 @@
 }
 
 .gradientHeader {
-  --gradientTiming: var(--gradientTiming);
   background: linear-gradient(
     45deg,
     var(--gradientOne),
@@ -170,33 +171,32 @@
   );
   background-size: 400% 400%;
   background-repeat: no-repeat;
-  background-position: left;
   background-position: 0% 50%;
-  -webkit-animation: gradientAnimation var(--gradientTiming) ease infinite;
-  animation: gradientAnimation var(--gradientTiming) ease infinite;
+  -webkit-animation: bg-animation var(--gradientTiming) ease infinite;
+  animation: bg-animation var(--gradientTiming) ease infinite;
 }
 
-@keyframes gradientAnimation {
+@keyframes bg-animation {
   0% {
-    background-position: 0% 50%;
+    background-position: left;
   }
   50% {
-    background-position: 100% 50%;
+    background-position: right;
   }
   100% {
-    background-position: 0% 50%;
+    background-position: left;
   }
 }
 
-@-webkit-keyframes gradientAnimation {
+@-webkit-keyframes bg-animation {
   0% {
-    background-position: 0% 50%;
+    background-position: left;
   }
   50% {
-    background-position: 100% 50%;
+    background-position: right;
   }
   100% {
-    background-position: 0% 50%;
+    background-position: left;
   }
 }
 
@@ -204,6 +204,7 @@
   position: relative;
   background: transparent;
   width: 100%;
+  z-index: 100;
 }
 
 /* For mobile nav when open */
@@ -215,10 +216,21 @@
   .primaryNav {
     transform: translateY(-100%);
     transition: transform 350ms ease-out;
+    position: fixed;
+    top: 4rem;
+    left: 0;
+    width: 100%;
+  }
+
+  .primaryNav[data-visible="true"] {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .navLink {
     font-size: 1rem;
+    padding: 0.5rem 0;
+    display: block;
   }
 }
 

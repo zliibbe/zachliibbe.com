@@ -192,7 +192,7 @@ export default function Footer() {
 
             <div className={styles.liveFeedItem}>
               <a
-                href="https://www.goodreads.com/review/list/24890536-zach?shelf=zach-read&sort=date_read"
+                href="https://www.goodreads.com/user/show/24890536-zach-liibbe"
                 target="_blank"
                 rel="noopener noreferrer"
               >
