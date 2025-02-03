@@ -1,4 +1,3 @@
-import Layout from "../dashboard/layout";
 import styles from "./page.module.css";
 import EmailCopy from "./EmailCopy";
 import Footer from "../components/Footer";
@@ -6,7 +5,7 @@ import { Metadata } from "next";
 
 export default function Contact() {
   return (
-    <Layout>
+    <>
       <div className={styles.container}>
         <main className={styles.main}>
           <div className={styles.content}>
@@ -19,7 +18,7 @@ export default function Contact() {
         </main>
       </div>
       <Footer />
-    </Layout>
+    </>
   );
 }
 
