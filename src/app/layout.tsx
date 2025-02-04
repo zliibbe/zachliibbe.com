@@ -33,7 +33,18 @@ export const metadata = {
   title: "Zach Liibbe - Always Iterating...",
   description:
     "Zach Liibbe's corner of the web—thinking, tinkering, and typing it all out. Part work, part words, all curiosity (with the occasional tangent).",
-  icons: {
-    icon: [{ url: "/favicon.ico", sizes: "any" }],
-  },
+  icons: [
+    {
+      rel: "icon",
+      type: "image/png",
+      url: "/favicon-light.png",
+      media: "(prefers-color-scheme: light)",
+    },
+    {
+      rel: "icon",
+      type: "image/png",
+      url: "/favicon-dark.png",
+      media: "(prefers-color-scheme: dark)",
+    },
+  ],
 };
