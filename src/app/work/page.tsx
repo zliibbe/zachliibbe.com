@@ -12,9 +12,9 @@ export default function Work() {
           <div className={styles.overviewSection}>
             <h2 className={styles.overviewTitle}>Overview</h2>
             <p className={styles.overviewText}>
-              Experienced Front End Engineer with a passion for simple, clean
-              design that delivers clear messages and intuitive user
-              experiences.
+              I&apos;m an experienced Software Engineer and Web Developer with a
+              passion for simple, clean design that delivers clear messages and
+              intuitive user experiences.
             </p>
             <p className={styles.overviewText}>
               I love being part of a collaborative team where I can contribute
