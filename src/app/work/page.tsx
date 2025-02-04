@@ -46,7 +46,7 @@ export default function Work() {
             </li>
             <li className={styles.recentItem}>
               Just finished{" "}
-              <a href="hhttps://www.amazon.com/Foundation-Isaac-Asimov-ebook/dp/B000FC1PWA/ref=sr_1_5?crid=1AIBKJGWB9F1F&dib=eyJ2IjoiMSJ9.9PSaSltk2VkF7VWEcGfBdtrjDg4h5PRwAWgcWO1GuRoblHPddYm7Kv0A_Vg-gr7vhBMiJylTg208KfZ0M63LZeIbNOY9_c6dKfXbXdHSripuAwBC1xEl_KiPnjJD0rrUYSAdvL2IF8DqCXVcttRMyZrzgTAPHYJn_c_vRXuPh2p6rSFmfa4Y-bfn5EklryDrRZWQyJJCDIySPXsm49eNED2Gcxn90Dsl73qHSXFCbU4.550BBpbokiaNvPfG68sOg9TiRjiOK1ngEQ2Xk8n2VUY&dib_tag=se&keywords=foundations+asimov&qid=1736969242&sprefix=foundations+as%2Caps%2C406&sr=8-5">
+              <a href="https://www.goodreads.com/book/show/29579.Foundation">
                 Foundation
               </a>{" "}
               by Isaac Asimov. 📚 I thought it was underwhelming based on my
