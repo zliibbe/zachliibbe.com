@@ -13,30 +13,26 @@ export default function Work() {
             <h2 className={styles.overviewTitle}>Overview</h2>
             <p className={styles.overviewText}>
               Experienced Front End Engineer with a passion for simple, clean
-              design that delivers a clear message and user experience.
+              design that delivers clear messages and intuitive user
+              experiences.
             </p>
             <p className={styles.overviewText}>
-              I am excited about finding a team of people who I can collaborate
-              with. My observation in tech, is there are often
+              I love being part of a collaborative team where I can contribute
+              meaningful work and grow. In my experience, the best tech
+              solutions come from diverse perspectives and strong teamwork.
             </p>
             <p className={styles.overviewText}>
-              In the past, I was a cardiac nurse manager. I started at the
-              bottom of the totem pole pushing patients around the hospital and
-              then worked my up to CNA, then RN, then Nurse Manager. I
-              eventually discovered website development to help my cardiac team
-              and eventually pursued a fulltime career in tech.
+              Before transitioning to tech, I was a cardiac nurse manager. I
+              started my career transporting patients, then worked my way up to
+              CNA, RN, and eventually Nurse Manager. Along the way, I discovered
+              web development while creating tools to support my cardiac team,
+              which inspired me to pursue it full-time.
             </p>
             <p className={styles.overviewText}>
-              I studied Philosophy & English in undergrad. My foundation in
-              Philosophy and English has proven surprisingly powerful in
-              software engineering. Philosophyu&apos;s emphasis on logical
-              analysis and breaking down complex arguments mirrors the process
-              of system design, while the pattern recognition I developed
-              studying literature translates directly to understanding
-              programming languages. Combined with the ability to question
-              fundamental assumptions and communicate complex ideas clearly,
-              this unconventional background helps me create elegant,
-              well-documented systems that others can readily build upon.
+              With a background in Philosophy and English, I bring strong
+              analytical, pattern recognition, and communication skills to
+              software engineering, helping me build clear, well-structured
+              systems.
             </p>
           </div>
           <div className={styles.recentSection}>
