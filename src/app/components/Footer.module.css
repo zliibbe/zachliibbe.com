@@ -53,6 +53,14 @@
   margin: 0.25rem;
 }
 
+.stravaLink {
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+  color: var(--theme-color);
+}
+
 .stravaIcon,
 .goodreadsIcon {
   fill: var(--clr-neutral-900);
