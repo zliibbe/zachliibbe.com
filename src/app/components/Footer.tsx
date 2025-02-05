@@ -134,32 +134,68 @@ export default function Footer() {
 
     const getActivityText = () => {
       const daysAgo = getDaysAgo(activity);
+      const activityUrl = `https://www.strava.com/activities/${activity.id}`;
 
       switch (activity.type) {
         case "Walk":
-          return `Recorded a ${formatDistanceToMiles(
-            activity.distance,
-          )} walk ${getDaysAgo(activity)}.`; // Recorded a *3 mile walk* six days ago TODO*link to /feed*
+          return (
+            <>
+              Recorded a{" "}
+              <a href={activityUrl} target="_blank" rel="noopener noreferrer">
+                {formatDistanceToMiles(activity.distance)} walk
+              </a>{" "}
+              {daysAgo}.
+            </>
+          );
         case "WeightTraining":
-          return `Lifted weights for ${formatElapsedTime(
-            activity.elapsed_time,
-          )} ${daysAgo}.`; // Lifted weights for 30 minutes 2 days ago.
+          return (
+            <>
+              <a href={activityUrl} target="_blank" rel="noopener noreferrer">
+                Lifted weights
+              </a>{" "}
+              for {formatElapsedTime(activity.elapsed_time)} {daysAgo}.
+            </>
+          );
         case "Ride":
-          return `Recorded a ${formatDistanceToMiles(
-            activity.distance,
-          )} ${daysAgo}.`;
+          return (
+            <>
+              Recorded a{" "}
+              <a href={activityUrl} target="_blank" rel="noopener noreferrer">
+                {formatDistanceToMiles(activity.distance)} ride
+              </a>{" "}
+              {daysAgo}.
+            </>
+          );
         case "Run":
-          return `Recorded a ${formatDistanceToMiles(
-            activity.formatDistanceToYards,
-          )} run ${daysAgo}.`; // Recorded a 3 mile run 2 days ago.
+          return (
+            <>
+              Recorded a{" "}
+              <a href={activityUrl} target="_blank" rel="noopener noreferrer">
+                {formatDistanceToMiles(activity.distance)} run
+              </a>{" "}
+              {daysAgo}.
+            </>
+          );
         case "Swim":
-          return `Recorded a ${formatDistanceToYards(
-            activity.distance,
-          )} swim in ${formatElapsedTime(activity.elapsed_time)} ${daysAgo}.`; // Recorded a 800 yard swim in 40 minutes 2 days ago.
+          return (
+            <>
+              Recorded a{" "}
+              <a href={activityUrl} target="_blank" rel="noopener noreferrer">
+                {formatDistanceToYards(activity.distance)} swim
+              </a>{" "}
+              {formatElapsedTime(activity.elapsed_time)} {daysAgo}.
+            </>
+          );
         default:
-          return `Recorded ${activity.name} - ${formatDistanceToMiles(
-            activity.distance,
-          )} ${daysAgo}.`;
+          return (
+            <>
+              Recorded{" "}
+              <a href={activityUrl} target="_blank" rel="noopener noreferrer">
+                {activity.name} - {formatDistanceToMiles(activity.distance)}
+              </a>{" "}
+              {daysAgo}.
+            </>
+          );
       }
     };
 
