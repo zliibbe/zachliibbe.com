@@ -208,15 +208,15 @@ export default function Footer() {
         <div className={styles.liveFeed}>
           <p className={styles.liveFeedHeader}>Live Feed:</p>
           <div className={styles.liveFeedList}>
-            <a
-              className={styles.liveFeedItem}
-              href="https://www.strava.com/athletes/zachliibbe"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <span className={styles.feedIcon}>
+            <div className={styles.liveFeedItem}>
+              <a
+                href="https://www.strava.com/athletes/zachliibbe"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.feedIcon}
+              >
                 <FaStrava className={styles.stravaIcon} size={30} />
-              </span>
+              </a>
               <p
                 className={`${styles.liveFeedText} ${
                   loading ? styles.loadingText : ""
@@ -224,7 +224,7 @@ export default function Footer() {
               >
                 {getActivityDisplay().text}
               </p>
-            </a>
+            </div>
 
             <div className={styles.liveFeedItem}>
               <a
