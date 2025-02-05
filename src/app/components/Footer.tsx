@@ -141,7 +141,12 @@ export default function Footer() {
           return (
             <>
               Recorded a{" "}
-              <a href={activityUrl} target="_blank" rel="noopener noreferrer">
+              <a
+                href={activityUrl}
+                className={styles.stravaLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {formatDistanceToMiles(activity.distance)} walk
               </a>{" "}
               {daysAgo}.
@@ -150,7 +155,12 @@ export default function Footer() {
         case "WeightTraining":
           return (
             <>
-              <a href={activityUrl} target="_blank" rel="noopener noreferrer">
+              <a
+                href={activityUrl}
+                className={styles.stravaLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Lifted weights
               </a>{" "}
               for {formatElapsedTime(activity.elapsed_time)} {daysAgo}.
@@ -160,7 +170,12 @@ export default function Footer() {
           return (
             <>
               Recorded a{" "}
-              <a href={activityUrl} target="_blank" rel="noopener noreferrer">
+              <a
+                href={activityUrl}
+                className={styles.stravaLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {formatDistanceToMiles(activity.distance)} ride
               </a>{" "}
               {daysAgo}.
@@ -170,7 +185,12 @@ export default function Footer() {
           return (
             <>
               Recorded a{" "}
-              <a href={activityUrl} target="_blank" rel="noopener noreferrer">
+              <a
+                href={activityUrl}
+                className={styles.stravaLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {formatDistanceToMiles(activity.distance)} run
               </a>{" "}
               {daysAgo}.
@@ -180,7 +200,12 @@ export default function Footer() {
           return (
             <>
               Recorded a{" "}
-              <a href={activityUrl} target="_blank" rel="noopener noreferrer">
+              <a
+                href={activityUrl}
+                className={styles.stravaLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {formatDistanceToYards(activity.distance)} swim
               </a>{" "}
               {formatElapsedTime(activity.elapsed_time)} {daysAgo}.
@@ -190,7 +215,12 @@ export default function Footer() {
           return (
             <>
               Recorded{" "}
-              <a href={activityUrl} target="_blank" rel="noopener noreferrer">
+              <a
+                href={activityUrl}
+                className={styles.stravaLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {activity.name} - {formatDistanceToMiles(activity.distance)}
               </a>{" "}
               {daysAgo}.
