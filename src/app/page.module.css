@@ -30,9 +30,9 @@
   backface-visibility: hidden;
   -webkit-perspective: 1000;
   perspective: 1000;
-  animation: bg-animation var(--gradientTiming) ease infinite;
-  -webkit-animation: bg-animation var(--gradientTiming) ease infinite;
-  clip-path: polygon(0 0, 100% 0, 100% 75%, 0 100%);
+  animation: bg-animation var(--gradientTiming) infinite alternate;
+  -webkit-animation: bg-animation var(--gradientTiming) infinite alternate;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
   pointer-events: none;
 }
 
@@ -111,6 +111,7 @@
   .heroGradient {
     position: absolute;
     top: -6rem;
+    height: calc(100% + 6rem);
     left: 0;
     right: 0;
     bottom: 0;
@@ -132,7 +133,7 @@
 /* Tablet and above */
 @media (min-width: 768px) {
   .heroGradient {
-    height: 100%;
+    height: calc(100% + 6rem);
     clip-path: polygon(0 0, 100% 0, 100% 75%, 0 100%);
   }
 }
@@ -180,10 +181,11 @@
   line-height: 1;
   flex-wrap: wrap;
   color: white;
+  margin-bottom: 0.5rem;
 }
 
 .titleText {
-  margin-bottom: 0.5rem;
+  font-weight: var(--fw-semi-bold);
 }
 
 .subtitle {

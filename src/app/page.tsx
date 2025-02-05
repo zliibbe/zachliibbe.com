@@ -26,11 +26,13 @@ export default async function Home() {
           <section className={styles.heroSection}>
             <p className={styles.greeting}>Hey there, I&apos;m Zach!</p>
             <h1 className={styles.title}>
-              <strong className={styles.titleText}>
-                Full Stack Web Developer{" "}
-              </strong>
-              <br />
-              &amp;<strong> code craftsman</strong>
+              <span>
+                <span className={styles.titleText}>
+                  Full Stack Web Developer{" "}
+                </span>
+                <br />
+                &amp;<span className={styles.titleText}> code craftsman</span>
+              </span>
             </h1>
             <p className={styles.subtitle}>
               Passionate about simple design and powerful impact
