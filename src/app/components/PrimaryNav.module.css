@@ -40,6 +40,7 @@
 
 .active:hover {
   text-decoration: none !important;
+  cursor: default;
 }
 
 .navLink:not(.active):hover {
