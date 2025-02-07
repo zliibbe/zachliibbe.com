@@ -48,9 +48,12 @@
 }
 
 .feedIcon {
+  min-width: 30px;
+  min-height: 30px;
   display: flex;
   align-items: center;
-  margin: 0.25rem;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .stravaLink {
@@ -63,6 +66,9 @@
 
 .stravaIcon,
 .goodreadsIcon {
+  min-width: 30px;
+  min-height: 30px;
+  flex-shrink: 0;
   fill: var(--clr-neutral-900);
 }
 
