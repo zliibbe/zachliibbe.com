@@ -5,21 +5,28 @@
   /* --lightGrayContrast: #a5a5a5;  */
   --borderGray: #e0e0e0; /**/
 
-  --theme-color: #2795ba;
+  /* Original Colors */
+  /* --theme-color: #2795ba;
   --theme-complement: #d37556;
   --gradientOne: #348f50;
   --gradientTwo: #56b4d3;
-  --gradientThree: #cb2048;
+  --gradientThree: #cb2048; */
+
+  --theme-color: #2795ba; /* Bright blue - your current */
+  --gradientOne: #67c6b5; /* Light turquoise */
+  --gradientTwo: #2795ba; /* Your blue */
+  --gradientThree: #3178b4; /* Sky blue */
   --gradientTiming: 10s;
 
-  --clr-accent-400: ;
-  --clr-accent-300: ;
+  --clr-accent-400: #ffd700; /* Vibrant yellow - for CTAs/active states */
+  --clr-accent-300: #fff3b0; /* Soft yellow - for subtle accents */
 
   --clr-primary-400: ;
 
   --clr-neutral-100: hsl(0, 0%, 100%);
   --clr-neutral-200: hsla(0, 0%, 71%);
   --clr-neutral-250: hsl(0, 0%, 65%);
+  --clr-neutral-275: hsl(0, 0%, 60%);
   --clr-neutral-300: hsl(0, 0%, 50%);
   --clr-neutral-350: hsl(0, 0%, 45%);
   --clr-neutral-400: hsl(0, 0%, 40%);
