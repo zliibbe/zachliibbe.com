@@ -1,25 +1,31 @@
-import React from "react";
-import styles from "./Header.module.css";
+"use client";
 import Link from "next/link";
+import styles from "./PrimaryNav.module.css";
+import { usePathname } from "next/navigation";
 
 export default function PrimaryNav() {
+  const pathname = usePathname();
+
   return (
-    <ul id="primaryNav" className={styles.nav}>
-      <li>
-        <Link href="/about" className={styles.navLink}>
-          About
-        </Link>
-      </li>
-      <li>
-        <Link href="/work" className={styles.navLink}>
-          Work
-        </Link>
-      </li>
-      <li>
-        <Link href="/contact" className={styles.navLink}>
-          Contact
-        </Link>
-      </li>
-    </ul>
+    <nav className={styles.nav}>
+      <Link
+        href="/about"
+        className={`${styles.navLink} ${pathname === "/about" ? styles.active : ""}`}
+      >
+        About
+      </Link>
+      <Link
+        href="/work"
+        className={`${styles.navLink} ${pathname === "/work" ? styles.active : ""}`}
+      >
+        Work
+      </Link>
+      <Link
+        href="/contact"
+        className={`${styles.navLink} ${pathname === "/contact" ? styles.active : ""}`}
+      >
+        Contact
+      </Link>
+    </nav>
   );
 }
