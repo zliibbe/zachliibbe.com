@@ -11,7 +11,7 @@ import {
   FaLinkedin,
   FaEnvelope,
 } from "react-icons/fa6";
-import getLatestActivity from "../api/getLatestActivity";
+import getLatestActivity from "@/app/api/getLatestActivity";
 import moment from "moment";
 import CurrentlyReading from "./CurrentlyReading";
 type Book = {

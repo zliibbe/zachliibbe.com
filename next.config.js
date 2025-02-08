@@ -7,6 +7,12 @@ const nextConfig = {
     config.resolve.fallback = { fs: false };
     return config;
   },
+  experimental: {
+    serverActions: true,
+  },
+  kv: {
+    database: true,
+  },
 };
 
 module.exports = nextConfig;
