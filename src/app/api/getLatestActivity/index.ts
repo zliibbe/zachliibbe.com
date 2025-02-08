@@ -21,20 +21,22 @@ export default async function getLatestActivity(): Promise<StravaActivity | null
     }
 
     // First refresh the token
-    const refreshResponse = await fetch("/api/refresh-token", {
-      method: "POST",
-      cache: "no-store",
-    });
-
-    const refreshData = await refreshResponse.text();
+    const refreshResponse = await fetch(
+      new URL(
+        "/api/refresh-token",
+        process.env.NEXT_PUBLIC_BASE_URL,
+      ).toString(),
+      {
+        method: "POST",
+        cache: "no-store",
+      },
+    );
 
     if (!refreshResponse.ok) {
-      throw new Error(
-        `Failed to refresh token: ${refreshResponse.status} - ${refreshData}`,
-      );
+      throw new Error(`Failed to refresh token: ${refreshResponse.status}`);
     }
 
-    const tokenData = JSON.parse(refreshData);
+    const tokenData = await refreshResponse.json();
 
     // Use the new access token
     const activitiesUrl =
