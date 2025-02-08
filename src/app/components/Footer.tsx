@@ -31,20 +31,29 @@ export default function Footer() {
   const year = moment().year();
 
   // Strava Activity Fetching
-  async function fetchActivity() {
+  const fetchActivity = async () => {
     try {
       setLoading(true);
       setError(null);
-      const latestActivity = await getLatestActivity();
+
+      const response = await fetch("/api/activity");
+      if (!response.ok) {
+        throw new Error("Failed to fetch activity");
+      }
+
+      const latestActivity = await response.json();
       setActivity(latestActivity);
-    } catch (err: any) {
-      console.error("Footer: Error fetching activity:", err.message);
+    } catch (err) {
+      console.error(
+        "Footer: Error fetching activity:",
+        err instanceof Error ? err.message : err,
+      );
       setError("Failed to load most-recent activity");
       setActivity(null);
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   // Goodreads Book Fetching
   async function fetchBooks() {
