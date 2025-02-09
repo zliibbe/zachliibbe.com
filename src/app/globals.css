@@ -15,7 +15,8 @@
   --theme-color: #2795ba; /* Bright blue - your current */
   --gradientOne: #67c6b5; /* Light turquoise */
   --gradientTwo: #2795ba; /* Your blue */
-  --gradientThree: #3178b4; /* Sky blue */
+  --gradientThree: #cb2048;
+  /* --gradientThree: #3178b4;  Sky blue */
   --gradientTiming: 10s;
 
   --clr-accent-400: #ffd700; /* Vibrant yellow - for CTAs/active states */
