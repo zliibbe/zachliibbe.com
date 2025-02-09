@@ -113,7 +113,7 @@ export function Preferences() {
             </div>
 
             <div className={styles.toggleRow}>
-              <span>Toggle dark mode</span>
+              <span>Toggle dark mode (work in progress...)</span>
               <button
                 onClick={toggleDarkMode}
                 className={`${styles.toggleButton} ${isDarkMode ? styles.active : ""}`}
