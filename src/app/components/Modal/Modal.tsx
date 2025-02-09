@@ -1,7 +1,5 @@
-"use client";
-
 import React from "react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import styles from "./Modal.module.css";
 
 interface ModalProps {
@@ -13,16 +11,19 @@ interface ModalProps {
 export function Modal({ isOpen, onClose, children }: ModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
+  const handleClickOutside = useCallback(
+    (event: MouseEvent) => {
       if (
         modalRef.current &&
         !modalRef.current.contains(event.target as Node)
       ) {
         onClose();
       }
-    };
+    },
+    [onClose],
+  );
 
+  useEffect(() => {
     if (isOpen) {
       document.addEventListener("mousedown", handleClickOutside);
       document.body.style.overflow = "hidden"; // Prevent scrolling when modal is open
@@ -32,7 +33,7 @@ export function Modal({ isOpen, onClose, children }: ModalProps) {
       document.removeEventListener("mousedown", handleClickOutside);
       document.body.style.overflow = "unset";
     };
-  }, [isOpen, onClose]);
+  }, [isOpen, handleClickOutside]);
 
   if (!isOpen) return null;
 
