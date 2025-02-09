@@ -2,6 +2,7 @@ import { Lexend, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "./components/Header";
 import React from "react";
+import { ThemeProvider } from "./context/ThemeContext";
 
 const robotoMono = Roboto_Mono({
   subsets: ["latin"],
@@ -22,8 +23,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={lexend.className}>
-        <Header />
-        {children}
+        <ThemeProvider>
+          <Header />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

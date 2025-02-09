@@ -94,16 +94,15 @@
   fill: hsl(0, 0%, 100%);
 }
 
-/* .gearWrapper {
-  position: relative;
+.gearIcon {
+  background: none;
+  border: none;
+  padding: 0;
   cursor: pointer;
-} */
-
-/* .gearIcon {
-  height: auto;
+  height: 2rem;
   width: 2rem;
   fill: hsl(0, 0%, 100%);
-} */
+}
 
 .gearIcon:hover,
 .homeIcon:hover,
@@ -111,11 +110,6 @@
 .headerLeft:hover {
   fill: var(--clr-neutral-200);
 }
-
-/* .gearIcon:hover {
-  padding: 0.5rem;
-  border-radius: var(--border-radius);
-} */
 
 .header:not(.gradientHeader) .mobileNav {
   background: inherit;
@@ -131,21 +125,22 @@
 }
 
 .gradientHeader {
+  transition: background 0.5s ease;
   background: linear-gradient(
     45deg,
-    var(--gradientOne),
-    var(--gradientTwo),
-    var(--gradientThree)
+    var(--gradient-one),
+    var(--gradient-two),
+    var(--gradient-three)
   );
   background-size: 400% 400%;
-  -webkit-transform: translate3d(0, 0, 0); /* Force hardware acceleration */
+  -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   -webkit-perspective: 1000;
   perspective: 1000;
-  animation: bg-animation var(--gradientTiming) ease infinite;
-  -webkit-animation: bg-animation var(--gradientTiming) ease infinite;
+  animation: bg-animation var(--gradient-timing) ease infinite;
+  -webkit-animation: bg-animation var(--gradient-timing) ease infinite;
 }
 
 @keyframes bg-animation {
@@ -204,12 +199,6 @@
     padding: 0.5rem 0;
     display: block;
   }
-}
-
-.prefsMenu {
-  width: 4em;
-  display: flex;
-  /* TODO Add styles for preferences menu */
 }
 
 /* Desktop Styles */
