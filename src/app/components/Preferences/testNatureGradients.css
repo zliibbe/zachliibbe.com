@@ -1,0 +1,106 @@
+.default {
+  --theme-color: #2795ba;
+  --gradient-one: #67c6b5;
+  --gradient-two: #2795ba;
+  --gradient-three: #cb2048;
+  --accent-primary: #ffd700;
+  --accent-secondary: #fff3b0;
+}
+
+.ocean {
+  --theme-color: #2795ba;
+  --gradient-one: #67c6b5;
+  --gradient-two: #2795ba;
+  --gradient-three: #0e52cf;
+  --accent-primary: #ffd700;
+  --accent-secondary: #fff3b0;
+}
+.forest {
+  --theme-color: #2d5a27;
+  --gradient-one: #8fca7c;
+  --gradient-two: #2d5a27;
+  --gradient-three: #1c3c15;
+  --accent-primary: #ff7f50;
+  --accent-secondary: #ffd4c5;
+  background: linear-gradient(
+    45deg,
+    var(--gradient-one),
+    var(--gradient-two),
+    var(--gradient-three)
+  );
+}
+
+.volcano {
+  --theme-color: #cc2c2c;
+  --gradient-one: #ff6b6b;
+  --gradient-two: #cc2c2c;
+  --gradient-three: #8b0000;
+  --accent-primary: #ffd700;
+  --accent-secondary: #fff7d6;
+  background: linear-gradient(
+    45deg,
+    var(--gradient-one),
+    var(--gradient-two),
+    var(--gradient-three)
+  );
+}
+
+.sunset {
+  --theme-color: #ff7e00;
+  --gradient-one: #ffb347;
+  --gradient-two: #ff7e00;
+  --gradient-three: #cc5500;
+  --accent-primary: #4169e1;
+  --accent-secondary: #c7d3f7;
+  background: linear-gradient(
+    45deg,
+    var(--gradient-one),
+    var(--gradient-two),
+    var(--gradient-three)
+  );
+}
+
+.desert {
+  --theme-color: #ffd700;
+  --gradient-one: #fff68f;
+  --gradient-two: #ffd700;
+  --gradient-three: #daa520;
+  --accent-primary: #4682b4;
+  --accent-secondary: #b0c4de;
+  background: linear-gradient(
+    45deg,
+    var(--gradient-one),
+    var(--gradient-two),
+    var(--gradient-three)
+  );
+}
+
+.lavender {
+  --theme-color: #9b4f96;
+  --gradient-one: #d8a1d4;
+  --gradient-two: #9b4f96;
+  --gradient-three: #663399;
+  --accent-primary: #98fb98;
+  --accent-secondary: #e0fff0;
+  background: linear-gradient(
+    45deg,
+    var(--gradient-one),
+    var(--gradient-two),
+    var(--gradient-three)
+  );
+}
+
+.rainbow {
+  --theme-color: #ff1493;
+  --gradient-one: #ff69b4;
+  --gradient-two: #ff1493;
+  --gradient-three: #8b008b;
+  --accent-primary: #ffd700;
+  --accent-secondary: #fffacd;
+  background: linear-gradient(
+    45deg,
+    var(--gradient-one),
+    var(--gradient-two),
+    var(--gradient-three)
+  );
+}

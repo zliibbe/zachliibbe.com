@@ -18,9 +18,9 @@
   height: calc(100% + 6rem);
   background: linear-gradient(
     45deg,
-    var(--gradientOne),
-    var(--gradientTwo),
-    var(--gradientThree)
+    var(--gradient-one),
+    var(--gradient-two),
+    var(--gradient-three)
   );
   background-size: 400% 400%;
   z-index: -1;
@@ -30,10 +30,11 @@
   backface-visibility: hidden;
   -webkit-perspective: 1000;
   perspective: 1000;
-  animation: bg-animation var(--gradientTiming) infinite alternate;
-  -webkit-animation: bg-animation var(--gradientTiming) infinite alternate;
+  animation: bg-animation var(--gradient-timing) infinite alternate;
+  -webkit-animation: bg-animation var(--gradient-timing) infinite alternate;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
   pointer-events: none;
+  transition: background 0.5s ease;
 }
 
 @keyframes bg-animation {
@@ -111,7 +112,6 @@
   .heroGradient {
     position: absolute;
     top: -6rem;
-    height: calc(100% + 6rem);
     left: 0;
     right: 0;
     bottom: 0;
@@ -133,7 +133,7 @@
 /* Tablet and above */
 @media (min-width: 768px) {
   .heroGradient {
-    height: calc(100% + 6rem);
+    height: 100%;
     clip-path: polygon(0 0, 100% 0, 100% 75%, 0 100%);
   }
 }
@@ -182,10 +182,12 @@
   flex-wrap: wrap;
   color: white;
   margin-bottom: 0.5rem;
+  font-weight: var(--fw-bold);
 }
 
 .titleText {
   font-weight: var(--fw-semi-bold);
+  margin-bottom: 0.5rem;
 }
 
 .subtitle {
