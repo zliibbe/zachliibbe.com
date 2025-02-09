@@ -1,0 +1,44 @@
+.preferences {
+  color: var(--clr-neutral-800);
+  background-color: transparent;
+}
+
+.preferences h2 {
+  margin: 0 0 1.5rem;
+  font-size: 1.5rem;
+}
+
+.section {
+  margin-bottom: 1.5rem;
+}
+
+.section h3 {
+  margin: 0 0 1rem;
+  font-size: 1.2rem;
+}
+
+.gradientGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+}
+
+.gradientButton {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.5rem;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    border-color 0.2s;
+}
+
+.gradientButton:hover {
+  transform: scale(1.05);
+}
+
+.gradientButton:focus {
+  outline: none;
+  border-color: var(--theme-color);
+}
