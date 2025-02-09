@@ -41,20 +41,17 @@ export default function Work() {
               What I&apos;ve been up to recently...
             </h6>
             <li className={styles.recentItem}>
-              Lifting weights at the gym in the early morning (I&apos;m really
-              enjoying the progressive overload of{" "}
-              <a href="https://stronglifts.com/5x5/">Stronglifts 5x5</a>) 🏋🏼
-            </li>
-            <li className={styles.recentItem}>
-              Just finished{" "}
-              <a href="https://www.goodreads.com/book/show/29579.Foundation">
-                Foundation
-              </a>{" "}
-              by Isaac Asimov. 📚 I thought it was underwhelming based on my
-              expectations. ¯\_(ツ)_/¯
+              Consulting and working with my therapeutic clients (typically
+              therapists) to improve their websites and digital marketing
+              tactics in order to generate more clients with less effort.
             </li>
             <li className={styles.recentItem}>
               Spending quality time with my 5 & 2.5 year-old daughters. 🥰
+            </li>
+            <li className={styles.recentItem}>
+              Lifting weights at the gym in the early morning (I&apos;m really
+              enjoying the progressive overload of{" "}
+              <a href="https://stronglifts.com/5x5/">Stronglifts 5x5</a>) 🏋🏼
             </li>
           </div>
         </div>
