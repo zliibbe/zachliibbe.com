@@ -94,53 +94,14 @@
   fill: hsl(0, 0%, 100%);
 }
 
-.gearWrapper {
-  position: relative;
-  /* TODO: Add cursor pointer */
-  /* TODO: Add color-change menu */
-  /* cursor: pointer; */
-}
-
 .gearIcon {
-  height: auto;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  height: 2rem;
   width: 2rem;
   fill: hsl(0, 0%, 100%);
-}
-
-.gearTooltip {
-  position: absolute;
-  top: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 0.5rem;
-  border-radius: 4px;
-  opacity: 0; /* Hidden by default */
-  visibility: hidden; /* Hidden by default */
-  transition:
-    opacity 0.2s ease,
-    visibility 0.2s ease;
-  height: 50px;
-  width: auto;
-  object-fit: contain;
-  aspect-ratio: 1/1;
-}
-
-.gearWrapper:hover .gearTooltip {
-  opacity: 1;
-  visibility: visible;
-}
-
-.tooltipImage {
-  display: block;
-  width: 40px;
-  height: auto;
-  object-fit: contain;
-  opacity: 0.8;
-  transition: transform 0.2s ease;
-}
-
-.gearWrapper:hover .tooltipImage {
-  transform: scale(1.4);
 }
 
 .gearIcon:hover,
@@ -148,11 +109,6 @@
 .barsIcon:hover,
 .headerLeft:hover {
   fill: var(--clr-neutral-200);
-}
-
-.gearIcon:hover {
-  padding: 0.5rem;
-  border-radius: var(--border-radius);
 }
 
 .header:not(.gradientHeader) .mobileNav {
@@ -169,21 +125,22 @@
 }
 
 .gradientHeader {
+  transition: background 0.5s ease;
   background: linear-gradient(
     45deg,
-    var(--gradientOne),
-    var(--gradientTwo),
-    var(--gradientThree)
+    var(--gradient-one),
+    var(--gradient-two),
+    var(--gradient-three)
   );
   background-size: 400% 400%;
-  -webkit-transform: translate3d(0, 0, 0); /* Force hardware acceleration */
+  -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   -webkit-perspective: 1000;
   perspective: 1000;
-  animation: bg-animation var(--gradientTiming) ease infinite;
-  -webkit-animation: bg-animation var(--gradientTiming) ease infinite;
+  animation: bg-animation var(--gradient-timing) ease infinite;
+  -webkit-animation: bg-animation var(--gradient-timing) ease infinite;
 }
 
 @keyframes bg-animation {
@@ -242,12 +199,6 @@
     padding: 0.5rem 0;
     display: block;
   }
-}
-
-.prefsMenu {
-  width: 4em;
-  display: flex;
-  /* TODO Add styles for preferences menu */
 }
 
 /* Desktop Styles */

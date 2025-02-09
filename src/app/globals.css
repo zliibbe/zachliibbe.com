@@ -1,10 +1,4 @@
 :root {
-  --headingColor: #3a3a3a; /**/
-  --textColor: #425466; /**/
-  /* --lightGray: #b6b6b6;  */
-  /* --lightGrayContrast: #a5a5a5;  */
-  --borderGray: #e0e0e0; /**/
-
   /* Original Colors */
   /* --theme-color: #2795ba;
   --theme-complement: #d37556;
@@ -12,10 +6,18 @@
   --gradientTwo: #56b4d3;
   --gradientThree: #cb2048; */
 
+  --test-theme-color: #348f50;
+  --test-gradientOne: #4ecf74;
+  --test-gradientTwo: #5fbaa9;
+  --test-gradientThree: #cb2048;
+  --test-accentPrimary: #ffd700;
+  --test-accentSecondary: #fff3b0;
+
   --theme-color: #2795ba; /* Bright blue - your current */
   --gradientOne: #67c6b5; /* Light turquoise */
   --gradientTwo: #2795ba; /* Your blue */
-  --gradientThree: #3178b4; /* Sky blue */
+  --gradientThree: #cb2048;
+  /* --gradientThree: #3178b4;  Sky blue */
   --gradientTiming: 10s;
 
   --clr-accent-400: #ffd700; /* Vibrant yellow - for CTAs/active states */
@@ -83,6 +85,7 @@
   --stravaHeatmapEmptyColor: #f3f3f3;
   --textColor: #425466;
   --headingColor: #3a3a3a;
+  --animationRunning: true;
 }
 
 *,
@@ -250,4 +253,38 @@ button.srOnly {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Use the animation toggle in your gradient animations */
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animated-gradient {
+  animation: gradientMove 5s ease infinite;
+  animation-play-state: var(--animationRunning, running);
+}
+
+/* Dark mode improvements */
+:root.dark-mode {
+  --modal-bg: #1a1a1a;
+  --text-color: #ffffff;
+  --border-color: #333333;
+}
+
+.dark-mode .modal {
+  background-color: var(--modal-bg);
+  color: var(--text-color);
+}
+
+.dark-mode .gradientButton {
+  border-color: var(--border-color);
 }

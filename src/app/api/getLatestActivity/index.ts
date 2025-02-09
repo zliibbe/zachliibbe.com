@@ -20,17 +20,15 @@ export default async function getLatestActivity(): Promise<StravaActivity | null
       return cachedData as StravaActivity;
     }
 
-    // First refresh the token
-    const refreshResponse = await fetch(
-      new URL(
-        "/api/refresh-token",
-        process.env.NEXT_PUBLIC_BASE_URL,
-      ).toString(),
-      {
-        method: "POST",
-        cache: "no-store",
-      },
-    );
+    const refreshTokenUrl = new URL(
+      "/api/refresh-token",
+      process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000",
+    ).toString();
+
+    const refreshResponse = await fetch(refreshTokenUrl, {
+      method: "POST",
+      cache: "no-store",
+    });
 
     if (!refreshResponse.ok) {
       throw new Error(`Failed to refresh token: ${refreshResponse.status}`);
@@ -72,11 +70,12 @@ export default async function getLatestActivity(): Promise<StravaActivity | null
     });
 
     return activity;
-  } catch (error) {
-    console.error(
-      "Error in getLatestActivity:",
-      error instanceof Error ? error.message : error,
-    );
+  } catch (error: any) {
+    console.error("Error in getLatestActivity:", {
+      error,
+      baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
+      message: error.message,
+    });
     throw error;
   }
 }
