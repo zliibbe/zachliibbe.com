@@ -94,54 +94,16 @@
   fill: hsl(0, 0%, 100%);
 }
 
-.gearWrapper {
+/* .gearWrapper {
   position: relative;
-  /* TODO: Add cursor pointer */
-  /* TODO: Add color-change menu */
-  /* cursor: pointer; */
-}
+  cursor: pointer;
+} */
 
-.gearIcon {
+/* .gearIcon {
   height: auto;
   width: 2rem;
   fill: hsl(0, 0%, 100%);
-}
-
-.gearTooltip {
-  position: absolute;
-  top: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 0.5rem;
-  border-radius: 4px;
-  opacity: 0; /* Hidden by default */
-  visibility: hidden; /* Hidden by default */
-  transition:
-    opacity 0.2s ease,
-    visibility 0.2s ease;
-  height: 50px;
-  width: auto;
-  object-fit: contain;
-  aspect-ratio: 1/1;
-}
-
-.gearWrapper:hover .gearTooltip {
-  opacity: 1;
-  visibility: visible;
-}
-
-.tooltipImage {
-  display: block;
-  width: 40px;
-  height: auto;
-  object-fit: contain;
-  opacity: 0.8;
-  transition: transform 0.2s ease;
-}
-
-.gearWrapper:hover .tooltipImage {
-  transform: scale(1.4);
-}
+} */
 
 .gearIcon:hover,
 .homeIcon:hover,
@@ -150,10 +112,10 @@
   fill: var(--clr-neutral-200);
 }
 
-.gearIcon:hover {
+/* .gearIcon:hover {
   padding: 0.5rem;
   border-radius: var(--border-radius);
-}
+} */
 
 .header:not(.gradientHeader) .mobileNav {
   background: inherit;

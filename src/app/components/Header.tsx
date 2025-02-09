@@ -6,7 +6,7 @@ import { PiGear } from "react-icons/pi";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import PrimaryNav from "./PrimaryNav";
-import underConstruction from "../../../public/under-construction.png";
+import { Preferences } from "./Preferences/Preferences";
 import Image from "next/image";
 
 const Header = () => {
@@ -64,18 +64,7 @@ const Header = () => {
             {isNavOpen ? "✕" : <FaBars className={styles.barsIcon} />}
           </button>
         )}
-        <div className={styles.gearWrapper}>
-          <PiGear className={styles.gearIcon} />
-          <div className={styles.gearTooltip}>
-            <Image
-              src={underConstruction}
-              alt="Under Development"
-              className={styles.tooltipImage}
-              width={40}
-              height={40}
-            />
-          </div>
-        </div>
+        <Preferences />
       </div>
     </header>
   );
