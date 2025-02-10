@@ -51,7 +51,10 @@ export default function Work() {
             <li className={styles.recentItem}>
               Lifting weights at the gym in the early morning (I&apos;m really
               enjoying the progressive overload of{" "}
-              <a href="https://stronglifts.com/5x5/">Stronglifts 5x5</a>) 🏋🏼
+              <a className={styles.link} href="https://stronglifts.com/5x5/">
+                Stronglifts 5x5
+              </a>
+              ) 🏋🏼
             </li>
           </div>
         </div>
