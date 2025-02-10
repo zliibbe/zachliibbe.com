@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import getLatestActivity from "@/app/api/getLatestActivity";
 
+export const dynamic = "force-dynamic"; // Disable route caching
+export const revalidate = 0; // Disable revalidation cache
+
 export async function GET() {
   try {
     const activity = await getLatestActivity();
