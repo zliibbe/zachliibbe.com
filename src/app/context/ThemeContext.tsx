@@ -89,11 +89,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       selectedTheme.colors.gradientThree,
     );
     root.style.setProperty(
-      "--clr-accent-400",
+      "--accentPrimary",
       selectedTheme.colors.accentPrimary,
     );
     root.style.setProperty(
-      "--clr-accent-300",
+      "--accentSecondary",
       selectedTheme.colors.accentSecondary,
     );
 

@@ -1,30 +1,14 @@
 :root {
-  /* Original Colors */
-  /* --theme-color: #2795ba;
-  --theme-complement: #d37556;
-  --gradientOne: #348f50;
-  --gradientTwo: #56b4d3;
-  --gradientThree: #cb2048; */
-
-  --test-theme-color: #348f50;
-  --test-gradientOne: #4ecf74;
-  --test-gradientTwo: #5fbaa9;
-  --test-gradientThree: #cb2048;
-  --test-accentPrimary: #ffd700;
-  --test-accentSecondary: #fff3b0;
-
-  --theme-color: #2795ba; /* Bright blue - your current */
-  --gradientOne: #67c6b5; /* Light turquoise */
-  --gradientTwo: #2795ba; /* Your blue */
+  /* default theme colors */
+  --theme-color: #2795ba;
+  --gradientOne: #67c6b5;
+  --gradientTwo: #2795ba;
   --gradientThree: #cb2048;
-  /* --gradientThree: #3178b4;  Sky blue */
   --gradientTiming: 10s;
+  --accentPrimary: #ffd700;
+  --clr-accent-300: #fff3b0;
 
-  --clr-accent-400: #ffd700; /* Vibrant yellow - for CTAs/active states */
-  --clr-accent-300: #fff3b0; /* Soft yellow - for subtle accents */
-
-  --clr-primary-400: ;
-
+  /* neutral colors */
   --clr-neutral-100: hsl(0, 0%, 100%);
   --clr-neutral-200: hsla(0, 0%, 71%);
   --clr-neutral-250: hsl(0, 0%, 65%);
@@ -63,15 +47,15 @@
   --fs-primary-heading: var(var(--fs-800));
   --fs-secondary-heading: var(var(--fs-700));
 
-  /* Leftovers below*/
-  --max-width: 1100px;
-  --border-radius: 12px;
-
+  /* miscellaneous */
   --offWhite: #faf9f6;
   --stravaColor: #fc4c02;
   --spotifyColor: #1ed760;
   --goodreadsColor: #75420e;
   --linkedInColor: #0e76a8;
+
+  --max-width: 1100px;
+  --border-radius: 12px;
 
   --gapNormal: 8px;
   --gapMedium: 24px;
