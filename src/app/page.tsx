@@ -3,7 +3,7 @@ import Image from "next/image";
 import zachPic from "../../public/just-zach.png";
 import styles from "./page.module.css";
 import Footer from "./components/Footer";
-import { useTheme } from "./context/ThemeContext";
+import HomeContent from "./components/HomeContent";
 
 export const metadata = {
   title: "Zach Liibbe | Always Iterating",
@@ -19,10 +19,8 @@ export const metadata = {
 };
 
 export default function Home() {
-  const { currentTheme } = useTheme();
-
   return (
-    <main key={currentTheme}>
+    <HomeContent>
       <div className={styles.heroContainer}>
         <div className={styles.heroGradient} />
         <main className={styles.main}>
@@ -67,6 +65,6 @@ export default function Home() {
         </main>
       </div>
       <Footer />
-    </main>
+    </HomeContent>
   );
 }
