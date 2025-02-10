@@ -3,8 +3,8 @@
   --gradient-one: #67c6b5;
   --gradient-two: #2795ba;
   --gradient-three: #cb2048;
-  --accent-primary: #ffd700;
-  --accent-secondary: #fff3b0;
+  --accent-primary: #ff6b4a;
+  --accent-secondary: #e8f6fa;
 }
 
 .ocean {
@@ -30,21 +30,6 @@
   );
 }
 
-.volcano {
-  --theme-color: #cc2c2c;
-  --gradient-one: #ff6b6b;
-  --gradient-two: #cc2c2c;
-  --gradient-three: #8b0000;
-  --accent-primary: #ffd700;
-  --accent-secondary: #fff7d6;
-  background: linear-gradient(
-    45deg,
-    var(--gradient-one),
-    var(--gradient-two),
-    var(--gradient-three)
-  );
-}
-
 .sunset {
   --theme-color: #ff7e00;
   --gradient-one: #ffb347;
@@ -52,21 +37,6 @@
   --gradient-three: #cc5500;
   --accent-primary: #4169e1;
   --accent-secondary: #c7d3f7;
-  background: linear-gradient(
-    45deg,
-    var(--gradient-one),
-    var(--gradient-two),
-    var(--gradient-three)
-  );
-}
-
-.desert {
-  --theme-color: #ffd700;
-  --gradient-one: #fff68f;
-  --gradient-two: #ffd700;
-  --gradient-three: #daa520;
-  --accent-primary: #4682b4;
-  --accent-secondary: #b0c4de;
   background: linear-gradient(
     45deg,
     var(--gradient-one),
@@ -102,5 +72,92 @@
     var(--gradient-one),
     var(--gradient-two),
     var(--gradient-three)
+  );
+}
+
+.twilight {
+  --theme-color: #98058b;
+  --gradient-one: #f99777;
+  --gradient-two: #98058b;
+  --gradient-three: #62379a;
+  --accent-primary: #ffd700;
+  --accent-secondary: #fff3b0;
+  background: linear-gradient(
+    45deg,
+    var(--gradient-one),
+    var(--gradient-two),
+    var(--gradient-three)
+  );
+}
+
+.ocean-depths {
+  --theme-color: #478bd6;
+  --gradient-one: #478bd6;
+  --gradient-two: #478bd6;
+  --gradient-three: #25d8d3;
+  --accent-primary: #ffd700;
+  --accent-secondary: #fff3b0;
+  background: linear-gradient(
+    132.6deg,
+    var(--gradient-one) 23.3%,
+    var(--gradient-three) 84.7%
+  );
+}
+
+.aurora-borealis {
+  --theme-color: #982dff;
+  --gradient-one: #982dff;
+  --gradient-two: #5af1ff;
+  --gradient-three: #41ef64;
+  --accent-primary: #ff4081;
+  --accent-secondary: #f0f7ff;
+  background: linear-gradient(
+    90.5deg,
+    var(--gradient-one) 0.7%,
+    var(--gradient-two) 51.5%,
+    var(--gradient-three) 100.6%
+  );
+}
+
+.spring-meadow {
+  --theme-color: #982dff;
+  --gradient-one: #982dff;
+  --gradient-two: #5af1ff;
+  --gradient-three: #41ef64;
+  --accent-primary: #ff6b00;
+  --accent-secondary: #f0fff4;
+  background: linear-gradient(
+    90.5deg,
+    var(--gradient-one) 0.7%,
+    var(--gradient-two) 51.5%,
+    var(--gradient-three) 100.6%
+  );
+}
+
+.evergreen {
+  --theme-color: #0eae57;
+  --gradient-one: #0eae57;
+  --gradient-two: #0c7475;
+  --gradient-three: #0c7475;
+  --accent-primary: #ff7043;
+  --accent-secondary: #e8f5f5;
+  background: radial-gradient(
+    circle farthest-corner at 10% 20%,
+    var(--gradient-one) 0%,
+    var(--gradient-three) 90%
+  );
+}
+
+.desert-sunset {
+  --theme-color: #ed0320;
+  --gradient-one: rgba(237, 3, 32, 0.87);
+  --gradient-two: rgba(242, 121, 1, 0.84);
+  --gradient-three: rgba(242, 121, 1, 0.84);
+  --accent-primary: #00e5ff;
+  --accent-secondary: #fff1f0;
+  background: radial-gradient(
+    circle farthest-corner at 10% 20%,
+    var(--gradient-one) 20.8%,
+    var(--gradient-three) 74.4%
   );
 }
