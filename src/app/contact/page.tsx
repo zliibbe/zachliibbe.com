@@ -9,7 +9,6 @@ export default function Contact() {
       <div className={styles.container}>
         <main className={styles.main}>
           <div className={styles.content}>
-            <h1 className={styles.heading}>Contact page</h1>
             <p className={styles.text}>
               The quickest way to reach me is to send me an email:
             </p>
