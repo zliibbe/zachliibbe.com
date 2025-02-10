@@ -9,6 +9,7 @@
   width: 100vw;
   margin-left: calc(-50vw + 50%);
   margin-right: calc(-50vw + 50%);
+  background: transparent;
 }
 
 .headerContent {
@@ -18,11 +19,12 @@
   width: 100%;
   max-width: 1400px;
   padding: 0 1rem;
+  z-index: 3;
 }
 
 /* Specific padding for non-home pages */
 .gradientHeader .headerContent {
-  padding: 0 2rem;
+  padding: 0 7rem;
 }
 
 .headerLeft {
@@ -139,7 +141,6 @@
 }
 
 .gradientHeader {
-  transition: background 10s ease;
   background: linear-gradient(
     45deg,
     var(--gradient-one),
@@ -148,7 +149,6 @@
   );
   background-size: 400% 400%;
   animation: bg-animation var(--gradient-timing) ease infinite;
-  -webkit-animation: bg-animation var(--gradient-timing) ease infinite;
 }
 
 @keyframes bg-animation {
