@@ -7,7 +7,8 @@ export interface Theme {
     | "sunset"
     | "desert"
     | "lavender"
-    | "rainbow";
+    | "rainbow"
+    | "twilight";
   label: string;
   colors: {
     themeColor: string;
@@ -116,6 +117,18 @@ export const themes = {
       accentSecondary: "#fffacd",
     },
   },
+  twilight: {
+    name: "twilight",
+    label: "Twilight",
+    colors: {
+      themeColor: "#98058b", // Derived from the purple end of the gradient
+      gradientOne: "#f99777", // Coral/peach from the gradient
+      gradientTwo: "#98058b", // Deep purple from the gradient
+      gradientThree: "#62379a", // Slightly lighter purple for contrast
+      accentPrimary: "#ffd700", // Keeping the standard accent
+      accentSecondary: "#fff3b0", // Keeping the standard secondary accent
+    },
+  },
 } as const;
 
 // Helper function to apply theme
@@ -129,9 +142,3 @@ export function applyTheme(themeName: Theme["name"]) {
     root.style.setProperty(cssVar, value);
   });
 }
-// root.style.setProperty("--theme-color", theme.colors.themeColor);
-// root.style.setProperty("--gradientOne", theme.colors.gradientOne);
-// root.style.setProperty("--gradientTwo", theme.colors.gradientTwo);
-// root.style.setProperty("--gradientThree", theme.colors.gradientThree);
-// root.style.setProperty("--clr-accent-400", theme.colors.accentPrimary);
-// root.style.setProperty("--clr-accent-300", theme.colors.accentSecondary);

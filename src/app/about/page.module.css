@@ -16,6 +16,7 @@
 }
 
 .headshot {
+  margin-top: 3rem;
   border-radius: 50%;
   box-shadow:
     0 0 16px 0px var(--gradientThree),
@@ -30,6 +31,15 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.link {
+  color: var(--theme-color);
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
 }
 
 .title {
