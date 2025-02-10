@@ -32,6 +32,15 @@
   justify-content: center;
 }
 
+.link {
+  color: var(--theme-color);
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
 .title {
   font-size: 1.125rem;
   font-weight: bold;

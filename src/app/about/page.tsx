@@ -58,6 +58,7 @@ export default function About() {
           <li className={styles.listItem}>
             Curled up with a good book. Check out my{" "}
             <a
+              className={styles.link}
               href="https://www.goodreads.com/review/list/24890536-zach?shelf=zach-read"
               target="_blank"
               rel="noopener noreferrer"
