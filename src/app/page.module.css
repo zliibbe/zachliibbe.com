@@ -30,8 +30,8 @@
   backface-visibility: hidden;
   -webkit-perspective: 1000;
   perspective: 1000;
-  animation: bg-animation var(--gradient-timing) infinite alternate;
-  -webkit-animation: bg-animation var(--gradient-timing) infinite alternate;
+  animation: bg-animation var(--gradient-timing) ease infinite;
+  -webkit-animation: bg-animation var(--gradient-timing) ease infinite;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
   pointer-events: none;
   transition: background 0.5s ease;
@@ -39,10 +39,13 @@
 
 @keyframes bg-animation {
   0% {
-    background-position: left;
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
   }
   100% {
-    background-position: right;
+    background-position: 0% 50%;
   }
 }
 
