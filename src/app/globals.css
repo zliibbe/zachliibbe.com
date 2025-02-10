@@ -4,9 +4,10 @@
   --gradientOne: #67c6b5;
   --gradientTwo: #2795ba;
   --gradientThree: #cb2048;
-  --gradientTiming: 10s;
   --accentPrimary: #ffd700;
   --clr-accent-300: #fff3b0;
+
+  --gradientTiming: 10s;
 
   /* neutral colors */
   --clr-neutral-100: hsl(0, 0%, 100%);
@@ -271,4 +272,29 @@ button.srOnly {
 
 .dark-mode .gradientButton {
   border-color: var(--border-color);
+}
+
+.page_container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 2rem;
+  min-height: calc(100vh - 4rem);
+}
+
+.page_contentWrapper {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Larger screens */
+@media (min-width: 1440px) {
+  .page_container {
+    max-width: 1400px;
+  }
+
+  .page_contentWrapper {
+    max-width: 1000px;
+  }
 }
