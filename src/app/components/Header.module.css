@@ -1,15 +1,14 @@
 .header {
   display: flex;
-  position: relative;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: 0;
   color: white;
   min-height: 4rem;
   z-index: 100;
   width: 100vw;
-  left: 50%;
-  transform: translateX(-50%);
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
 }
 
 .headerContent {
@@ -18,7 +17,11 @@
   align-items: center;
   width: 100%;
   max-width: 1400px;
-  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Specific padding for non-home pages */
+.gradientHeader .headerContent {
   padding: 0 2rem;
 }
 
@@ -26,7 +29,6 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding-left: 1rem;
 }
 
 .headerRight {
@@ -34,7 +36,6 @@
   justify-content: flex-end;
   align-items: center;
   gap: 1rem;
-  padding-right: 1rem;
 }
 
 .homeLink {
@@ -138,6 +139,7 @@
 }
 
 .gradientHeader {
+  transition: background 10s ease;
   background: linear-gradient(
     45deg,
     var(--gradient-one),
@@ -146,6 +148,7 @@
   );
   background-size: 400% 400%;
   animation: bg-animation var(--gradient-timing) ease infinite;
+  -webkit-animation: bg-animation var(--gradient-timing) ease infinite;
 }
 
 @keyframes bg-animation {
@@ -184,6 +187,7 @@
   opacity: 1;
 }
 
+/* Responsive adjustments */
 @media (max-width: 768px) {
   .primaryNav {
     transform: translateY(-100%);
@@ -204,45 +208,22 @@
     padding: 0.5rem 0;
     display: block;
   }
+
+  .headerContent {
+    padding: 0 1rem;
+  }
+
+  .gradientHeader .headerContent {
+    padding: 0 1rem;
+  }
 }
 
 /* Desktop Styles */
 @media (min-width: 1024px) {
-  .headerLeft {
-    padding-left: 6rem;
-  }
-  .headerRight {
-    padding-right: 6rem;
-  }
-}
-@media (min-width: 769px) {
-  .nav {
-    flex: 1;
-  }
   .header {
-    flex-wrap: nowrap;
-  }
-
-  .headerLeft {
-    flex: 1;
-  }
-
-  .headerCenter {
-    background-color: red;
-    width: 6rem;
-  }
-
-  .headerRight {
-    flex: 1;
-    justify-content: flex-end;
-    width: auto;
-    order: 2;
-  }
-
-  .gearContainer {
-    flex: 1;
-    display: flex;
-    justify-content: flex-end;
+    width: 100%;
+    left: 0;
+    transform: none;
   }
 }
 
@@ -264,7 +245,14 @@
 /* Larger screens */
 @media (min-width: 1440px) {
   .header {
-    max-width: 1400px;
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 2560px) {
+  .header {
+    max-width: 2560px;
     margin: 0 auto;
   }
 }
