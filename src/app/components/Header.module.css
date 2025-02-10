@@ -3,17 +3,18 @@
   position: relative;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 0.25rem;
+  padding: 0;
   color: white;
   min-height: 4rem;
   z-index: 100;
+  width: 100%;
 }
 
 .headerLeft {
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 0 1rem;
+  padding-left: 1rem;
 }
 
 .headerRight {
@@ -196,6 +197,14 @@
 }
 
 /* Desktop Styles */
+@media (min-width: 1024px) {
+  .headerLeft {
+    margin-left: 6rem;
+  }
+  .headerRight {
+    margin-right: 6rem;
+  }
+}
 @media (min-width: 769px) {
   .nav {
     flex: 1;
@@ -239,5 +248,13 @@
     display: flex;
     justify-content: center;
     gap: 0.25rem;
+  }
+}
+
+/* Larger screens */
+@media (min-width: 1440px) {
+  .header {
+    max-width: 1400px;
+    margin: 0 auto;
   }
 }
