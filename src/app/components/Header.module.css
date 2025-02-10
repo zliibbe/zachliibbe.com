@@ -126,7 +126,7 @@
 }
 
 .gradientHeader {
-  transition: background 0.5s ease;
+  transition: background 10s ease;
   background: linear-gradient(
     45deg,
     var(--gradient-one),
