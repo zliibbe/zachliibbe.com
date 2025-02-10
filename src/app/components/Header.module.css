@@ -7,7 +7,19 @@
   color: white;
   min-height: 4rem;
   z-index: 100;
+  width: 100vw;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.headerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
 }
 
 .headerLeft {
@@ -126,7 +138,6 @@
 }
 
 .gradientHeader {
-  transition: background 10s ease;
   background: linear-gradient(
     45deg,
     var(--gradient-one),
@@ -135,7 +146,6 @@
   );
   background-size: 400% 400%;
   animation: bg-animation var(--gradient-timing) ease infinite;
-  -webkit-animation: bg-animation var(--gradient-timing) ease infinite;
 }
 
 @keyframes bg-animation {
@@ -199,10 +209,10 @@
 /* Desktop Styles */
 @media (min-width: 1024px) {
   .headerLeft {
-    margin-left: 6rem;
+    padding-left: 6rem;
   }
   .headerRight {
-    margin-right: 6rem;
+    padding-right: 6rem;
   }
 }
 @media (min-width: 769px) {

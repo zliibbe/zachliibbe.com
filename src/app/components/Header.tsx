@@ -32,39 +32,39 @@ const Header = () => {
 
   return (
     <header
-      className={`${styles.header} ${
-        isNotHomePage ? styles.gradientHeader : ""
-      }`}
+      className={`${styles.header} ${isNotHomePage ? styles.gradientHeader : ""}`}
     >
-      <div className={styles.headerLeft}>
-        <Link href="/" className={styles.homeLink}>
-          <div className={styles.homeLinkContent}>
-            <FaMountainSun className={styles.homeIcon} />
-            {isNotHomePage && <h1 className={styles.name}>zach liibbe</h1>}
-          </div>
-        </Link>
-      </div>
+      <div className={styles.headerContent}>
+        <div className={styles.headerLeft}>
+          <Link href="/" className={styles.homeLink}>
+            <div className={styles.homeLinkContent}>
+              <FaMountainSun className={styles.homeIcon} />
+              {isNotHomePage && <h1 className={styles.name}>zach liibbe</h1>}
+            </div>
+          </Link>
+        </div>
 
-      {!isDesktop && isNavOpen && (
-        <nav className={styles.mobileNav} id="primaryNav">
-          <PrimaryNav />
-        </nav>
-      )}
-
-      {isDesktop && <PrimaryNav />}
-
-      <div className={styles.headerRight}>
-        {!isDesktop && (
-          <button
-            onClick={toggleNav}
-            className={styles.mobileNavToggle}
-            aria-controls="primaryNav"
-            aria-expanded={isNavOpen}
-          >
-            {isNavOpen ? "✕" : <FaBars className={styles.barsIcon} />}
-          </button>
+        {!isDesktop && isNavOpen && (
+          <nav className={styles.mobileNav} id="primaryNav">
+            <PrimaryNav />
+          </nav>
         )}
-        <Preferences />
+
+        {isDesktop && <PrimaryNav />}
+
+        <div className={styles.headerRight}>
+          {!isDesktop && (
+            <button
+              onClick={toggleNav}
+              className={styles.mobileNavToggle}
+              aria-controls="primaryNav"
+              aria-expanded={isNavOpen}
+            >
+              {isNavOpen ? "✕" : <FaBars className={styles.barsIcon} />}
+            </button>
+          )}
+          <Preferences />
+        </div>
       </div>
     </header>
   );
