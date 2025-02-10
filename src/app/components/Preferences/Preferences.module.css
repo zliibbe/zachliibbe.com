@@ -63,7 +63,7 @@
 
 .gradientButton.active {
   border-color: white;
-  box-shadow: 0 0 0 2px var(--clr-accent-400);
+  box-shadow: 0 0 0 2px var(--accentPrimary);
 }
 
 .checkmark {
@@ -118,7 +118,7 @@
 }
 
 .toggleButton.active svg {
-  color: var(--clr-accent-400);
+  color: var(--accentPrimary);
 }
 
 /* Animation toggle specific styles */
@@ -148,7 +148,7 @@
 }
 
 :root.dark-mode .toggleButton.active svg {
-  color: var(--clr-accent-400);
+  color: var(--accentPrimary);
 }
 
 .themeName {
@@ -183,11 +183,11 @@
 }
 
 .themeButton:hover {
-  border-color: var(--clr-accent-400);
+  border-color: var(--accentPrimary);
 }
 
 .themeButton.active {
-  border-color: var(--clr-accent-400);
+  border-color: var(--accentPrimary);
 }
 
 .themePreview {
