@@ -32,9 +32,10 @@
 .recentSection {
   flex: 1;
   padding: 2rem;
+  margin-top: 2rem;
   display: flex;
   flex-direction: column;
-  border-radius: 0.5rem;
+  border-radius: var(--border-radius);
   background: #f8f8f8;
   margin: 0;
 }
@@ -63,10 +64,8 @@
 .experienceTitle {
   display: flex;
   justify-content: flex-start;
-  margin: 0.5rem 0;
   font-size: 1.25rem;
   font-weight: var(--fw-bold);
-  padding-left: 2rem;
 }
 
 .experienceItem {
@@ -90,5 +89,35 @@
 @media (min-width: 769px) {
   .container {
     margin: 0 4rem;
+  }
+
+  .overviewAndRecent {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .content > div:first-child {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+  }
+
+  .overviewSection {
+    flex: 2;
+  }
+
+  .recentSection {
+    margin-top: 2rem;
+    flex: 1;
+    height: fit-content; /* Only as tall as its content */
+    max-height: 100%; /* Won't exceed container height */
+    align-self: flex-start; /* Aligns to top of container */
   }
 }
