@@ -133,7 +133,7 @@
 /* Tablet and above */
 @media (min-width: 768px) {
   .heroGradient {
-    height: 100%;
+    height: calc(100% + 6.25rem);
     clip-path: polygon(0 0, 100% 0, 100% 75%, 0 100%);
   }
 }
