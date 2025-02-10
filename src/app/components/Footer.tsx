@@ -36,7 +36,12 @@ export default function Footer() {
       setLoading(true);
       setError(null);
 
-      const response = await fetch("/api/activity");
+      const response = await fetch("/api/activity", {
+        next: {
+          revalidate: 1800, // Revalidate cache every 30 minutes
+        },
+      });
+
       if (!response.ok) {
         throw new Error("Failed to fetch activity");
       }
@@ -86,6 +91,7 @@ export default function Footer() {
     fetchActivity();
     fetchBooks();
 
+    // Fetch new data every 30 minutes
     const activityInterval = setInterval(fetchActivity, 1800000); // 30 minutes
     const booksInterval = setInterval(fetchBooks, 3600000); // 60 minutes
 
