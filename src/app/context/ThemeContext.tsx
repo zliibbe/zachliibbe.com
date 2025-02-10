@@ -48,6 +48,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       "--animationRunning",
       isAnimated ? "true" : "false",
     );
+    document.documentElement.style.setProperty(
+      "--gradient-timing",
+      isAnimated ? "10s" : "0s",
+    );
 
     setIsInitialized(true);
 
@@ -73,6 +77,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     document.documentElement.style.setProperty(
       "--animationRunning",
       newValue ? "true" : "false",
+    );
+    document.documentElement.style.setProperty(
+      "--gradient-timing",
+      newValue ? "10s" : "0s",
     );
   };
 
