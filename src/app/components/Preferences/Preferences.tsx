@@ -23,6 +23,7 @@ const themeNames = {
   "theme-blue": "Ocean",
   "theme-purple": "Lavender",
   "theme-rainbow": "Rainbow",
+  "theme-twilight": "Twilight",
 } as const;
 
 type ThemeKey = keyof typeof themeNames;
