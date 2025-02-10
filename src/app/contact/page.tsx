@@ -6,15 +6,15 @@ import { Metadata } from "next";
 export default function Contact() {
   return (
     <>
-      <div className={styles.container}>
-        <main className={styles.main}>
+      <div className="page_container">
+        <div className="page_contentWrapper">
           <div className={styles.content}>
             <p className={styles.text}>
               The quickest way to reach me is to send me an email:
             </p>
             <EmailCopy />
           </div>
-        </main>
+        </div>
       </div>
       <Footer />
     </>
