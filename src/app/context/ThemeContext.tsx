@@ -1,7 +1,12 @@
 "use client";
 
-import React from "react";
-import { createContext, useContext, useState, useEffect } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 import { Theme, themes, applyTheme } from "@/app/styles/themes";
 
 interface ThemeContextType {
@@ -43,6 +48,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       "--animationRunning",
       isAnimated ? "true" : "false",
     );
+    document.documentElement.style.setProperty(
+      "--gradient-timing",
+      isAnimated ? "10s" : "0s",
+    );
 
     setIsInitialized(true);
 
@@ -69,37 +78,32 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       "--animationRunning",
       newValue ? "true" : "false",
     );
+    document.documentElement.style.setProperty(
+      "--gradient-timing",
+      newValue ? "10s" : "0s",
+    );
   };
 
-  const setTheme = (theme: Theme["name"]) => {
-    // Remove previous theme class
-    document.documentElement.classList.remove(currentTheme);
-    // Add new theme class
-    document.documentElement.classList.add(theme);
-
-    // Apply the theme colors immediately using CSS custom properties
-    const selectedTheme = themes[theme];
-    const root = document.documentElement;
-
-    root.style.setProperty("--theme-color", selectedTheme.colors.themeColor);
-    root.style.setProperty("--gradient-one", selectedTheme.colors.gradientOne);
-    root.style.setProperty("--gradient-two", selectedTheme.colors.gradientTwo);
-    root.style.setProperty(
-      "--gradient-three",
-      selectedTheme.colors.gradientThree,
+  const setTheme = useCallback((newTheme: Theme["name"]) => {
+    setCurrentTheme(newTheme);
+    // Force document body to update
+    document.documentElement.style.setProperty(
+      "--theme-color",
+      themes[newTheme].colors.themeColor,
     );
-    root.style.setProperty(
-      "--accentPrimary",
-      selectedTheme.colors.accentPrimary,
+    document.documentElement.style.setProperty(
+      "--gradientOne",
+      themes[newTheme].colors.gradientOne,
     );
-    root.style.setProperty(
-      "--accentSecondary",
-      selectedTheme.colors.accentSecondary,
+    document.documentElement.style.setProperty(
+      "--gradientTwo",
+      themes[newTheme].colors.gradientTwo,
     );
-
-    setCurrentTheme(theme);
-    localStorage.setItem("theme", theme);
-  };
+    document.documentElement.style.setProperty(
+      "--gradientThree",
+      themes[newTheme].colors.gradientThree,
+    );
+  }, []);
 
   // Also need to apply theme on initial load
   useEffect(() => {

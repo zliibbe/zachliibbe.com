@@ -22,12 +22,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={lexend.className}>
-        <ThemeProvider>
+      <ThemeProvider>
+        <body className={lexend.className}>
           <Header />
           {children}
-        </ThemeProvider>
-      </body>
+        </body>
+      </ThemeProvider>
     </html>
   );
 }
