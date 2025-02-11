@@ -15,20 +15,12 @@ import {
 import { useTheme } from "@/app/context/ThemeContext";
 import { themes } from "@/app/styles/themes";
 
-const themeNames = {
-  "theme-orange": "Sunset",
-  "theme-green": "Forest",
-  "theme-evergreen": "Evergreen",
-  "theme-blue": "Ocean",
-  "theme-rainbow": "Rainbow",
-  "theme-twilight": "Twilight",
-  "theme-ocean-depths": "Ocean Depths",
-  "theme-aurora-borealis": "Aurora Borealis",
-} as const;
-
-type ThemeKey = keyof typeof themeNames;
-
-const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
+const formatThemeName = (str: string) => {
+  return str
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+};
 
 export function Preferences() {
   const [isOpen, setIsOpen] = useState(false);
@@ -68,7 +60,7 @@ export function Preferences() {
             <span className={styles.themeNameRow}>
               <h3>{"Gradient: "}</h3>
               <span className={styles.themeName}>
-                {capitalize(currentTheme) || "Default"}
+                {formatThemeName(currentTheme) || "Default"}
               </span>
             </span>
 
