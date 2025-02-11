@@ -92,29 +92,39 @@ export function Preferences() {
 
           <div className={styles.toggleSection}>
             <div className={styles.toggleRow}>
-              <span>Toggle gradient animation</span>
-              <button
-                onClick={toggleAnimation}
-                className={`${styles.toggleButton} ${styles.animationToggle} ${
-                  isAnimated ? styles.active : ""
-                }`}
-                aria-pressed={isAnimated}
-                aria-label={`Gradient animation ${isAnimated ? "on" : "off"}`}
-              >
-                <PiLightning />
-              </button>
+              <span>Gradient animation</span>
+              <div className={styles.toggleContainer}>
+                <span className={styles.toggleLabel}>
+                  {isAnimated ? "On" : "Off"}
+                </span>
+                <button
+                  onClick={toggleAnimation}
+                  className={`${styles.toggleButton} ${styles.animationToggle} ${
+                    isAnimated ? styles.active : ""
+                  }`}
+                  aria-pressed={isAnimated}
+                  aria-label={`Gradient animation ${isAnimated ? "on" : "off"}`}
+                >
+                  <PiLightning />
+                </button>
+              </div>
             </div>
 
             <div className={styles.toggleRow}>
-              <span>Toggle dark mode (work in progress...)</span>
-              <button
-                onClick={toggleDarkMode}
-                className={`${styles.toggleButton} ${isDarkMode ? styles.active : ""}`}
-                aria-pressed={isDarkMode}
-                aria-label={`Dark mode ${isDarkMode ? "on" : "off"}`}
-              >
-                {isDarkMode ? <PiSun /> : <PiMoon />}
-              </button>
+              <span>Dark mode (work in progress...)</span>
+              <div className={styles.toggleContainer}>
+                <span className={styles.toggleLabel}>
+                  {isDarkMode ? "On" : "Off"}
+                </span>
+                <button
+                  onClick={toggleDarkMode}
+                  className={`${styles.toggleButton} ${isDarkMode ? styles.active : ""}`}
+                  aria-pressed={isDarkMode}
+                  aria-label={`Dark mode ${isDarkMode ? "on" : "off"}`}
+                >
+                  {isDarkMode ? <PiSun /> : <PiMoon />}
+                </button>
+              </div>
             </div>
           </div>
         </div>
