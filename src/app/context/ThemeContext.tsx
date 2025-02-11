@@ -86,23 +86,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   const setTheme = useCallback((newTheme: Theme["name"]) => {
     setCurrentTheme(newTheme);
-    // Force document body to update
-    document.documentElement.style.setProperty(
-      "--theme-color",
-      themes[newTheme].colors.themeColor,
-    );
-    document.documentElement.style.setProperty(
-      "--gradientOne",
-      themes[newTheme].colors.gradientOne,
-    );
-    document.documentElement.style.setProperty(
-      "--gradientTwo",
-      themes[newTheme].colors.gradientTwo,
-    );
-    document.documentElement.style.setProperty(
-      "--gradientThree",
-      themes[newTheme].colors.gradientThree,
-    );
+    localStorage.setItem("theme", newTheme);
+    applyTheme(newTheme);
   }, []);
 
   // Also need to apply theme on initial load
