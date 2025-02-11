@@ -8,12 +8,17 @@
 }
 
 .ocean {
-  --theme-color: #2795ba;
-  --gradient-one: #67c6b5;
-  --gradient-two: #2795ba;
-  --gradient-three: #0e52cf;
+  --theme-color: #478bd6;
+  --gradient-one: #478bd6;
+  --gradient-two: #478bd6;
+  --gradient-three: #25d8d3;
   --accent-primary: #ffd700;
   --accent-secondary: #fff3b0;
+  background: linear-gradient(
+    132.6deg,
+    var(--gradient-one) 23.3%,
+    var(--gradient-three) 84.7%
+  );
 }
 .forest {
   --theme-color: #2d5a27;
@@ -33,25 +38,10 @@
 .sunset {
   --theme-color: #ff7e00;
   --gradient-one: #ffb347;
-  --gradient-two: #ff7e00;
-  --gradient-three: #cc5500;
+  --gradient-two: #c86604;
+  --gradient-three: #642b02;
   --accent-primary: #4169e1;
   --accent-secondary: #c7d3f7;
-  background: linear-gradient(
-    45deg,
-    var(--gradient-one),
-    var(--gradient-two),
-    var(--gradient-three)
-  );
-}
-
-.lavender {
-  --theme-color: #9b4f96;
-  --gradient-one: #d8a1d4;
-  --gradient-two: #9b4f96;
-  --gradient-three: #663399;
-  --accent-primary: #98fb98;
-  --accent-secondary: #e0fff0;
   background: linear-gradient(
     45deg,
     var(--gradient-one),
@@ -90,20 +80,6 @@
   );
 }
 
-.ocean-depths {
-  --theme-color: #478bd6;
-  --gradient-one: #478bd6;
-  --gradient-two: #478bd6;
-  --gradient-three: #25d8d3;
-  --accent-primary: #ffd700;
-  --accent-secondary: #fff3b0;
-  background: linear-gradient(
-    132.6deg,
-    var(--gradient-one) 23.3%,
-    var(--gradient-three) 84.7%
-  );
-}
-
 .aurora-borealis {
   --theme-color: #982dff;
   --gradient-one: #982dff;
@@ -111,21 +87,6 @@
   --gradient-three: #41ef64;
   --accent-primary: #ff4081;
   --accent-secondary: #f0f7ff;
-  background: linear-gradient(
-    90.5deg,
-    var(--gradient-one) 0.7%,
-    var(--gradient-two) 51.5%,
-    var(--gradient-three) 100.6%
-  );
-}
-
-.spring-meadow {
-  --theme-color: #982dff;
-  --gradient-one: #982dff;
-  --gradient-two: #5af1ff;
-  --gradient-three: #41ef64;
-  --accent-primary: #ff6b00;
-  --accent-secondary: #f0fff4;
   background: linear-gradient(
     90.5deg,
     var(--gradient-one) 0.7%,
@@ -148,7 +109,7 @@
   );
 }
 
-.desert-sunset {
+/* .desert-sunset {
   --theme-color: #ed0320;
   --gradient-one: rgba(237, 3, 32, 0.87);
   --gradient-two: rgba(242, 121, 1, 0.84);
@@ -160,4 +121,4 @@
     var(--gradient-one) 20.8%,
     var(--gradient-three) 74.4%
   );
-}
+} */

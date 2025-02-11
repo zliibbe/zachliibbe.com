@@ -16,14 +16,14 @@ import { useTheme } from "@/app/context/ThemeContext";
 import { themes } from "@/app/styles/themes";
 
 const themeNames = {
-  "theme-red": "Volcano",
   "theme-orange": "Sunset",
-  "theme-yellow": "Desert",
   "theme-green": "Forest",
+  "theme-evergreen": "Evergreen",
   "theme-blue": "Ocean",
-  "theme-purple": "Lavender",
   "theme-rainbow": "Rainbow",
   "theme-twilight": "Twilight",
+  "theme-ocean-depths": "Ocean Depths",
+  "theme-aurora-borealis": "Aurora Borealis",
 } as const;
 
 type ThemeKey = keyof typeof themeNames;

@@ -3,12 +3,11 @@ export interface Theme {
     | "default"
     | "ocean"
     | "forest"
-    | "volcano"
+    | "evergreen"
     | "sunset"
-    | "desert"
-    | "lavender"
     | "rainbow"
-    | "twilight";
+    | "twilight"
+    | "aurora-borealis";
   label: string;
   colors: {
     themeColor: string;
@@ -29,18 +28,18 @@ export const themes = {
       gradientOne: "#67c6b5",
       gradientTwo: "#2795ba",
       gradientThree: "#cb2048",
-      accentPrimary: "#ffd700",
-      accentSecondary: "#fff3b0",
+      accentPrimary: "#ff5b4a",
+      accentSecondary: "#e8f6fa",
     },
   },
   ocean: {
     name: "ocean",
-    label: "Ocean",
+    label: "Ocean Depths",
     colors: {
-      themeColor: "#2795ba",
-      gradientOne: "#67c6b5",
-      gradientTwo: "#2795ba",
-      gradientThree: "#0e52cf",
+      themeColor: "#478bd6",
+      gradientOne: "#478bd6",
+      gradientTwo: "#478bd6",
+      gradientThree: "#25d8d3",
       accentPrimary: "#ffd700",
       accentSecondary: "#fff3b0",
     },
@@ -57,16 +56,16 @@ export const themes = {
       accentSecondary: "#ffd4c5",
     },
   },
-  volcano: {
-    name: "volcano",
-    label: "Volcano",
+  evergreen: {
+    name: "evergreen",
+    label: "Evergreen",
     colors: {
-      themeColor: "#cc2c2c",
-      gradientOne: "#ff6b6b",
-      gradientTwo: "#cc2c2c",
-      gradientThree: "#8b0000",
-      accentPrimary: "#ffd700",
-      accentSecondary: "#fff7d6",
+      themeColor: "#0eae57",
+      gradientOne: "#0eae57",
+      gradientTwo: "#0c7475",
+      gradientThree: "#0c7475",
+      accentPrimary: "#ff7043",
+      accentSecondary: "#e8f5f5",
     },
   },
   sunset: {
@@ -79,30 +78,6 @@ export const themes = {
       gradientThree: "#cc5500",
       accentPrimary: "#4169e1",
       accentSecondary: "#c7d3f7",
-    },
-  },
-  desert: {
-    name: "desert",
-    label: "Desert",
-    colors: {
-      themeColor: "#ffd700",
-      gradientOne: "#fff68f",
-      gradientTwo: "#ffd700",
-      gradientThree: "#daa520",
-      accentPrimary: "#4682b4",
-      accentSecondary: "#b0c4de",
-    },
-  },
-  lavender: {
-    name: "lavender",
-    label: "Lavender",
-    colors: {
-      themeColor: "#9b4f96",
-      gradientOne: "#d8a1d4",
-      gradientTwo: "#9b4f96",
-      gradientThree: "#663399",
-      accentPrimary: "#98fb98",
-      accentSecondary: "#e0fff0",
     },
   },
   rainbow: {
@@ -121,12 +96,24 @@ export const themes = {
     name: "twilight",
     label: "Twilight",
     colors: {
-      themeColor: "#98058b", // Derived from the purple end of the gradient
-      gradientOne: "#f99777", // Coral/peach from the gradient
-      gradientTwo: "#98058b", // Deep purple from the gradient
-      gradientThree: "#62379a", // Slightly lighter purple for contrast
-      accentPrimary: "#ffd700", // Keeping the standard accent
-      accentSecondary: "#fff3b0", // Keeping the standard secondary accent
+      themeColor: "#98058b",
+      gradientOne: "#f99777",
+      gradientTwo: "#98058b",
+      gradientThree: "#62379a",
+      accentPrimary: "#ffd700",
+      accentSecondary: "#fff3b0",
+    },
+  },
+  "aurora-borealis": {
+    name: "aurora-borealis",
+    label: "Aurora Borealis",
+    colors: {
+      themeColor: "#982dff",
+      gradientOne: "#982dff",
+      gradientTwo: "#5af1ff",
+      gradientThree: "#41ef64",
+      accentPrimary: "#ff4081",
+      accentSecondary: "#f0f7ff",
     },
   },
 } as const;
