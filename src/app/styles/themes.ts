@@ -80,18 +80,6 @@ export const themes = {
       accentSecondary: "#c7d3f7",
     },
   },
-  "lotus-bloom": {
-    name: "lotus-bloom",
-    label: "Lotus Bloom",
-    colors: {
-      themeColor: "#ff1493",
-      gradientOne: "#ff69b4",
-      gradientTwo: "#ff1493",
-      gradientThree: "#8b008b",
-      accentPrimary: "#ffd700",
-      accentSecondary: "#fffacd",
-    },
-  },
   twilight: {
     name: "twilight",
     label: "Twilight",
@@ -102,6 +90,18 @@ export const themes = {
       gradientThree: "#62379a",
       accentPrimary: "#ffd700",
       accentSecondary: "#fff3b0",
+    },
+  },
+  "lotus-bloom": {
+    name: "lotus-bloom",
+    label: "Lotus Bloom",
+    colors: {
+      themeColor: "#ff1493",
+      gradientOne: "#ff69b4",
+      gradientTwo: "#ff1493",
+      gradientThree: "#8b008b",
+      accentPrimary: "#ffd700",
+      accentSecondary: "#fffacd",
     },
   },
   "aurora-borealis": {
