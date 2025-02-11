@@ -46,7 +46,7 @@ export default function About() {
               </div>
               <br />
               <p className={styles.paragraph}>
-                I love the complexity and creativity that frontend coding and
+                I love the complexity and creativity that full stack coding and
                 design work brings.
               </p>
             </div>
