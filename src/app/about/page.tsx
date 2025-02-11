@@ -63,6 +63,10 @@ export default function About() {
                 pool.
               </li>
               <li className={styles.listItem}>
+                Building websites for therapists in order to learn more about my
+                craft, design, and how digital marketing can have a big impact.
+              </li>
+              <li className={styles.listItem}>
                 Curled up with a good book. Check out my{" "}
                 <a
                   className={styles.link}
@@ -73,9 +77,6 @@ export default function About() {
                   Goodreads
                 </a>{" "}
                 to see what I&apos;m reading or what I&apos;ve read recently.
-              </li>
-              <li className={styles.listItem}>
-                Building websites in order to learn more about my craft.
               </li>
               <li className={styles.listItem}>
                 Hanging out at home with my wife, Laura, and our two young
