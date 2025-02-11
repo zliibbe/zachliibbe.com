@@ -267,3 +267,16 @@
     outline: 2px solid CanvasText;
   }
 }
+
+.toggleContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.toggleLabel {
+  font-size: var(--fs-300);
+  color: var(--clr-neutral-500);
+  min-width: 2rem;
+  text-align: right;
+}
