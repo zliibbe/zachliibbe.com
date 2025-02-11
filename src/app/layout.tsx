@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "./components/Header";
 import React from "react";
 import { ThemeProvider } from "./context/ThemeContext";
+import { Metadata } from "next";
 
 const robotoMono = Roboto_Mono({
   subsets: ["latin"],
@@ -15,24 +16,7 @@ const lexend = Lexend({
   display: "swap",
 });
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <html lang="en">
-      <ThemeProvider>
-        <body className={lexend.className}>
-          <Header />
-          {children}
-        </body>
-      </ThemeProvider>
-    </html>
-  );
-}
-
-export const metadata = {
+export const metadata: Metadata = {
   title: "Zach Liibbe - Always Iterating...",
   description:
     "Zach Liibbe's corner of the web—thinking, tinkering, and typing it all out. Part work, part words, all curiosity (with the occasional tangent).",
@@ -43,25 +27,44 @@ export const metadata = {
         url: "/favicon-light.png",
         media: "(prefers-color-scheme: light)",
         type: "image/png",
-        sizes: "32x32",
       },
       {
         url: "/favicon-dark.png",
         media: "(prefers-color-scheme: dark)",
         type: "image/png",
-        sizes: "32x32",
       },
-      { url: "/favicon-96x96.png", type: "image/png", sizes: "96x96" },
-      { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/favicon.ico", sizes: "any" },
     ],
-    shortcut: [{ url: "/favicon.ico" }],
-    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
-  },
-  manifest: "/site.webmanifest",
-  appleWebApp: {
-    title: "zachliibbe.com",
-    capable: true,
-    statusBarStyle: "default",
+    apple: "/apple-touch-icon.png",
   },
 };
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <head>
+        <link
+          rel="icon"
+          href="/favicon-light.png"
+          media="(prefers-color-scheme: light)"
+          type="image/png"
+        />
+        <link
+          rel="icon"
+          href="/favicon-dark.png"
+          media="(prefers-color-scheme: dark)"
+          type="image/png"
+        />
+      </head>
+      <ThemeProvider>
+        <body className={lexend.className}>
+          <Header />
+          {children}
+        </body>
+      </ThemeProvider>
+    </html>
+  );
+}
