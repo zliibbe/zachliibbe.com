@@ -6,9 +6,7 @@
   color: white;
   min-height: 4rem;
   z-index: 100;
-  width: 100vw;
-  margin-left: calc(-50vw + 50%);
-  margin-right: calc(-50vw + 50%);
+  width: 100%;
   background: transparent;
 }
 
@@ -17,14 +15,15 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  max-width: 1400px;
-  padding: 0 1rem;
+  max-width: calc(var(--max-width) + 1rem);
+  padding: 0 2rem;
   z-index: 3;
+  margin: 0 auto;
 }
 
 /* Specific padding for non-home pages */
 .gradientHeader .headerContent {
-  padding: 0 7rem;
+  padding: 0 2rem;
 }
 
 .headerLeft {
@@ -245,7 +244,11 @@
 /* Larger screens */
 @media (min-width: 1440px) {
   .header {
-    max-width: 1440px;
+    width: 100%;
+  }
+
+  .headerContent {
+    max-width: var(--max-width);
     margin: 0 auto;
   }
 }

@@ -114,15 +114,30 @@ export default function Footer() {
   };
 
   const getDaysAgo = (activity: any) => {
-    const localTimeString = activity.start_date_local.replace("Z", "");
-    const activityDate = moment(localTimeString);
+    console.log("Raw activity date:", activity.start_date_local);
+
+    // Convert UTC to local time
+    const activityDate = moment.utc(activity.start_date_local).local();
     const now = moment();
     const hoursSince = now.diff(activityDate, "hours");
 
-    if (hoursSince < 1) return "less than an hour ago";
-    if (hoursSince < 24)
-      return `${hoursSince} hour${hoursSince === 1 ? "" : "s"} ago`;
-    if (hoursSince < 48) return "yesterday";
+    // Debug logs
+    console.log("++++++++++++++++++++++++++");
+    console.log(
+      "Parsed activity date:",
+      activityDate.format("YYYY-MM-DD HH:mm:ss Z"),
+    );
+    console.log("Current time:", now.format("YYYY-MM-DD HH:mm:ss Z"));
+    console.log("Hours since activity:", hoursSince);
+
+    // If less than 24 hours ago, show as "today"
+    if (hoursSince < 24) {
+      return "earlier today";
+    }
+    // If between 24 and 48 hours ago, show as "yesterday"
+    if (hoursSince < 48) {
+      return "yesterday";
+    }
     return activityDate.fromNow();
   };
 
@@ -249,106 +264,108 @@ export default function Footer() {
 
   return (
     <footer className={styles.footer}>
-      <div className={styles.container}>
-        <div className={styles.liveFeed}>
-          <p className={styles.liveFeedHeader}>Live Feed:</p>
-          <div className={styles.liveFeedList}>
-            <div className={styles.liveFeedItem}>
-              <a
-                href="https://www.strava.com/athletes/zachliibbe"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.feedIcon}
-              >
-                <FaStrava className={styles.stravaIcon} size={30} />
-              </a>
-              <p
-                className={`${styles.liveFeedText} ${
-                  loading ? styles.loadingText : ""
-                }`}
-              >
-                {getActivityDisplay().text}
-              </p>
-            </div>
+      <div className={styles.footerContent}>
+        <div className={styles.container}>
+          <div className={styles.liveFeed}>
+            <p className={styles.liveFeedHeader}>Live Feed:</p>
+            <div className={styles.liveFeedList}>
+              <div className={styles.liveFeedItem}>
+                <a
+                  href="https://www.strava.com/athletes/zachliibbe"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.feedIcon}
+                >
+                  <FaStrava className={styles.stravaIcon} size={30} />
+                </a>
+                <p
+                  className={`${styles.liveFeedText} ${
+                    loading ? styles.loadingText : ""
+                  }`}
+                >
+                  {getActivityDisplay().text}
+                </p>
+              </div>
 
-            <div className={styles.liveFeedItem}>
-              <a
-                href="https://www.goodreads.com/user/show/24890536-zach-liibbe"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <span className={styles.feedIcon}>
-                  <FaGoodreads className={styles.goodreadsIcon} size={30} />
-                </span>
-              </a>
-              <p className={styles.liveFeedText}>
-                <CurrentlyReading />
-              </p>
+              <div className={styles.liveFeedItem}>
+                <a
+                  href="https://www.goodreads.com/user/show/24890536-zach-liibbe"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span className={styles.feedIcon}>
+                    <FaGoodreads className={styles.goodreadsIcon} size={30} />
+                  </span>
+                </a>
+                <p className={styles.liveFeedText}>
+                  <CurrentlyReading />
+                </p>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className={styles.socialsAndCopywrite}>
-          <div className={styles.socials}>
-            <a
-              className={styles.socialLink}
-              href="https://linkedin.com/in/zach-liibbe"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <FaLinkedin
-                className={`${styles.socialIcon} ${styles.linkedInIcon}`}
-              />
-            </a>
+          <div className={styles.socialsAndCopywrite}>
+            <div className={styles.socials}>
+              <a
+                className={styles.socialLink}
+                href="https://linkedin.com/in/zach-liibbe"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaLinkedin
+                  className={`${styles.socialIcon} ${styles.linkedInIcon}`}
+                />
+              </a>
 
-            <a
-              className={styles.socialLink}
-              href="https://github.com/zliibbe"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <FaGithub className={styles.socialIcon} />
-            </a>
+              <a
+                className={styles.socialLink}
+                href="https://github.com/zliibbe"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaGithub className={styles.socialIcon} />
+              </a>
 
-            <a className={styles.socialLink} href="/contact">
-              <FaEnvelope
-                className={`${styles.socialIcon} ${styles.emailIcon}`}
-              />
-            </a>
-          </div>
-          <div className={styles.copywrite}>
-            <span>© {year}, built using</span>
-            <a
-              href="https://nextjs.org"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.techLink}
-            >
-              <Image
-                className={styles.nextVercelIcon}
-                src="/next.svg"
-                alt="Next.js logo"
-                sizes="60"
-                height={60}
-                width={60}
-              />
-            </a>
-            <span>and</span>
-            <a
-              className={styles.techLink}
-              href="https://vercel.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Image
-                className={styles.nextVercelIcon}
-                src="/vercel.svg"
-                alt="Vercel logo"
-                width={60}
-                height={60}
-              />
-            </a>
-            <span>in Colorado Springs, CO</span>
+              <a className={styles.socialLink} href="/contact">
+                <FaEnvelope
+                  className={`${styles.socialIcon} ${styles.emailIcon}`}
+                />
+              </a>
+            </div>
+            <div className={styles.copywrite}>
+              <span>© {year}, built using</span>
+              <a
+                href="https://nextjs.org"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.techLink}
+              >
+                <Image
+                  className={styles.nextVercelIcon}
+                  src="/next.svg"
+                  alt="Next.js logo"
+                  sizes="60"
+                  height={60}
+                  width={60}
+                />
+              </a>
+              <span>and</span>
+              <a
+                className={styles.techLink}
+                href="https://vercel.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Image
+                  className={styles.nextVercelIcon}
+                  src="/vercel.svg"
+                  alt="Vercel logo"
+                  width={60}
+                  height={60}
+                />
+              </a>
+              <span>in Colorado Springs, CO</span>
+            </div>
           </div>
         </div>
       </div>

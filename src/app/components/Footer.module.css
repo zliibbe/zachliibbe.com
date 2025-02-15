@@ -1,15 +1,24 @@
 .footer {
   display: flex;
-  margin-top: auto;
+  justify-content: center;
   width: 100%;
+  margin-top: auto;
+}
+
+.footerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  max-width: calc(var(--max-width) + 2rem);
+  margin: 0 auto;
+  padding: 1rem 2rem;
 }
 
 .container {
   display: flex;
-  justify-content: space-around;
-  min-height: auto;
+  justify-content: space-between;
   width: 100%;
-  padding: 1rem;
 }
 
 .liveFeed {
@@ -176,6 +185,10 @@
 }
 
 @media (max-width: 768px) {
+  .footerContent {
+    padding: 1rem;
+  }
+
   .container {
     flex-direction: column;
     gap: 2rem;
