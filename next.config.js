@@ -10,9 +10,6 @@ const nextConfig = {
   experimental: {
     serverActions: true,
   },
-  kv: {
-    database: true,
-  },
   assetPrefix: process.env.NODE_ENV === "production" ? "/" : "",
 };
 
