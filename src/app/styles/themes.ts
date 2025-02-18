@@ -5,7 +5,7 @@ export interface Theme {
     | "forest"
     | "evergreen"
     | "sunset"
-    | "lotus-bloom"
+    | "lotusBloom"
     | "twilight"
     | "aurora-borealis";
   label: string;
@@ -92,8 +92,8 @@ export const themes = {
       accentSecondary: "#fff3b0",
     },
   },
-  "lotus-bloom": {
-    name: "lotus-bloom",
+  lotusBloom: {
+    name: "lotusBloom",
     label: "Lotus Bloom",
     colors: {
       themeColor: "#ff1493",
