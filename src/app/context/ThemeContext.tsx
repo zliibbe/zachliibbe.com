@@ -1,12 +1,6 @@
 "use client";
 
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  useCallback,
-} from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { Theme, themes, applyTheme } from "@/app/styles/themes";
 
 interface ThemeContextType {
@@ -24,38 +18,113 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [currentTheme, setCurrentTheme] = useState<Theme["name"]>("default");
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isAnimated, setIsAnimated] = useState(true);
-  const [isInitialized, setIsInitialized] = useState(false);
 
+  // Initial setup
   useEffect(() => {
-    // Load saved preferences or use system defaults
-    const savedTheme = localStorage.getItem("theme") as Theme["name"];
+    // Check for saved theme preference
+    const savedTheme = localStorage.getItem("selectedTheme") as Theme["name"];
     const savedDarkMode = localStorage.getItem("darkMode");
     const savedAnimation = localStorage.getItem("gradientAnimation");
+
+    // Check system dark mode preference
     const prefersDark = window.matchMedia(
       "(prefers-color-scheme: dark)",
     ).matches;
 
-    if (savedTheme) {
+    // Set initial dark mode
+    const initialDarkMode =
+      savedDarkMode !== null ? JSON.parse(savedDarkMode) : prefersDark;
+    setIsDarkMode(initialDarkMode);
+
+    // Set the theme on the html element
+    document.documentElement.setAttribute(
+      "data-theme",
+      initialDarkMode ? "dark" : "light",
+    );
+
+    // Set initial theme
+    if (savedTheme && themes[savedTheme]) {
       setCurrentTheme(savedTheme);
+      applyTheme(savedTheme);
+    } else {
+      setCurrentTheme("default");
+      applyTheme("default");
     }
 
-    setIsDarkMode(savedDarkMode ? JSON.parse(savedDarkMode) : prefersDark);
-    setIsAnimated(savedAnimation ? JSON.parse(savedAnimation) : true);
+    // Set initial animation state and apply it
+    const initialAnimationState = savedAnimation
+      ? JSON.parse(savedAnimation)
+      : true;
+    setIsAnimated(initialAnimationState);
 
-    // Apply initial theme
-    document.documentElement.classList.toggle("dark-mode", isDarkMode);
-    document.documentElement.style.setProperty(
-      "--animationRunning",
-      isAnimated ? "true" : "false",
-    );
+    // Add this line to set the CSS variable on initial load
     document.documentElement.style.setProperty(
       "--gradient-timing",
-      isAnimated ? "10s" : "0s",
+      initialAnimationState ? "10s" : "0s",
     );
+  }, []);
 
-    setIsInitialized(true);
+  // Handle dark mode changes
+  useEffect(() => {
+    document.documentElement.setAttribute(
+      "data-theme",
+      isDarkMode ? "dark" : "light",
+    );
+    localStorage.setItem("darkMode", JSON.stringify(isDarkMode));
+  }, [isDarkMode]);
 
-    // Listen for system dark mode changes
+  // Handle theme changes
+  const setTheme = (theme: Theme["name"]) => {
+    setCurrentTheme(theme);
+    applyTheme(theme);
+    localStorage.setItem("selectedTheme", theme);
+  };
+
+  // Handle dark mode toggle
+  const toggleDarkMode = () => {
+    setIsDarkMode((prev) => {
+      const newValue = !prev;
+
+      // Set theme attribute
+      document.documentElement.setAttribute(
+        "data-theme",
+        newValue ? "dark" : "light",
+      );
+
+      // Update localStorage
+      localStorage.setItem("darkMode", JSON.stringify(newValue));
+
+      // Log theme change
+      console.log("Theme toggled:", {
+        newTheme: newValue ? "dark" : "light",
+        documentTheme: document.documentElement.getAttribute("data-theme"),
+        computedStyles: {
+          textPrimary: getComputedStyle(
+            document.documentElement,
+          ).getPropertyValue("--text-primary"),
+          bgPrimary: getComputedStyle(
+            document.documentElement,
+          ).getPropertyValue("--background-primary"),
+        },
+      });
+
+      return newValue;
+    });
+  };
+
+  // Handle animation toggle
+  const toggleAnimation = () => {
+    const newValue = !isAnimated;
+    setIsAnimated(newValue);
+    localStorage.setItem("gradientAnimation", JSON.stringify(newValue));
+    document.documentElement.style.setProperty(
+      "--gradient-timing",
+      newValue ? "10s" : "0s",
+    );
+  };
+
+  // Listen for system dark mode changes
+  useEffect(() => {
     const darkModeMediaQuery = window.matchMedia(
       "(prefers-color-scheme: dark)",
     );
@@ -68,44 +137,15 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     darkModeMediaQuery.addEventListener("change", handleDarkModeChange);
     return () =>
       darkModeMediaQuery.removeEventListener("change", handleDarkModeChange);
-  }, [isAnimated, isDarkMode]);
-
-  const toggleAnimation = () => {
-    const newValue = !isAnimated;
-    setIsAnimated(newValue);
-    localStorage.setItem("gradientAnimation", JSON.stringify(newValue));
-    document.documentElement.style.setProperty(
-      "--animationRunning",
-      newValue ? "true" : "false",
-    );
-    document.documentElement.style.setProperty(
-      "--gradient-timing",
-      newValue ? "10s" : "0s",
-    );
-  };
-
-  const setTheme = useCallback((newTheme: Theme["name"]) => {
-    setCurrentTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
-    applyTheme(newTheme);
   }, []);
 
-  // Also need to apply theme on initial load
   useEffect(() => {
-    if (currentTheme) {
-      applyTheme(currentTheme);
-    }
-  }, [currentTheme]);
-
-  const toggleDarkMode = () => {
-    const newValue = !isDarkMode;
-    setIsDarkMode(newValue);
-    localStorage.setItem("darkMode", JSON.stringify(newValue));
+    // Apply theme to document
     document.documentElement.setAttribute(
       "data-theme",
-      newValue ? "dark" : "light",
+      isDarkMode ? "dark" : "light",
     );
-  };
+  }, [isDarkMode]);
 
   return (
     <ThemeContext.Provider
