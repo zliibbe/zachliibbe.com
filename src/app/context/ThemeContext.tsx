@@ -98,15 +98,13 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, [currentTheme]);
 
   const toggleDarkMode = () => {
-    const newDarkMode = !isDarkMode;
-    setIsDarkMode(newDarkMode);
-    localStorage.setItem("darkMode", JSON.stringify(newDarkMode));
-
-    if (newDarkMode) {
-      document.documentElement.classList.add("dark-mode");
-    } else {
-      document.documentElement.classList.remove("dark-mode");
-    }
+    const newValue = !isDarkMode;
+    setIsDarkMode(newValue);
+    localStorage.setItem("darkMode", JSON.stringify(newValue));
+    document.documentElement.setAttribute(
+      "data-theme",
+      newValue ? "dark" : "light",
+    );
   };
 
   return (

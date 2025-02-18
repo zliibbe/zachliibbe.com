@@ -14,6 +14,8 @@ import {
 import getLatestActivity from "@/app/api/getLatestActivity";
 import moment from "moment";
 import CurrentlyReading from "./CurrentlyReading";
+import { useTheme } from "@/app/context/ThemeContext";
+
 type Book = {
   title: string;
   currentPage: number | null;
@@ -21,6 +23,7 @@ type Book = {
 };
 
 export default function Footer() {
+  const { isDarkMode } = useTheme();
   const [activity, setActivity] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -263,7 +266,10 @@ export default function Footer() {
   };
 
   return (
-    <footer className={styles.footer}>
+    <footer
+      className={styles.footer}
+      data-theme={isDarkMode ? "dark" : "light"}
+    >
       <div className={styles.footerContent}>
         <div className={styles.container}>
           <div className={styles.liveFeed}>
