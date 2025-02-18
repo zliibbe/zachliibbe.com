@@ -2,9 +2,10 @@
   display: grid;
   grid-template-columns: auto 1fr;
   gap: 1rem;
-  background: var(--clr-neutral-100);
+  background: var(--background-primary);
   border-radius: var(--border-radius);
   margin: 1rem;
+  transition: background-color 0.3s ease;
 }
 
 .jobImage {
@@ -38,7 +39,7 @@
   margin: 0;
   font-size: 1.25rem;
   font-weight: var(--fw-semi-bold);
-  color: var(--clr-neutral-900);
+  color: var(--text-primary);
 }
 
 .jobTitleAndCompany a {
@@ -57,7 +58,7 @@
 }
 
 .jobTimeframe {
-  color: var(--clr-neutral-350);
+  color: var(--text-secondary);
   font-size: 1rem;
 }
 
@@ -68,15 +69,14 @@
 }
 
 .jobDetails li {
-  color: var(--clr-neutral-700);
+  color: var(--text-primary);
   margin-bottom: 1.75rem;
 }
 
 .jobListItem {
-  color: var(--clr-neutral-700);
+  color: var(--text-primary);
 }
 
-/* Remove margin from last list item */
 .jobListItem:last-child {
   margin-bottom: 0;
 }
@@ -96,4 +96,28 @@
     margin: 0;
     height: 3rem;
   }
+}
+
+/* Dark mode styles */
+[data-theme="dark"] .jobContainer {
+  background: var(--black);
+  color: var(--white);
+}
+
+[data-theme="dark"] .recentSection {
+  background-color: var(--clr-neutral-600);
+}
+
+[data-theme="dark"] .jobTimeframe {
+  color: var(--clr-neutral-300);
+}
+
+[data-theme="dark"] .jobTitleAndCompany h3 {
+  color: var(--white);
+}
+
+[data-theme="dark"] .jobDetails p,
+[data-theme="dark"] .jobDetails li,
+[data-theme="dark"] .jobListItem {
+  color: var(--white);
 }

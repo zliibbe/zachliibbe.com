@@ -8,8 +8,8 @@ import { Metadata } from "next";
 export default function About() {
   return (
     <>
-      <div className="page_container">
-        <div className="page_contentWrapper">
+      <div className={styles.container}>
+        <div className={styles.contentWrapper}>
           <div className={styles.content}>
             <div className={styles.imageContainer}>
               <Image

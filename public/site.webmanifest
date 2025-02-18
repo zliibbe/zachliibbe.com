@@ -21,7 +21,7 @@
       "purpose": "any"
     }
   ],
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
+  "theme_color": "#fffafa",
+  "background_color": "#fffafa",
   "display": "standalone"
 }

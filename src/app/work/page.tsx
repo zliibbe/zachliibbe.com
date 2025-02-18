@@ -7,8 +7,8 @@ import { Jobs } from "../components/Jobs";
 export default function Work() {
   return (
     <>
-      <div className="page_container">
-        <div className="page_contentWrapper">
+      <div className={styles.container}>
+        <div className={styles.contentWrapper}>
           <div className={styles.content}>
             <div className={styles.overviewAndRecent}>
               <div className={styles.overviewSection}>
