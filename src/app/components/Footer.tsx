@@ -116,22 +116,55 @@ export default function Footer() {
     return `${yards}-yard`;
   };
 
-  const getDaysAgo = (activity: any) => {
-    console.log("Raw activity date:", activity.start_date_local);
+  const numberToWords = (num: number): string => {
+    const ones = [
+      "",
+      "one",
+      "two",
+      "three",
+      "four",
+      "five",
+      "six",
+      "seven",
+      "eight",
+      "nine",
+      "ten",
+      "eleven",
+      "twelve",
+      "thirteen",
+      "fourteen",
+      "fifteen",
+      "sixteen",
+      "seventeen",
+      "eighteen",
+      "nineteen",
+    ];
+    const tens = [
+      "",
+      "",
+      "twenty",
+      "thirty",
+      "forty",
+      "fifty",
+      "sixty",
+      "seventy",
+      "eighty",
+      "ninety",
+    ];
 
+    if (num < 20) return ones[num];
+
+    const digit1 = Math.floor(num / 10);
+    const digit2 = num % 10;
+    return digit2 === 0 ? tens[digit1] : `${tens[digit1]}-${ones[digit2]}`;
+  };
+
+  const getDaysAgo = (activity: any) => {
     // Convert UTC to local time
     const activityDate = moment.utc(activity.start_date_local).local();
     const now = moment();
     const hoursSince = now.diff(activityDate, "hours");
-
-    // Debug logs
-    console.log("++++++++++++++++++++++++++");
-    console.log(
-      "Parsed activity date:",
-      activityDate.format("YYYY-MM-DD HH:mm:ss Z"),
-    );
-    console.log("Current time:", now.format("YYYY-MM-DD HH:mm:ss Z"));
-    console.log("Hours since activity:", hoursSince);
+    const daysSince = now.diff(activityDate, "days");
 
     // If less than 24 hours ago, show as "today"
     if (hoursSince < 24) {
@@ -141,7 +174,12 @@ export default function Footer() {
     if (hoursSince < 48) {
       return "yesterday";
     }
-    return activityDate.fromNow();
+    // If more than 7 days ago, return the date
+    if (daysSince > 7) {
+      return activityDate.format("MMMM Do");
+    }
+    // Convert number to words for 2-7 days
+    return `${numberToWords(daysSince)} days ago`;
   };
 
   const formatElapsedTime = (seconds: number) => {
@@ -266,10 +304,7 @@ export default function Footer() {
   };
 
   return (
-    <footer
-      className={styles.footer}
-      data-theme={isDarkMode ? "dark" : "light"}
-    >
+    <footer className={styles.footer}>
       <div className={styles.footerContent}>
         <div className={styles.container}>
           <div className={styles.liveFeed}>
