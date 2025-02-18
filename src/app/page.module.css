@@ -6,7 +6,6 @@
   padding-top: 4rem;
   overflow: visible;
   z-index: 0;
-  background: transparent;
 }
 
 .heroGradient {
@@ -35,6 +34,18 @@
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
   pointer-events: none;
   transition: background 0.5s ease;
+  opacity: 1;
+}
+
+.heroSection {
+  max-width: calc(var(--max-width) + 1rem);
+  display: flex;
+  justify-content: center;
+  color: var(--white);
+}
+
+[data-theme="dark"] .subtitle {
+  color: var(--white);
 }
 
 @keyframes bg-animation {
@@ -175,7 +186,6 @@
   padding: 1.5rem 0;
   font-size: 1.5rem;
   line-height: 2rem;
-  color: white;
 }
 
 .title {
@@ -183,7 +193,6 @@
   font-size: 3rem;
   line-height: 1;
   flex-wrap: wrap;
-  color: white;
   margin-bottom: 0.5rem;
   font-weight: var(--fw-bold);
 }
@@ -194,7 +203,7 @@
 }
 
 .subtitle {
-  color: white;
+  color: var(--white);
   font-size: 1.25rem;
   line-height: 1.75rem;
 }
@@ -246,7 +255,6 @@
   }
 
   .subtitle {
-    color: white;
     font-size: 1rem;
     margin-bottom: 1rem;
   }

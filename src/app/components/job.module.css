@@ -74,10 +74,9 @@
 }
 
 .jobListItem {
-  color: var(--clr-neutral-700);
+  color: var(--text-primary);
 }
 
-/* Remove margin from last list item */
 .jobListItem:last-child {
   margin-bottom: 0;
 }
@@ -97,21 +96,28 @@
     margin: 0;
     height: 3rem;
   }
+}
 
-  /* System preferences  */
-  @media (prefers-color-scheme: dark) {
-    .jobContainer {
-      background: var(--black);
-      color: var(--white);
-      border: 1px solid var(--border-color);
-    }
-  }
+/* Dark mode styles */
+[data-theme="dark"] .jobContainer {
+  background: var(--black);
+  color: var(--white);
+}
 
-  /* @media (prefers-color-scheme: dark) {
-    body {
-      color-scheme: dark;
-      color: var(--white);
-      background-color: var(--black);
-    }
-  } */
+[data-theme="dark"] .recentSection {
+  background-color: var(--clr-neutral-600);
+}
+
+[data-theme="dark"] .jobTimeframe {
+  color: var(--clr-neutral-300);
+}
+
+[data-theme="dark"] .jobTitleAndCompany h3 {
+  color: var(--white);
+}
+
+[data-theme="dark"] .jobDetails p,
+[data-theme="dark"] .jobDetails li,
+[data-theme="dark"] .jobListItem {
+  color: var(--white);
 }
