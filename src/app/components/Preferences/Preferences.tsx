@@ -92,7 +92,7 @@ export function Preferences() {
 
           <div className={styles.toggleSection}>
             <div className={styles.toggleRow}>
-              <span>Gradient animation</span>
+              <span className={styles.toggleLabel}>Gradient animation</span>
               <div className={styles.toggleContainer}>
                 <span className={styles.toggleLabel}>
                   {isAnimated ? "On" : "Off"}
@@ -111,7 +111,7 @@ export function Preferences() {
             </div>
 
             <div className={styles.toggleRow}>
-              <span>Dark mode</span>
+              <span className={styles.toggleLabel}>Dark mode</span>
               <div className={styles.toggleContainer}>
                 <span className={styles.toggleLabel}>
                   {isDarkMode ? "On" : "Off"}
