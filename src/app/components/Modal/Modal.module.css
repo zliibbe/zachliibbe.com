@@ -15,13 +15,14 @@
   animation: fadeIn 0.2s ease-out;
   min-height: 100vh;
   min-width: 100vw;
+  border-radius: var(--border-radius);
 }
 
 .modal {
   background: rgba(255, 255, 255, 0.85); /* Slightly transparent */
   backdrop-filter: blur(1px);
   -webkit-backdrop-filter: blur(1px);
-  border-radius: 1rem;
+  border-radius: var(--border-radius);
   width: 100%;
   max-width: 325px;
   /* max-height: 500px; */
