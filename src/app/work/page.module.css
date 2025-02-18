@@ -4,9 +4,25 @@
   background: var(--background-primary);
   color: var(--text-primary);
   min-height: 100vh;
-  border-radius: 0.5rem;
+  border-radius: var(--border-radius);
   opacity: 1;
   margin-bottom: 2rem;
+}
+
+/* Add dark mode styles for container */
+[data-theme="dark"] .container {
+  background: var(--background-primary);
+  color: var(--text-primary);
+}
+
+/* Update overview text color for dark mode */
+[data-theme="dark"] .overviewText {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .overviewTitle,
+[data-theme="dark"] .experienceTitle {
+  color: var(--text-primary);
 }
 
 .contentWrapper {
@@ -40,6 +56,16 @@
   background: var(--background-secondary);
   color: var(--text-primary);
   margin: 0;
+}
+
+/* Update recent section dark modestyles */
+[data-theme="dark"] .recentSection {
+  background: var(--clr-neutral-600);
+  color: var(--white);
+}
+
+[data-theme="dark"] .recentItem {
+  color: var(--white);
 }
 
 .recentTitle {
@@ -115,6 +141,10 @@
     flex: 2;
   }
 
+  [data-theme="dark"] .recentSection {
+    background-color: var(--clr-neutral-600);
+  }
+
   .recentSection {
     margin-top: 2rem;
     flex: 1;
@@ -124,10 +154,17 @@
   }
 }
 
-/* [data-theme="dark"] img:not([src*=".svg"]) {
-  filter: brightness(0.8) contrast(1.2);
+[data-theme="dark"] .recentSection {
+  background-color: var(--clr-neutral-600);
 }
 
-[data-theme="dark"] .preserve-color {
-  filter: none !important;
-} */
+.recentSection {
+  background: var(--background-secondary);
+  color: var(--text-primary);
+}
+
+.overviewText,
+.experienceTitle,
+.overviewTitle {
+  color: var(--text-primary);
+}
