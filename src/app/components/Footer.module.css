@@ -1,7 +1,12 @@
+/* Base container styles */
 .footer {
+  background-color: var(--background-primary);
+  color: var(--text-primary);
+  width: 100%;
+  padding: 2rem 0;
+  transition: all 0.3s ease;
   display: flex;
   justify-content: center;
-  width: 100%;
   margin-top: auto;
 }
 
@@ -13,6 +18,10 @@
   max-width: calc(var(--max-width) + 2rem);
   margin: 0 auto;
   padding: 1rem 2rem;
+  background-color: var(--background-primary);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+  border-radius: var(--border-radius);
 }
 
 .container {
@@ -31,6 +40,7 @@
   flex-direction: column;
   padding: 0 0 1rem 0;
   color: var(--text-primary);
+  transition: color 0.3s ease;
 }
 
 .liveFeedList {
@@ -54,6 +64,7 @@
 .liveFeedText {
   color: var(--text-primary);
   margin-left: 0.5rem;
+  transition: color 0.3s ease;
 }
 
 .feedIcon {
@@ -73,14 +84,61 @@
   color: var(--theme-color);
 }
 
+/* Base icon styles */
 .stravaIcon,
-.goodreadsIcon {
+.goodreadsIcon,
+.socialIcon,
+.feedIcon {
   min-width: 30px;
   min-height: 30px;
   flex-shrink: 0;
   fill: var(--text-primary);
+  transition: fill 0.3s ease;
 }
 
+/* Text styles */
+.liveFeedText,
+.liveFeedHeader,
+.copywrite {
+  color: var(--text-primary);
+  transition: color 0.3s ease;
+}
+
+.nextVercelIcon {
+  height: auto;
+  width: 4rem;
+  transition: filter 0.3s ease;
+}
+
+/* Dark mode styles */
+html[data-theme="dark"] .footer {
+  background-color: var(--background-primary);
+  color: var(--text-primary);
+}
+
+html[data-theme="dark"] .footerContent {
+  background-color: var(--black);
+}
+
+html[data-theme="dark"] .stravaIcon,
+html[data-theme="dark"] .goodreadsIcon,
+html[data-theme="dark"] .socialIcon,
+html[data-theme="dark"] .feedIcon {
+  fill: var(--white);
+  color: var(--white);
+}
+
+html[data-theme="dark"] .liveFeedText,
+html[data-theme="dark"] .liveFeedHeader,
+html[data-theme="dark"] .copywrite {
+  color: var(--white);
+}
+
+html[data-theme="dark"] .stravaLink {
+  color: var(--theme-color);
+}
+
+/* Hover states - work in light & dark  */
 .liveFeedItem:hover .stravaIcon {
   fill: var(--stravaColor);
 }
@@ -91,6 +149,9 @@
 
 .liveFeedItem:hover .liveFeedText .stravaIcon {
   text-decoration: underline;
+}
+.socialLink:hover .linkedInIcon {
+  fill: var(--linkedInColor);
 }
 
 .loadingText {
@@ -110,6 +171,14 @@
   100% {
     opacity: 0.4;
   }
+}
+
+.socialLink:hover .emailIcon {
+  fill: var(--theme-color);
+}
+
+.socialLink:hover .socialIcon {
+  fill: var(--clr-neutral-300);
 }
 
 .socialsAndCopywrite {
@@ -134,15 +203,22 @@
 }
 
 .socialIcon {
-  font-size: 2.75rem;
+  font-size: 3rem;
   fill: var(--text-primary);
   padding: 0 0.5rem;
 }
 
+/* Base hover state (light mode) */
 .socialLink:hover .socialIcon {
-  fill: var(--footer-hover);
+  fill: var(--clr-neutral-300);
 }
 
+/* Dark mode hover state */
+[data-theme="dark"] .socialLink:hover .socialIcon {
+  fill: var(--clr-neutral-300);
+}
+
+/* Specific icon hover states that should work in both modes */
 .socialLink:hover .linkedInIcon {
   fill: var(--linkedInColor);
 }
@@ -207,53 +283,68 @@
     height: 2rem;
   }
 }
-
 /* Dark mode styles */
-.footer[data-theme="dark"] {
-  background: var(--black);
+html[data-theme="dark"] .footerContent {
+  background-color: var(--black);
+  color: var(--text-primary);
 }
 
-.footer[data-theme="dark"] .liveFeedText,
-.footer[data-theme="dark"] .liveFeedHeader,
-.footer[data-theme="dark"] .copywrite {
-  color: var(--white);
+html[data-theme="dark"] .liveFeed {
+  background-color: var(--background-primary);
+  color: var(--text-primary);
 }
 
-.footer[data-theme="dark"] .socialIcon,
-.footer[data-theme="dark"] .stravaIcon,
-.footer[data-theme="dark"] .goodreadsIcon {
-  fill: var(--white);
-}
-
-.footer[data-theme="dark"] .nextVercelIcon {
+html[data-theme="dark"] .nextVercelIcon {
   filter: invert(1);
 }
 
 /* Hover states for dark mode */
-.footer:global([data-theme="dark"]) .socialLink:hover .socialIcon {
-  fill: var(--footer-hover);
+html[data-theme="dark"] .socialLink:hover .socialIcon {
+  fill: var(--clr-neutral-300);
 }
 
-.footer:global([data-theme="dark"]) .socialLink:hover .linkedInIcon {
+html[data-theme="dark"] .socialLink:hover .linkedInIcon {
   fill: var(--linkedInColor);
 }
 
-.footer:global([data-theme="dark"]) .socialLink:hover .emailIcon {
+html[data-theme="dark"] .socialLink:hover .emailIcon {
   fill: var(--theme-color);
 }
 
-.footer:global([data-theme="dark"]) .stravaIcon:hover {
+html[data-theme="dark"] .stravaIcon:hover {
   fill: var(--stravaColor);
 }
 
-.footer:global([data-theme="dark"]) .goodreadsIcon:hover {
+html[data-theme="dark"] .goodreadsIcon:hover {
   fill: var(--goodreadsColor);
 }
 
-.footer:global([data-theme="dark"]) .linkedInIcon:hover {
+html[data-theme="dark"] .linkedInIcon:hover {
   fill: var(--linkedInColor);
 }
 
-.footer:global([data-theme="dark"]) .emailIcon:hover {
+html[data-theme="dark"] .emailIcon:hover {
   fill: var(--theme-color);
+}
+
+/* Update the dark mode selector to match the document attribute */
+html[data-theme="dark"] .stravaIcon,
+html[data-theme="dark"] .goodreadsIcon,
+html[data-theme="dark"] .socialIcon {
+  fill: var(--white);
+}
+
+html[data-theme="dark"] .liveFeedText,
+html[data-theme="dark"] .liveFeedHeader {
+  color: var(--white);
+}
+
+[data-theme="dark"] .footerContent {
+  background-color: var(--black);
+  color: var(--text-primary);
+}
+
+html[data-theme="dark"] .liveFeed {
+  background-color: var(--background-primary);
+  color: var(--text-primary);
 }
