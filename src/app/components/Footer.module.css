@@ -52,7 +52,7 @@
 }
 
 .liveFeedText {
-  color: var(--clr-neutral-900);
+  color: var(--text-primary);
   margin-left: 0.5rem;
 }
 
@@ -78,7 +78,7 @@
   min-width: 30px;
   min-height: 30px;
   flex-shrink: 0;
-  fill: var(--clr-neutral-900);
+  fill: var(--text-primary);
 }
 
 .liveFeedItem:hover .stravaIcon {
@@ -91,10 +91,6 @@
 
 .liveFeedItem:hover .liveFeedText .stravaIcon {
   text-decoration: underline;
-}
-
-.loadingText {
-  color: var(--clr-neutral-200);
 }
 
 .loadingText {
@@ -139,12 +135,12 @@
 
 .socialIcon {
   font-size: 2.75rem;
-  fill: var(--clr-neutral-900);
+  fill: var(--text-primary);
   padding: 0 0.5rem;
 }
 
 .socialLink:hover .socialIcon {
-  fill: var(--clr-neutral-250);
+  fill: var(--footer-hover);
 }
 
 .socialLink:hover .linkedInIcon {
@@ -210,4 +206,54 @@
   .nextVercelIcon {
     height: 2rem;
   }
+}
+
+/* Dark mode styles */
+.footer[data-theme="dark"] {
+  background: var(--black);
+}
+
+.footer[data-theme="dark"] .liveFeedText,
+.footer[data-theme="dark"] .liveFeedHeader,
+.footer[data-theme="dark"] .copywrite {
+  color: var(--white);
+}
+
+.footer[data-theme="dark"] .socialIcon,
+.footer[data-theme="dark"] .stravaIcon,
+.footer[data-theme="dark"] .goodreadsIcon {
+  fill: var(--white);
+}
+
+.footer[data-theme="dark"] .nextVercelIcon {
+  filter: invert(1);
+}
+
+/* Hover states for dark mode */
+.footer:global([data-theme="dark"]) .socialLink:hover .socialIcon {
+  fill: var(--footer-hover);
+}
+
+.footer:global([data-theme="dark"]) .socialLink:hover .linkedInIcon {
+  fill: var(--linkedInColor);
+}
+
+.footer:global([data-theme="dark"]) .socialLink:hover .emailIcon {
+  fill: var(--theme-color);
+}
+
+.footer:global([data-theme="dark"]) .stravaIcon:hover {
+  fill: var(--stravaColor);
+}
+
+.footer:global([data-theme="dark"]) .goodreadsIcon:hover {
+  fill: var(--goodreadsColor);
+}
+
+.footer:global([data-theme="dark"]) .linkedInIcon:hover {
+  fill: var(--linkedInColor);
+}
+
+.footer:global([data-theme="dark"]) .emailIcon:hover {
+  fill: var(--theme-color);
 }

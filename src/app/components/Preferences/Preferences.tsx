@@ -111,7 +111,7 @@ export function Preferences() {
             </div>
 
             <div className={styles.toggleRow}>
-              <span>Dark mode (work in progress...)</span>
+              <span>Dark mode</span>
               <div className={styles.toggleContainer}>
                 <span className={styles.toggleLabel}>
                   {isDarkMode ? "On" : "Off"}

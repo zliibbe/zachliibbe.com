@@ -138,17 +138,34 @@
 }
 
 /* Dark mode specific styles */
-:root.dark-mode .toggleButton {
-  background: var(--modal-bg, #1a1a1a);
-  border-color: var(--border-color, #333);
+[data-theme="dark"] .preferences {
+  color: var(--text-primary);
+  background: var(--modal-bg);
 }
 
-:root.dark-mode .toggleButton svg {
-  color: var(--text-color, #ffffff);
+[data-theme="dark"] .closeButton {
+  color: var(--text-secondary);
 }
 
-:root.dark-mode .toggleButton.active svg {
+[data-theme="dark"] .closeButton:hover {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .toggleButton {
+  background: var(--background-secondary);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .toggleButton svg {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .toggleButton.active svg {
   color: var(--accentPrimary);
+}
+
+[data-theme="dark"] .themeLabel {
+  color: var(--text-primary);
 }
 
 .themeName {
