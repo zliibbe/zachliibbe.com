@@ -10,7 +10,11 @@
   --gradientTiming: 10s;
 
   /* neutral colors */
-  --clr-neutral-100: hsl(0, 0%, 100%);
+  --white: #fffafa; /* snow white */
+  --black: #0b1215; /* obsidian */
+
+  --clr-neutral-100: hsl(0, 0%, 100%); /* pure white*/
+  --clr-neutral-150: hsl(0, 0%, 95%);
   --clr-neutral-200: hsla(0, 0%, 71%);
   --clr-neutral-250: hsl(0, 0%, 65%);
   --clr-neutral-275: hsl(0, 0%, 60%);
@@ -21,7 +25,7 @@
   --clr-neutral-600: hsl(0, 0%, 20%);
   --clr-neutral-700: hsl(0, 0%, 10%);
   --clr-neutral-800: hsl(0, 0%, 5%);
-  --clr-neutral-900: hsl(0, 0%, 0%);
+  --clr-neutral-900: hsl(0, 0%, 0%); /* pure black */
 
   /* font family */
   --ff-primary: var(--font-lexend);
@@ -71,6 +75,18 @@
   --textColor: #425466;
   --headingColor: #3a3a3a;
   --animationRunning: true;
+
+  /* Light mode (default) */
+  --background-primary: var(--white);
+  --background-secondary: var(--clr-neutral-150);
+  --text-primary: var(--black);
+  --text-secondary: var(--clr-neutral-600);
+  --border-color: var(--clr-neutral-300);
+  --modal-bg: var(--white);
+
+  transition:
+    color 0.3s ease,
+    background-color 0.3s ease;
 }
 
 *,
@@ -97,6 +113,8 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   font-family: var(--font-lexend);
+  color: var(--text-primary);
+  background-color: var(--background-primary);
 }
 img,
 picture,
@@ -222,14 +240,6 @@ button.srOnly {
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-  }
-  html {
-    /* color-scheme: dark; */
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   html:focus-within {
     scroll-behavior: auto;
@@ -263,43 +273,128 @@ button.srOnly {
   animation-play-state: var(--animationRunning, running);
 }
 
-/* Dark mode improvements */
-:root.dark-mode {
-  --modal-bg: #1a1a1a;
-  --text-color: #ffffff;
-  --border-color: #333333;
+/* Light mode */
+html {
+  --background-primary: var(--white);
+  --text-primary: var(--black);
+  --text-inverse: var(--white);
+  --text-secondary: var(--clr-neutral-300);
+  --border-color: var(--clr-neutral-700);
+  --modal-bg: var(--clr-neutral-800);
+
+  /* Adjust component specific colors */
+  --job-bg: var(--background-secondary);
+
+  /* Social media colors */
+  --stravaColor: #fc4c02;
+  --goodreadsColor: #794d23;
+  --linkedInColor: #0a66c2;
 }
 
-.dark-mode .modal {
-  background-color: var(--modal-bg);
-  color: var(--text-color);
+/* Dark mode */
+html[data-theme="dark"] {
+  --background-primary: var(--black);
+  --text-primary: var(--white);
+  --text-inverse: var(--black);
+  --text-secondary: var(--clr-neutral-300);
+  --border-color: var(--clr-neutral-700);
+  --modal-bg: var(--clr-neutral-800);
+
+  /* Adjust component specific colors */
+  --job-bg: var(--background-secondary);
+
+  /* Social media colors with dark mode adjustments */
+  --stravaColor: #fc4c02;
+  --goodreadsColor: #e6b386; /* Lighter shade for dark mode */
+  --linkedInColor: #0a66c2;
 }
 
-.dark-mode .gradientButton {
-  border-color: var(--border-color);
+/* Smooth transitions */
+.footer,
+.footer * {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    fill 0.3s ease,
+    filter 0.3s ease;
 }
-
-.page_container {
+.layout_gradient {
+  --gradientTiming: 12s;
+  position: absolute;
+  z-index: 0;
+  top: 0;
   width: 100%;
-  max-width: var(--max-width);
-  margin: 0 auto;
-  padding: 0 2rem;
-  min-height: calc(100vh - 4rem);
+  outline: 1px solid transparent;
+  height: 70vh;
+  background: linear-gradient(
+    45deg,
+    var(--gradientOne),
+    var(--gradientTwo),
+    var(--gradientThree)
+  );
+  background-size: 400% 400%;
+  background-repeat: no-repeat;
+  transform: translateZ(0);
+  animation:
+    dropBackground 0.6s ease-in-out forwards,
+    bg-animation var(--gradientTiming) infinite alternate;
+  clip-path: polygon(0 0, 100% 0, 100% 75%, 0 100%);
+  z-index: -1;
 }
 
-.page_contentWrapper {
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-/* Larger screens */
-@media (min-width: 1440px) {
-  .page_container {
-    max-width: 1400px;
+@media (max-width: 768px) {
+  .layout_gradient {
+    height: 50vh; /* Shorter height for mobile */
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); /* Straight line */
   }
 
-  .page_contentWrapper {
-    max-width: 1000px;
+  /* Adjust the drop animation for mobile */
+  @keyframes dropBackground {
+    0% {
+      transform: translateY(-100%);
+    }
+    100% {
+      transform: translateY(0);
+    }
   }
+}
+
+/* Ensure the root-container uses the theme variables */
+.root-container {
+  min-height: 100vh;
+  color: var(--text-primary);
+  background-color: var(--background-primary);
+  transition:
+    color 0.3s ease,
+    background-color 0.3s ease;
+}
+
+/* Add transitions to all themed elements */
+body,
+.container,
+.preferences,
+.modal,
+.text,
+.root-container {
+  transition:
+    color 0.3s ease,
+    background-color 0.3s ease;
+}
+
+/* Ensure text elements inherit colors */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+div {
+  color: inherit;
+}
+
+body {
+  color: var(--text-primary);
+  background-color: var(--background-primary);
 }

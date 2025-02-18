@@ -1,9 +1,11 @@
 .preferences {
-  color: var(--clr-neutral-800);
+  color: var(--text-primary);
+  background: var(--modal-bg);
   width: 100%;
   max-width: 325px;
   max-height: 500px;
   padding: 1.5rem;
+  border-radius: var(--border-radius);
 }
 
 .header {
@@ -17,6 +19,7 @@
   margin: 0;
   font-size: 1.5rem;
   font-weight: 500;
+  color: var(--text-primary);
 }
 
 .closeButton {
@@ -24,12 +27,12 @@
   border: none;
   padding: 0.5rem;
   cursor: pointer;
-  color: var(--clr-neutral-600);
+  color: var(--text-secondary);
   transition: color 0.2s;
 }
 
 .closeButton:hover {
-  color: var(--clr-neutral-800);
+  color: var(--text-primary);
 }
 
 .section {
@@ -40,6 +43,7 @@
   margin: 0 0 1rem;
   font-size: 1rem;
   font-weight: 500;
+  color: var(--text-primary);
 }
 
 .gradientGrid {
@@ -89,8 +93,9 @@
 }
 
 .toggleButton {
-  background: white;
-  border: 1px solid var(--clr-neutral-300);
+  background: var(--background-primary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
   border-radius: 0.5rem;
   width: 2.5rem;
   height: 2.5rem;
@@ -113,8 +118,8 @@
 }
 
 .toggleButton.active {
-  background: white;
-  border-color: var(--clr-neutral-300);
+  background: var(--background-primary);
+  border-color: var(--accentPrimary);
 }
 
 .toggleButton.active svg {
@@ -137,23 +142,9 @@
   left: calc(50% - 0.75px);
 }
 
-/* Dark mode specific styles */
-:root.dark-mode .toggleButton {
-  background: var(--modal-bg, #1a1a1a);
-  border-color: var(--border-color, #333);
-}
-
-:root.dark-mode .toggleButton svg {
-  color: var(--text-color, #ffffff);
-}
-
-:root.dark-mode .toggleButton.active svg {
-  color: var(--accentPrimary);
-}
-
 .themeName {
   margin-left: 0.5rem;
-  color: var(--clr-neutral-600);
+  color: var(--text-secondary);
   justify-self: center;
   margin: 0 0 1rem 0.5rem;
 }
@@ -218,7 +209,7 @@
 
 .themeLabel {
   font-size: 0.875rem;
-  color: var(--clr-neutral-800);
+  color: var(--text-primary);
 }
 
 @media (max-width: 767px) {
@@ -276,7 +267,16 @@
 
 .toggleLabel {
   font-size: var(--fs-300);
-  color: var(--clr-neutral-500);
+  color: var(--black);
   min-width: 2rem;
   text-align: right;
+}
+
+[data-theme="dark"] .toggleLabel {
+  color: var(--white);
+}
+
+[data-theme="dark"] .preferences {
+  background: var(--modal-bg);
+  color: var(--white);
 }

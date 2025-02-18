@@ -1,11 +1,20 @@
 import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
 const STRAVA_OAUTH_URL = "https://www.strava.com/oauth/token";
 const STRAVA_CLIENT_ID = process.env.STRAVA_CLIENT_ID;
 const STRAVA_CLIENT_SECRET = process.env.STRAVA_CLIENT_SECRET;
 const STRAVA_REFRESH_TOKEN = process.env.STRAVA_REFRESH_TOKEN;
 
-export async function POST() {
+interface TokenResponse {
+  token_type: string;
+  access_token: string;
+  expires_at: number;
+  expires_in: number;
+  refresh_token: string;
+}
+
+export async function POST(request: NextRequest) {
   if (!STRAVA_CLIENT_ID || !STRAVA_CLIENT_SECRET || !STRAVA_REFRESH_TOKEN) {
     console.error("Missing environment variables:", {
       clientId: !STRAVA_CLIENT_ID,
@@ -41,12 +50,14 @@ export async function POST() {
       );
     }
 
-    const tokenData = JSON.parse(data);
+    const tokenData = JSON.parse(data) as TokenResponse;
     return NextResponse.json({ access_token: tokenData.access_token });
   } catch (error) {
     console.error("Error refreshing token:", error);
     return NextResponse.json(
-      { error: `Failed to refresh token: ${error.message}` },
+      {
+        error: `Failed to refresh token: ${error instanceof Error ? error.message : "Unknown error"}`,
+      },
       { status: 500 },
     );
   }
