@@ -7,11 +7,14 @@ import RecentBooks from "../components/RecentBooks";
 import RecentAudiobooks from "../components/RecentAudiobooks";
 import { getStravaActivities } from "@/lib/strava/utils";
 import { StravaActivity } from "@/lib/strava/types";
+import Footer from "../components/Footer";
 
 export default function LiveFeedPage() {
   const [activities, setActivities] = useState<StravaActivity[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [booksLoading, setBooksLoading] = useState(true);
+  const [audiobooksLoading, setAudiobooksLoading] = useState(true);
 
   useEffect(() => {
     const fetchActivities = async () => {
@@ -34,14 +37,14 @@ export default function LiveFeedPage() {
     <main className={styles.main}>
       <h1 className={styles.title}>Feed</h1>
       <p className={styles.subtitle}>
-        A live feed of my recent activity in the real world.
+        A live feed of my recent activity out in the real world.
       </p>
 
       <section className={styles.section}>
         <div className={styles.sectionHeader}>
           <h2>Activities</h2>
           <p>
-            A collection of my (mostly) outdoor activities tracked through the{" "}
+            A collection of my outdoor (mostly) activities tracked through the{" "}
             <a href="https://developers.strava.com/" className={styles.apiLink}>
               Strava API
             </a>
@@ -49,7 +52,9 @@ export default function LiveFeedPage() {
           </p>
         </div>
 
-        {isLoading && <p>Loading activities...</p>}
+        {isLoading && (
+          <p className={styles.loadingText}>Loading activities...</p>
+        )}
         {error && <p className={styles.error}>Error: {error}</p>}
         {!isLoading && !error && activities.length > 0 && (
           <ActivityGrid activities={activities} />
@@ -70,7 +75,13 @@ export default function LiveFeedPage() {
             shelf.
           </p>
         </div>
-        <RecentBooks />
+        {error ? (
+          <p className={styles.error}>Error: {error}</p>
+        ) : booksLoading ? (
+          <p className={styles.loadingText}>Loading books...</p>
+        ) : (
+          <RecentBooks onLoadingChange={setBooksLoading} />
+        )}
       </section>
 
       <section className={styles.section}>
@@ -78,8 +89,15 @@ export default function LiveFeedPage() {
           <h2>Recent Audiobooks</h2>
           <p>Latest audiobooks I&apos;ve listened to.</p>
         </div>
-        <RecentAudiobooks />
+        {error ? (
+          <p className={styles.error}>Error: {error}</p>
+        ) : audiobooksLoading ? (
+          <p className={styles.loadingText}>Loading audiobooks...</p>
+        ) : (
+          <RecentAudiobooks onLoadingChange={setAudiobooksLoading} />
+        )}
       </section>
+      <Footer />
     </main>
   );
 }
