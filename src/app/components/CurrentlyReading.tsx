@@ -80,36 +80,42 @@ export default function CurrentlyReading() {
   if (error) return <span>Error loading reading progress: {error}</span>;
   if (!book) return <span>No book currently being read</span>;
 
+  const bookUrl = book.link;
+  const timeAgo = book.lastUpdated
+    ? `(${moment(book.lastUpdated).fromNow()})`
+    : "";
+
   return (
-    <>
-      Currently reading{" "}
-      {book && (
-        <>
-          <a
-            href={book.link}
-            className={styles.bookTitle}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={
-              book.coverImg
-                ? ({
-                    "--cover-image": `url("${book.coverImg}")`,
-                  } as React.CSSProperties)
-                : {}
-            }
-          >
-            {book.title}
-          </a>
-          {book.author && ` by ${book.author}`}
-          {book.currentPage && book.totalPages && (
-            <span className={styles.readingProgress}>
-              {` (on page ${book.currentPage}/${book.totalPages}`}
-              {book.lastUpdated && ` ${moment(book.lastUpdated).fromNow()}`}
-              {")"}
-            </span>
-          )}
-        </>
-      )}
-    </>
+    <span className={styles.currentlyReading}>
+      <span className={styles.titleGroup}>
+        Currently reading{" "}
+        {book && (
+          <>
+            <a
+              href={bookUrl}
+              className={styles.bookTitle}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={
+                book.coverImg
+                  ? ({
+                      "--cover-image": `url("${book.coverImg}")`,
+                    } as React.CSSProperties)
+                  : {}
+              }
+            >
+              {book.title}
+            </a>{" "}
+            by {book.author}
+            {book.currentPage && book.totalPages && (
+              <span className={styles.readingProgress}>
+                {" "}
+                (on page {book.currentPage}/{book.totalPages} {timeAgo})
+              </span>
+            )}
+          </>
+        )}
+      </span>
+    </span>
   );
 }
