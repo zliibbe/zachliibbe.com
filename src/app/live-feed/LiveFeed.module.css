@@ -1,0 +1,149 @@
+.main {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+.tabContainer {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.section {
+  margin-bottom: 3rem;
+}
+
+.sectionHeader {
+  margin-bottom: 1.5rem;
+}
+
+.sectionHeader h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.sectionHeader p {
+  color: var(--text-secondary);
+}
+
+.apiLink {
+  color: var(--theme-color);
+  text-decoration: none;
+}
+
+.apiLink:hover {
+  text-decoration: underline;
+}
+
+/* Book section styles */
+.bookGrid {
+  display: grid;
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+.bookCard {
+  display: flex;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: var(--background-secondary);
+  border-radius: var(--border-radius);
+  transition: transform 0.2s ease;
+}
+
+.bookCard:hover {
+  transform: translateY(-2px);
+}
+
+.bookCover {
+  flex-shrink: 0;
+  position: relative;
+  width: 100px;
+  height: 150px;
+}
+
+.bookCover img {
+  border-radius: var(--border-radius);
+  object-fit: cover;
+}
+
+.bookInfo {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.bookTitle {
+  font-size: var(--fs-500);
+  font-weight: 500;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.bookAuthor {
+  font-size: var(--fs-300);
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.bookMeta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: auto;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--theme-color);
+}
+
+.starIcon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.dateRead {
+  color: var(--text-tertiary);
+  font-size: var(--fs-200);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .bookCard {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .bookCover {
+    width: 80px;
+    height: 120px;
+  }
+
+  .bookTitle {
+    font-size: var(--fs-400);
+  }
+
+  .bookMeta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
