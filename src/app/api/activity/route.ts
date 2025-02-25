@@ -1,6 +1,6 @@
-import { kv } from "@vercel/kv";
 import { NextResponse } from "next/server";
-import getLatestActivity from "@/app/api/getLatestActivity";
+import { kv } from "@vercel/kv";
+import { fetchLatestActivity } from "@/lib/strava/utils";
 
 export const dynamic = "force-dynamic"; // Disable route caching
 export const revalidate = 0; // Disable revalidation cache
@@ -8,14 +8,14 @@ export const revalidate = 0; // Disable revalidation cache
 export async function GET() {
   try {
     // Check KV cache first
-    const cachedActivity = await kv.get("latest-activity");
+    const cachedActivity = await kv.get("latest_activity");
     if (cachedActivity) {
       return NextResponse.json(cachedActivity);
     }
 
-    const activity = await getLatestActivity();
+    const activity = await fetchLatestActivity();
     // Cache the activity for 30 minutes
-    await kv.set("latest-activity", activity, { ex: 1800 });
+    await kv.set("latest_activity", activity, { ex: 1800 });
 
     return NextResponse.json(activity);
   } catch (error: any) {
