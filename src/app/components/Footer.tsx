@@ -11,10 +11,10 @@ import {
   FaLinkedin,
   FaEnvelope,
 } from "react-icons/fa6";
-import getLatestActivity from "@/app/api/getLatestActivity";
 import moment from "moment";
 import CurrentlyReading from "./CurrentlyReading";
 import { useTheme } from "@/app/context/ThemeContext";
+import Link from "next/link";
 
 type Book = {
   title: string;
@@ -308,39 +308,47 @@ export default function Footer() {
       <div className={styles.footerContent}>
         <div className={styles.container}>
           <div className={styles.liveFeed}>
-            <p className={styles.liveFeedHeader}>Live Feed:</p>
-            <div className={styles.liveFeedList}>
-              <div className={styles.liveFeedItem}>
-                <a
-                  href="https://www.strava.com/athletes/zachliibbe"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.feedIcon}
-                >
-                  <FaStrava className={styles.stravaIcon} size={30} />
-                </a>
-                <p
-                  className={`${styles.liveFeedText} ${
-                    loading ? styles.loadingText : ""
-                  }`}
-                >
-                  {getActivityDisplay().text}
-                </p>
-              </div>
+            <Link href="/live-feed" className={styles.liveFeedLink}>
+              Live Feed
+            </Link>
+            <div className={styles.feedContent}>
+              <div className={styles.liveFeedList}>
+                <div className={styles.liveFeedItem}>
+                  <a
+                    href="https://www.strava.com/athletes/zachliibbe"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.feedIcon}
+                  >
+                    <FaStrava className={styles.stravaIcon} size={30} />
+                  </a>
+                  <p
+                    className={`${styles.liveFeedText} ${
+                      loading ? styles.loadingText : ""
+                    }`}
+                  >
+                    <span className={styles.liveFeedTextContent}>
+                      {getActivityDisplay().text}
+                    </span>
+                  </p>
+                </div>
 
-              <div className={styles.liveFeedItem}>
-                <a
-                  href="https://www.goodreads.com/user/show/24890536-zach-liibbe"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <span className={styles.feedIcon}>
-                    <FaGoodreads className={styles.goodreadsIcon} size={30} />
-                  </span>
-                </a>
-                <p className={styles.liveFeedText}>
-                  <CurrentlyReading />
-                </p>
+                <div className={styles.liveFeedItem}>
+                  <a
+                    href="https://www.goodreads.com/user/show/24890536-zach-liibbe"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span className={styles.feedIcon}>
+                      <FaGoodreads className={styles.goodreadsIcon} size={30} />
+                    </span>
+                  </a>
+                  <p className={styles.liveFeedText}>
+                    <span className={styles.liveFeedTextContent}>
+                      <CurrentlyReading />
+                    </span>
+                  </p>
+                </div>
               </div>
             </div>
           </div>
