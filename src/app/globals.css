@@ -45,6 +45,7 @@
   --fs-400: 1rem; /* 16px */
   --fs-600: 1.25rem; /* 20px */
   --fs-700: 1.5rem; /* 24px */
+  --fs-750: 1.75rem; /* 28px */
   --fs-800: 2em; /* 32px */
 
   --fs-button: var(var(--fs-300));
@@ -294,6 +295,7 @@ html {
 /* Dark mode */
 html[data-theme="dark"] {
   --background-primary: var(--black);
+  --background-secondary: var(--clr-neutral-500);
   --text-primary: var(--white);
   --text-inverse: var(--black);
   --text-secondary: var(--clr-neutral-300);
