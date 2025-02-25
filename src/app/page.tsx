@@ -21,6 +21,7 @@ export const metadata = {
 export default function Home() {
   return (
     <HomeContent>
+      {/* Design for this site courtesy of Brendan Luna (brendanluna.com) and used with permission. Thanks Brendan! */}
       <div className={styles.heroContainer}>
         <div className={styles.heroGradient} />
         <main className={styles.main}>
