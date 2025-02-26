@@ -44,12 +44,9 @@ function decodeHtmlEntities(text: string): string {
 export const getCurrentlyReading = async (
   event: APIGatewayProxyEvent,
 ): Promise<APIGatewayProxyResult> => {
-  console.log("Lambda execution started");
-
   // Check cache first
   const now = Date.now();
   if (cachedData && now - lastFetch < CACHE_DURATION) {
-    console.log("Returning cached data");
     return {
       statusCode: 200,
       headers: {
@@ -66,7 +63,6 @@ export const getCurrentlyReading = async (
       throw new Error("GOODREADS_USER_ID environment variable is required");
     }
 
-    console.log("Fetching Goodreads RSS feed");
     const response = await fetch(
       `https://www.goodreads.com/user/updates_rss/${userId}`,
     );
@@ -76,7 +72,6 @@ export const getCurrentlyReading = async (
     }
 
     const xml = await response.text();
-    console.log("RSS Feed Content:", xml);
 
     const xmlParser = new XMLParser({
       ignoreAttributes: false,
@@ -123,8 +118,6 @@ export const getCurrentlyReading = async (
           .replace("compressed.", "") // Remove compression indicator
       : null;
 
-    // console.log("currentlyReading.link:", currentlyReading.link);
-
     const bookDetails = {
       title: decodeHtmlEntities(title),
       author: author ? decodeHtmlEntities(author) : null,
@@ -143,7 +136,6 @@ export const getCurrentlyReading = async (
     };
     lastFetch = Date.now();
 
-    console.log("Successfully fetched book details:", bookDetails);
     return {
       statusCode: 200,
       headers: {
