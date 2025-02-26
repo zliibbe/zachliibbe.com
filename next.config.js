@@ -1,7 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["goodreads.com"], // Add any external image domains you need
+    domains: ["goodreads.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "i.gr-assets.com",
+        pathname: "/images/**",
+      },
+    ],
   },
   webpack: (config) => {
     config.resolve.fallback = { fs: false };
