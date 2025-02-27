@@ -111,12 +111,25 @@ export const getCurrentlyReading = async (
 
     // Get cover image URL and upgrade the resolution
     const coverMatch = currentlyReading.description.match(/src="([^"]+)"/);
-    const coverImg = coverMatch
-      ? coverMatch[1]
-          .replace("._SY75_", "") // Remove the size constraint
-          .replace("photo.goodreads.com", "images.gr-assets.com") // Use high-res domain
-          .replace("compressed.", "") // Remove compression indicator
-      : null;
+    let coverImg = null;
+
+    if (coverMatch) {
+      // Process the image URL to make it more reliable
+      coverImg = coverMatch[1]
+        .replace("._SY75_", "") // Remove the size constraint
+        .replace("._SX50_", "") // Remove another possible size constraint
+        .replace("photo.goodreads.com", "images.gr-assets.com"); // Use high-res domain
+
+      // Don't remove compressed part as it might be needed
+      // .replace("compressed.", "")
+
+      // Check if it's an Amazon image and use a different approach
+      if (coverImg.includes("images-na.ssl-images-amazon.com")) {
+        // For Amazon-hosted images, we need a different strategy
+        // Either use a placeholder or try a different URL pattern
+        coverImg = `https://images.gr-assets.com/books/${coverImg.split("/books/")[1].split("/")[0]}`;
+      }
+    }
 
     const bookDetails = {
       title: decodeHtmlEntities(title),
