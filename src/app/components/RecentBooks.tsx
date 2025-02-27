@@ -1,10 +1,8 @@
-"use client";
-
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import styles from "../live-feed/LiveFeed.module.css";
-import { PiStar, PiStarFill } from "react-icons/pi";
+import styles from "./RecentBooks.module.css";
 import moment from "moment";
+import { FaStar, FaStarHalf } from "react-icons/fa6";
 
 interface Book {
   title: string;
@@ -26,16 +24,23 @@ export default function RecentBooks({ onLoadingChange }: RecentBooksProps) {
 
   useEffect(() => {
     async function fetchBooks() {
+      setIsLoading(true);
+      onLoadingChange(true);
+
       try {
         const response = await fetch("/api/feed/books");
+
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
+
         const data = await response.json();
-        // Ensure we're getting an array of books
-        const booksArray = Array.isArray(data) ? data : data.books || [];
-        console.log("Fetched books:", booksArray); // Debug log
-        setBooks(booksArray);
+
+        if (!Array.isArray(data)) {
+          throw new Error("Invalid data format received");
+        }
+
+        setBooks(data.slice(0, 5));
       } catch (error) {
         console.error("Error fetching books:", error);
         setError(
@@ -43,54 +48,95 @@ export default function RecentBooks({ onLoadingChange }: RecentBooksProps) {
         );
       } finally {
         setIsLoading(false);
+        onLoadingChange(false);
       }
     }
 
     fetchBooks();
-  }, []);
+  }, [onLoadingChange]);
 
-  if (isLoading) return <div>Loading books...</div>;
-  if (error) return <div>Error: {error}</div>;
-  if (!books.length) return <div>No books found</div>;
+  const renderRating = (rating: number) => {
+    const stars = [];
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 >= 0.5;
+
+    for (let i = 0; i < fullStars; i++) {
+      stars.push(
+        <FaStar
+          key={`star-${i}`}
+          className={styles.starIcon}
+          aria-hidden="true"
+        />,
+      );
+    }
+
+    if (hasHalfStar) {
+      stars.push(
+        <FaStarHalf
+          key="half-star"
+          className={styles.starIcon}
+          aria-hidden="true"
+        />,
+      );
+    }
+
+    return (
+      <div className={styles.rating} aria-label={`Rating: ${rating} stars`}>
+        {stars}
+      </div>
+    );
+  };
+
+  if (isLoading) {
+    return <div className={styles.loadingText}>Loading books...</div>;
+  }
+
+  if (error) {
+    return <div className={styles.error}>Error loading books: {error}</div>;
+  }
+
+  if (!books || books.length === 0) {
+    return <div className={styles.noBooks}>No recent books found</div>;
+  }
 
   return (
-    <div className={styles.bookGrid}>
-      {books.map((book) => (
-        <a
-          key={book.link}
-          href={book.link}
-          className={styles.bookCard}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <div className={styles.bookCover}>
-            <Image
-              src={book.coverUrl}
-              alt={`Cover of ${book.title}`}
-              fill
-              sizes="100px"
-              style={{ objectFit: "cover" }}
-            />
+    <div className={styles.bookList}>
+      {books.map((book, index) => (
+        <div key={`${book.title}-${index}`} className={styles.bookListItem}>
+          <div className={styles.bookIndexWrapper}>
+            <span className={styles.bookIndex}>{index + 1}.</span>
           </div>
-          <div className={styles.bookInfo}>
-            <h3 className={styles.bookTitle}>{book.title}</h3>
-            <p className={styles.bookAuthor}>{book.author}</p>
-            <div className={styles.bookMeta}>
-              <div className={styles.rating}>
-                {[...Array(5)].map((_, i) =>
-                  i < book.rating ? (
-                    <PiStarFill key={i} className={styles.starIcon} />
-                  ) : (
-                    <PiStar key={i} className={styles.starIcon} />
-                  ),
-                )}
+          <div className={styles.bookContent}>
+            <div className={styles.mainContent}>
+              <a
+                href={`https://www.goodreads.com/book/show/${book.link}`}
+                className={styles.bookTitleLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className={styles.bookCover}>
+                  <Image
+                    src={book.coverUrl}
+                    alt={`Cover of ${book.title}`}
+                    width={60}
+                    height={90}
+                    className={styles.coverImage}
+                  />
+                </div>
+                <div className={styles.titleAuthorWrapper}>
+                  <h3 className={styles.bookTitle}>{book.title}</h3>
+                  <p className={styles.bookAuthor}>By {book.author}</p>
+                </div>
+              </a>
+              <div className={styles.rightContent}>
+                {renderRating(book.rating)}
+                <p className={styles.dateRead}>
+                  Finished {moment(book.dateRead).format("MMMM D, YYYY")}
+                </p>
               </div>
-              <span className={styles.dateRead}>
-                Finished {moment(book.dateRead).format("MMMM D, YYYY")}
-              </span>
             </div>
           </div>
-        </a>
+        </div>
       ))}
     </div>
   );
