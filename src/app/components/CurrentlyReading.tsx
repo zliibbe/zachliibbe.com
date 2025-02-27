@@ -82,7 +82,7 @@ export default function CurrentlyReading() {
 
   const bookUrl = book.link;
   const timeAgo = book.lastUpdated
-    ? `(${moment(book.lastUpdated).fromNow()})`
+    ? `${moment(book.lastUpdated).fromNow()}`
     : "";
 
   return (
