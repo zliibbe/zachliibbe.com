@@ -24,7 +24,6 @@ const getStorage = () => {
     process.env.ENABLE_LOCAL_CACHE_FALLBACK === "true" ||
     process.env.NODE_ENV === "development"
   ) {
-    console.log("Using local cache storage");
     return {
       get: async (key: string) => localCache.get(key),
       set: async (key: string, value: any, options?: { ex?: number }) => {
@@ -111,7 +110,6 @@ export async function getStravaActivities(): Promise<StravaActivity[]> {
           (activity: StravaActivity) => activity.id === latestActivity.id,
         )
       ) {
-        console.log("New activity found, refreshing cache...");
         const freshActivities = await fetchStravaActivities();
         await storage.set(ACTIVITIES_CACHE_KEY, freshActivities, {
           ex: CACHE_DURATION,
@@ -119,11 +117,9 @@ export async function getStravaActivities(): Promise<StravaActivity[]> {
         return freshActivities;
       }
 
-      console.log("Using cached data");
       return cachedData;
     }
 
-    console.log("No cache found, fetching fresh data...");
     const activities = await fetchStravaActivities();
 
     // Cache the response
@@ -137,7 +133,6 @@ export async function getStravaActivities(): Promise<StravaActivity[]> {
 
     // If cache error, try fetching fresh data
     if (error.message?.includes("KV")) {
-      console.log("Cache error, falling back to fresh data...");
       return await fetchStravaActivities();
     }
 
@@ -154,11 +149,9 @@ export async function fetchLatestActivity(): Promise<StravaActivity> {
     );
 
     if (cachedLatest) {
-      console.log("Using cached latest activity");
       return cachedLatest;
     }
 
-    console.log("Fetching fresh latest activity...");
     const accessToken = await getAccessToken();
     const activitiesUrl =
       "https://www.strava.com/api/v3/athlete/activities?per_page=1";

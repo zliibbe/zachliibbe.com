@@ -9,7 +9,6 @@
   display: inline;
   text-decoration: none;
   color: var(--theme-color);
-  /* isolation: isolate; */
 
   .bookTitle::before {
     content: "";
@@ -55,7 +54,6 @@
   color: var(--clr-neutral-350);
 }
 
-/* Create a wrapper class for the title group */
 .titleGroup {
   white-space: wrap;
   word-wrap: break-word;
