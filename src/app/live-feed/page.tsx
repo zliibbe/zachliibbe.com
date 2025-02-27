@@ -11,10 +11,11 @@ import Footer from "../components/Footer";
 
 export default function LiveFeedPage() {
   const [activities, setActivities] = useState<StravaActivity[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [activitiesLoading, setActivitiesLoading] = useState(true);
+  const [activitiesError, setActivitiesError] = useState<string | null>(null);
   const [booksLoading, setBooksLoading] = useState(true);
   const [audiobooksLoading, setAudiobooksLoading] = useState(true);
+  const [audiobooksError, setAudiobooksError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchActivities = async () => {
@@ -22,11 +23,11 @@ export default function LiveFeedPage() {
         const data = await getStravaActivities();
         setActivities(data);
       } catch (err: unknown) {
-        setError(
+        setActivitiesError(
           err instanceof Error ? err.message : "An unknown error occurred",
         );
       } finally {
-        setIsLoading(false);
+        setActivitiesLoading(false);
       }
     };
 
@@ -35,16 +36,16 @@ export default function LiveFeedPage() {
 
   return (
     <main className={styles.main}>
-      <h1 className={styles.title}>Feed</h1>
+      <h1 className={styles.title}>Live Feed</h1>
       <p className={styles.subtitle}>
-        A live feed of my recent activity out in the real world.
+        An up-to-date feed of my recent activity out in the real world
       </p>
 
       <section className={styles.section}>
         <div className={styles.sectionHeader}>
           <h2>Activities</h2>
           <p>
-            A collection of my outdoor (mostly) activities tracked through the{" "}
+            A collection of my outdoor (mostly) activities pulled via the{" "}
             <a href="https://developers.strava.com/" className={styles.apiLink}>
               Strava API
             </a>
@@ -52,11 +53,13 @@ export default function LiveFeedPage() {
           </p>
         </div>
 
-        {isLoading && (
+        {activitiesLoading && (
           <p className={styles.loadingText}>Loading activities...</p>
         )}
-        {error && <p className={styles.error}>Error: {error}</p>}
-        {!isLoading && !error && activities.length > 0 && (
+        {activitiesError && (
+          <p className={styles.error}>Error: {activitiesError}</p>
+        )}
+        {!activitiesLoading && !activitiesError && activities.length > 0 && (
           <ActivityGrid activities={activities} />
         )}
       </section>
@@ -65,37 +68,34 @@ export default function LiveFeedPage() {
         <div className={styles.sectionHeader}>
           <h2>Reading</h2>
           <p>
-            Recent books from my{" "}
+            Books recently completed (via my{" "}
             <a
-              href="https://www.goodreads.com/user/show/24890536-zach-liibbe"
+              href="https://www.goodreads.com/review/list/24890536-zach-liibbe?ref=nav_mybooks&shelf=read"
               className={styles.apiLink}
             >
-              Goodreads
-            </a>{" "}
-            shelf.
+              Goodreads &apos;Read&apos; Shelf
+            </a>
+            )
           </p>
         </div>
-        {error ? (
-          <p className={styles.error}>Error: {error}</p>
-        ) : booksLoading ? (
-          <p className={styles.loadingText}>Loading books...</p>
-        ) : (
-          <RecentBooks onLoadingChange={setBooksLoading} />
-        )}
+        <RecentBooks onLoadingChange={setBooksLoading} />
       </section>
 
       <section className={styles.section}>
         <div className={styles.sectionHeader}>
-          <h2>Recent Audiobooks</h2>
-          <p>Latest audiobooks I&apos;ve listened to.</p>
+          <h2>Listening</h2>
+          <p>
+            Latest audiobooks I&apos;ve listened to (via my{" "}
+            <a
+              href="https://www.goodreads.com/review/list/24890536-zach-liibbe?ref=nav_mybooks&shelf=audiobooks"
+              className={styles.apiLink}
+            >
+              Goodreads &apos;Audiobooks&apos; Shelf
+            </a>
+            )
+          </p>
         </div>
-        {error ? (
-          <p className={styles.error}>Error: {error}</p>
-        ) : audiobooksLoading ? (
-          <p className={styles.loadingText}>Loading audiobooks...</p>
-        ) : (
-          <RecentAudiobooks onLoadingChange={setAudiobooksLoading} />
-        )}
+        <RecentAudiobooks onLoadingChange={setAudiobooksLoading} />
       </section>
       <Footer />
     </main>
