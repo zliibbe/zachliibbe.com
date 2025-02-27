@@ -1,7 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["goodreads.com"],
+    domains: [
+      "images-na.ssl-images-amazon.com",
+      "images.gr-assets.com",
+      "i.gr-assets.com",
+      "images-us.ssl-images-amazon.com",
+      "images-eu.ssl-images-amazon.com",
+    ],
     remotePatterns: [
       {
         protocol: "https",
