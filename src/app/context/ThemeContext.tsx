@@ -94,20 +94,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       // Update localStorage
       localStorage.setItem("darkMode", JSON.stringify(newValue));
 
-      // Log theme change
-      console.log("Theme toggled:", {
-        newTheme: newValue ? "dark" : "light",
-        documentTheme: document.documentElement.getAttribute("data-theme"),
-        computedStyles: {
-          textPrimary: getComputedStyle(
-            document.documentElement,
-          ).getPropertyValue("--text-primary"),
-          bgPrimary: getComputedStyle(
-            document.documentElement,
-          ).getPropertyValue("--background-primary"),
-        },
-      });
-
       return newValue;
     });
   };
