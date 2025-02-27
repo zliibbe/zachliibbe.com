@@ -11,11 +11,6 @@ const CACHE_DURATION = 300; // 5 minutes
 
 export async function GET() {
   try {
-    console.log("KV Config:", {
-      url: process.env.UPSTASH_REDIS_REST_URL ? "Set" : "Missing",
-      token: process.env.UPSTASH_REDIS_REST_TOKEN ? "Set" : "Missing",
-    });
-
     // Try to get cached data first
     const cachedData = await kv.get(CACHE_KEY);
     if (cachedData) {
