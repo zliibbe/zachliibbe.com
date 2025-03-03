@@ -1,58 +1,39 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 // Specify Edge runtime
 export const runtime = "edge";
 
-export async function GET() {
-  try {
-    const lambdaUrl = process.env.GOODREADS_LAMBDA_URL;
-    if (!lambdaUrl) {
-      throw new Error("GOODREADS_LAMBDA_URL is not configured");
-    }
+export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const shelf = searchParams.get("shelf") || "read";
 
-    // Log the environment and URL we're calling
-    console.log(`Environment: ${process.env.NODE_ENV}`);
-    console.log(`Calling Lambda function at: ${lambdaUrl}`);
+  try {
+    // Use the deployed Lambda URL
+    const lambdaUrl = `https://goodreads-lambda.netlify.app/.netlify/functions/goodreads-lambda?shelf=${shelf}`;
 
     const response = await fetch(lambdaUrl, {
-      method: "GET",
       headers: {
-        "Content-Type": "application/json",
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
       },
     });
 
-    // Log the response status
-    console.log(`Lambda response status: ${response.status}`);
-
     if (!response.ok) {
-      throw new Error(
-        `Lambda returned ${response.status}: ${await response.text()}`,
-      );
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const data = await response.json();
-    console.log("Lambda response data:", data);
 
-    return NextResponse.json(data, {
-      status: 200,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET",
-        "Access-Control-Allow-Headers": "Content-Type",
-      },
-    });
+    return NextResponse.json(data);
   } catch (error) {
-    console.error("Error fetching Goodreads data:", error);
+    console.error("Error fetching from Goodreads Lambda:", error);
     return NextResponse.json(
-      { error: "Failed to fetch Goodreads data" },
       {
-        status: 500,
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET",
-          "Access-Control-Allow-Headers": "Content-Type",
-        },
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+        status: "error",
       },
+      { status: 500 },
     );
   }
 }
