@@ -141,47 +141,34 @@ export async function getStravaActivities(): Promise<StravaActivity[]> {
   }
 }
 
-export async function fetchLatestActivity(): Promise<StravaActivity> {
-  try {
-    // Try to get cached latest activity first
-    const cachedLatest = await storage.get<StravaActivity>(
-      LATEST_ACTIVITY_CACHE_KEY,
-    );
+export async function fetchLatestActivity(
+  signal?: AbortSignal,
+): Promise<StravaActivity> {
+  // Get a fresh access token
+  const accessToken = await getAccessToken();
 
-    if (cachedLatest) {
-      return cachedLatest;
-    }
-
-    const accessToken = await getAccessToken();
-    const activitiesUrl =
-      "https://www.strava.com/api/v3/athlete/activities?per_page=1";
-
-    const response = await fetch(activitiesUrl, {
+  // Fetch the latest activity with timeout signal
+  const response = await fetch(
+    "https://www.strava.com/api/v3/athlete/activities?per_page=1",
+    {
       headers: {
         Authorization: `Bearer ${accessToken}`,
-        Accept: "application/json",
-        "Content-Type": "application/json",
       },
-      cache: "no-store",
-    });
+      signal, // Pass the AbortSignal for timeout handling
+    },
+  );
 
-    if (!response.ok) {
-      throw new Error(`Failed to fetch latest activity: ${response.status}`);
-    }
-
-    const activities = await response.json();
-    if (!activities || activities.length === 0) {
-      throw new Error("No activities found");
-    }
-
-    // Cache the latest activity
-    await storage.set(LATEST_ACTIVITY_CACHE_KEY, activities[0], {
-      ex: LATEST_ACTIVITY_CACHE_DURATION,
-    });
-
-    return activities[0];
-  } catch (error) {
-    console.error("Error fetching latest activity:", error);
-    throw error;
+  if (!response.ok) {
+    throw new Error(
+      `Strava API error: ${response.status} ${response.statusText}`,
+    );
   }
+
+  const activities = await response.json();
+
+  if (!activities || activities.length === 0) {
+    throw new Error("No activities found");
+  }
+
+  return activities[0];
 }
