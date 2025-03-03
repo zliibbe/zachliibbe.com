@@ -4,6 +4,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import styles from "./Footer.module.css";
 import Image from "next/image";
+import Link from "next/link";
 import {
   FaGithub,
   FaGoodreads,
@@ -14,7 +15,13 @@ import {
 import moment from "moment";
 import CurrentlyReading from "./CurrentlyReading";
 import { useTheme } from "@/app/context/ThemeContext";
-import Link from "next/link";
+import {
+  formatDistanceToMiles,
+  formatDistanceToYards,
+  formatElapsedTime,
+  getTimeAgo,
+  numberToWords,
+} from "@/app/utils";
 
 type Book = {
   title: string;
@@ -68,16 +75,29 @@ export default function Footer() {
     try {
       setBookLoading(true);
       setBookError(null);
+
+      // Determine which URL to use
+      const useLocalLambda =
+        process.env.NEXT_PUBLIC_USE_LOCAL_LAMBDA === "true";
+      const lambdaUrl = useLocalLambda
+        ? process.env.NEXT_PUBLIC_GOODREADS_LAMBDA_URL_DEV
+        : process.env.NEXT_PUBLIC_GOODREADS_LAMBDA_URL;
+
+      // Use the currently-reading shelf specifically
+      const timestamp = new Date().getTime();
       const response = await fetch(
-        process.env.NEXT_PUBLIC_GOODREADS_LAMBDA_URL || "",
+        `${lambdaUrl}?shelf=currently-reading&limit=1&_=${timestamp}`,
       );
+
       if (!response.ok) {
         throw new Error(`Failed to fetch books: ${response.status}`);
       }
+
       const data = await response.json();
       if (!data.books) {
         throw new Error("No books data received");
       }
+
       setCurrentlyReading(data.books);
     } catch (err) {
       console.error("Error fetching books:", err);
@@ -104,98 +124,18 @@ export default function Footer() {
     };
   }, []);
 
-  const formatDistanceToMiles = (meters: number) => {
-    if (!meters) return "0 mi";
-    const miles = (meters / 1609.344).toFixed(0);
-    return `${miles}-mile`;
-  };
-
-  const formatDistanceToYards = (meters: number) => {
-    if (!meters) return "0 yards";
-    const yards = (meters * 1.094).toFixed(0); // Convert meters to yards
-    return `${yards}-yard`;
-  };
-
-  const numberToWords = (num: number): string => {
-    const ones = [
-      "",
-      "one",
-      "two",
-      "three",
-      "four",
-      "five",
-      "six",
-      "seven",
-      "eight",
-      "nine",
-      "ten",
-      "eleven",
-      "twelve",
-      "thirteen",
-      "fourteen",
-      "fifteen",
-      "sixteen",
-      "seventeen",
-      "eighteen",
-      "nineteen",
-    ];
-    const tens = [
-      "",
-      "",
-      "twenty",
-      "thirty",
-      "forty",
-      "fifty",
-      "sixty",
-      "seventy",
-      "eighty",
-      "ninety",
-    ];
-
-    if (num < 20) return ones[num];
-
-    const digit1 = Math.floor(num / 10);
-    const digit2 = num % 10;
-    return digit2 === 0 ? tens[digit1] : `${tens[digit1]}-${ones[digit2]}`;
-  };
-
-  const getDaysAgo = (activity: any) => {
-    // Convert UTC to local time
-    const activityDate = moment.utc(activity.start_date_local).local();
-    const now = moment();
-    const hoursSince = now.diff(activityDate, "hours");
-    const daysSince = now.diff(activityDate, "days");
-
-    // If less than 24 hours ago, show as "today"
-    if (hoursSince < 24) {
-      return "earlier today";
-    }
-    // If between 24 and 48 hours ago, show as "yesterday"
-    if (hoursSince < 48) {
-      return "yesterday";
-    }
-    // If more than 7 days ago, return the date
-    if (daysSince > 7) {
-      return activityDate.format("MMMM Do");
-    }
-    // Convert number to words for 2-7 days
-    return `${numberToWords(daysSince)} days ago`;
-  };
-
-  const formatElapsedTime = (seconds: number) => {
-    if (!seconds) return "0 min";
-
-    const minutes = Math.floor(seconds / 60);
-    const hours = Math.floor(minutes / 60);
-    const remainingMinutes = minutes % 60;
-
-    if (hours === 0) {
-      return minutes === 1 ? "1 minute" : `${minutes} minutes`;
+  /**
+   * Gets the activity time ago string
+   * @param activity - The Strava activity object
+   * @returns Human-readable time ago string
+   */
+  const getActivityTimeAgo = (activity: any) => {
+    if (!activity || !activity.start_date) {
+      return "recently";
     }
 
-    return remainingMinutes > 0
-      ? `${hours}h ${remainingMinutes}m`
-      : `${hours}h`;
+    // Pass the start_date to getTimeAgo
+    return getTimeAgo(activity.start_date);
   };
 
   const getActivityDisplay = () => {
@@ -204,7 +144,8 @@ export default function Footer() {
     if (!activity) return { text: "No recent activity", isLoading: false };
 
     const getActivityText = () => {
-      const daysAgo = getDaysAgo(activity);
+      // Use the new helper function instead of directly calling getTimeAgo
+      const daysAgo = getActivityTimeAgo(activity);
       const activityUrl = `https://www.strava.com/activities/${activity.id}`;
 
       switch (activity.type) {

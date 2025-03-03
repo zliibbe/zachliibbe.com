@@ -7,6 +7,7 @@ import styles from "./ActivityGrid.module.css";
 import moment from "moment";
 import { StravaActivity } from "@/lib/strava/types";
 import { ReactCalendarHeatmapValue } from "react-calendar-heatmap";
+import { getTimeAgo } from "@/app/utils";
 
 interface ActivityGridProps {
   activities: StravaActivity[];
@@ -18,12 +19,6 @@ interface HeatmapValue extends ReactCalendarHeatmapValue<string> {
   distance?: number;
   moving_time?: number;
 }
-
-// Add proper type for the transform function
-type TransformCallback = (
-  element: SVGProps<SVGElement>,
-  value: HeatmapValue | null,
-) => React.ReactElement | null;
 
 export default function ActivityGrid({ activities }: ActivityGridProps) {
   if (!activities?.length) {
@@ -128,7 +123,8 @@ export default function ActivityGrid({ activities }: ActivityGridProps) {
             if (!value) return "No activity";
             const val = value as HeatmapValue;
             const metric = formatActivityMetric(val);
-            return `${val.name} - ${metric} on ${moment(val.date).format("MMMM D, YYYY")}`;
+            const timeAgo = getTimeAgo(val.date);
+            return `${val.name} - ${metric} on ${moment(val.date).format("MMMM D, YYYY")} (${timeAgo})`;
           }}
           showWeekdayLabels={true}
           weekdayLabels={["M", "T", "W", "Th", "F", "Sa", "Su"]}
@@ -147,10 +143,4 @@ export default function ActivityGrid({ activities }: ActivityGridProps) {
       </div>
     </>
   );
-}
-
-function calculateIntensity(distance: number): 1 | 2 | 3 {
-  if (distance < 5000) return 1; // Less than 5km
-  if (distance < 10000) return 2; // 5-10km
-  return 3; // More than 10km
 }
