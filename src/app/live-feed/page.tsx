@@ -5,7 +5,7 @@ import styles from "./LiveFeed.module.css";
 import ActivityGrid from "../components/ActivityGrid";
 import RecentBooks from "../components/RecentBooks";
 import RecentAudiobooks from "../components/RecentAudiobooks";
-import { getStravaActivities } from "@/lib/strava/utils";
+import { getStravaActivities } from "@/app/utils";
 import { StravaActivity } from "@/lib/strava/types";
 import Footer from "../components/Footer";
 
@@ -15,7 +15,6 @@ export default function LiveFeedPage() {
   const [activitiesError, setActivitiesError] = useState<string | null>(null);
   const [booksLoading, setBooksLoading] = useState(true);
   const [audiobooksLoading, setAudiobooksLoading] = useState(true);
-  const [audiobooksError, setAudiobooksError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchActivities = async () => {
@@ -70,7 +69,7 @@ export default function LiveFeedPage() {
           <p>
             Books recently completed (via my{" "}
             <a
-              href="https://www.goodreads.com/review/list/24890536-zach-liibbe?ref=nav_mybooks&shelf=read"
+              href="https://www.goodreads.com/review/list/24890536-zach-liibbe?ref=nav_mybooks&shelf=zach-read"
               className={styles.apiLink}
             >
               Goodreads &apos;Read&apos; Shelf
