@@ -1,6 +1,35 @@
-service: goodreads-scraper
+service: goodreads-lambda
 
-useDotenv: true
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ${env:AWS_REGION, 'us-east-1'}
+  environment:
+    GOODREADS_USER_ID: ${env:GOODREADS_USER_ID, '24890536'}
+  stage: dev
+
+functions:
+  getCurrentlyReading:
+    handler: handler.getCurrentlyReading
+    events:
+      - http:
+          path: getCurrentlyReading
+          method: get
+          cors: true
+  getReadBooks:
+    handler: handler.getReadBooks
+    events:
+      - http:
+          path: getReadBooks
+          method: get
+          cors: true
+  getAudiobooks:
+    handler: handler.getAudiobooks
+    events:
+      - http:
+          path: getAudiobooks
+          method: get
+          cors: true
 
 plugins:
   - serverless-offline
@@ -8,31 +37,9 @@ plugins:
 custom:
   serverless-offline:
     httpPort: 3003
-    host: "localhost"
-
-provider:
-  name: aws
-  runtime: nodejs18.x
-  region: us-east-1
-  environment:
-    NODE_ENV: ${opt:stage, 'dev'}
-    GOODREADS_EMAIL: ${env:GOODREADS_EMAIL, ''}
-    GOODREADS_PASSWORD: ${env:GOODREADS_PASSWORD, ''}
-    GOODREADS_USER_ID: ${env:GOODREADS_USER_ID, ''}
-
-functions:
-  getCurrentlyReading:
-    handler: handler.getCurrentlyReading
-    events:
-      - http:
-          method: GET
-          path: getCurrentlyReading
-          cors: true
-    timeout: 60
-    memorySize: 2048
-    url: true
-    environment:
-      NODE_ENV: ${opt:stage, 'dev'}
+    stageVariables:
+      stage: dev
+    noPrependStageInUrl: true
 
 # Remove the plugins section and use built-in esbuild
 build:
