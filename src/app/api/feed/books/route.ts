@@ -134,10 +134,13 @@ async function fetchGoodreadsShelf(shelf: string) {
   }
 }
 
+export const dynamic = "force-dynamic";
+
 export async function GET(request: Request) {
   try {
-    const { searchParams } = new URL(request.url);
-    const type = searchParams.get("type");
+    const url = new URL(request.url);
+    const params = url.searchParams;
+    const type = params.get("type");
     const shelf = type === "audiobook" ? "audiobooks" : "read";
 
     // Try to fetch from Goodreads
@@ -155,8 +158,9 @@ export async function GET(request: Request) {
   } catch (error) {
     console.error("Error in books API route:", error);
     // Return fallback data based on the type
-    const { searchParams } = new URL(request.url);
-    const type = searchParams.get("type");
+    const url = new URL(request.url);
+    const params = url.searchParams;
+    const type = params.get("type");
     const fallbackData =
       type === "audiobook" ? fallbackBooks.audiobooks : fallbackBooks.read;
     return NextResponse.json(fallbackData);
