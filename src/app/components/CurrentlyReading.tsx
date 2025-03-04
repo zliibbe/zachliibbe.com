@@ -24,9 +24,12 @@ export default function CurrentlyReading() {
   const fetchWithRetry = async (retries = 3, delay = 2000) => {
     for (let i = 0; i < retries; i++) {
       try {
-        const response = await fetch(
-          process.env.NEXT_PUBLIC_GOODREADS_LAMBDA_URL || "",
-        );
+        const response = await fetch("/api/goodreads/currently-reading", {
+          cache: "no-store",
+          headers: {
+            "Cache-Control": "no-cache",
+          },
+        });
 
         if (!response.ok) {
           console.error(`Attempt ${i + 1}: HTTP error ${response.status}`);

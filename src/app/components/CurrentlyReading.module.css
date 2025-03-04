@@ -1,14 +1,14 @@
 .currentlyReading {
   position: relative;
+  display: inline;
 }
 
 .bookTitle {
   cursor: pointer;
   position: relative;
-  display: inline-block;
+  display: inline;
   text-decoration: none;
   color: var(--theme-color);
-  /* isolation: isolate; */
 
   .bookTitle::before {
     content: "";
@@ -16,6 +16,7 @@
     top: -140px;
     top: -140px;
     transform: translateX(-50%);
+
     width: 90px;
     height: 135px;
     background-image: var(--cover-image);
@@ -47,8 +48,14 @@
 }
 
 .readingProgress {
-  display: block;
-  margin-top: 0.25rem; /* Adds some space between the title and progress */
+  display: inline;
+  margin-top: 0.25rem 0 0.25rem 0;
   font-style: italic;
   color: var(--clr-neutral-350);
+}
+
+.titleGroup {
+  white-space: wrap;
+  word-wrap: break-word;
+  display: inline;
 }

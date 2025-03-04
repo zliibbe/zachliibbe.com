@@ -14,13 +14,7 @@ import {
 } from "react-icons/pi";
 import { useTheme } from "@/app/context/ThemeContext";
 import { themes } from "@/app/styles/themes";
-
-const formatThemeName = (str: string) => {
-  return str
-    .split("-")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
-};
+import { formatThemeName } from "@/app/utils";
 
 export function Preferences() {
   const [isOpen, setIsOpen] = useState(false);
