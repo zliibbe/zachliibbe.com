@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
 
 const STRAVA_OAUTH_URL = "https://www.strava.com/oauth/token";
 const STRAVA_CLIENT_ID = process.env.STRAVA_CLIENT_ID;
@@ -14,50 +13,34 @@ interface TokenResponse {
   refresh_token: string;
 }
 
-export async function POST(request: NextRequest) {
-  if (!STRAVA_CLIENT_ID || !STRAVA_CLIENT_SECRET || !STRAVA_REFRESH_TOKEN) {
-    console.error("Missing environment variables:", {
-      clientId: !STRAVA_CLIENT_ID,
-      clientSecret: !STRAVA_CLIENT_SECRET,
-      refreshToken: !STRAVA_REFRESH_TOKEN,
-    });
-    return NextResponse.json(
-      { error: "Server configuration error - missing required variables" },
-      { status: 500 },
-    );
-  }
-
+export async function POST() {
   try {
-    const response = await fetch(STRAVA_OAUTH_URL, {
+    const tokenResponse = await fetch(STRAVA_OAUTH_URL, {
       method: "POST",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Type": "application/json",
       },
-      body: new URLSearchParams({
+      body: JSON.stringify({
         client_id: STRAVA_CLIENT_ID,
         client_secret: STRAVA_CLIENT_SECRET,
-        grant_type: "refresh_token",
         refresh_token: STRAVA_REFRESH_TOKEN,
+        grant_type: "refresh_token",
       }),
     });
 
-    const data = await response.text();
-
-    if (!response.ok) {
+    if (!tokenResponse.ok) {
       return NextResponse.json(
-        { error: `Token refresh failed: ${response.status} - ${data}` },
-        { status: response.status },
+        { error: `Failed to refresh token: ${tokenResponse.status}` },
+        { status: tokenResponse.status },
       );
     }
 
-    const tokenData = JSON.parse(data) as TokenResponse;
-    return NextResponse.json({ access_token: tokenData.access_token });
+    const data = await tokenResponse.json();
+    return NextResponse.json(data);
   } catch (error) {
-    console.error("Error refreshing token:", error);
+    console.error("Error refreshing Strava token:", error);
     return NextResponse.json(
-      {
-        error: `Failed to refresh token: ${error instanceof Error ? error.message : "Unknown error"}`,
-      },
+      { error: "Failed to refresh Strava token" },
       { status: 500 },
     );
   }
