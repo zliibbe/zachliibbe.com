@@ -183,7 +183,7 @@ export default function RecentBooks({ onLoadingChange }: RecentBooksProps) {
           {books.map((book) => (
             <div key={book.title + book.author} className={styles.bookCard}>
               <a
-                href={cleanGoodreadsUrl(book.link)}
+                href={book.bookLink || "#"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.bookLinkWrapper}

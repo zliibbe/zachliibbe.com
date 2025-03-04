@@ -169,7 +169,7 @@ export default function RecentAudiobooks({
           {audiobooks.map((book) => (
             <div key={book.title + book.author} className={styles.bookCard}>
               <a
-                href={cleanGoodreadsUrl(book.link, book.title)}
+                href={book.bookLink || "#"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.bookLinkWrapper}
