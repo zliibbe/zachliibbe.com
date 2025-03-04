@@ -76,18 +76,7 @@ export default function Footer() {
       setBookLoading(true);
       setBookError(null);
 
-      // Determine which URL to use
-      const useLocalLambda =
-        process.env.NEXT_PUBLIC_USE_LOCAL_LAMBDA === "true";
-      const lambdaUrl = useLocalLambda
-        ? process.env.NEXT_PUBLIC_GOODREADS_LAMBDA_URL_DEV
-        : process.env.NEXT_PUBLIC_GOODREADS_LAMBDA_URL;
-
-      // Use the currently-reading shelf specifically
-      const timestamp = new Date().getTime();
-      const response = await fetch(
-        `${lambdaUrl}?shelf=currently-reading&limit=1&_=${timestamp}`,
-      );
+      const response = await fetch("/api/goodreads/currently-reading");
 
       if (!response.ok) {
         throw new Error(`Failed to fetch books: ${response.status}`);
