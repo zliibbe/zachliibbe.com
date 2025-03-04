@@ -111,7 +111,11 @@ export default function RecentBooks({ onLoadingChange }: RecentBooksProps) {
               coverImg: book.coverImg
                 ? `/api/image-proxy?url=${encodeURIComponent(book.coverImg)}`
                 : null,
-              bookLink: cleanGoodreadsUrl(book.link, book.title),
+              bookLink: book.link
+                ? cleanGoodreadsUrl(book.link, book.title)
+                : book.title
+                  ? `https://www.goodreads.com/book/title?id=${encodeURIComponent(book.title)}`
+                  : "#",
             };
           });
 

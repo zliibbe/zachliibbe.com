@@ -99,7 +99,11 @@ export default function RecentAudiobooks({
               : book.coverUrl
                 ? `/api/image-proxy?url=${encodeURIComponent(book.coverUrl)}`
                 : null,
-            bookLink: cleanGoodreadsUrl(book.link, book.title),
+            bookLink: book.link
+              ? cleanGoodreadsUrl(book.link, book.title)
+              : book.title
+                ? `https://www.goodreads.com/book/title?id=${encodeURIComponent(book.title)}`
+                : "#",
           }));
           setAudiobooks(processedBooks);
           setUsedFallback(false);
