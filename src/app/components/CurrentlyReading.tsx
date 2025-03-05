@@ -1,117 +1,115 @@
 "use client";
 
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./CurrentlyReading.module.css";
 import footerStyles from "./Footer.module.css";
 import moment from "moment";
 
-interface Book {
+type Book = {
   title: string;
-  author: string | null;
-  coverImg: string | null;
-  link: string;
-  currentPage: number | null;
-  totalPages: number | null;
-  lastUpdated: string | null;
-}
+  author: string;
+  coverImg?: string;
+  link?: string;
+  currentPage?: number;
+  totalPages?: number;
+  lastUpdated?: string;
+};
 
 export default function CurrentlyReading() {
-  const [book, setBook] = useState<Book | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [books, setBooks] = useState<Book[]>([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [debugInfo, setDebugInfo] = useState<any>(null);
 
-  const fetchWithRetry = async (retries = 3, delay = 2000) => {
-    for (let i = 0; i < retries; i++) {
+  useEffect(() => {
+    async function fetchBooks() {
       try {
-        const response = await fetch("/api/goodreads/currently-reading", {
-          cache: "no-store",
-          headers: {
-            "Cache-Control": "no-cache",
-          },
-        });
+        setLoading(true);
+        setError(null);
+
+        const response = await fetch("/api/goodreads/currently-reading");
+        const responseText = await response.text();
+
+        // Store raw response for debugging
+        try {
+          setDebugInfo({
+            status: response.status,
+            statusText: response.statusText,
+            rawResponse: responseText.substring(0, 500), // First 500 chars for debugging
+          });
+        } catch (e) {
+          console.error("Error setting debug info:", e);
+        }
 
         if (!response.ok) {
-          console.error(`Attempt ${i + 1}: HTTP error ${response.status}`);
-          const errorData = await response.json().catch(() => ({}));
-          console.error("Error details:", errorData);
           throw new Error(`Failed to fetch books: ${response.status}`);
         }
 
-        const data = await response.json();
-        if (!data.books) {
+        // Parse the response text
+        let data;
+        try {
+          data = JSON.parse(responseText);
+        } catch (parseError) {
+          console.error("Error parsing JSON:", parseError);
+          throw new Error(
+            `Invalid JSON response: ${responseText.substring(0, 100)}...`,
+          );
+        }
+
+        // Check if data is an array or has a books property
+        if (Array.isArray(data)) {
+          setBooks(data);
+        } else if (data && data.books && Array.isArray(data.books)) {
+          setBooks(data.books);
+        } else {
+          console.error("Unexpected data format:", data);
           throw new Error("No books data received");
         }
-        return data;
       } catch (err) {
-        console.error(`Attempt ${i + 1} failed:`, err);
-        if (i === retries - 1) throw err;
-        await new Promise((resolve) => setTimeout(resolve, delay));
+        console.error("Error fetching currently reading books:", err);
+        setError(
+          err instanceof Error ? err.message : "An unknown error occurred",
+        );
+        // Set a fallback empty array so the UI doesn't break
+        setBooks([]);
+      } finally {
+        setLoading(false);
       }
     }
-  };
-
-  useEffect(() => {
-    const fetchBooks = async () => {
-      try {
-        setIsLoading(true);
-        const data = await fetchWithRetry();
-        if (data.books && data.books.length > 0) {
-          setBook(data.books[0]);
-        } else {
-          setBook(null);
-        }
-      } catch (err) {
-        console.error("Error fetching books:", err);
-        setError(err instanceof Error ? err.message : "Failed to fetch book");
-      } finally {
-        setIsLoading(false);
-      }
-    };
 
     fetchBooks();
-
-    const interval = setInterval(fetchBooks, 3600000); // Refresh every 60 minutes
-
-    return () => clearInterval(interval);
   }, []);
 
-  if (isLoading)
+  if (loading)
     return (
       <span className={footerStyles.loadingText}>Loading reading list...</span>
     );
-  if (error) return <span>Error loading reading progress: {error}</span>;
-  if (!book) return <span>No book currently being read</span>;
+  if (error) {
+    // In development, show debug info
+    if (process.env.NODE_ENV === "development" || debugInfo) {
+      console.log("Debug info:", debugInfo);
+    }
+    return <span>Error loading reading progress: {error}</span>;
+  }
+  if (!books || books.length === 0) {
+    return <span>No book currently being read</span>;
+  }
+
+  // Get the first book
+  const currentBook = books[0];
 
   return (
     <>
       Currently reading{" "}
-      {book && (
-        <>
-          <a
-            href={book.link}
-            className={styles.bookTitle}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={
-              book.coverImg
-                ? ({
-                    "--cover-image": `url("${book.coverImg}")`,
-                  } as React.CSSProperties)
-                : {}
-            }
-          >
-            {book.title}
-          </a>
-          {book.author && ` by ${book.author}`}
-          {book.currentPage && book.totalPages && (
-            <span className={styles.readingProgress}>
-              {` (on page ${book.currentPage}/${book.totalPages}`}
-              {book.lastUpdated && ` ${moment(book.lastUpdated).fromNow()}`}
-              {")"}
-            </span>
-          )}
-        </>
+      <strong className={styles.bookTitle}>{currentBook.title}</strong>
+      {currentBook.author && <span> by {currentBook.author}</span>}
+      {currentBook.currentPage && currentBook.totalPages && (
+        <span className={styles.readingProgress}>
+          {` (on page ${currentBook.currentPage}/${currentBook.totalPages}`}
+          {currentBook.lastUpdated &&
+            ` ${moment(currentBook.lastUpdated).fromNow()}`}
+          {")"}
+        </span>
       )}
     </>
   );
