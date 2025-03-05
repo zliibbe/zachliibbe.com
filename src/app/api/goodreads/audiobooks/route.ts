@@ -85,13 +85,37 @@ export async function GET() {
       console.warn("Stale cache error:", staleError);
     }
 
-    // Return a fallback empty array with a 500 status
-    return NextResponse.json(
+    // Return fallback data with error embedded in first item
+    const fallbackAudiobooks = [
       {
-        error: "Failed to fetch audiobooks",
-        details: error instanceof Error ? error.message : String(error),
+        title: "Good Inside",
+        author: "Dr. Becky Kennedy",
+        coverImg: "https://covers.openlibrary.org/b/isbn/9780063159488-M.jpg",
+        link: "https://www.goodreads.com/book/show/59912428-good-inside",
+        dateRead: "2023-07-10",
+        rating: 5,
+        _error: `Failed to fetch audiobooks: ${error instanceof Error ? error.message : String(error)}`,
       },
-      { status: 500 },
-    );
+      {
+        title: "The Anxious Generation",
+        author: "Jonathan Haidt",
+        coverImg:
+          "https://books.google.com/books/content?id=uCvAEAAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_apig",
+        link: "https://www.goodreads.com/book/show/61313190-the-anxious-generation",
+        dateRead: "2023-06-05",
+        rating: 5,
+      },
+      {
+        title: "How Emotions Are Made",
+        author: "Lisa Feldman Barrett",
+        coverImg: "https://covers.openlibrary.org/b/isbn/9780544133310-M.jpg",
+        link: "https://www.goodreads.com/book/show/23719305-how-emotions-are-made",
+        dateRead: "2023-05-15",
+        rating: 4.5,
+      },
+    ];
+
+    console.warn("Using hardcoded fallback audiobooks data");
+    return NextResponse.json(fallbackAudiobooks, { status: 500 });
   }
 }
