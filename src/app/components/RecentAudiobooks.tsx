@@ -29,7 +29,8 @@ const fallbackAudiobooks: Audiobook[] = [
   {
     title: "The Anxious Generation",
     author: "Jonathan Haidt",
-    coverImg: "https://covers.openlibrary.org/b/isbn/9788535939231-M.jpg",
+    coverImg:
+      "https://books.google.com/books/content?id=uCvAEAAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_apig",
     bookLink:
       "https://www.goodreads.com/book/show/61313190-the-anxious-generation",
     dateRead: "2023-06-05",

@@ -28,7 +28,7 @@ const fallbackBooks: Book[] = [
   {
     title: "Jayber Crow",
     author: "Wendell Berry",
-    coverImg: "https://covers.openlibrary.org/b/isbn/9780062188502-M.jpg",
+    coverImg: "https://covers.openlibrary.org/b/isbn/9781582431604-M.jpg",
     link: "https://www.goodreads.com/book/show/57460.Jayber_Crow",
     dateRead: "2023-05-20",
     rating: 5,
