@@ -517,7 +517,6 @@ export function cleanGoodreadsUrl(url: string, title?: string): string {
 
   // If we couldn't parse it properly, return a search URL for the title
   if (title) {
-    console.log("Using title search for", title);
     return `https://www.goodreads.com/book/title?id=${encodeURIComponent(title)}`;
   }
 
