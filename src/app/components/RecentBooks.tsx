@@ -13,6 +13,7 @@ interface Book {
   bookLink?: string;
   dateRead: string;
   rating: number;
+  _error?: string;
 }
 
 // const fallbackBooks: Book[] = [
@@ -84,13 +85,13 @@ export default function RecentBooks({ onLoadingChange }: RecentBooksProps) {
 
         const data = await response.json();
 
-        if (Array.isArray(data) && data.length > 0) {
-          // Check if the first book has an error message
-          if (data[0]._error) {
-            setError(data[0]._error);
-          }
-
-          // Process the book data
+        // Check if data is an array with error information
+        if (Array.isArray(data) && data.length > 0 && data[0]._error) {
+          setError(data[0]._error);
+          setBooks(data); // Still set the books even with error
+          setUsedFallback(true);
+        } else if (Array.isArray(data) && data.length > 0) {
+          // Process the book data as normal
           const processedBooks = data.map((book: Book) => ({
             ...book,
             coverImg: book.coverImg
@@ -104,14 +105,13 @@ export default function RecentBooks({ onLoadingChange }: RecentBooksProps) {
           }));
 
           setBooks(processedBooks);
-          setUsedFallback(!!data[0]._error);
+          setUsedFallback(false);
         } else {
-          console.warn("No books returned from API, using fallback data");
-          // setBooks(fallbackBooks);
+          console.warn("No books returned from API");
+          setError("No books data received");
+          setBooks([]);
           setUsedFallback(true);
         }
-
-        setError(null);
       } catch (err) {
         console.error("Error fetching books:", err);
         setError(err instanceof Error ? err.message : "Failed to fetch books");

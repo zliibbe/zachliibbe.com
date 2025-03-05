@@ -85,7 +85,7 @@ export async function GET() {
       console.warn("Stale cache error:", staleError);
     }
 
-    // Alternative approach - embed error in the response
+    // Return fallback data with error embedded in first item
     const fallbackBooks = [
       {
         title: "The Hobbit",
