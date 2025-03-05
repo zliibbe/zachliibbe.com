@@ -1,22 +1,6 @@
-import { NextRequest, NextResponse } from "next/server";
-import { XMLParser } from "fast-xml-parser";
+import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
-
-interface UserStatus {
-  title: string;
-  author: string;
-  currentPage: number;
-  totalPages: number;
-  link: string;
-  coverImg: string | null;
-  lastUpdated: string;
-}
-
-// Helper function to strip HTML tags
-function stripHtml(html: string): string {
-  return html.replace(/<[^>]*>/g, "");
-}
 
 export async function GET() {
   const requestId = Math.random().toString(36).substring(2, 10);
@@ -28,15 +12,17 @@ export async function GET() {
     let lambdaUrl;
     if (useLocalLambda) {
       // Use local serverless offline URL
-      lambdaUrl = "http://localhost:3003/getCurrentlyReading";
+      lambdaUrl = "http://localhost:3003/getReadBooks";
     } else {
       // Use production URL
-      lambdaUrl = process.env.GOODREADS_GETCURRENTLYREADING_URL_PROD;
+      lambdaUrl = process.env.GOODREADS_GETREADBOOKS_URL_PROD;
     }
 
     if (!lambdaUrl) {
       throw new Error("Goodreads Lambda URL is not configured");
     }
+
+    const startTime = Date.now();
 
     const response = await fetch(lambdaUrl, {
       method: "GET",
@@ -56,7 +42,7 @@ export async function GET() {
 
     const data = await response.json();
 
-    return NextResponse.json(data, {
+    return NextResponse.json(data.books || [], {
       status: 200,
       headers: {
         "Access-Control-Allow-Origin": "*",
@@ -66,17 +52,15 @@ export async function GET() {
       },
     });
   } catch (error) {
-    console.error(`[${requestId}] Error fetching Goodreads data:`, error);
-    return NextResponse.json(
-      { error: "Failed to fetch Goodreads data" },
-      {
-        status: 500,
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET, OPTIONS",
-          "Access-Control-Allow-Headers": "Content-Type",
-        },
+    console.error(`[${requestId}] Error fetching read books:`, error);
+    // Return fallback data or empty array
+    return NextResponse.json([], {
+      status: 500,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
       },
-    );
+    });
   }
 }

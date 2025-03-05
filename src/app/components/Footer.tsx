@@ -21,7 +21,7 @@ import {
   formatElapsedTime,
   getTimeAgo,
   numberToWords,
-} from "@/app/utils";
+} from "@/app/utils/index";
 
 type Book = {
   title: string;
@@ -46,7 +46,7 @@ export default function Footer() {
       setLoading(true);
       setError(null);
 
-      const response = await fetch("/api/activity", {
+      const response = await fetch("/api/strava/latest", {
         next: {
           revalidate: 1800, // Revalidate cache every 30 minutes
         },
