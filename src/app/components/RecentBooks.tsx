@@ -15,33 +15,32 @@ interface Book {
   rating: number;
 }
 
-// Fallback data with Open Library covers
-const fallbackBooks: Book[] = [
-  {
-    title: "The Hobbit",
-    author: "J.R.R. Tolkien",
-    coverImg: "https://covers.openlibrary.org/b/id/12003329-M.jpg",
-    link: "https://www.goodreads.com/book/show/5907.The_Hobbit",
-    dateRead: "2023-06-15",
-    rating: 5,
-  },
-  {
-    title: "Jayber Crow",
-    author: "Wendell Berry",
-    coverImg: "https://covers.openlibrary.org/b/isbn/9781582431604-M.jpg",
-    link: "https://www.goodreads.com/book/show/57460.Jayber_Crow",
-    dateRead: "2023-05-20",
-    rating: 5,
-  },
-  {
-    title: "The Orchardist",
-    author: "Amanda Coplin",
-    coverImg: "https://covers.openlibrary.org/b/isbn/9780062188502-M.jpg",
-    link: "https://www.goodreads.com/book/show/13540351-the-orchardist",
-    dateRead: "2023-04-10",
-    rating: 5,
-  },
-];
+// const fallbackBooks: Book[] = [
+//   {
+//     title: "The Hobbit",
+//     author: "J.R.R. Tolkien",
+//     coverImg: "https://covers.openlibrary.org/b/id/12003329-M.jpg",
+//     link: "https://www.goodreads.com/book/show/5907.The_Hobbit",
+//     dateRead: "2023-06-15",
+//     rating: 5,
+//   },
+//   {
+//     title: "Jayber Crow",
+//     author: "Wendell Berry",
+//     coverImg: "https://covers.openlibrary.org/b/isbn/9781582431604-M.jpg",
+//     link: "https://www.goodreads.com/book/show/57460.Jayber_Crow",
+//     dateRead: "2023-05-20",
+//     rating: 5,
+//   },
+//   {
+//     title: "The Orchardist",
+//     author: "Amanda Coplin",
+//     coverImg: "https://covers.openlibrary.org/b/isbn/9780062188502-M.jpg",
+//     link: "https://www.goodreads.com/book/show/13540351-the-orchardist",
+//     dateRead: "2023-04-10",
+//     rating: 5,
+//   },
+// ];
 
 interface RecentBooksProps {
   onLoadingChange?: (isLoading: boolean) => void;
@@ -86,6 +85,11 @@ export default function RecentBooks({ onLoadingChange }: RecentBooksProps) {
         const data = await response.json();
 
         if (Array.isArray(data) && data.length > 0) {
+          // Check if the first book has an error message
+          if (data[0]._error) {
+            setError(data[0]._error);
+          }
+
           // Process the book data
           const processedBooks = data.map((book: Book) => ({
             ...book,
@@ -100,10 +104,10 @@ export default function RecentBooks({ onLoadingChange }: RecentBooksProps) {
           }));
 
           setBooks(processedBooks);
-          setUsedFallback(false);
+          setUsedFallback(!!data[0]._error);
         } else {
           console.warn("No books returned from API, using fallback data");
-          setBooks(fallbackBooks);
+          // setBooks(fallbackBooks);
           setUsedFallback(true);
         }
 
@@ -111,7 +115,7 @@ export default function RecentBooks({ onLoadingChange }: RecentBooksProps) {
       } catch (err) {
         console.error("Error fetching books:", err);
         setError(err instanceof Error ? err.message : "Failed to fetch books");
-        setBooks(fallbackBooks);
+        // setBooks(fallbackBooks);
         setUsedFallback(true);
       } finally {
         setLoading(false);

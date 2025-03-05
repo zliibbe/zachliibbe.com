@@ -85,13 +85,39 @@ export async function GET() {
       console.warn("Stale cache error:", staleError);
     }
 
-    // Return a fallback empty array with a 500 status
-    return NextResponse.json(
+    // Alternative approach - embed error in the response
+    const fallbackBooks = [
       {
-        error: "Failed to fetch read books",
-        details: error instanceof Error ? error.message : String(error),
+        title: "The Hobbit",
+        author: "J.R.R. Tolkien",
+        coverImg:
+          "https://m.media-amazon.com/images/I/710+HcoP38L._AC_UF1000,1000_QL80_.jpg",
+        link: "https://www.goodreads.com/book/show/5907.The_Hobbit",
+        dateRead: "2023-06-15",
+        rating: 5,
+        _error: `Failed to fetch read books: ${error instanceof Error ? error.message : String(error)}`,
       },
-      { status: 500 },
-    );
+      {
+        title: "Jayber Crow",
+        author: "Wendell Berry",
+        coverImg:
+          "https://m.media-amazon.com/images/I/71nTrlmDdpL._AC_UF1000,1000_QL80_.jpg",
+        link: "https://www.goodreads.com/book/show/57460.Jayber_Crow",
+        dateRead: "2023-05-20",
+        rating: 5,
+      },
+      {
+        title: "The Orchardist",
+        author: "Amanda Coplin",
+        coverImg:
+          "https://m.media-amazon.com/images/I/91Aw2C9BnSL._AC_UF1000,1000_QL80_.jpg",
+        link: "https://www.goodreads.com/book/show/13540351-the-orchardist",
+        dateRead: "2023-04-10",
+        rating: 5,
+      },
+    ];
+
+    console.warn("Using hardcoded fallback books data");
+    return NextResponse.json(fallbackBooks, { status: 500 });
   }
 }
