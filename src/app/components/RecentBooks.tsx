@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "../live-feed/LiveFeed.module.css";
 import { FaStar, FaStarHalf } from "react-icons/fa6";
-import { formatDate, cleanGoodreadsUrl } from "@/app/utils";
+import { formatDate, cleanGoodreadsUrl } from "@/app/utils/index";
 
 interface Book {
   title: string;
   author: string;
-  coverImg?: string;
+  coverImg?: string | null;
   coverUrl?: string;
   link: string;
   bookLink?: string;
@@ -28,7 +28,7 @@ const fallbackBooks: Book[] = [
   {
     title: "Jayber Crow",
     author: "Wendell Berry",
-    coverImg: "https://covers.openlibrary.org/b/id/8240318-M.jpg",
+    coverImg: "https://covers.openlibrary.org/b/isbn/9780062188502-M.jpg",
     link: "https://www.goodreads.com/book/show/57460.Jayber_Crow",
     dateRead: "2023-05-20",
     rating: 5,
@@ -36,7 +36,7 @@ const fallbackBooks: Book[] = [
   {
     title: "The Orchardist",
     author: "Amanda Coplin",
-    coverImg: "https://covers.openlibrary.org/b/id/7081879-M.jpg",
+    coverImg: "https://covers.openlibrary.org/b/isbn/9780062188502-M.jpg",
     link: "https://www.goodreads.com/book/show/13540351-the-orchardist",
     dateRead: "2023-04-10",
     rating: 5,
@@ -59,65 +59,45 @@ export default function RecentBooks({ onLoadingChange }: RecentBooksProps) {
       if (onLoadingChange) onLoadingChange(true);
 
       try {
-        // Use local API route in development, direct Lambda in production
+        // Determine environment and use appropriate endpoint
         const isDevelopment = process.env.NODE_ENV === "development";
-        const useLocalLambda =
-          process.env.NEXT_PUBLIC_USE_LOCAL_LAMBDA === "true";
+        const endpoint = isDevelopment
+          ? "/api/goodreads/read-books"
+          : "/api/goodreads/read-books";
 
-        let endpoint;
-        if (isDevelopment && useLocalLambda) {
-          endpoint =
-            process.env.GOODREADS_GETREADBOOKS_URL_LOCAL ||
-            "http://localhost:3003/getReadBooks";
-        } else {
-          endpoint =
-            process.env.GOODREADS_GETREADBOOKS_URL_PROD ||
-            "https://ogoqlaekgf.execute-api.us-east-1.amazonaws.com/prod/getReadBooks";
-        }
+        // console.log(
+        //   `Fetching books from ${endpoint} (${isDevelopment ? "development" : "production"} environment)`,
+        // );
 
         const response = await fetch(endpoint, {
-          // Add cache control to prevent stale data
-          cache: "no-store",
-          headers: {
-            "Cache-Control": "no-cache",
+          // Use SWR-like pattern with stale-while-revalidate
+          cache: "force-cache",
+          next: {
+            revalidate: 3600, // Revalidate every hour
+            tags: ["books"],
           },
         });
 
         if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
+          console.error(`HTTP error! Status: ${response.status}`);
+          throw new Error(`Failed to fetch books: ${response.status}`);
         }
 
         const data = await response.json();
 
-        if (data.books && data.books.length > 0) {
-          // Process the book data to ensure image URLs use the proxy and fix links
-          const processedBooks = data.books.map((book: Book) => {
-            // Extract the book ID from the review URL
-            let bookLink = book.link;
-
-            // If we have a review URL, try to convert it to a book URL
-            if (book.link && book.link.includes("review/show")) {
-              // Try to extract the book ID from the URL
-              const titleMatch = book.title
-                .toLowerCase()
-                .replace(/[^a-z0-9]/g, "-");
-
-              // Search for the book by title in the Goodreads API
-              bookLink = `https://www.goodreads.com/book/show/${book.link.split("/").pop()}-${titleMatch}`;
-            }
-
-            return {
-              ...book,
-              coverImg: book.coverImg
-                ? `/api/image-proxy?url=${encodeURIComponent(book.coverImg)}`
-                : null,
-              bookLink: book.link
-                ? cleanGoodreadsUrl(book.link, book.title)
-                : book.title
-                  ? `https://www.goodreads.com/book/title?id=${encodeURIComponent(book.title)}`
-                  : "#",
-            };
-          });
+        if (Array.isArray(data) && data.length > 0) {
+          // Process the book data
+          const processedBooks = data.map((book: Book) => ({
+            ...book,
+            coverImg: book.coverImg
+              ? `/api/utils/image-proxy?url=${encodeURIComponent(book.coverImg)}`
+              : null,
+            bookLink: book.link
+              ? cleanGoodreadsUrl(book.link, book.title)
+              : book.title
+                ? `https://www.goodreads.com/book/title?id=${encodeURIComponent(book.title)}`
+                : "#",
+          }));
 
           setBooks(processedBooks);
           setUsedFallback(false);
@@ -130,7 +110,7 @@ export default function RecentBooks({ onLoadingChange }: RecentBooksProps) {
         setError(null);
       } catch (err) {
         console.error("Error fetching books:", err);
-        setError("Failed to load books. Using fallback data instead.");
+        setError(err instanceof Error ? err.message : "Failed to fetch books");
         setBooks(fallbackBooks);
         setUsedFallback(true);
       } finally {
