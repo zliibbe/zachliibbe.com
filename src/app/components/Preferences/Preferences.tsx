@@ -14,7 +14,7 @@ import {
 } from "react-icons/pi";
 import { useTheme } from "@/app/context/ThemeContext";
 import { themes } from "@/app/styles/themes";
-import { formatThemeName } from "@/app/utils";
+import { formatThemeName } from "@/app/utils/index";
 
 export function Preferences() {
   const [isOpen, setIsOpen] = useState(false);
