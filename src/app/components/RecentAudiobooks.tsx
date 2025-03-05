@@ -14,6 +14,7 @@ interface Audiobook {
   link?: string;
   bookLink?: string;
   dateRead: string;
+  _error?: string;
 }
 
 // Fallback data in case the API fails
@@ -87,13 +88,13 @@ export default function RecentAudiobooks({
 
         const data = await response.json();
 
-        if (Array.isArray(data) && data.length > 0) {
-          // Check if the first book has an error message
-          if (data[0]._error) {
-            setError(data[0]._error);
-          }
-
-          // Process the audiobook data
+        // Check if data is an array with error information
+        if (Array.isArray(data) && data.length > 0 && data[0]._error) {
+          setError(data[0]._error);
+          setAudiobooks(data); // Still set the audiobooks even with error
+          setUsedFallback(true);
+        } else if (Array.isArray(data) && data.length > 0) {
+          // Process the audiobook data as normal
           const processedBooks = data.map((book: Audiobook) => ({
             ...book,
             coverImg: book.coverImg
@@ -107,20 +108,19 @@ export default function RecentAudiobooks({
           }));
 
           setAudiobooks(processedBooks);
-          setUsedFallback(!!data[0]._error);
+          setUsedFallback(false);
         } else {
-          console.warn("No audiobooks returned from API, using fallback data");
-          // setAudiobooks(fallbackAudiobooks);
+          console.warn("No audiobooks returned from API");
+          setError("No audiobooks data received");
+          setAudiobooks([]);
           setUsedFallback(true);
         }
-
-        setError(null);
       } catch (err) {
         console.error("Error fetching audiobooks:", err);
         setError(
           err instanceof Error ? err.message : "Failed to fetch audiobooks",
         );
-        // setAudiobooks(fallbackAudiobooks);
+        // Don't set fallback audiobooks here, they should come from the API
         setUsedFallback(true);
       } finally {
         setLoading(false);
