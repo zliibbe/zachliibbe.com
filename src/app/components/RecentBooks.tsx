@@ -169,17 +169,27 @@ export default function RecentBooks({ onLoadingChange }: RecentBooksProps) {
                 className={styles.bookLinkWrapper}
               >
                 <div className={styles.bookCoverContainer}>
-                  {book.coverImg ? (
-                    <Image
-                      src={book.coverImg}
-                      alt={`Cover of ${book.title}`}
-                      className={styles.bookCover}
-                      width={100}
-                      height={150}
-                    />
-                  ) : (
-                    <div className={styles.noCover}>No Cover</div>
-                  )}
+                  <Image
+                    src={book.coverImg || "/images/no-cover.svg"}
+                    alt={`Cover of ${book.title}`}
+                    className={styles.bookCover}
+                    width={100}
+                    height={150}
+                    onError={() => {
+                      const updatedBooks = [...books];
+                      const bookIndex = updatedBooks.findIndex(
+                        (b) =>
+                          b.title === book.title && b.author === book.author,
+                      );
+                      if (bookIndex !== -1) {
+                        updatedBooks[bookIndex] = {
+                          ...updatedBooks[bookIndex],
+                          coverImg: null,
+                        };
+                        setBooks(updatedBooks);
+                      }
+                    }}
+                  />
                 </div>
 
                 <div className={styles.bookContent}>
@@ -218,17 +228,26 @@ export default function RecentBooks({ onLoadingChange }: RecentBooksProps) {
             className={styles.bookLinkWrapper}
           >
             <div className={styles.bookCoverContainer}>
-              {book.coverImg ? (
-                <Image
-                  src={book.coverImg}
-                  alt={`Cover of ${book.title}`}
-                  className={styles.bookCover}
-                  width={100}
-                  height={150}
-                />
-              ) : (
-                <div className={styles.noCover}>No Cover</div>
-              )}
+              <Image
+                src={book.coverImg || "/images/no-cover.png"}
+                alt={`Cover of ${book.title}`}
+                className={styles.bookCover}
+                width={100}
+                height={150}
+                onError={() => {
+                  const updatedBooks = [...books];
+                  const bookIndex = updatedBooks.findIndex(
+                    (b) => b.title === book.title && b.author === book.author,
+                  );
+                  if (bookIndex !== -1) {
+                    updatedBooks[bookIndex] = {
+                      ...updatedBooks[bookIndex],
+                      coverImg: null,
+                    };
+                    setBooks(updatedBooks);
+                  }
+                }}
+              />
             </div>
 
             <div className={styles.bookContent}>
