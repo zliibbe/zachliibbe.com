@@ -1,66 +1,97 @@
 import { NextResponse } from "next/server";
+import { kv } from "@vercel/kv";
 
 export const dynamic = "force-dynamic";
+const CACHE_KEY = "goodreads_read_books";
+const CACHE_DURATION = 3600; // 1 hour
 
 export async function GET() {
-  const requestId = Math.random().toString(36).substring(2, 10);
-
   try {
-    // Determine which URL to use based on environment
-    const useLocalLambda = process.env.NEXT_PUBLIC_USE_LOCAL_LAMBDA === "true";
-
-    let lambdaUrl;
-    if (useLocalLambda) {
-      // Use local serverless offline URL
-      lambdaUrl = "http://localhost:3003/getReadBooks";
-    } else {
-      // Use production URL
-      lambdaUrl = process.env.GOODREADS_GETREADBOOKS_URL_PROD;
+    // Try to get cached data first
+    let cachedData = null;
+    try {
+      cachedData = await kv.get(CACHE_KEY);
+      if (cachedData) {
+        console.log("Returning cached read books data");
+        return NextResponse.json(cachedData);
+      }
+    } catch (kvError) {
+      console.warn("KV cache error:", kvError);
     }
+
+    // Determine which URL to use based on environment
+    const lambdaUrl = process.env.GOODREADS_GETREADBOOKS_URL_PROD;
+    console.log(`Using Lambda URL: ${lambdaUrl}`);
 
     if (!lambdaUrl) {
-      throw new Error("Goodreads Lambda URL is not configured");
+      throw new Error("Lambda URL is not defined");
     }
 
-    const startTime = Date.now();
+    // Fetch data from Lambda function with timeout
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 second timeout
 
-    const response = await fetch(lambdaUrl, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    try {
+      const response = await fetch(lambdaUrl, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        signal: controller.signal,
+      });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error(
-        `[${requestId}] Lambda error: ${response.status}`,
-        errorText,
-      );
-      throw new Error(`Lambda returned ${response.status}: ${errorText}`);
+      clearTimeout(timeoutId);
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error(`Lambda error: ${response.status}`, errorText);
+        throw new Error(`Lambda returned ${response.status}: ${errorText}`);
+      }
+
+      const rawData = await response.text();
+      console.log("Raw Lambda response:", rawData.substring(0, 200) + "...");
+
+      // Parse the JSON data
+      const data = JSON.parse(rawData);
+
+      // Extract the books array
+      const books = data.books || [];
+
+      // Cache the books array
+      try {
+        await kv.set(CACHE_KEY, books, { ex: CACHE_DURATION });
+        // Also set a stale copy that doesn't expire for fallback
+        await kv.set("goodreads_read_books_stale", books);
+      } catch (kvSetError) {
+        console.warn("KV set error:", kvSetError);
+      }
+
+      return NextResponse.json(books);
+    } catch (fetchError) {
+      clearTimeout(timeoutId);
+      throw fetchError;
     }
-
-    const data = await response.json();
-
-    return NextResponse.json(data.books || [], {
-      status: 200,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type",
-        "Cache-Control": "public, max-age=1800", // Cache for 30 minutes
-      },
-    });
   } catch (error) {
-    console.error(`[${requestId}] Error fetching read books:`, error);
-    // Return fallback data or empty array
-    return NextResponse.json([], {
-      status: 500,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type",
+    console.error("Error fetching read books:", error);
+
+    // Try to get stale data as fallback
+    try {
+      const staleData = await kv.get("goodreads_read_books_stale");
+      if (staleData) {
+        console.log("Using stale read books data as fallback");
+        return NextResponse.json(staleData);
+      }
+    } catch (staleError) {
+      console.warn("Stale cache error:", staleError);
+    }
+
+    // Return a fallback empty array with a 500 status
+    return NextResponse.json(
+      {
+        error: "Failed to fetch read books",
+        details: error instanceof Error ? error.message : String(error),
       },
-    });
+      { status: 500 },
+    );
   }
 }
