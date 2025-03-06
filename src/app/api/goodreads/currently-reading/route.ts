@@ -28,7 +28,6 @@ export async function GET() {
     try {
       cachedData = await kv.get(CACHE_KEY);
       if (cachedData) {
-        console.log("Returning cached currently reading data");
         return NextResponse.json(cachedData);
       }
     } catch (kvError) {
@@ -37,7 +36,6 @@ export async function GET() {
 
     // Determine which URL to use based on environment
     const lambdaUrl = process.env.GOODREADS_GETCURRENTLYREADING_URL_PROD;
-    console.log(`Using Lambda URL: ${lambdaUrl}`);
 
     if (!lambdaUrl) {
       throw new Error("Lambda URL is not defined");
@@ -65,7 +63,6 @@ export async function GET() {
       }
 
       const rawData = await response.text();
-      console.log("Raw Lambda response:", rawData);
 
       // Parse the JSON data
       const data = JSON.parse(rawData);
@@ -92,7 +89,6 @@ export async function GET() {
     try {
       const staleData = await kv.get("goodreads_currently_reading_stale");
       if (staleData) {
-        console.log("Using stale currently reading data as fallback");
         return NextResponse.json(staleData);
       }
     } catch (staleError) {
