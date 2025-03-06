@@ -1,22 +1,41 @@
 import { NextResponse } from "next/server";
-import { kv } from "@vercel/kv";
+import { createClient } from "@vercel/kv";
+
+// Create KV client with the new environment variables
+const kv = createClient({
+  url: process.env.KV_KV_REST_API_URL || "",
+  token: process.env.KV_KV_REST_API_TOKEN || "",
+});
 
 export const dynamic = "force-dynamic";
 const CACHE_KEY = "goodreads_read_books";
 const CACHE_DURATION = 3600; // 1 hour
 
-export async function GET() {
+export async function GET(request: Request) {
+  // Add detailed logging
+  console.log("Starting GET request for read-books");
+
+  // Check for force refresh parameter
+  const url = new URL(request.url);
+  const forceRefresh = url.searchParams.get("refresh") === "true";
+  console.log(`Force refresh: ${forceRefresh}`);
+
   try {
-    // Try to get cached data first
-    let cachedData = null;
-    try {
-      cachedData = await kv.get(CACHE_KEY);
-      if (cachedData) {
-        console.log("Returning cached read books data");
-        return NextResponse.json(cachedData);
+    // Try to get cached data first (unless force refresh)
+    if (!forceRefresh) {
+      try {
+        console.log("Attempting to get cached data");
+        const cachedData = await kv.get(CACHE_KEY);
+        if (cachedData) {
+          console.log("Returning cached read books data");
+          return NextResponse.json(cachedData);
+        }
+        console.log("No cached data found");
+      } catch (kvError) {
+        console.warn("KV cache error:", kvError);
       }
-    } catch (kvError) {
-      console.warn("KV cache error:", kvError);
+    } else {
+      console.log("Force refresh requested, skipping cache");
     }
 
     // Determine which URL to use based on environment
@@ -31,93 +50,57 @@ export async function GET() {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 second timeout
 
-    try {
-      const response = await fetch(lambdaUrl, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        signal: controller.signal,
-      });
+    console.log("Fetching data from Lambda");
+    const response = await fetch(lambdaUrl, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      signal: controller.signal,
+    });
 
-      clearTimeout(timeoutId);
+    clearTimeout(timeoutId);
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error(`Lambda error: ${response.status}`, errorText);
-        throw new Error(`Lambda returned ${response.status}: ${errorText}`);
-      }
+    console.log(`Lambda response status: ${response.status}`);
 
-      const rawData = await response.text();
-      console.log("Raw Lambda response:", rawData.substring(0, 200) + "...");
-
-      // Parse the JSON data
-      const data = JSON.parse(rawData);
-
-      // Extract the books array
-      const books = data.books || [];
-
-      // Cache the books array
-      try {
-        await kv.set(CACHE_KEY, books, { ex: CACHE_DURATION });
-        // Also set a stale copy that doesn't expire for fallback
-        await kv.set("goodreads_read_books_stale", books);
-      } catch (kvSetError) {
-        console.warn("KV set error:", kvSetError);
-      }
-
-      return NextResponse.json(books);
-    } catch (fetchError) {
-      clearTimeout(timeoutId);
-      throw fetchError;
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`Lambda error: ${response.status}`, errorText);
+      throw new Error(`Lambda returned ${response.status}: ${errorText}`);
     }
+
+    const data = await response.json();
+    console.log("Successfully received data from Lambda");
+
+    // Cache the data
+    try {
+      await kv.set(CACHE_KEY, data, { ex: CACHE_DURATION });
+      console.log("Data cached successfully");
+    } catch (cacheError) {
+      console.warn("Failed to cache data:", cacheError);
+    }
+
+    return NextResponse.json(data);
   } catch (error) {
     console.error("Error fetching read books:", error);
 
-    // Try to get stale data as fallback
+    // Try to get stale data from cache as fallback
     try {
-      const staleData = await kv.get("goodreads_read_books_stale");
+      const staleData = await kv.get(CACHE_KEY);
       if (staleData) {
-        console.log("Using stale read books data as fallback");
+        console.log("Using stale data from cache as fallback");
         return NextResponse.json(staleData);
       }
-    } catch (staleError) {
-      console.warn("Stale cache error:", staleError);
+    } catch (fallbackError) {
+      console.error("Failed to get stale data:", fallbackError);
     }
 
-    // Return fallback data with error embedded in first item
-    const fallbackBooks = [
+    // Return error response
+    return NextResponse.json(
       {
-        title: "The Hobbit",
-        author: "J.R.R. Tolkien",
-        coverImg:
-          "https://m.media-amazon.com/images/I/710+HcoP38L._AC_UF1000,1000_QL80_.jpg",
-        link: "https://www.goodreads.com/book/show/5907.The_Hobbit",
-        dateRead: "2023-06-15",
-        rating: 5,
-        _error: `Failed to fetch read books: ${error instanceof Error ? error.message : String(error)}`,
+        error: `Failed to fetch books: ${error instanceof Error ? error.message : String(error)}`,
       },
-      {
-        title: "Jayber Crow",
-        author: "Wendell Berry",
-        coverImg:
-          "https://m.media-amazon.com/images/I/71nTrlmDdpL._AC_UF1000,1000_QL80_.jpg",
-        link: "https://www.goodreads.com/book/show/57460.Jayber_Crow",
-        dateRead: "2023-05-20",
-        rating: 5,
-      },
-      {
-        title: "The Orchardist",
-        author: "Amanda Coplin",
-        coverImg:
-          "https://m.media-amazon.com/images/I/91Aw2C9BnSL._AC_UF1000,1000_QL80_.jpg",
-        link: "https://www.goodreads.com/book/show/13540351-the-orchardist",
-        dateRead: "2023-04-10",
-        rating: 5,
-      },
-    ];
-
-    console.warn("Using hardcoded fallback books data");
-    return NextResponse.json(fallbackBooks, { status: 500 });
+      { status: 500 },
+    );
   }
 }
