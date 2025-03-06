@@ -5,9 +5,9 @@ This is a [Next.js](https://nextjs.org/) (v13) project bootstrapped with [`creat
 ## Features
 
 - **Customizable Gradient Background**
-  - Users can personalize the background gradient via a preferences menu. The selected gradient is saved in local storage.
+  - Users can personalize the background gradient via a preferences menu. The selected gradient is saved in local storage for future visits to the site.
 - **Dark Mode Support**
-  - Coming soon! (Currently a work in progress.) A dark mode option is available, with the user's preference stored in local storage for a persistent experience.
+  - A dark mode option is available in the preferences menu, with the user's preference stored in local storage for a persistent experience. This will first load based on the users' system preferences, then once it is changed, it will save the user's preference to local storage to apply in the future.
 - **Gradient Animation Toggle**
   - Users can enable or disable the background gradient animation, with their choice saved in local storage.
 - **Local Storage Persistence**

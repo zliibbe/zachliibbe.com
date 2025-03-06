@@ -5,7 +5,6 @@ import styles from "./LiveFeed.module.css";
 import ActivityGrid from "../components/ActivityGrid";
 import RecentBooks from "../components/RecentBooks";
 import RecentAudiobooks from "../components/RecentAudiobooks";
-import { getStravaActivities } from "@/app/utils";
 import { StravaActivity } from "@/lib/strava/types";
 import Footer from "../components/Footer";
 
@@ -19,7 +18,15 @@ export default function LiveFeedPage() {
   useEffect(() => {
     const fetchActivities = async () => {
       try {
-        const data = await getStravaActivities();
+        const response = await fetch("/api/strava/activities?days=365", {
+          cache: "no-store",
+        });
+
+        if (!response.ok) {
+          throw new Error(`Failed to fetch activities: ${response.status}`);
+        }
+
+        const data = await response.json();
         setActivities(data);
       } catch (err: unknown) {
         setActivitiesError(

@@ -273,7 +273,7 @@ export function calculateIntensity(distance: number): 1 | 2 | 3 {
  */
 export const getStorage = () => {
   // Try to use KV first
-  if (process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN) {
+  if (process.env.KV_KV_REST_API_URL && process.env.KV_KV_REST_API_TOKEN) {
     try {
       return kv;
     } catch (error) {
@@ -517,7 +517,6 @@ export function cleanGoodreadsUrl(url: string, title?: string): string {
 
   // If we couldn't parse it properly, return a search URL for the title
   if (title) {
-    console.log("Using title search for", title);
     return `https://www.goodreads.com/book/title?id=${encodeURIComponent(title)}`;
   }
 
