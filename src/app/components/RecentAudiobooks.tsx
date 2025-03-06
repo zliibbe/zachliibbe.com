@@ -17,37 +17,6 @@ interface Audiobook {
   _error?: string;
 }
 
-// Fallback data in case the API fails
-// const fallbackAudiobooks: Audiobook[] = [
-//   {
-//     title: "Good Inside",
-//     author: "Dr. Becky Kennedy",
-//     coverImg: "https://covers.openlibrary.org/b/isbn/9780063159488-M.jpg",
-//     bookLink: "https://www.goodreads.com/book/show/59912428-good-inside",
-//     dateRead: "2023-07-10",
-//     rating: 5,
-//   },
-//   {
-//     title: "The Anxious Generation",
-//     author: "Jonathan Haidt",
-//     coverImg:
-//       "https://books.google.com/books/content?id=uCvAEAAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_apig",
-//     bookLink:
-//       "https://www.goodreads.com/book/show/61313190-the-anxious-generation",
-//     dateRead: "2023-06-05",
-//     rating: 5,
-//   },
-//   {
-//     title: "How Emotions Are Made",
-//     author: "Lisa Feldman Barrett",
-//     coverImg: "https://covers.openlibrary.org/b/isbn/9780544133310-M.jpg",
-//     bookLink:
-//       "https://www.goodreads.com/book/show/23719305-how-emotions-are-made",
-//     dateRead: "2023-05-15",
-//     rating: 4.5,
-//   },
-// ];
-
 interface RecentAudiobooksProps {
   onLoadingChange?: (isLoading: boolean) => void;
 }

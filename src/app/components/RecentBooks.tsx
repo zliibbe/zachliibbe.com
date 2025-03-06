@@ -16,33 +16,6 @@ interface Book {
   _error?: string;
 }
 
-// const fallbackBooks: Book[] = [
-//   {
-//     title: "The Hobbit",
-//     author: "J.R.R. Tolkien",
-//     coverImg: "https://covers.openlibrary.org/b/id/12003329-M.jpg",
-//     link: "https://www.goodreads.com/book/show/5907.The_Hobbit",
-//     dateRead: "2023-06-15",
-//     rating: 5,
-//   },
-//   {
-//     title: "Jayber Crow",
-//     author: "Wendell Berry",
-//     coverImg: "https://covers.openlibrary.org/b/isbn/9781582431604-M.jpg",
-//     link: "https://www.goodreads.com/book/show/57460.Jayber_Crow",
-//     dateRead: "2023-05-20",
-//     rating: 5,
-//   },
-//   {
-//     title: "The Orchardist",
-//     author: "Amanda Coplin",
-//     coverImg: "https://covers.openlibrary.org/b/isbn/9780062188502-M.jpg",
-//     link: "https://www.goodreads.com/book/show/13540351-the-orchardist",
-//     dateRead: "2023-04-10",
-//     rating: 5,
-//   },
-// ];
-
 interface RecentBooksProps {
   onLoadingChange?: (isLoading: boolean) => void;
 }

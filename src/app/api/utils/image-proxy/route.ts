@@ -11,8 +11,6 @@ export async function GET(request: NextRequest) {
       return new NextResponse("Missing image URL", { status: 400 });
     }
 
-    console.log(`Proxying image: ${imageUrl}`);
-
     const response = await fetch(imageUrl, {
       headers: {
         // Add a user agent to avoid being blocked by some image hosts
