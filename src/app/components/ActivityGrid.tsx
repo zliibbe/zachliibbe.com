@@ -7,7 +7,7 @@ import styles from "./ActivityGrid.module.css";
 import moment from "moment";
 import { StravaActivity } from "@/lib/strava/types";
 import { ReactCalendarHeatmapValue } from "react-calendar-heatmap";
-import { getTimeAgo } from "@/app/utils";
+import { getTimeAgo } from "@/app/utils/index";
 
 interface ActivityGridProps {
   activities: StravaActivity[];
@@ -21,7 +21,18 @@ interface HeatmapValue extends ReactCalendarHeatmapValue<string> {
 }
 
 export default function ActivityGrid({ activities }: ActivityGridProps) {
-  if (!activities?.length) {
+  if (!activities) {
+    return <div className={styles.errorState}>Loading activities...</div>;
+  }
+
+  if (!Array.isArray(activities)) {
+    console.error("Activities is not an array:", activities);
+    return (
+      <div className={styles.errorState}>Error: Invalid activity data</div>
+    );
+  }
+
+  if (!activities.length) {
     return <div className={styles.errorState}>No activities found</div>;
   }
 

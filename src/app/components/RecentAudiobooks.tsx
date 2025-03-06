@@ -3,48 +3,19 @@ import Image from "next/image";
 import styles from "../live-feed/LiveFeed.module.css";
 import { PiHeadphones } from "react-icons/pi";
 import { FaStar, FaStarHalf } from "react-icons/fa6";
-import { formatDate, cleanGoodreadsUrl } from "@/app/utils";
+import { formatDate, cleanGoodreadsUrl } from "@/app/utils/index";
 
 interface Audiobook {
   title: string;
   author: string;
-  coverImg?: string;
+  coverImg?: string | null;
   coverUrl?: string;
   rating: number;
   link?: string;
   bookLink?: string;
   dateRead: string;
+  _error?: string;
 }
-
-// Fallback data in case the API fails
-const fallbackAudiobooks: Audiobook[] = [
-  {
-    title: "Good Inside",
-    author: "Dr. Becky Kennedy",
-    coverImg: "https://covers.openlibrary.org/b/id/12953057-M.jpg",
-    bookLink: "https://www.goodreads.com/book/show/59912428-good-inside",
-    dateRead: "2023-07-10",
-    rating: 5,
-  },
-  {
-    title: "The Anxious Generation",
-    author: "Jonathan Haidt",
-    coverImg: "https://covers.openlibrary.org/b/id/14438175-M.jpg",
-    bookLink:
-      "https://www.goodreads.com/book/show/61313190-the-anxious-generation",
-    dateRead: "2023-06-05",
-    rating: 5,
-  },
-  {
-    title: "How Emotions Are Made",
-    author: "Lisa Feldman Barrett",
-    coverImg: "https://covers.openlibrary.org/b/id/8242255-M.jpg",
-    bookLink:
-      "https://www.goodreads.com/book/show/23719305-how-emotions-are-made",
-    dateRead: "2023-05-15",
-    rating: 4.5,
-  },
-];
 
 interface RecentAudiobooksProps {
   onLoadingChange?: (isLoading: boolean) => void;
@@ -64,60 +35,61 @@ export default function RecentAudiobooks({
       if (onLoadingChange) onLoadingChange(true);
 
       try {
-        // Use local API route in development, direct Lambda in production
+        // Determine environment and use appropriate endpoint
         const isDevelopment = process.env.NODE_ENV === "development";
-        const useLocalLambda =
-          process.env.NEXT_PUBLIC_USE_LOCAL_LAMBDA === "true";
-
-        let endpoint;
-        if (isDevelopment && useLocalLambda) {
-          endpoint = `${process.env.GOODREADS_GETAUDIOBOOKS_URL_LOCAL}`;
-        } else {
-          endpoint = `${process.env.GOODREADS_GETAUDIOBOOKS_URL_PROD}`;
-        }
+        const endpoint = isDevelopment
+          ? "/api/goodreads/audiobooks"
+          : "/api/goodreads/audiobooks";
 
         const response = await fetch(endpoint, {
-          // Add cache control to prevent stale data
-          cache: "no-store",
-          headers: {
-            "Cache-Control": "no-cache",
+          // Use SWR-like pattern with stale-while-revalidate
+          cache: "force-cache",
+          next: {
+            revalidate: 3600, // Revalidate every hour
+            tags: ["audiobooks"],
           },
         });
 
         if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
+          console.error(`HTTP error! Status: ${response.status}`);
+          throw new Error(`Failed to fetch audiobooks: ${response.status}`);
         }
 
         const data = await response.json();
 
-        if (data.books && data.books.length > 0) {
-          // Process the book data to ensure image URLs use the proxy
-          const processedBooks = data.books.map((book: Audiobook) => ({
+        // Check if data is an array with error information
+        if (Array.isArray(data) && data.length > 0 && data[0]._error) {
+          setError(data[0]._error);
+          setAudiobooks(data); // Still set the audiobooks even with error
+          setUsedFallback(true);
+        } else if (Array.isArray(data) && data.length > 0) {
+          // Process the audiobook data as normal
+          const processedBooks = data.map((book: Audiobook) => ({
             ...book,
             coverImg: book.coverImg
-              ? `/api/image-proxy?url=${encodeURIComponent(book.coverImg)}`
-              : book.coverUrl
-                ? `/api/image-proxy?url=${encodeURIComponent(book.coverUrl)}`
-                : null,
+              ? `/api/utils/image-proxy?url=${encodeURIComponent(book.coverImg)}`
+              : null,
             bookLink: book.link
               ? cleanGoodreadsUrl(book.link, book.title)
               : book.title
                 ? `https://www.goodreads.com/book/title?id=${encodeURIComponent(book.title)}`
                 : "#",
           }));
+
           setAudiobooks(processedBooks);
           setUsedFallback(false);
         } else {
-          console.warn("No audiobooks returned from API, using fallback data");
-          setAudiobooks(fallbackAudiobooks);
+          console.warn("No audiobooks returned from API");
+          setError("No audiobooks data received");
+          setAudiobooks([]);
           setUsedFallback(true);
         }
-
-        setError(null);
       } catch (err) {
         console.error("Error fetching audiobooks:", err);
-        setError("Failed to load audiobooks. Using fallback data instead.");
-        setAudiobooks(fallbackAudiobooks);
+        setError(
+          err instanceof Error ? err.message : "Failed to fetch audiobooks",
+        );
+        // Don't set fallback audiobooks here, they should come from the API
         setUsedFallback(true);
       } finally {
         setLoading(false);

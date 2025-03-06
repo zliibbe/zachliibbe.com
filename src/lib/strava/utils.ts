@@ -11,7 +11,7 @@ const localCache = new Map();
 
 const getStorage = () => {
   // Try to use KV first
-  if (process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN) {
+  if (process.env.KV_KV_REST_API_URL && process.env.KV_KV_REST_API_TOKEN) {
     try {
       return kv;
     } catch (error) {

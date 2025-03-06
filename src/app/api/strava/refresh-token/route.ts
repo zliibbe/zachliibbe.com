@@ -35,7 +35,7 @@ export async function POST() {
       );
     }
 
-    const data = await tokenResponse.json();
+    const data = (await tokenResponse.json()) as TokenResponse;
     return NextResponse.json(data);
   } catch (error) {
     console.error("Error refreshing Strava token:", error);
