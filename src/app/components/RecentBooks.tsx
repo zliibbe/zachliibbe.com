@@ -24,7 +24,6 @@ export default function RecentBooks({ onLoadingChange }: RecentBooksProps) {
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [usedFallback, setUsedFallback] = useState(false);
 
   useEffect(() => {
     async function fetchBooks() {
@@ -32,39 +31,14 @@ export default function RecentBooks({ onLoadingChange }: RecentBooksProps) {
       if (onLoadingChange) onLoadingChange(true);
 
       try {
-        // Determine environment and use appropriate endpoint
-        const isDevelopment = process.env.NODE_ENV === "development";
-        const endpoint = isDevelopment
-          ? "/api/goodreads/read-books"
-          : "/api/goodreads/read-books";
-
-        // console.log(
-        //   `Fetching books from ${endpoint} (${isDevelopment ? "development" : "production"} environment)`,
-        // );
-
-        const response = await fetch(endpoint, {
-          // Use SWR-like pattern with stale-while-revalidate
-          cache: "force-cache",
-          next: {
-            revalidate: 3600, // Revalidate every hour
-            tags: ["books"],
-          },
+        const response = await fetch("/api/goodreads/read-books", {
+          cache: "no-store", // Don't use cache to ensure we get fresh data or fallbacks
         });
-
-        if (!response.ok) {
-          console.error(`HTTP error! Status: ${response.status}`);
-          throw new Error(`Failed to fetch books: ${response.status}`);
-        }
 
         const data = await response.json();
 
-        // Check if data is an array with error information
-        if (Array.isArray(data) && data.length > 0 && data[0]._error) {
-          setError(data[0]._error);
-          setBooks(data); // Still set the books even with error
-          setUsedFallback(true);
-        } else if (Array.isArray(data) && data.length > 0) {
-          // Process the book data as normal
+        if (Array.isArray(data) && data.length > 0) {
+          // Process the book data
           const processedBooks = data.map((book: Book) => ({
             ...book,
             coverImg: book.coverImg
@@ -78,18 +52,15 @@ export default function RecentBooks({ onLoadingChange }: RecentBooksProps) {
           }));
 
           setBooks(processedBooks);
-          setUsedFallback(false);
+          setError(null);
         } else {
           console.warn("No books returned from API");
           setError("No books data received");
           setBooks([]);
-          setUsedFallback(true);
         }
       } catch (err) {
         console.error("Error fetching books:", err);
         setError(err instanceof Error ? err.message : "Failed to fetch books");
-        // setBooks(fallbackBooks);
-        setUsedFallback(true);
       } finally {
         setLoading(false);
         if (onLoadingChange) onLoadingChange(false);

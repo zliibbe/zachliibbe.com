@@ -27,7 +27,6 @@ export default function RecentAudiobooks({
   const [audiobooks, setAudiobooks] = useState<Audiobook[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [usedFallback, setUsedFallback] = useState(false);
 
   useEffect(() => {
     async function fetchAudiobooks() {
@@ -35,35 +34,14 @@ export default function RecentAudiobooks({
       if (onLoadingChange) onLoadingChange(true);
 
       try {
-        // Determine environment and use appropriate endpoint
-        const isDevelopment = process.env.NODE_ENV === "development";
-        const endpoint = isDevelopment
-          ? "/api/goodreads/audiobooks"
-          : "/api/goodreads/audiobooks";
-
-        const response = await fetch(endpoint, {
-          // Use SWR-like pattern with stale-while-revalidate
-          cache: "force-cache",
-          next: {
-            revalidate: 3600, // Revalidate every hour
-            tags: ["audiobooks"],
-          },
+        const response = await fetch("/api/goodreads/audiobooks", {
+          cache: "no-store", // Don't use cache to ensure we get fresh data or fallbacks
         });
-
-        if (!response.ok) {
-          console.error(`HTTP error! Status: ${response.status}`);
-          throw new Error(`Failed to fetch audiobooks: ${response.status}`);
-        }
 
         const data = await response.json();
 
-        // Check if data is an array with error information
-        if (Array.isArray(data) && data.length > 0 && data[0]._error) {
-          setError(data[0]._error);
-          setAudiobooks(data); // Still set the audiobooks even with error
-          setUsedFallback(true);
-        } else if (Array.isArray(data) && data.length > 0) {
-          // Process the audiobook data as normal
+        if (Array.isArray(data) && data.length > 0) {
+          // Process the audiobook data
           const processedBooks = data.map((book: Audiobook) => ({
             ...book,
             coverImg: book.coverImg
@@ -77,20 +55,17 @@ export default function RecentAudiobooks({
           }));
 
           setAudiobooks(processedBooks);
-          setUsedFallback(false);
+          setError(null);
         } else {
           console.warn("No audiobooks returned from API");
           setError("No audiobooks data received");
           setAudiobooks([]);
-          setUsedFallback(true);
         }
       } catch (err) {
         console.error("Error fetching audiobooks:", err);
         setError(
           err instanceof Error ? err.message : "Failed to fetch audiobooks",
         );
-        // Don't set fallback audiobooks here, they should come from the API
-        setUsedFallback(true);
       } finally {
         setLoading(false);
         if (onLoadingChange) onLoadingChange(false);
