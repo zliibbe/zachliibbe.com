@@ -283,6 +283,16 @@
   margin-bottom: 0.75rem;
 }
 
+/* Add these new styles for author links */
+.bookLinkWrapper .bookAuthor {
+  text-decoration: none;
+}
+
+.bookLinkWrapper:hover .bookAuthor {
+  text-decoration: underline;
+  text-decoration-color: currentColor; /* This makes the underline match the text color */
+}
+
 .bookMeta {
   display: flex;
   flex-direction: column;
