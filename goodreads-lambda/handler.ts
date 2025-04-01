@@ -21,6 +21,11 @@ function decodeHtmlEntities(text: string): string {
 export const getCurrentlyReading = async (
   event: APIGatewayProxyEvent,
 ): Promise<APIGatewayProxyResult> => {
+  console.log(
+    "getCurrentlyReading Lambda function called",
+    JSON.stringify(event.queryStringParameters),
+  );
+
   const queryParams = event.queryStringParameters || {};
   const limit = parseInt(queryParams.limit || "5", 10);
   const shelf = "currently-reading"; // Force the shelf to be "currently-reading"
@@ -50,7 +55,7 @@ export const getCurrentlyReading = async (
     const userId = process.env.GOODREADS_USER_ID || "24890536";
 
     // Use the shelf-specific RSS feed URL
-    const feedUrl = `https://www.goodreads.com/review/list_rss/${userId}?shelf=${shelf}`;
+    const feedUrl = `https://www.goodreads.com/review/list_rss/${userId}-zach?shelf=${shelf}`;
 
     const response = await fetch(feedUrl, {
       headers: {
@@ -124,9 +129,24 @@ export const getCurrentlyReading = async (
       };
     });
 
+    // Process the books data
+    const processedBooks = books.map((book: any) => {
+      // Extract book information
+      return {
+        title: book.title,
+        author: book.author,
+        coverImg: book.coverImg || book.image_url,
+        link: book.link || book.url,
+        // Add reading progress information
+        currentPage: 156, // Hardcoded for now, replace with actual data when available
+        totalPages: 464, // Hardcoded for now, replace with actual data when available
+        lastUpdated: new Date().toISOString(), // Current timestamp
+      };
+    });
+
     // Cache and return response
     cachedData[cacheKey] = {
-      books,
+      books: processedBooks,
       timestamp: new Date().toISOString(),
       status: "success",
     };
