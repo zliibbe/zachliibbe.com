@@ -39,7 +39,7 @@ export async function GET(request: Request) {
         console.warn("KV cache error:", kvError);
       }
     } else {
-      console.log("Force refresh requested, skipping cache");
+      // console.log("Force refresh requested, skipping cache");
     }
 
     // Use production Lambda URL from environment variables
@@ -99,7 +99,7 @@ export async function GET(request: Request) {
       // Cache the processed audiobooks
       try {
         await kv.set(CACHE_KEY, normalizedAudiobooks, { ex: CACHE_DURATION });
-        console.log("Data cached successfully for 5 minutes");
+        // console.log("Data cached successfully for 5 minutes");
       } catch (cacheError) {
         console.warn("Failed to cache data:", cacheError);
       }

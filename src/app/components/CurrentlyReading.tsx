@@ -80,7 +80,7 @@ export default function CurrentlyReading() {
           lastUpdated: book.lastUpdated || book.last_updated || null,
         }));
 
-        console.log("normalizedBooks:", normalizedBooks);
+        // console.log("normalizedBooks:", normalizedBooks);
 
         // Sort books by lastUpdated (most recent first)
         if (normalizedBooks.length > 0) {
@@ -125,7 +125,7 @@ export default function CurrentlyReading() {
   if (error) {
     // In development, show debug info
     if (process.env.NODE_ENV === "development" || debugInfo) {
-      console.log("Debug info:", debugInfo);
+      // console.log("Debug info:", debugInfo);
     }
     return <span>Error loading reading progress: {error}</span>;
   }

@@ -40,7 +40,7 @@ export async function GET(request: Request) {
         console.warn("KV cache error:", kvError);
       }
     } else {
-      console.log("Force refresh requested, skipping cache");
+      // console.log("Force refresh requested, skipping cache");
     }
 
     // Use the production Lambda URL from environment variables
