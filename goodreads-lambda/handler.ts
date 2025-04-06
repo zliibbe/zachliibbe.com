@@ -21,10 +21,10 @@ function decodeHtmlEntities(text: string): string {
 export const getCurrentlyReading = async (
   event: APIGatewayProxyEvent,
 ): Promise<APIGatewayProxyResult> => {
-  console.log(
-    "getCurrentlyReading Lambda function called",
-    JSON.stringify(event.queryStringParameters),
-  );
+  // console.log(
+  //   "getCurrentlyReading Lambda function called",
+  //   JSON.stringify(event.queryStringParameters),
+  // );
 
   const queryParams = event.queryStringParameters || {};
   const limit = parseInt(queryParams.limit || "5", 10);
