@@ -18,5 +18,5 @@ if (missingVars.length > 0) {
   console.error("Missing required environment variables:", missingVars);
   process.exit(1);
 } else {
-  console.log("All required environment variables are set");
+  // console.log("All required environment variables are set");
 }
