@@ -110,13 +110,19 @@
 }
 
 .gearIcon {
+  position: relative;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: none;
-  border: none;
   padding: 0;
+  border: none;
   cursor: pointer;
-  height: 2rem;
-  width: 2rem;
   fill: hsl(0, 0%, 100%);
+  padding: 0;
+  opacity: 1;
 }
 
 .gearIcon:hover,

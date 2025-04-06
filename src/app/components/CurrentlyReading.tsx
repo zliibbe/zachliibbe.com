@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./CurrentlyReading.module.css";
 import footerStyles from "./Footer.module.css";
-import moment from "moment";
+import { getTimeAgo } from "@/app/utils/index";
 
 type Book = {
   title: string;
@@ -27,7 +27,9 @@ export default function CurrentlyReading() {
         setLoading(true);
         setError(null);
 
-        const response = await fetch("/api/goodreads/currently-reading");
+        const response = await fetch(
+          "/api/goodreads/currently-reading?refresh=true",
+        );
         const responseText = await response.text();
 
         // Store raw response for debugging
@@ -57,21 +59,57 @@ export default function CurrentlyReading() {
         }
 
         // Check if data is an array or has a books property
+        let booksArray = [];
         if (Array.isArray(data)) {
-          setBooks(data);
+          booksArray = data;
         } else if (data && data.books && Array.isArray(data.books)) {
-          setBooks(data.books);
+          booksArray = data.books;
         } else {
           console.error("Unexpected data format:", data);
           throw new Error("No books data received");
         }
+
+        // Normalize the data to ensure consistent property names
+        const normalizedBooks = booksArray.map((book: any) => ({
+          title: book.title,
+          author: book.author,
+          coverImg: book.coverImg || book.cover_url || null,
+          link: book.link || book.url || null,
+          currentPage: book.currentPage || book.current_page || null,
+          totalPages: book.totalPages || book.total_pages || null,
+          lastUpdated: book.lastUpdated || book.last_updated || null,
+        }));
+
+        // console.log("normalizedBooks:", normalizedBooks);
+
+        // Sort books by lastUpdated (most recent first)
+        if (normalizedBooks.length > 0) {
+          normalizedBooks.sort((a: Book, b: Book) => {
+            const dateA = a.lastUpdated ? new Date(a.lastUpdated).getTime() : 0;
+            const dateB = b.lastUpdated ? new Date(b.lastUpdated).getTime() : 0;
+            return dateB - dateA; // Most recent first
+          });
+        }
+
+        setBooks(normalizedBooks);
       } catch (err) {
         console.error("Error fetching currently reading books:", err);
         setError(
           err instanceof Error ? err.message : "An unknown error occurred",
         );
-        // Set a fallback empty array so the UI doesn't break
-        setBooks([]);
+
+        // Set fallback data for testing
+        const fallbackBook: Book = {
+          title: "The Four Winds",
+          author: "Kristin Hannah",
+          currentPage: 156,
+          totalPages: 464,
+          lastUpdated: new Date().toISOString(),
+        };
+
+        setBooks([fallbackBook]);
+        // Comment out the line below to use fallback data instead of showing error
+        // setBooks([]);
       } finally {
         setLoading(false);
       }
@@ -87,7 +125,7 @@ export default function CurrentlyReading() {
   if (error) {
     // In development, show debug info
     if (process.env.NODE_ENV === "development" || debugInfo) {
-      console.log("Debug info:", debugInfo);
+      // console.log("Debug info:", debugInfo);
     }
     return <span>Error loading reading progress: {error}</span>;
   }
@@ -106,8 +144,7 @@ export default function CurrentlyReading() {
       {currentBook.currentPage && currentBook.totalPages && (
         <span className={styles.readingProgress}>
           {` (on page ${currentBook.currentPage}/${currentBook.totalPages}`}
-          {currentBook.lastUpdated &&
-            ` ${moment(currentBook.lastUpdated).fromNow()}`}
+          {currentBook.lastUpdated && ` ${getTimeAgo(currentBook.lastUpdated)}`}
           {")"}
         </span>
       )}

@@ -83,11 +83,17 @@ export default function Footer() {
       }
 
       const data = await response.json();
-      if (!data.books) {
+      // Check if data is an array or has a books property
+      let booksArray = [];
+      if (Array.isArray(data)) {
+        booksArray = data;
+      } else if (data && data.books && Array.isArray(data.books)) {
+        booksArray = data.books;
+      } else {
         throw new Error("No books data received");
       }
 
-      setCurrentlyReading(data.books);
+      setCurrentlyReading(booksArray);
     } catch (err) {
       console.error("Error fetching books:", err);
       setBookError(

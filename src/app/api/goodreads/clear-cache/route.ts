@@ -11,7 +11,7 @@ export async function GET() {
   try {
     // List all keys for debugging
     const keys = await kv.keys("*");
-    console.log("All keys before deletion:", keys);
+    // console.log("All keys before deletion:", keys);
 
     // Delete the cached data
     let deletedKeys = [];

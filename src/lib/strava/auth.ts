@@ -18,7 +18,7 @@ export async function getStravaToken(): Promise<TokenData | null> {
 }
 
 export async function refreshStravaToken(): Promise<string> {
-  console.log("Refreshing Strava token...");
+  // console.log("Refreshing Strava token...");
 
   const clientId = process.env.STRAVA_CLIENT_ID;
   const clientSecret = process.env.STRAVA_CLIENT_SECRET;

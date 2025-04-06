@@ -7,7 +7,7 @@ export { kv };
 export async function verifyKVConnection() {
   try {
     await kv.ping();
-    console.log("Successfully connected to KV store");
+    // console.log("Successfully connected to KV store");
     return true;
   } catch (error) {
     console.error("Failed to connect to KV store:", error);

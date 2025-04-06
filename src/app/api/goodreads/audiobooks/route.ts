@@ -12,7 +12,8 @@ interface Audiobook {
   dateRead: string;
   _error?: string;
 }
-// Create KV client with the new environment variables
+
+// Create KV client with the environment variables
 const kv = createClient({
   url: process.env.KV_KV_REST_API_URL || "",
   token: process.env.KV_KV_REST_API_TOKEN || "",
@@ -20,11 +21,12 @@ const kv = createClient({
 
 export const dynamic = "force-dynamic";
 const CACHE_KEY = "goodreads_audiobooks";
-const CACHE_DURATION = 3600; // 1 hour
+const CACHE_DURATION = 300; // 5 minutes
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
   const forceRefresh = url.searchParams.get("refresh") === "true";
+
   try {
     // Try to get cached data first (unless force refresh)
     if (!forceRefresh) {
@@ -36,45 +38,77 @@ export async function GET(request: Request) {
       } catch (kvError) {
         console.warn("KV cache error:", kvError);
       }
+    } else {
+      // console.log("Force refresh requested, skipping cache");
     }
 
-    // Determine which URL to use based on environment
+    // Use production Lambda URL from environment variables
     const lambdaUrl = process.env.GOODREADS_GETAUDIOBOOKS_URL_PROD;
 
     if (!lambdaUrl) {
-      throw new Error("Lambda URL is not defined");
+      console.error("Lambda URL is not defined");
+      throw new Error("Lambda URL is not defined in environment variables");
     }
 
     // Fetch data from Lambda function with timeout
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 second timeout
 
-    const response = await fetch(lambdaUrl, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      signal: controller.signal,
-    });
-
-    clearTimeout(timeoutId);
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error(`Lambda error: ${response.status}`, errorText);
-      throw new Error(`Lambda returned ${response.status}: ${errorText}`);
-    }
-
-    const data = await response.json();
-
-    // Cache the data
     try {
-      await kv.set(CACHE_KEY, data, { ex: CACHE_DURATION });
-    } catch (cacheError) {
-      console.warn("Failed to cache data:", cacheError);
-    }
+      const response = await fetch(lambdaUrl, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Cache-Control": "no-cache",
+        },
+        signal: controller.signal,
+      });
 
-    return NextResponse.json(data);
+      clearTimeout(timeoutId);
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error(`Lambda error: ${response.status}`, errorText);
+        throw new Error(`Lambda returned ${response.status}: ${errorText}`);
+      }
+
+      const data = await response.json();
+
+      // Extract and normalize audiobooks from the response
+      let audiobooks: Audiobook[] = [];
+
+      if (Array.isArray(data)) {
+        audiobooks = data;
+      } else if (data && data.books && Array.isArray(data.books)) {
+        audiobooks = data.books;
+      } else {
+        console.error("Unexpected data format from Lambda:", data);
+        throw new Error("Invalid data format from Lambda");
+      }
+
+      // Normalize the audiobooks data
+      const normalizedAudiobooks = audiobooks.map((book) => ({
+        title: book.title,
+        author: book.author,
+        coverImg: book.coverImg || book.coverUrl || null,
+        link: book.link || book.bookLink || null,
+        dateRead: book.dateRead,
+        rating: book.rating,
+      }));
+
+      // Cache the processed audiobooks
+      try {
+        await kv.set(CACHE_KEY, normalizedAudiobooks, { ex: CACHE_DURATION });
+        // console.log("Data cached successfully for 5 minutes");
+      } catch (cacheError) {
+        console.warn("Failed to cache data:", cacheError);
+      }
+
+      return NextResponse.json(normalizedAudiobooks);
+    } catch (fetchError) {
+      console.error("Error fetching from Lambda:", fetchError);
+      throw fetchError;
+    }
   } catch (error) {
     console.error("Error fetching audiobooks:", error);
 
@@ -82,14 +116,13 @@ export async function GET(request: Request) {
     try {
       const staleData = await kv.get(CACHE_KEY);
       if (staleData) {
-        console.log("Using stale data from cache as fallback");
         return NextResponse.json(staleData);
       }
     } catch (fallbackError) {
       console.error("Failed to get stale data:", fallbackError);
     }
 
-    //Fallback data in case the API fails
+    // Return hardcoded fallback data in case the API fails
     const fallbackAudiobooks: Audiobook[] = [
       {
         title: "Good Inside",
@@ -120,7 +153,6 @@ export async function GET(request: Request) {
       },
     ];
 
-    console.log("Using hardcoded fallback audiobooks data");
     return NextResponse.json(fallbackAudiobooks);
   }
 }
