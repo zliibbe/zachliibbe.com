@@ -44,14 +44,15 @@ export default function Work() {
                   What I&apos;ve been up to recently...
                 </h6>
                 <li className={styles.recentItem}>
-                  Consulting and working with my therapeutic clients (typically
-                  therapists) to improve their websites and digital marketing
-                  tactics in order to generate more clients with less effort.
+                  Completing a 6-week pottery class at my local studio,
+                  discovering a new creative outlet making coffee mugs and a
+                  ramen bowl. I&apos;m excited to fire my pieces and learn more
+                  about throwing on the wheel.
                 </li>
                 <li className={styles.recentItem}>
                   Spending quality time with my 5 & 2.5 year-old daughters. 🥰
                 </li>
-                <li className={styles.recentItem}>
+                {/* <li className={styles.recentItem}>
                   Lifting weights at the gym in the early morning (I&apos;m
                   really enjoying the progressive overload of{" "}
                   <a
@@ -61,6 +62,11 @@ export default function Work() {
                     Stronglifts 5x5
                   </a>
                   ) 🏋🏼
+                </li> */}
+                <li className={styles.recentItem}>
+                  Exploring hobbyist 3D printing, experimenting with different
+                  filaments and designing functional household items and
+                  creative projects.
                 </li>
               </div>
             </div>
