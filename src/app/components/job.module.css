@@ -57,6 +57,12 @@
   text-decoration: underline;
 }
 
+.companySubName {
+  color: var(--clr-neutral-250);
+  font-style: italic;
+  padding-left: 0.5rem;
+}
+
 .jobTimeframe {
   color: var(--text-secondary);
   font-size: 1rem;
@@ -78,6 +84,39 @@
 }
 
 .jobListItem:last-child {
+  margin-bottom: 0;
+}
+
+.jobDivider {
+  grid-column: 1 / -1;
+  height: 1px;
+  background-color: var(--clr-neutral-250);
+  width: 90%;
+  margin: 3rem auto;
+}
+
+.subTaskList {
+  margin-top: 0.75rem;
+  margin-bottom: 0.5rem;
+  padding-left: 1.5rem;
+  list-style-type: none;
+}
+
+.subTaskItem {
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+  position: relative;
+  padding-left: 1rem;
+  list-style-type: none !important;
+}
+
+.subTaskItem:before {
+  content: "- ";
+  position: absolute;
+  left: 0;
+}
+
+.subTaskItem:last-child {
   margin-bottom: 0;
 }
 
@@ -120,4 +159,41 @@
 [data-theme="dark"] .jobDetails li,
 [data-theme="dark"] .jobListItem {
   color: var(--white);
+}
+
+[data-theme="dark"] .jobDivider {
+  background-color: var(--clr-neutral-600);
+}
+
+[data-theme="dark"] .subTaskItem {
+  color: var(--white);
+}
+
+.caretRight,
+.caretDown {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-right: 8px;
+  transition: transform 0.2s ease;
+}
+
+.caretRight {
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-left: 6px solid var(--text-primary);
+}
+
+.caretDown {
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid var(--text-primary);
+}
+
+[data-theme="dark"] .caretRight {
+  border-left-color: var(--white);
+}
+
+[data-theme="dark"] .caretDown {
+  border-top-color: var(--white);
 }
