@@ -59,8 +59,8 @@ export default function About() {
             <ul className={styles.listContainer}>
               <br />
               <li className={styles.listItem}>
-                Out on a run with my dog, Panda, or swimming laps in my local
-                pool.
+                Out on a run with my dog, Panda, mountain biking on my local
+                trails, or swimming laps in my local pool.
               </li>
               <li className={styles.listItem}>
                 Building websites for therapists in order to learn more about my
