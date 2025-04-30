@@ -11,7 +11,7 @@ interface JobProps {
   companyName: string;
   companySubName?: string;
   companyLink: string;
-  description: string;
+  description?: string;
   taskList: Array<string | { title: string; subtasks: string[] }>;
   timeframe: string;
   id: number;
