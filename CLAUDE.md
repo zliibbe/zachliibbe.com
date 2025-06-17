@@ -59,3 +59,5 @@ This is a Next.js 13 portfolio website with the following key characteristics:
 - Local storage persistence for user preferences (theme, animation, dark mode)
 - Responsive design with CSS custom properties for consistent theming
 - Environment variables required for Strava and KV store functionality
+
+Track changes using version in @package.json. Use SemVer for versioning.
