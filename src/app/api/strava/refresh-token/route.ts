@@ -5,7 +5,7 @@ const STRAVA_CLIENT_ID = process.env.STRAVA_CLIENT_ID;
 const STRAVA_CLIENT_SECRET = process.env.STRAVA_CLIENT_SECRET;
 const STRAVA_REFRESH_TOKEN = process.env.STRAVA_REFRESH_TOKEN;
 
-interface TokenResponse {
+export interface TokenResponse {
   token_type: string;
   access_token: string;
   expires_at: number;
