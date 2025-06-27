@@ -244,9 +244,7 @@ export default function Footer() {
       <div className={styles.footerContent}>
         <div className={styles.container}>
           <div className={styles.liveFeed}>
-            <Link href="/live-feed" className={styles.liveFeedLink}>
-              Live Feed
-            </Link>
+            <span className={styles.liveFeedLink}>What I&apos;m Up To</span>
             <div className={styles.feedContent}>
               <div className={styles.liveFeedList}>
                 <div className={styles.liveFeedItem}>
