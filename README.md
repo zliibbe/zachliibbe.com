@@ -31,7 +31,7 @@ This project enforces code consistency using:
 - [Husky](https://typicode.github.io/husky/) for Git hooks
 - [lint-staged](https://github.com/okonet/lint-staged) to run linting and formatting only on staged files
 
-## Running Locally
+## 🚀 Getting Started
 
 1. Clone the repository:
 
@@ -46,11 +46,22 @@ This project enforces code consistency using:
    npm install
    ```
 
-3. Start the development server:
+## Running Locally
 
-   ```sh
-   npm run dev
-   ```
+Start the development server:
+
+```sh
+npm run dev
+```
+
+## ⚙️ Tech Stack
+
+- [Next.js 15](https://nextjs.org/) - React framework
+- [React 19](https://reactjs.org/) - UI library
+- [TypeScript](https://www.typescriptlang.org/) - Type safety
+- [Vercel KV](https://vercel.com/storage/kv) - Edge-compatible storage
+- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) - Testing utilities
+- [Jest](https://jestjs.io/) - Testing framework
 
 ## Deployment
 
