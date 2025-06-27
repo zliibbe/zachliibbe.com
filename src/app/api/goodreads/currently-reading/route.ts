@@ -6,6 +6,49 @@ export const dynamic = "force-dynamic";
 const CACHE_KEY = "goodreads_currently_reading";
 const CACHE_DURATION = 300; // 5 minutes
 
+// Helper function to normalize book titles for matching
+function normalizeTitle(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^\w\s]/g, "") // Remove punctuation
+    .replace(/\s+/g, " ") // Normalize whitespace
+    .trim();
+}
+
+// Helper function to find matching progress update for a book
+function findProgressUpdate(
+  bookTitle: string,
+  progressUpdates: Record<string, any>,
+) {
+  const normalizedBookTitle = normalizeTitle(bookTitle);
+
+  // First try exact match
+  if (progressUpdates[bookTitle]) {
+    return progressUpdates[bookTitle];
+  }
+
+  // Then try normalized matching
+  for (const [updateTitle, progress] of Object.entries(progressUpdates)) {
+    const normalizedUpdateTitle = normalizeTitle(updateTitle);
+    if (normalizedBookTitle === normalizedUpdateTitle) {
+      return progress;
+    }
+  }
+
+  // Finally try partial matching (for cases where titles are truncated)
+  for (const [updateTitle, progress] of Object.entries(progressUpdates)) {
+    const normalizedUpdateTitle = normalizeTitle(updateTitle);
+    if (
+      normalizedBookTitle.includes(normalizedUpdateTitle) ||
+      normalizedUpdateTitle.includes(normalizedBookTitle)
+    ) {
+      return progress;
+    }
+  }
+
+  return null;
+}
+
 interface Book {
   title: string;
   author: string;
@@ -14,12 +57,14 @@ interface Book {
   currentPage?: number | null;
   totalPages?: number | null;
   lastUpdated?: string | null;
+  isPercentage?: boolean;
 }
 
 interface RssItem {
   title: string;
   author_name?: string;
   link?: string;
+  book_id?: number;
   book_large_image_url?: string;
   book_medium_image_url?: string;
   book_small_image_url?: string;
@@ -79,9 +124,10 @@ export async function GET(request: Request) {
       });
 
       const updatesResult = xmlParser.parse(updatesXml);
+      // console.log("Updates feed result:", JSON.stringify(updatesResult, null, 2));
 
       // 2. Then get the currently-reading shelf
-      const shelfUrl = `https://www.goodreads.com/review/list_rss/${userId}?shelf=currently-reading&sort=date_updated&order=d`;
+      const shelfUrl = `https://www.goodreads.com/review/list_rss/${userId}-zach?shelf=currently-reading&sort=date_updated&order=d`;
 
       const shelfResponse = await fetch(shelfUrl, {
         headers: {
@@ -97,11 +143,17 @@ export async function GET(request: Request) {
 
       const shelfXml = await shelfResponse.text();
       const shelfResult = xmlParser.parse(shelfXml);
+      // console.log("Shelf feed result:", JSON.stringify(shelfResult, null, 2));
 
       // 3. Process the updates feed to find reading progress
       const progressUpdates: Record<
         string,
-        { currentPage: number; totalPages: number; lastUpdated: string }
+        {
+          currentPage: number;
+          totalPages: number;
+          lastUpdated: string;
+          isPercentage?: boolean;
+        }
       > = {};
 
       if (updatesResult.rss?.channel?.item) {
@@ -112,8 +164,13 @@ export async function GET(request: Request) {
         for (const item of items) {
           // Look for status updates with reading progress
           if (item.title && typeof item.title === "string") {
-            const progressRegex = /is on page (\d+) of (\d+) of (.+)$/i;
-            const match = item.title.match(progressRegex);
+            // Clean up the title by removing extra whitespace and newlines
+            const cleanTitle = item.title.replace(/\s+/g, " ").trim();
+
+            // Updated regex to handle the actual format: "Zach is on page X of Y of BookTitle"
+            const progressRegex =
+              /Zach\s+is\s+on\s+page\s+(\d+)\s+of\s+(\d+)\s+of\s+(.+)$/i;
+            const match = cleanTitle.match(progressRegex);
 
             if (match) {
               const currentPage = parseInt(match[1], 10);
@@ -121,32 +178,49 @@ export async function GET(request: Request) {
               const bookTitle = match[3].trim();
               const lastUpdated = item.pubDate || new Date().toISOString();
 
+              // console.log(
+              //   `Found page progress: ${currentPage}/${totalPages} for "${bookTitle}"`,
+              // );
+
               progressUpdates[bookTitle] = {
                 currentPage,
                 totalPages,
                 lastUpdated,
               };
+              // console.log(
+              //   `Progress timestamp for "${bookTitle}": ${lastUpdated}`,
+              // );
             }
 
-            // Also look for "is X% done with" updates
-            const percentRegex = /is (\d+)% done with (.+)$/i;
-            const percentMatch = item.title.match(percentRegex);
+            // Also look for "Zach is X% done with BookTitle" updates
+            const percentRegex = /Zach\s+is\s+(\d+)%\s+done\s+with\s+(.+)$/i;
+            const percentMatch = cleanTitle.match(percentRegex);
 
             if (percentMatch && !progressUpdates[percentMatch[2].trim()]) {
               const percent = parseInt(percentMatch[1], 10);
               const bookTitle = percentMatch[2].trim();
               const lastUpdated = item.pubDate || new Date().toISOString();
 
-              // We don't know total pages from this update, but we'll set it later
+              // console.log(
+              //   `Found percent progress: ${percent}% for "${bookTitle}"`,
+              // );
+
+              // For audiobooks, store the percentage as a special marker
               progressUpdates[bookTitle] = {
-                currentPage: -1, // Placeholder, will calculate after getting total pages
-                totalPages: -1, // Placeholder
+                currentPage: percent, // Store percentage as currentPage for audiobooks
+                totalPages: 100, // Total is always 100% for audiobooks
                 lastUpdated,
+                isPercentage: true, // Flag to indicate this is percentage data
               };
+              // console.log(
+              //   `Progress timestamp for "${bookTitle}": ${lastUpdated}`,
+              // );
             }
           }
         }
       }
+
+      // console.log("Progress updates:", progressUpdates);
 
       // 4. Process the shelf feed to get book details
       let books: Book[] = [];
@@ -159,7 +233,23 @@ export async function GET(request: Request) {
         books = items.map((item: RssItem) => {
           const title = item.title || "Unknown Title";
           const author = item.author_name || "Unknown Author";
-          const link = item.link || null;
+
+          // Construct proper book URL using book_id if available
+          let link = null;
+          if (item.book_id) {
+            // Create a URL-friendly version of the title for the book URL
+            const urlTitle = title
+              .toLowerCase()
+              .replace(/[^a-z0-9\s]/g, "") // Remove special characters
+              .replace(/\s+/g, "-") // Replace spaces with hyphens
+              .replace(/-+/g, "-") // Replace multiple hyphens with single
+              .replace(/^-|-$/g, ""); // Remove leading/trailing hyphens
+
+            link = `https://www.goodreads.com/book/show/${item.book_id}.${urlTitle}`;
+          } else {
+            // Fallback to original link if book_id not available
+            link = item.link || null;
+          }
 
           // Get cover image
           let coverImg = null;
@@ -181,32 +271,15 @@ export async function GET(request: Request) {
           let currentPage = null;
           let lastUpdated = item.user_date_added || null;
 
-          if (progressUpdates[title]) {
-            currentPage = progressUpdates[title].currentPage;
+          const progress = findProgressUpdate(title, progressUpdates);
+          if (progress) {
+            currentPage = progress.currentPage;
+            totalPages = progress.totalPages;
+            lastUpdated = progress.lastUpdated;
 
-            // If we only had percent data, calculate pages
-            if (currentPage === -1 && totalPages) {
-              // Extract percent from the title
-              const percentRegex = /is (\d+)% done with/i;
-              const percentMatch = Object.keys(progressUpdates).find(
-                (key) => key.includes(title) && percentRegex.test(key),
-              );
-
-              if (percentMatch) {
-                const percent = parseInt(
-                  percentMatch.match(percentRegex)![1],
-                  10,
-                );
-                currentPage = Math.floor(totalPages * (percent / 100));
-              }
-            }
-
-            // Use total pages from progress update if available
-            if (progressUpdates[title].totalPages > 0) {
-              totalPages = progressUpdates[title].totalPages;
-            }
-
-            lastUpdated = progressUpdates[title].lastUpdated;
+            // console.log(`Matched progress for "${title}":`, progress);
+          } else {
+            // console.log(`No progress found for "${title}"`);
           }
 
           // If we still don't have current page but have total pages, estimate
@@ -214,7 +287,7 @@ export async function GET(request: Request) {
             currentPage = Math.floor(totalPages * 0.3); // Assume 30% through
           }
 
-          return {
+          const book = {
             title,
             author,
             coverImg,
@@ -222,9 +295,16 @@ export async function GET(request: Request) {
             currentPage,
             totalPages,
             lastUpdated,
+            isPercentage: progress?.isPercentage,
           };
+
+          // console.log(`Processed book:`, book);
+
+          return book;
         });
       }
+
+      // console.log("Processed books:", books);
 
       // 5. Sort books by lastUpdated (most recent first)
       if (books.length > 0) {
