@@ -13,6 +13,7 @@ type Book = {
   currentPage?: number;
   totalPages?: number;
   lastUpdated?: string;
+  isPercentage?: boolean;
 };
 
 export default function CurrentlyReading() {
@@ -51,6 +52,7 @@ export default function CurrentlyReading() {
         let data;
         try {
           data = JSON.parse(responseText);
+          // console.log("Received data from API:", data);
         } catch (parseError) {
           console.error("Error parsing JSON:", parseError);
           throw new Error(
@@ -70,15 +72,19 @@ export default function CurrentlyReading() {
         }
 
         // Normalize the data to ensure consistent property names
-        const normalizedBooks = booksArray.map((book: any) => ({
-          title: book.title,
-          author: book.author,
-          coverImg: book.coverImg || book.cover_url || null,
-          link: book.link || book.url || null,
-          currentPage: book.currentPage || book.current_page || null,
-          totalPages: book.totalPages || book.total_pages || null,
-          lastUpdated: book.lastUpdated || book.last_updated || null,
-        }));
+        const normalizedBooks = booksArray.map((book: any) => {
+          // console.log("Processing book:", book);
+          return {
+            title: book.title,
+            author: book.author,
+            coverImg: book.coverImg || book.cover_url || null,
+            link: book.link || book.url || null,
+            currentPage: book.currentPage || book.current_page || null,
+            totalPages: book.totalPages || book.total_pages || null,
+            lastUpdated: book.lastUpdated || book.last_updated || null,
+            isPercentage: book.isPercentage || false,
+          };
+        });
 
         // console.log("normalizedBooks:", normalizedBooks);
 
@@ -108,7 +114,7 @@ export default function CurrentlyReading() {
         };
 
         setBooks([fallbackBook]);
-        // Comment out the line below to use fallback data instead of showing error
+        // Comment line below to use fallback data instead of showing error
         // setBooks([]);
       } finally {
         setLoading(false);
@@ -136,14 +142,29 @@ export default function CurrentlyReading() {
   // Get the first book
   const currentBook = books[0];
 
+  // console.log("currentBook:", currentBook);
+
   return (
     <>
       Currently reading{" "}
-      <strong className={styles.bookTitle}>{currentBook.title}</strong>
+      {currentBook.link ? (
+        <a
+          href={currentBook.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.bookTitle}
+        >
+          <strong>{currentBook.title}</strong>
+        </a>
+      ) : (
+        <strong className={styles.bookTitle}>{currentBook.title}</strong>
+      )}
       {currentBook.author && <span> by {currentBook.author}</span>}
       {currentBook.currentPage && currentBook.totalPages && (
         <span className={styles.readingProgress}>
-          {` (on page ${currentBook.currentPage}/${currentBook.totalPages}`}
+          {currentBook.isPercentage
+            ? ` (${currentBook.currentPage}% complete`
+            : ` (on page ${currentBook.currentPage}/${currentBook.totalPages}`}
           {currentBook.lastUpdated && ` ${getTimeAgo(currentBook.lastUpdated)}`}
           {")"}
         </span>
