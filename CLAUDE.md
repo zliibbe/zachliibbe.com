@@ -20,6 +20,13 @@ Follow the coding commandments located at `~/.claude/commandments.md` for all de
 - **Formatting**: `npm run format` - Checks code formatting with Prettier
 - **Format fix**: `npm run format:fix` - Auto-fixes formatting issues
 
+## Development Tools
+
+- ESLint configuration with Next.js and Prettier integration
+- Prettier for code formatting with custom configuration
+- TypeScript for type safety
+- Jest and React Testing Library for unit testing
+
 ## Architecture Overview
 
 This is a Next.js 13 portfolio website with the following key characteristics:
@@ -55,7 +62,6 @@ This is a Next.js 13 portfolio website with the following key characteristics:
 
 ### Development Notes
 
-- Uses Husky for git hooks with lint-staged for pre-commit formatting
 - Local storage persistence for user preferences (theme, animation, dark mode)
 - Responsive design with CSS custom properties for consistent theming
 - Environment variables required for Strava and KV store functionality
