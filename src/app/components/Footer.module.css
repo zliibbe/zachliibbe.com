@@ -42,7 +42,6 @@
   margin-bottom: 1rem;
   color: var(--text-primary);
   transition: color 0.3s ease;
-  cursor: pointer;
 }
 
 .liveFeedLink {
@@ -52,10 +51,6 @@
   position: relative;
   display: inline-block;
   margin-bottom: 1rem;
-}
-
-.liveFeedLink:hover {
-  text-decoration: underline;
 }
 
 .liveFeedLink:hover {
