@@ -71,13 +71,11 @@ html[data-theme="dark"] .legendEmpty {
 }
 
 /* Base styles for all squares */
-.react-calendar-heatmap rect {
-  rx: 3px;
-  ry: 3px;
+.gridContainer .react-calendar-heatmap rect {
   stroke: var(--clr-neutral-150);
   stroke-width: 1px;
   transition: all 0.2s ease;
-  pointer-events: all; /* Ensure hover works */
+  pointer-events: all;
 }
 
 /* Empty state */
@@ -121,14 +119,6 @@ html[data-theme="dark"] .react-calendar-heatmap .colorEmpty {
 /* Override any default heatmap styles */
 .react-calendar-heatmap rect[class*="color"] {
   transition: fill 0.2s ease;
-}
-
-/* Override default heatmap styles */
-.react-calendar-heatmap rect {
-  rx: 2px;
-  stroke: var(--border-color);
-  stroke-width: 1px;
-  border-radius: var(--border-radius);
 }
 
 .react-calendar-heatmap {
