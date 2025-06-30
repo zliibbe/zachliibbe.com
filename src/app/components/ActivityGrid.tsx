@@ -1,6 +1,7 @@
 "use client";
 
-import React, { SVGProps } from "react";
+import React, { SVGProps, useEffect, useRef } from "react";
+// import SafeCalendarHeatmap from "./CalendarHeatmapWrapper";
 import CalendarHeatmap from "react-calendar-heatmap";
 import "react-calendar-heatmap/dist/styles.css";
 import styles from "./ActivityGrid.module.css";
@@ -8,6 +9,9 @@ import moment from "moment";
 import { StravaActivity } from "@/lib/strava/types";
 import { ReactCalendarHeatmapValue } from "react-calendar-heatmap";
 import { getTimeAgo } from "@/app/utils/index";
+
+// Note: Testing if SafeCalendarHeatmap wrapper is still needed for React 19
+// Temporarily using CalendarHeatmap directly to check for console errors
 
 interface ActivityGridProps {
   activities: StravaActivity[];
@@ -21,6 +25,42 @@ interface HeatmapValue extends ReactCalendarHeatmapValue<string> {
 }
 
 export default function ActivityGrid({ activities }: ActivityGridProps) {
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  // Add rounded corners to SVG rect elements after render
+  useEffect(() => {
+    const addRoundedCorners = () => {
+      if (gridRef.current) {
+        const rects = gridRef.current.querySelectorAll(
+          ".react-calendar-heatmap rect",
+        );
+        rects.forEach((rect) => {
+          rect.setAttribute("rx", "3");
+          rect.setAttribute("ry", "3");
+        });
+      }
+    };
+
+    // Initial application
+    addRoundedCorners();
+
+    // Set up mutation observer to handle dynamically added elements
+    const observer = new MutationObserver(() => {
+      addRoundedCorners();
+    });
+
+    if (gridRef.current) {
+      observer.observe(gridRef.current, {
+        childList: true,
+        subtree: true,
+      });
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [activities]);
+
   if (!activities) {
     return <div className={styles.errorState}>Loading activities...</div>;
   }
@@ -122,14 +162,14 @@ export default function ActivityGrid({ activities }: ActivityGridProps) {
           </div>
         ))}
       </div>
-      <div className={styles.gridContainer}>
+      <div className={styles.gridContainer} ref={gridRef}>
         <CalendarHeatmap
           startDate={moment().subtract(11, "months").toDate()}
           endDate={moment().toDate()}
           values={values}
           classForValue={getClassForValue}
           titleForValue={(
-            value: ReactCalendarHeatmapValue<string> | undefined,
+            value: ReactCalendarHeatmapValue<any> | undefined,
           ) => {
             if (!value) return "No activity";
             const val = value as HeatmapValue;
@@ -141,15 +181,6 @@ export default function ActivityGrid({ activities }: ActivityGridProps) {
           weekdayLabels={["M", "T", "W", "Th", "F", "Sa", "Su"]}
           horizontal={true}
           gutterSize={2}
-          transformDayElement={(element, value) => {
-            if (!element) return null;
-            return React.cloneElement(element as React.ReactElement, {
-              ...element,
-              rx: 3,
-              ry: 3,
-              "data-tip": true,
-            });
-          }}
         />
       </div>
     </>
