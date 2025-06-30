@@ -110,7 +110,7 @@ export async function GET(request: Request) {
           "User-Agent": "Mozilla/5.0 (compatible; GoodreadsApp/1.0)",
           "Cache-Control": "no-cache",
         },
-        next: { revalidate: 3600 }, // Cache for 1 hour
+        next: { revalidate: 300 }, // Cache for 5 minutes (same as KV cache)
       });
 
       if (!updatesResponse.ok) {
@@ -134,7 +134,7 @@ export async function GET(request: Request) {
           "User-Agent": "Mozilla/5.0 (compatible; GoodreadsApp/1.0)",
           "Cache-Control": "no-cache",
         },
-        next: { revalidate: 3600 }, // Cache for 1 hour
+        next: { revalidate: 300 }, // Cache for 5 minutes (same as KV cache)
       });
 
       if (!shelfResponse.ok) {
