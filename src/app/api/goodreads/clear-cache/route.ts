@@ -26,6 +26,12 @@ export async function GET() {
       deletedKeys.push("goodreads_audiobooks");
     }
 
+    // Add the missing currently reading cache key
+    if (keys.includes("goodreads_currently_reading")) {
+      await kv.del("goodreads_currently_reading");
+      deletedKeys.push("goodreads_currently_reading");
+    }
+
     // Check for stale keys too
     if (keys.includes("goodreads_read_books_stale")) {
       await kv.del("goodreads_read_books_stale");
@@ -35,6 +41,11 @@ export async function GET() {
     if (keys.includes("goodreads_audiobooks_stale")) {
       await kv.del("goodreads_audiobooks_stale");
       deletedKeys.push("goodreads_audiobooks_stale");
+    }
+
+    if (keys.includes("goodreads_currently_reading_stale")) {
+      await kv.del("goodreads_currently_reading_stale");
+      deletedKeys.push("goodreads_currently_reading_stale");
     }
 
     // Get updated keys list

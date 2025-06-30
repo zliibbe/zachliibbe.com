@@ -28,9 +28,7 @@ export default function CurrentlyReading() {
         setLoading(true);
         setError(null);
 
-        const response = await fetch(
-          "/api/goodreads/currently-reading?refresh=true",
-        );
+        const response = await fetch("/api/goodreads/currently-reading");
         const responseText = await response.text();
 
         // Store raw response for debugging
