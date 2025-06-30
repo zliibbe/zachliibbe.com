@@ -29,11 +29,11 @@ Follow the coding commandments located at `~/.claude/commandments.md` for all de
 
 ## Architecture Overview
 
-This is a Next.js 13 portfolio website with the following key characteristics:
+This is a Next.js 15 portfolio website with the following key characteristics:
 
 ### Core Architecture
 
-- **Framework**: Next.js 13 with App Router (`src/app/` directory structure)
+- **Framework**: Next.js 15 with App Router (`src/app/` directory structure)
 - **TypeScript**: Strict TypeScript configuration with custom path mapping (`@/*` → `./src/*`)
 - **Styling**: CSS Modules with CSS custom properties for theming
 - **State Management**: React Context for theme management (dark/light mode, gradient preferences)
@@ -47,7 +47,7 @@ This is a Next.js 13 portfolio website with the following key characteristics:
 
 ### Project Structure
 
-- `src/app/` - Next.js 13 app router pages and components
+- `src/app/` - Next.js 15 app router pages and components
 - `src/lib/` - Shared utilities (KV store, Strava API, etc.)
 - `src/types/` - TypeScript type definitions
 - `goodreads-lambda/` - Separate serverless function for Goodreads data scraping
@@ -55,9 +55,9 @@ This is a Next.js 13 portfolio website with the following key characteristics:
 
 ### External Integrations
 
-- **Vercel KV**: Redis-compatible key-value store for caching
+- **Vercel KV**: Redis-compatible key-value store for caching (5-minute cache duration)
 - **Strava API**: Fitness activity data with OAuth token refresh
-- **Goodreads**: Custom serverless scraper using Playwright
+- **Goodreads**: Custom RSS feed integration with reading progress tracking
 - **Vercel**: Deployment platform with automatic CI/CD from main branch
 
 ### Development Notes
@@ -65,5 +65,6 @@ This is a Next.js 13 portfolio website with the following key characteristics:
 - Local storage persistence for user preferences (theme, animation, dark mode)
 - Responsive design with CSS custom properties for consistent theming
 - Environment variables required for Strava and KV store functionality
+- Coordinated caching strategy: 5-minute cache duration for both Vercel KV and Next.js fetch cache
 
 Track changes using version in @package.json. Use SemVer for versioning.
