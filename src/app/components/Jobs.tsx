@@ -22,7 +22,7 @@ export const Jobs = () => {
         "Optimizing engineering workflows by reorganizing physical project components and implementing project-associated bin systems that measurably increased cross-functional team productivity and reduced project setup time.",
         "Collaborating with controls engineers to improve integration between front-end printer interfaces and automation systems, contributing to the advancement of next-generation extrusion 3D printer platforms.",
       ],
-      timeframe: "Mar 2025 - present",
+      timeframe: "Mar 2025 - Jun 2025",
       id: 0,
     },
     {
