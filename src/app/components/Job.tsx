@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Image, { StaticImageData } from "next/image";
 import styles from "./job.module.css";
+import { analytics } from "../utils/analytics";
 
 interface JobProps {
   title: string;
@@ -76,6 +77,12 @@ const Job: React.FC<JobProps> = ({
             className={styles.companyLink}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() =>
+              analytics.trackExternalLink(
+                companyLink,
+                `${companyName} Company Link`,
+              )
+            }
           >
             {companyName}
             {companySubName && (

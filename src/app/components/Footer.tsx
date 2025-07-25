@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import styles from "./Footer.module.css";
 import Image from "next/image";
 import Link from "next/link";
+import { analytics } from "../utils/analytics";
 import {
   FaGithub,
   FaGoodreads,
@@ -39,6 +40,11 @@ export default function Footer() {
   const [bookError, setBookError] = useState<string | null>(null);
 
   const year = moment().year();
+
+  // Analytics helper function
+  const handleExternalLinkClick = (url: string, linkText: string) => {
+    analytics.trackExternalLink(url, linkText);
+  };
 
   // Strava Activity Fetching
   const fetchActivity = async () => {
@@ -253,6 +259,12 @@ export default function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className={styles.feedIcon}
+                    onClick={() =>
+                      handleExternalLinkClick(
+                        "https://www.strava.com/athletes/zachliibbe",
+                        "Strava Profile",
+                      )
+                    }
                   >
                     <FaStrava className={styles.stravaIcon} size={30} />
                   </a>
@@ -272,6 +284,12 @@ export default function Footer() {
                     href="https://www.goodreads.com/user/show/24890536-zach-liibbe"
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() =>
+                      handleExternalLinkClick(
+                        "https://www.goodreads.com/user/show/24890536-zach-liibbe",
+                        "Goodreads Profile",
+                      )
+                    }
                   >
                     <span className={styles.feedIcon}>
                       <FaGoodreads className={styles.goodreadsIcon} size={30} />
@@ -294,6 +312,12 @@ export default function Footer() {
                 href="https://linkedin.com/in/zach-liibbe"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() =>
+                  handleExternalLinkClick(
+                    "https://linkedin.com/in/zach-liibbe",
+                    "LinkedIn Profile",
+                  )
+                }
               >
                 <FaLinkedin
                   className={`${styles.socialIcon} ${styles.linkedInIcon}`}
@@ -305,6 +329,12 @@ export default function Footer() {
                 href="https://github.com/zliibbe"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() =>
+                  handleExternalLinkClick(
+                    "https://github.com/zliibbe",
+                    "GitHub Profile",
+                  )
+                }
               >
                 <FaGithub className={styles.socialIcon} />
               </a>
