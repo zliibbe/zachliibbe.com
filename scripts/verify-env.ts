@@ -10,6 +10,7 @@ const requiredVars = [
   "STRAVA_CLIENT_ID",
   "STRAVA_CLIENT_SECRET",
   "STRAVA_REFRESH_TOKEN",
+  "NEXT_PUBLIC_GA_MEASUREMENT_ID",
 ];
 
 const missingVars = requiredVars.filter((varName) => !process.env[varName]);
