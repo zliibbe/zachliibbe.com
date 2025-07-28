@@ -22,27 +22,6 @@ const getGtag = () => {
 };
 
 /**
- * Initialize Google Analytics
- */
-const initialize = (): void => {
-  if (!isEnabled()) return;
-
-  // Initialize dataLayer
-  window.dataLayer = window.dataLayer || [];
-  window.gtag = function () {
-    window.dataLayer.push(arguments);
-  };
-
-  // Configure GA
-  const config = getConfig();
-  window.gtag("js", new Date());
-  window.gtag("config", config.measurementId, {
-    page_title: document.title,
-    page_location: window.location.href,
-  });
-};
-
-/**
  * Track page views
  */
 const trackPageView = (pageView: GAPageView): void => {
@@ -101,7 +80,6 @@ const trackExternalLink = (url: string, linkText: string): void => {
 
 // Export clean functional API
 export const analytics = {
-  initialize,
   trackPageView,
   trackEvent,
   trackContactSubmission,
