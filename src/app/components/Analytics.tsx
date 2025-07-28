@@ -34,11 +34,6 @@ function AnalyticsTracker() {
  * Follows the "Keep logic out of views" commandment by delegating to analytics service
  */
 export default function Analytics() {
-  // Initialize analytics on component mount
-  useEffect(() => {
-    analytics.initialize();
-  }, []);
-
   return (
     <Suspense fallback={null}>
       <AnalyticsTracker />
