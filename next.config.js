@@ -89,7 +89,6 @@ const nextConfig = {
     GOODREADS_GETCURRENTLYREADING_URL_LOCAL:
       "http://localhost:3003/getCurrentlyReading",
     NEXT_PUBLIC_USE_LOCAL_LAMBDA: "true",
-    NEXT_PUBLIC_GA_MEASUREMENT_ID: process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID,
     VERCEL_ENV: process.env.VERCEL_ENV,
   },
   assetPrefix: process.env.NODE_ENV === "production" ? "/" : "",
