@@ -159,6 +159,7 @@ export default function Footer() {
                 className={styles.stravaLink}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={`View ${formatDistanceToMiles(activity.distance)} walk on Strava`}
               >
                 {formatDistanceToMiles(activity.distance)} walk
               </a>{" "}
@@ -173,6 +174,7 @@ export default function Footer() {
                 className={styles.stravaLink}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="View weight training session on Strava"
               >
                 Lifted weights
               </a>{" "}
@@ -188,6 +190,7 @@ export default function Footer() {
                 className={styles.stravaLink}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={`View ${formatDistanceToMiles(activity.distance)} bike ride on Strava`}
               >
                 {formatDistanceToMiles(activity.distance)} ride
               </a>{" "}
@@ -203,6 +206,7 @@ export default function Footer() {
                 className={styles.stravaLink}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={`View ${formatDistanceToMiles(activity.distance)} run on Strava`}
               >
                 {formatDistanceToMiles(activity.distance)} run
               </a>{" "}
@@ -218,6 +222,7 @@ export default function Footer() {
                 className={styles.stravaLink}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={`View ${formatDistanceToYards(activity.distance)} swim on Strava`}
               >
                 {formatDistanceToYards(activity.distance)} swim
               </a>{" "}
@@ -233,6 +238,7 @@ export default function Footer() {
                 className={styles.stravaLink}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={`View ${activity.name} activity on Strava`}
               >
                 {activity.name} - {formatDistanceToMiles(activity.distance)}
               </a>{" "}
