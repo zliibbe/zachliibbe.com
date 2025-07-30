@@ -58,9 +58,11 @@ const Job: React.FC<JobProps> = ({
       <div className={styles.jobTitle}>
         <div className={styles.jobTitleAndCompany}>
           {isHealthcareJob ? (
-            <div
+            <button
               onClick={() => setIsExpanded(!isExpanded)}
-              style={{ cursor: "pointer" }}
+              className={styles.expandButton}
+              aria-expanded={isExpanded}
+              aria-label={`${isExpanded ? "Collapse" : "Expand"} ${role} details`}
             >
               <span
                 className={isExpanded ? styles.caretDown : styles.caretRight}
@@ -68,7 +70,7 @@ const Job: React.FC<JobProps> = ({
               <h3 style={{ display: "inline-block", marginLeft: "8px" }}>
                 {role}
               </h3>
-            </div>
+            </button>
           ) : (
             <h3>{role}</h3>
           )}

@@ -279,7 +279,7 @@ html {
   --background-primary: var(--white);
   --text-primary: var(--black);
   --text-inverse: var(--white);
-  --text-secondary: var(--clr-neutral-300);
+  --text-secondary: var(--clr-neutral-600);
   --border-color: var(--clr-neutral-700);
   --modal-bg: var(--clr-neutral-800);
 
@@ -298,7 +298,7 @@ html[data-theme="dark"] {
   --background-secondary: var(--clr-neutral-500);
   --text-primary: var(--white);
   --text-inverse: var(--black);
-  --text-secondary: var(--clr-neutral-300);
+  --text-secondary: var(--clr-neutral-250);
   --border-color: var(--clr-neutral-700);
   --modal-bg: var(--clr-neutral-800);
 
