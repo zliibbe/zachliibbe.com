@@ -1,0 +1,9 @@
+# Modern browsers only - eliminates legacy polyfills
+> 0.3%
+last 2 versions
+not dead
+not op_mini all
+not ie 11
+not chrome < 88
+not firefox < 86
+not safari < 14 
