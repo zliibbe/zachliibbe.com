@@ -259,6 +259,7 @@ export default function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className={styles.feedIcon}
+                    aria-label="View Strava profile"
                     onClick={() =>
                       handleExternalLinkClick(
                         "https://www.strava.com/athletes/zachliibbe",
@@ -312,6 +313,7 @@ export default function Footer() {
                 href="https://linkedin.com/in/zach-liibbe"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Visit LinkedIn profile"
                 onClick={() =>
                   handleExternalLinkClick(
                     "https://linkedin.com/in/zach-liibbe",
@@ -329,6 +331,7 @@ export default function Footer() {
                 href="https://github.com/zliibbe"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Visit GitHub profile"
                 onClick={() =>
                   handleExternalLinkClick(
                     "https://github.com/zliibbe",
@@ -339,7 +342,11 @@ export default function Footer() {
                 <FaGithub className={styles.socialIcon} />
               </a>
 
-              <a className={styles.socialLink} href="/contact">
+              <a
+                className={styles.socialLink}
+                href="/contact"
+                aria-label="Go to contact page"
+              >
                 <FaEnvelope
                   className={`${styles.socialIcon} ${styles.emailIcon}`}
                 />
