@@ -24,7 +24,7 @@ export const themes = {
     name: "default",
     label: "Default",
     colors: {
-      themeColor: "#2795ba",
+      themeColor: "#1a6b8a",
       gradientOne: "#67c6b5",
       gradientTwo: "#2795ba",
       gradientThree: "#cb2048",
@@ -36,7 +36,7 @@ export const themes = {
     name: "ocean",
     label: "Ocean Depths",
     colors: {
-      themeColor: "#478bd6",
+      themeColor: "#2563eb",
       gradientOne: "#478bd6",
       gradientTwo: "#478bd6",
       gradientThree: "#25d8d3",
@@ -60,7 +60,7 @@ export const themes = {
     name: "evergreen",
     label: "Evergreen",
     colors: {
-      themeColor: "#0eae57",
+      themeColor: "#15803d",
       gradientOne: "#0eae57",
       gradientTwo: "#0c7475",
       gradientThree: "#0c7475",
@@ -72,7 +72,7 @@ export const themes = {
     name: "sunset",
     label: "Sunset",
     colors: {
-      themeColor: "#ff7e00",
+      themeColor: "#c2410c",
       gradientOne: "#ffb347",
       gradientTwo: "#ff7e00",
       gradientThree: "#cc5500",
@@ -84,7 +84,7 @@ export const themes = {
     name: "twilight",
     label: "Twilight",
     colors: {
-      themeColor: "#98058b",
+      themeColor: "#7c2d92",
       gradientOne: "#f99777",
       gradientTwo: "#98058b",
       gradientThree: "#62379a",
@@ -96,7 +96,7 @@ export const themes = {
     name: "lotusBloom",
     label: "Lotus Bloom",
     colors: {
-      themeColor: "#ff1493",
+      themeColor: "#be185d",
       gradientOne: "#ff69b4",
       gradientTwo: "#ff1493",
       gradientThree: "#8b008b",
@@ -108,7 +108,7 @@ export const themes = {
     name: "aurora-borealis",
     label: "Aurora Borealis",
     colors: {
-      themeColor: "#982dff",
+      themeColor: "#7c3aed",
       gradientOne: "#982dff",
       gradientTwo: "#5af1ff",
       gradientThree: "#41ef64",
