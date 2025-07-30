@@ -59,6 +59,9 @@ const Header = () => {
               className={styles.mobileNavToggle}
               aria-controls="primaryNav"
               aria-expanded={isNavOpen}
+              aria-label={
+                isNavOpen ? "Close navigation menu" : "Open navigation menu"
+              }
             >
               {isNavOpen ? "✕" : <FaBars className={styles.barsIcon} />}
             </button>
