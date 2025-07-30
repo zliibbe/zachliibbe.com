@@ -48,6 +48,23 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* DNS prefetch for external domains */}
+        <link rel="dns-prefetch" href="//www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="//images-na.ssl-images-amazon.com" />
+        <link rel="dns-prefetch" href="//www.strava.com" />
+
+        {/* Preconnect to critical domains */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin=""
+        />
+
+        {/* Preload critical assets */}
+        <link rel="preload" href="/headshot.png" as="image" type="image/png" />
+
         <link
           rel="icon"
           href="/favicon-light.png"
@@ -62,14 +79,14 @@ export default function RootLayout({
         />
       </head>
       <body className={`${lexend.className} theme-transition`}>
-        {/* Google Analytics */}
+        {/* Google Analytics - optimized loading */}
         {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
           <>
             <Script
               src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}`}
-              strategy="afterInteractive"
+              strategy="lazyOnload"
             />
-            <Script id="google-analytics" strategy="afterInteractive">
+            <Script id="google-analytics" strategy="lazyOnload">
               {`
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
