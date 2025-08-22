@@ -21,34 +21,68 @@ export default function About() {
                 placeholder="blur"
               />
             </div>
-            <div>
-              <h3 className={styles.title}>
-                <strong>Welcome!</strong>
-              </h3>
-              <p className={styles.paragraph}>
-                My name is Zach and I&apos;m glad you&apos;ve somehow ended up
-                here.
-              </p>
-              <p>
-                I&apos;m a full-stack software engineer currently looking for my
-                next team.
-              </p>
-              <p>
-                I&apos;m looking to join a company whose mission I believe in
-                and whose values I share.
-              </p>
-              <br />
-              <div>
+
+            <div className={styles.introAndRecentContainer}>
+              <div className={styles.introSection}>
+                <h3 className={styles.title}>
+                  <strong>Welcome!</strong>
+                </h3>
+                <p className={styles.paragraph}>
+                  My name is Zach and I&apos;m glad you&apos;ve somehow ended up
+                  here.
+                </p>
                 <p>
-                  I like working on things that can ultimately be simmered down
-                  to simple design and powerful impact.
+                  I&apos;m a full-stack software engineer looking for my next
+                  team - one where diverse viewpoints are genuinely valued and
+                  we focus on solving meaningful business problems, whether
+                  through code or other solutions.
+                </p>
+                <br />
+                <p>
+                  Being an effective team member means caring about both the
+                  work and the people doing it. I bring high emotional
+                  intelligence and genuine consideration for my teammates as
+                  individuals.
+                </p>
+                <br />
+                <div>
+                  <p>
+                    I like building things that cut through complexity to
+                    deliver simple design with powerful impact - like
+                    transforming a feature that required reading documentation
+                    into something users intuitively understand in seconds.
+                  </p>
+                </div>
+                <br />
+                <p className={styles.paragraph}>
+                  I love the complexity and creativity that full stack coding
+                  and design work brings - solving both technical challenges and
+                  user experience puzzles in the same project.
                 </p>
               </div>
-              <br />
-              <p className={styles.paragraph}>
-                I love the complexity and creativity that full stack coding and
-                design work brings.
-              </p>
+
+              <div className={styles.recentSection}>
+                <h6 className={styles.recentTitle}>
+                  What I&apos;ve been up to recently...
+                </h6>
+                <li className={styles.recentItem}>
+                  Adjusting to my 5 & 3 year-old daughters being in school. What
+                  a wild change! We&apos;re getting used to the new routine (and
+                  it feels like we&apos;re part of the system now).
+                </li>
+                <li className={styles.recentItem}>
+                  Watching my daughters grow more confident on mountain bike
+                  trails at Ute Valley Park. Even when the going gets tough and
+                  there are tears, seeing them push through and experience that
+                  moment of triumph at the top of a trail or when they finally
+                  get the hang of a new skill makes me incredibly proud.
+                </li>
+                <li className={styles.recentItem}>
+                  I&apos;ve been healing up from dislocating my shoulder 😅 at a
+                  recent pool party. I somehow disolcated it while diving in to
+                  the pool?!
+                </li>
+              </div>
             </div>
 
             <hr className={styles.divider} />
@@ -80,7 +114,7 @@ export default function About() {
               </li>
               <li className={styles.listItem}>
                 Hanging out at home with my wife, Laura, and our two young
-                daughters.
+                daughters in imagination land.
               </li>
             </ul>
             <br />

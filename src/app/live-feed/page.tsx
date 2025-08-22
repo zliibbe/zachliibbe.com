@@ -101,7 +101,7 @@ export default function LiveFeedPage() {
             )
           </p>
         </div>
-        <RecentAudiobooks onLoadingChange={setAudiobooksLoading} />
+        <RecentAudiobooks />
       </section>
       <Footer />
     </main>
