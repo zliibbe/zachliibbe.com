@@ -77,8 +77,7 @@
 
 .contractStatus {
   color: var(--text-secondary);
-  font-size: 0.875rem;
-  font-style: italic;
+  font-size: 1rem;
   margin-top: 0.25rem;
 }
 
