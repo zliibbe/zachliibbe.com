@@ -33,7 +33,9 @@
 
 .overviewSection {
   flex: 1;
-  margin: 0;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 75%;
 }
 
 .overviewTitle {
@@ -46,37 +48,7 @@
   margin-bottom: 1rem;
 }
 
-.recentSection {
-  flex: 1;
-  padding: 2rem;
-  margin-top: 2rem;
-  display: flex;
-  flex-direction: column;
-  border-radius: var(--border-radius);
-  background: var(--background-secondary);
-  color: var(--text-primary);
-  margin: 0;
-}
 
-/* Update recent section dark modestyles */
-[data-theme="dark"] .recentSection {
-  background: var(--clr-neutral-600);
-  color: var(--white);
-}
-
-[data-theme="dark"] .recentItem {
-  color: var(--white);
-}
-
-.recentTitle {
-  padding: 0.75rem 0;
-  margin-bottom: 1rem;
-  font-weight: var(--fw-bold);
-}
-
-.recentItem {
-  padding: 0.75rem 0;
-}
 
 .link {
   color: var(--theme-color);
@@ -112,17 +84,25 @@
   .contentWrapper {
     flex-direction: column;
   }
+
+  .overviewSection {
+    width: 100%;
+    margin: 0 auto;
+  }
 }
+
+/* medium screens */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .overviewSection {
+    width: 85%;
+    margin: 0 auto;
+  }
+}
+
 /* larger screens */
-@media (min-width: 769px) {
+@media (min-width: 1025px) {
   .container {
     margin: 0 4rem;
-  }
-
-  .overviewAndRecent {
-    display: flex;
-    flex-direction: row;
-    gap: 2rem;
   }
 
   .content {
@@ -131,40 +111,15 @@
     gap: 1rem;
   }
 
-  .content > div:first-child {
-    display: flex;
-    gap: 2rem;
-    align-items: flex-start;
-  }
-
   .overviewSection {
-    flex: 2;
+    margin: 0 auto;
+    width: 75%;
   }
 
-  [data-theme="dark"] .recentSection {
-    background-color: var(--clr-neutral-600);
-  }
-
-  .recentSection {
-    margin-top: 2rem;
-    flex: 1;
-    height: fit-content; /* Only as tall as its content */
-    max-height: 100%; /* Won't exceed container height */
-    align-self: flex-start; /* Aligns to top of container */
-  }
-}
-
-[data-theme="dark"] .recentSection {
-  background-color: var(--clr-neutral-600);
-}
-
-.recentSection {
-  background: var(--background-secondary);
-  color: var(--text-primary);
 }
 
 .overviewText,
 .experienceTitle,
 .overviewTitle {
-  color: var(--text-primary);
+      color: var(--text-primary);
 }
