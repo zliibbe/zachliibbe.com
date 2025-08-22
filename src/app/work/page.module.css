@@ -4,9 +4,24 @@
   background: var(--background-primary);
   color: var(--text-primary);
   min-height: 100vh;
-  border-radius: var(--border-radius);
-  opacity: 1;
+  margin: 0 8rem;
+  border-radius: 0.5rem;
+  padding: 2rem;
   margin-bottom: 2rem;
+}
+
+.contentWrapper {
+  display: flex;
+  gap: 2rem;
+  padding: 0 2rem;
+  flex-grow: 1;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  flex-grow: 1;
 }
 
 /* Add dark mode styles for container */
@@ -25,12 +40,6 @@
   color: var(--text-primary);
 }
 
-.contentWrapper {
-  display: flex;
-  gap: 2rem;
-  padding: 2rem;
-}
-
 .overviewSection {
   flex: 1;
   flex-direction: column;
@@ -47,8 +56,6 @@
 .overviewText {
   margin-bottom: 1rem;
 }
-
-
 
 .link {
   color: var(--theme-color);
@@ -77,12 +84,13 @@
 /* smaller screens */
 @media (max-width: 768px) {
   .container {
-    margin: 0 1rem;
+    margin: 1rem 0;
     font-size: var(--fs-300);
   }
 
   .contentWrapper {
     flex-direction: column;
+    padding: 1rem;
   }
 
   .overviewSection {
@@ -100,11 +108,13 @@
 }
 
 /* larger screens */
-@media (min-width: 1025px) {
+@media (min-width: 769px) {
   .container {
     margin: 0 4rem;
   }
+}
 
+@media (min-width: 1025px) {
   .content {
     display: flex;
     flex-direction: column;
@@ -115,11 +125,10 @@
     margin: 0 auto;
     width: 75%;
   }
-
 }
 
 .overviewText,
 .experienceTitle,
 .overviewTitle {
-      color: var(--text-primary);
+  color: var(--text-primary);
 }
