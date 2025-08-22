@@ -361,14 +361,23 @@ html[data-theme="dark"] {
   }
 }
 
-/* Ensure the root-container uses the theme variables */
+/* Ensure the root-container uses the theme variables and sticky footer layout */
 .root-container {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   color: var(--text-primary);
   background-color: var(--background-primary);
   transition:
     color 0.3s ease,
     background-color 0.3s ease;
+}
+
+/* Make main content take available space for proper footer positioning */
+main {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 /* Add transitions to all themed elements */
