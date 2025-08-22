@@ -2,12 +2,26 @@
   display: flex;
   flex-direction: column;
   background: var(--background-primary);
+  color: var(--text-primary);
   min-height: 100vh;
   margin: 0 8rem;
   border-radius: 0.5rem;
   padding: 2rem;
   margin-bottom: 2rem;
-  color: var(--text-primary);
+}
+
+.contentWrapper {
+  display: flex;
+  gap: 2rem;
+  padding: 0 2rem;
+  flex-grow: 1;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  flex-grow: 1;
 }
 
 .imageContainer {
@@ -127,6 +141,7 @@
 
 .introAndRecentContainer {
   display: flex;
+  flex-direction: column;
   gap: 2rem;
   align-items: flex-start;
 }
@@ -144,6 +159,7 @@
 
   .contentWrapper {
     flex-direction: column;
+    padding: 1rem;
     margin: 0 0.25rem;
     text-align: left;
   }

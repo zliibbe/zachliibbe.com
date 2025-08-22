@@ -24,7 +24,7 @@ export default function Home() {
       {/* Design for this site courtesy of Brendan Luna (brendanluna.com) and used with permission. Thanks Brendan! */}
       <div className={styles.heroContainer}>
         <div className={styles.heroGradient} />
-        <main className={styles.main}>
+        <div className={styles.main}>
           <section className={styles.heroSection}>
             <p className={styles.greeting}>Hey there, I&apos;m Zach!</p>
             <h1 className={styles.title}>
@@ -63,7 +63,7 @@ export default function Home() {
               </div>
             </div>
           </section>
-        </main>
+        </div>
       </div>
       <Footer />
     </HomeContent>

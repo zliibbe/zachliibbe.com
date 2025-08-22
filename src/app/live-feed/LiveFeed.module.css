@@ -1,8 +1,28 @@
 /* Main layout styles */
-.main {
-  max-width: var(--max-width);
-  margin: 0 auto;
+.container {
+  display: flex;
+  flex-direction: column;
+  background: var(--background-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  margin: 0 8rem;
+  border-radius: 0.5rem;
   padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.contentWrapper {
+  display: flex;
+  gap: 2rem;
+  padding: 0 2rem;
+  flex-grow: 1;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  flex-grow: 1;
 }
 
 .title {
@@ -158,10 +178,16 @@
   }
 }
 
-/* Fix for small screen overflow */
-@media (max-width: 480px) {
-  .main {
-    padding: 1rem; /* Reduce padding */
+/* smaller screens */
+@media (max-width: 768px) {
+  .container {
+    margin: 1rem 0;
+    font-size: var(--fs-300);
+  }
+
+  .contentWrapper {
+    flex-direction: column;
+    padding: 1rem;
   }
 
   .bookGrid {
@@ -185,6 +211,12 @@
 
   .bookAuthor {
     font-size: var(--fs-200);
+  }
+}
+
+@media (min-width: 769px) {
+  .container {
+    margin: 0 4rem;
   }
 }
 

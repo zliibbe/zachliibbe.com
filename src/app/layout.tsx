@@ -104,7 +104,7 @@ export default function RootLayout({
           <Analytics />
           <div className="root-container theme-transition">
             <Header />
-            <main>{children}</main>
+            {children}
           </div>
         </ThemeProvider>
       </body>
