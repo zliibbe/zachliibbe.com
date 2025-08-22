@@ -63,9 +63,23 @@
   padding-left: 0.5rem;
 }
 
+.jobTimeContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+}
+
 .jobTimeframe {
   color: var(--text-secondary);
   font-size: 1rem;
+}
+
+.contractStatus {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  font-style: italic;
+  margin-top: 0.25rem;
 }
 
 .jobDetails ul {

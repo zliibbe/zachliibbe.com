@@ -38,6 +38,7 @@ export const Jobs = () => {
         "Collaborated with UX teams to revamp interface designs, increasing user satisfaction by 60%",
       ],
       timeframe: "Jan 2024 - Feb 2025",
+      contractStatus: "Contract position - completed successfully",
       id: 1,
     },
     {
@@ -53,6 +54,7 @@ export const Jobs = () => {
         "Partnered with Component Owners and Project Managers to translate mockups into functional user interfaces, achieving a 95% adherence rate to design specifications.",
       ],
       timeframe: "May 2023 - Sept 2023",
+      contractStatus: "Contract position - completed successfully",
       id: 2,
     },
     {
@@ -69,6 +71,7 @@ export const Jobs = () => {
         "Worked cross-functionally with Component Owners, Project Managers, and testing team to deliver apps per customer specifications in an agile manner.",
       ],
       timeframe: "Jul 2022 - February 2023",
+      contractStatus: "Contract position - completed successfully",
       id: 3,
     },
     {

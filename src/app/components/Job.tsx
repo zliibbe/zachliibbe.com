@@ -15,6 +15,7 @@ interface JobProps {
   description?: string;
   taskList: Array<string | { title: string; subtasks: string[] }>;
   timeframe: string;
+  contractStatus?: string;
   id: number;
 }
 
@@ -28,6 +29,7 @@ const Job: React.FC<JobProps> = ({
   description,
   taskList,
   timeframe,
+  contractStatus,
   id,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -92,7 +94,12 @@ const Job: React.FC<JobProps> = ({
             )}
           </a>
         </div>
-        <div className={styles.jobTimeframe}>{timeframe}</div>
+        <div className={styles.jobTimeContainer}>
+          <div className={styles.jobTimeframe}>{timeframe}</div>
+          {contractStatus && (
+            <div className={styles.contractStatus}>{contractStatus}</div>
+          )}
+        </div>
       </div>
 
       {(!isHealthcareJob || isExpanded) && (
