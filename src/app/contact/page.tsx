@@ -22,5 +22,43 @@ export default function Contact() {
 }
 
 export const metadata: Metadata = {
-  title: "Contact | zachliibbe.com",
+  title: "Contact Zach Liibbe | Get in Touch with Full Stack Developer",
+  description:
+    "Get in touch with Zach Liibbe, full-stack software engineer. Quick response via email for collaboration opportunities, project inquiries, or just to say hello.",
+  keywords: [
+    "contact Zach Liibbe",
+    "email developer",
+    "hire full stack developer",
+    "collaboration",
+    "project inquiry",
+    "software engineer contact",
+  ],
+  authors: [{ name: "Zach Liibbe" }],
+  creator: "Zach Liibbe",
+  openGraph: {
+    title: "Contact Zach Liibbe | Get in Touch with Full Stack Developer",
+    description:
+      "Get in touch with Zach Liibbe, full-stack software engineer. Quick response via email for collaboration opportunities, project inquiries, or just to say hello.",
+    url: "https://zachliibbe.com/contact",
+    siteName: "Zach Liibbe",
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary",
+    title: "Contact Zach Liibbe | Get in Touch with Full Stack Developer",
+    description:
+      "Get in touch with Zach Liibbe, full-stack software engineer. Quick response via email for collaboration opportunities.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
+  alternates: {
+    canonical: "https://zachliibbe.com/contact",
+  },
 };
