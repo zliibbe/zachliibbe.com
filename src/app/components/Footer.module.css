@@ -4,7 +4,7 @@
   color: var(--text-primary);
   width: 100%;
   padding: 0 0 2rem 0;
-  transition: all 0.3s ease;
+  /* transition: all 0.3s ease; */
   display: flex;
   justify-content: center;
   margin-top: auto;
@@ -20,7 +20,7 @@
   padding: 1rem 2rem;
   background-color: var(--background-primary);
   color: var(--text-primary);
-  transition: all 0.3s ease;
+  /* transition: all 0.3s ease; */
   border-radius: var(--border-radius);
 }
 
@@ -29,37 +29,6 @@
   justify-content: space-between;
   flex-direction: column;
   width: 100%;
-}
-
-.liveFeed {
-  display: flex;
-  flex-direction: column;
-}
-
-.liveFeedLink {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 1rem;
-  color: var(--text-primary);
-  transition: color 0.3s ease;
-}
-
-.liveFeedLink {
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.2s ease;
-  position: relative;
-  display: inline-block;
-  margin-bottom: 1rem;
-}
-
-.liveFeedLink:hover {
-  color: var(--theme-color-hover);
-}
-
-.liveFeedLink:hover::after {
-  transform: scaleX(1);
-  transform-origin: left;
 }
 
 .liveFeedList {
@@ -171,9 +140,6 @@ html[data-theme="dark"] .stravaLink {
   fill: var(--goodreadsColor);
 }
 
-.liveFeedItem:hover .liveFeedText .stravaIcon {
-  text-decoration: underline;
-}
 .socialLink:hover .linkedInIcon {
   fill: var(--linkedInColor);
 }
@@ -316,11 +282,6 @@ html[data-theme="dark"] .stravaLink {
 /* Dark mode styles */
 html[data-theme="dark"] .footerContent {
   background-color: var(--black);
-  color: var(--text-primary);
-}
-
-html[data-theme="dark"] .liveFeed {
-  background-color: var(--background-primary);
   color: var(--text-primary);
 }
 

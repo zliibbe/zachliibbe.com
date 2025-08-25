@@ -212,12 +212,24 @@
   width: 100%;
   max-width: 1440px;
   height: 488px;
+  position: relative;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.archBlur::before {
+  content: "";
+  position: absolute;
+  top: 15%; /* Adjust this percentage to position blur below the head */
+  left: 0;
+  right: 0;
+  bottom: 0;
   border-radius: 100% 100% 3px 3px;
   box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
-  z-index: 0;
+  z-index: -1;
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
-  margin: 0 auto;
+  pointer-events: none;
 }
 
 .code {

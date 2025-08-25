@@ -15,8 +15,6 @@ const nextConfig = {
       },
     },
   },
-  // Enable modern output
-  swcMinify: true,
   poweredByHeader: false,
 
   images: {
