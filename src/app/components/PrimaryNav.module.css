@@ -9,13 +9,40 @@
 }
 
 .navLink {
-  color: white;
+  color: var(--white);
   text-decoration: none;
   margin: 0 1rem;
   padding: 0.5rem 1rem;
   border-radius: var(--border-radius);
-  transition: all 0.2s ease;
   font-size: var(--fs-600);
+  position: relative;
+  display: inline-block;
+}
+
+/* Remove the old hover rule and replace with pseudo-element approach */
+.navLink::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0.25rem;
+  width: 0;
+  height: 1px;
+  background-color: var(--white);
+  transition: width 0.2s ease;
+}
+
+.navLink:not(.active):hover::after {
+  width: 80%;
+  left: 10%;
+}
+
+.active:hover {
+  cursor: default;
+}
+
+/* Ensure active links don't show the underline */
+.active::after {
+  display: none;
 }
 
 /* Text outline */
@@ -40,15 +67,6 @@
   background: color-mix(in srgb, var(--clr-neutral-250) 70%, transparent);
 }
 
-.active:hover {
-  text-decoration: none !important;
-  cursor: default;
-}
-
-.navLink:not(.active):hover {
-  text-decoration: underline;
-}
-
 /* Mobile Styles */
 @media (max-width: 425px) {
   .nav {
@@ -67,9 +85,10 @@
     display: flex;
     justify-content: center;
     gap: 0.25rem;
-    .navLink {
-      font-size: var(--fs-400);
-      padding: 0.25rem 0.5rem;
-    }
+  }
+
+  .navLink {
+    font-size: var(--fs-400);
+    padding: 0.25rem 0.5rem;
   }
 }

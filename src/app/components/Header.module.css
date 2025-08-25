@@ -87,19 +87,6 @@
   margin: 0;
 }
 
-.navLink {
-  color: white;
-  text-decoration: none;
-  margin: 0 1rem;
-  display: inline-block;
-  font-size: var(--fs-600);
-}
-
-.navLink:hover {
-  text-decoration: underline;
-  transition-duration: 500ms;
-}
-
 /* Icon style */
 .homeIcon,
 .barsIcon,
@@ -206,12 +193,6 @@
   .primaryNav[data-visible="true"] {
     opacity: 1;
     transform: translateY(0);
-  }
-
-  .navLink {
-    font-size: 1rem;
-    padding: 0.5rem 0;
-    display: block;
   }
 
   .headerContent {
