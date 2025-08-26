@@ -1,0 +1,401 @@
+# Product Requirements Document: Personal Website Enhancement
+
+## RAG-Powered Chat & Blog System
+
+**Version:** 1.0  
+**Date:** August 2025  
+**Author:** Zach Liibbe
+
+---
+
+## Executive Summary
+
+Transform zachliibbe.com into an interactive personal website featuring:
+
+1. **RAG-powered AI chat** for visitors to learn about Zach through natural conversation
+2. **Blog system with scheduling** for content creation and automated publishing
+3. **Authentication system** for secure content management
+
+**Key Constraint:** Minimize costs while maintaining professional quality and performance.
+
+---
+
+## Current Technical Stack
+
+- **Framework:** Next.js 15 (React 19)
+- **Hosting:** Vercel
+- **Storage:** Vercel KV
+- **Styling:** CSS Modules
+- **Analytics:** Google Analytics
+
+---
+
+## 1. RAG-Powered Chat System
+
+### 1.1 Functional Requirements
+
+#### Priority A: Professional Information
+
+- Respond to questions about work experience, technical skills, projects
+- Provide context about career progression and expertise areas
+- Share details about specific technologies and frameworks used
+
+#### Priority B: Contact & Availability
+
+- Guide visitors on how to reach out (preferred communication methods)
+- Indicate general availability for opportunities (consulting, full-time, etc.)
+- Provide context on response timeframes
+
+#### Priority C: Personal Context
+
+- Share interests, philosophy, and work approach
+- Discuss personal projects and learning goals
+- Provide insights into personality and working style
+
+### 1.2 Technical Specifications
+
+#### Knowledge Base Structure
+
+```
+/src/data/knowledge/
+├── professional.md     # Work history, skills, projects
+├── contact.md          # Communication preferences, availability
+├── personal.md         # Interests, philosophy, approach
+└── projects.md         # Detailed project information
+```
+
+#### AI Integration
+
+- **Provider:** Anthropic Claude (cost-effective, high quality)
+- **Vector Database:** Pinecone (free tier: 1M vectors, 1 index)
+- **Embeddings:** OpenAI text-embedding-3-small ($0.02/1M tokens)
+- **RAG Architecture:** Semantic search → context injection → Claude response
+
+#### Chat Interface
+
+- **Location:** Floating chat widget (bottom-right corner)
+- **Design:** Clearly branded as AI chat with intuitive chat bubble icon, matches existing site theme
+- **Features:**
+  - Session memory (within conversation)
+  - Typing indicators
+  - Copy response functionality
+  - Source attribution ("Based on Zach's professional experience...")
+
+### 1.3 Cost Optimization Strategy
+
+- Cache embeddings in Vercel KV to avoid re-computation
+- Implement conversation limits (10 messages per session initially)
+- Use Claude Haiku for simple queries, Sonnet for complex ones
+- Batch embed knowledge base updates
+
+---
+
+## 2. Blog System with Scheduling
+
+### 2.1 Content Structure
+
+#### Blog Post Template
+
+```markdown
+---
+title: "Post Title"
+author: "Zach Liibbe"
+publishedAt: "2025-01-15"
+scheduledFor: "2025-01-20T09:00:00Z" # Optional
+status: "draft" | "scheduled" | "published"
+categories: ["Development", "Personal", "Learning", "Projects"]
+tags: ["nextjs", "typescript", "learning"]
+series: "Learning in Public" # Optional
+excerpt: "Brief description for previews"
+readTime: "8 min read" # Auto-calculated
+---
+
+# Post Content Here
+```
+
+#### File Organization
+
+```
+/src/content/blog/
+├── 2025/
+│   ├── 01-my-first-post.md
+│   ├── 02-learning-rag.md
+│   └── ...
+├── drafts/
+│   ├── upcoming-post.md
+│   └── ...
+└── templates/
+    └── post-template.md
+```
+
+### 2.2 Admin Interface
+
+#### Authentication
+
+- **Provider:** Google OAuth (NextAuth.js)
+- **Session Duration:** 180 minutes
+- **User Storage:** Username/password stored in Vercel KV database
+- **User Restriction:** Single user (zach@zachliibbe.com) initially, expandable for future users
+- **Admin Access:** Subtle UI element (e.g., small "Admin" link in footer) visible to authenticated users
+
+#### Writing Interface (`/admin/blog`)
+
+- Markdown editor with live preview
+- Auto-save drafts to Vercel KV
+- Category/tag management
+- Scheduling interface with date/time picker
+- Reading time auto-calculation
+- SEO preview (title, description, social cards)
+
+#### Content Management
+
+- Draft → Review → Schedule → Publish workflow
+- Bulk operations (publish multiple, reschedule)
+- Post analytics integration
+- Simple file upload for images
+
+### 2.3 Publishing System
+
+#### Automated Scheduling
+
+- **Trigger:** Vercel Cron Jobs (daily check at 9 AM UTC)
+- **Process:**
+  1. Query scheduled posts due for publication
+  2. Move from `drafts/` to appropriate date folder
+  3. Update post status to "published"
+  4. Trigger site rebuild
+  5. Clear relevant caches
+
+#### Public Blog Interface (`/blog`)
+
+- Post listing with pagination
+- Category/tag filtering
+- Search functionality
+- RSS feed generation
+- Social sharing buttons
+- Reading progress indicator
+
+---
+
+## 3. System Architecture
+
+### 3.1 Database Schema (Vercel KV)
+
+```typescript
+// Chat Sessions
+type ChatSession = {
+  id: string;
+  userId?: string; // For authenticated users
+  messages: Message[];
+  createdAt: string;
+  lastActivity: string;
+};
+
+// Blog Posts Metadata
+type BlogPost = {
+  id: string;
+  slug: string;
+  status: "draft" | "scheduled" | "published";
+  scheduledFor?: string;
+  publishedAt?: string;
+  metadata: PostMetadata;
+  contentPath: string;
+};
+
+// Knowledge Base Embeddings Cache
+type EmbeddingCache = {
+  contentHash: string;
+  embedding: number[];
+  source: string;
+  lastUpdated: string;
+};
+```
+
+### 3.2 API Routes
+
+```
+/api/
+├── chat/
+│   ├── message          # POST: Send message, get AI response
+│   ├── session          # GET: Retrieve session, POST: Create new
+│   └── embeddings       # POST: Update knowledge base embeddings
+├── blog/
+│   ├── posts            # GET: List posts, POST: Create post
+│   ├── posts/[slug]     # GET: Get post, PUT: Update, DELETE: Remove
+│   ├── schedule         # POST: Schedule post for publication
+│   └── publish          # POST: Manually publish post
+├── admin/
+│   ├── auth             # Google OAuth endpoints
+│   └── cron/publish     # Vercel Cron endpoint for scheduled publishing
+└── feed/
+    └── rss              # RSS feed generation
+```
+
+### 3.3 Component Architecture
+
+```
+/src/app/components/
+├── Chat/
+│   ├── ChatWidget.tsx           # Main floating chat interface
+│   ├── ChatMessage.tsx          # Individual message component
+│   ├── TypingIndicator.tsx      # Loading state
+│   └── ChatHistory.tsx          # Session message history
+├── Blog/
+│   ├── PostCard.tsx             # Blog post preview card
+│   ├── PostContent.tsx          # Full post display
+│   ├── CategoryFilter.tsx       # Category/tag filtering
+│   └── ReadingProgress.tsx      # Progress indicator
+└── Admin/
+    ├── MarkdownEditor.tsx       # Blog post editor
+    ├── PostScheduler.tsx        # Scheduling interface
+    ├── PostMetadata.tsx         # Title, tags, category input
+    └── DraftManager.tsx         # Draft listing and management
+```
+
+---
+
+## 4. Implementation Phases
+
+### Phase 1: Authentication & Admin Setup (Week 1)
+
+- [ ] Implement Google OAuth with NextAuth.js
+- [ ] Create admin dashboard layout
+- [ ] Build session management and user storage
+- [ ] Add admin route protection
+- [ ] Design admin access UI (subtle but accessible)
+
+### Phase 2: Blog Creation Interface (Week 2)
+
+- [ ] Build markdown editor component
+- [ ] Implement draft auto-saving to Vercel KV
+- [ ] Create post metadata management
+- [ ] Add reading time calculation
+- [ ] Build post preview functionality
+- [ ] Set up initial blog categories: "Development", "Personal", "Learning", "Projects"
+
+### Phase 3: Publishing & Scheduling (Week 3)
+
+- [ ] Implement scheduling system
+- [ ] Set up Vercel Cron jobs
+- [ ] Build automated publishing workflow
+- [ ] Create public blog interface (`/blog`)
+- [ ] Add RSS feed generation
+
+### Phase 4: RAG Chat Foundation (Week 4-5)
+
+- [ ] Set up Pinecone integration
+- [ ] Create knowledge base markdown files
+- [ ] Implement embedding generation and caching
+- [ ] Build floating chat widget (bottom-right, clearly AI-branded)
+- [ ] Integrate Claude API for responses
+- [ ] Deploy chat widget on existing site
+
+### Phase 5: Polish & Optimization (Week 6)
+
+- [ ] Optimize RAG performance and costs
+- [ ] Add blog search and filtering
+- [ ] Implement social sharing
+- [ ] Add analytics tracking
+- [ ] Performance testing and optimization
+
+---
+
+## 5. Success Metrics
+
+### Chat System
+
+- **Engagement:** Average messages per session > 3
+- **Quality:** User satisfaction (manual feedback collection)
+- **Performance:** Response time < 3 seconds
+- **Cost:** < $10/month for AI services
+
+### Blog System
+
+- **Adoption:** 1-2 posts published per month
+- **Workflow:** Draft to publish time < 30 minutes
+- **Reliability:** 100% successful scheduled publications
+- **Performance:** Blog page load time < 2 seconds
+
+---
+
+## 6. Security & Privacy Considerations
+
+### Chat System
+
+- No persistent user data collection
+- Rate limiting (10 messages per session, 100 per IP per day)
+- Input sanitization and content filtering
+- No sensitive information in knowledge base
+
+### Blog Admin
+
+- Single-user authentication only
+- Secure JWT token handling
+- CSRF protection on admin endpoints
+- Regular dependency security updates
+
+---
+
+## 7. Future Enhancements (Post-MVP)
+
+### Chat Improvements
+
+- Site navigation assistance
+- Project recommendation engine
+- Multi-language support
+- Voice interface
+
+### Blog Features
+
+- Comment system
+- Newsletter integration
+- Social media auto-posting
+- Advanced analytics dashboard
+- Multi-author support
+
+### Technical Upgrades
+
+- Dynamic knowledge base updates
+- Advanced RAG with conversation context
+- A/B testing for chat responses
+- Performance monitoring dashboard
+
+---
+
+## 8. Risk Mitigation
+
+### Cost Overruns
+
+- **Risk:** AI API costs exceed budget
+- **Mitigation:** Implement strict rate limiting, usage monitoring, and fallback to cached responses
+
+### Knowledge Base Maintenance
+
+- **Risk:** Outdated information in chat responses
+- **Mitigation:** Quarterly knowledge base review process, clear last-updated timestamps
+
+### Authentication Security
+
+- **Risk:** Unauthorized access to admin functions
+- **Mitigation:** Single-user restriction, session timeout, regular security audits
+
+### Publishing Failures
+
+- **Risk:** Scheduled posts fail to publish
+- **Mitigation:** Error monitoring, manual fallback process, scheduled post notifications
+
+---
+
+## Conclusion
+
+This PRD outlines a cost-effective approach to building a personal website with advanced chat and blogging capabilities. The phased implementation allows for iterative development and early user feedback, while the technical choices prioritize sustainability and maintainability.
+
+**Next Steps:**
+
+1. Review and approve this PRD
+2. Set up development environment
+3. Begin Phase 1 implementation
+4. Create initial knowledge base content
+
+**Estimated Timeline:** 6 weeks for full MVP implementation
+**Estimated Monthly Costs:** $5-15 (primarily AI services and Pinecone)
