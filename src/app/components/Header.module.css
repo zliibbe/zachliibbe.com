@@ -54,9 +54,10 @@
 }
 
 .homeIcon {
-  height: 2rem;
-  width: 2rem;
+  height: 5rem;
+  width: 5rem;
   fill: white;
+  stroke: white;
   transition-duration: 500ms;
 }
 
@@ -68,6 +69,7 @@
 
 .homeLink:hover .homeIcon {
   fill: var(--clr-neutral-200);
+  stroke: var(--clr-neutral-200);
 }
 
 .homeLink:hover .name {
@@ -117,6 +119,7 @@
 .barsIcon:hover,
 .headerLeft:hover {
   fill: var(--clr-neutral-200);
+  stroke: var(--clr-neutral-200);
 }
 
 .header:not(.gradientHeader) .mobileNav {
