@@ -19,30 +19,13 @@
   display: inline-block;
 }
 
-/* Remove the old hover rule and replace with pseudo-element approach */
-.navLink::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: 0.25rem;
-  width: 0;
-  height: 1px;
-  background-color: var(--white);
-  transition: width 0.2s ease;
-}
-
-.navLink:not(.active):hover::after {
-  width: 80%;
-  left: 10%;
+/* Simple underline on hover */
+.navLink:not(.active):hover {
+  text-decoration: underline;
 }
 
 .active:hover {
   cursor: default;
-}
-
-/* Ensure active links don't show the underline */
-.active::after {
-  display: none;
 }
 
 /* Text outline */

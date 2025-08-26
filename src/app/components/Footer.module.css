@@ -77,6 +77,10 @@
   color: var(--theme-color);
 }
 
+.stravaLink:hover {
+  text-decoration: underline;
+}
+
 /* Base icon styles */
 .stravaIcon,
 .goodreadsIcon,
@@ -192,6 +196,10 @@ html[data-theme="dark"] .stravaLink {
   transition: opacity 0.2s ease;
 }
 
+.socialLink:hover {
+  text-decoration: underline;
+}
+
 .socialIcon {
   font-size: 3rem;
   fill: var(--text-primary);
@@ -229,12 +237,18 @@ html[data-theme="dark"] .stravaLink {
 .techLink {
   display: flex;
   align-items: center;
+  text-decoration: none;
   transition: opacity 0.2s ease;
   line-height: 1.5;
 }
 
 .techLink:hover {
   opacity: 0.8;
+  text-decoration: underline;
+}
+
+.bookTitle:hover {
+  text-decoration: underline;
 }
 
 .nextVercelIcon {
