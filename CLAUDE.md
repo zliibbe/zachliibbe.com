@@ -67,4 +67,20 @@ This is a Next.js 15 portfolio website with the following key characteristics:
 - Environment variables required for Strava and KV store functionality
 - Coordinated caching strategy: 5-minute cache duration for both Vercel KV and Next.js fetch cache
 
+### Layout System (Added 2025-08-24)
+
+- **Standardized Structure**: All pages follow `container > contentWrapper > content` pattern
+- **Responsive Breakpoints**: Unified breakpoints at 768px, 769px, and 1025px across all pages
+- **Sticky Footer**: Flexbox-based layout ensures footer stays at bottom
+- **Semantic HTML**: Proper `<main>` elements for accessibility compliance
+- **Theme Integration**: CSS variables work consistently across all layouts
+
+### Recent Enhancements (2025-08-24)
+
+- About page redesigned with personal updates and recent activities sidebar
+- Work page simplified with centered overview and contract status indicators
+- Contact page completely redesigned with consistent layout system
+- SEO metadata enhanced across multiple pages for better discoverability
+- Browser compatibility improved with browserslist configuration
+
 Track changes using version in @package.json. Use SemVer for versioning.

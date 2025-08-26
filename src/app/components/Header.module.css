@@ -54,9 +54,10 @@
 }
 
 .homeIcon {
-  height: 2rem;
-  width: 2rem;
+  height: 5rem;
+  width: 5rem;
   fill: white;
+  stroke: white;
   transition-duration: 500ms;
 }
 
@@ -68,6 +69,7 @@
 
 .homeLink:hover .homeIcon {
   fill: var(--clr-neutral-200);
+  stroke: var(--clr-neutral-200);
 }
 
 .homeLink:hover .name {
@@ -85,19 +87,6 @@
 .nav li {
   padding: 0;
   margin: 0;
-}
-
-.navLink {
-  color: white;
-  text-decoration: none;
-  margin: 0 1rem;
-  display: inline-block;
-  font-size: var(--fs-600);
-}
-
-.navLink:hover {
-  text-decoration: underline;
-  transition-duration: 500ms;
 }
 
 /* Icon style */
@@ -130,6 +119,7 @@
 .barsIcon:hover,
 .headerLeft:hover {
   fill: var(--clr-neutral-200);
+  stroke: var(--clr-neutral-200);
 }
 
 .header:not(.gradientHeader) .mobileNav {
@@ -206,12 +196,6 @@
   .primaryNav[data-visible="true"] {
     opacity: 1;
     transform: translateY(0);
-  }
-
-  .navLink {
-    font-size: 1rem;
-    padding: 0.5rem 0;
-    display: block;
   }
 
   .headerContent {
