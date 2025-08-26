@@ -9,42 +9,44 @@
   display: inline;
   text-decoration: none;
   color: var(--theme-color);
+}
 
-  .bookTitle::before {
-    content: "";
-    position: absolute;
-    top: -140px;
-    top: -140px;
-    transform: translateX(-50%);
+.bookTitle:hover {
+  text-decoration: underline;
+}
 
-    width: 90px;
-    height: 135px;
-    background-image: var(--cover-image);
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-color: white;
-    border-radius: 4px;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s ease;
-    z-index: 1000;
-    isolation: isolate;
-    mix-blend-mode: normal;
-    transform-style: preserve-3d;
-    will-change: opacity;
-  }
+.bookTitle::before {
+  content: "";
+  position: absolute;
+  top: -140px;
+  transform: translateX(-50%);
+  width: 90px;
+  height: 135px;
+  background-image: var(--cover-image);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 1000;
+  isolation: isolate;
+  mix-blend-mode: normal;
+  transform-style: preserve-3d;
+  will-change: opacity;
+}
 
-  /* Override liveFeedText styles specifically for the book cover */
-  :global(.liveFeedText) .bookTitle::before {
-    opacity: 0;
-    background-color: white !important;
-  }
+/* Override liveFeedText styles specifically for the book cover */
+:global(.liveFeedText) .bookTitle::before {
+  opacity: 0;
+  background-color: white !important;
+}
 
-  :global(.liveFeedText) .bookTitle:hover::before {
-    opacity: 1 !important;
-  }
+:global(.liveFeedText) .bookTitle:hover::before {
+  opacity: 1 !important;
 }
 
 .readingProgress {

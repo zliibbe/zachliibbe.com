@@ -202,7 +202,13 @@ html:focus-within {
   background-color: var(--offWhiteBackgroundColor);
 }
 
-a:hover {
+a,
+.link,
+.navLink,
+.socialLink,
+.techLink,
+.homeLink {
+  cursor: pointer;
   text-decoration: underline;
 }
 
@@ -253,6 +259,8 @@ button.srOnly {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+    transition-property:
+      color, background-color, border-color, opacity, transform !important;
   }
 }
 

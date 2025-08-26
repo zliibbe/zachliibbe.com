@@ -1,7 +1,8 @@
 "use client";
 import Link from "next/link";
 import styles from "./Header.module.css";
-import { FaMountainSun, FaBars } from "react-icons/fa6";
+import { FaBars } from "react-icons/fa6";
+import { LuSprout } from "react-icons/lu";
 import { PiGear } from "react-icons/pi";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
@@ -38,7 +39,7 @@ const Header = () => {
         <div className={styles.headerLeft}>
           <Link href="/" className={styles.homeLink}>
             <div className={styles.homeLinkContent}>
-              <FaMountainSun className={styles.homeIcon} />
+              <LuSprout className={styles.homeIcon} />
               {isNotHomePage && <h1 className={styles.name}>zach liibbe</h1>}
             </div>
           </Link>
