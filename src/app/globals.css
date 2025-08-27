@@ -487,6 +487,13 @@ body {
   }
 }
 
+@media (min-width: 1024px) {
+  .universal-gradient-background {
+    height: calc(var(--gradient-height) + 9.25rem);
+    clip-path: polygon(0 0, 100% 0, 100% 75%, 0 100%);
+  }
+}
+
 @keyframes universal-bg-animation {
   0% {
     background-position: 0% 50%;
