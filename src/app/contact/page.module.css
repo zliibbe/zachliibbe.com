@@ -58,7 +58,7 @@
   flex-direction: column;
   background: var(--background-primary);
   color: var(--text-primary);
-  min-height: 60vh;
+  min-height: calc(60vh + 3rem);
   margin: 0 8rem;
   border-radius: 0.5rem;
   padding: 2rem;
