@@ -3,13 +3,13 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: var(--background-primary);
+  background: transparent;
   z-index: 1;
 }
 
 .contentWrapper {
   flex: 1;
-  max-width: 800px;
+  max-width: 600px;
   margin: 0 auto;
   padding: 0;
   width: 100%;
@@ -88,7 +88,7 @@
   position: relative;
   z-index: 3;
   padding: 2rem;
-  max-width: 800px;
+  max-width: 600px;
   margin: 0 auto;
   width: 100%;
   color: white;
@@ -203,7 +203,12 @@
   line-height: 1.8;
   color: var(--text-primary);
   font-size: 1.125rem;
-  padding: 0 2rem;
+  padding: 2rem;
+  background: var(--background-primary);
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  max-width: 600px;
 }
 
 /* Typography styles for blog content */
@@ -318,6 +323,11 @@
   padding: 2rem;
   margin-top: 3rem;
   text-align: center;
+  background: var(--background-primary);
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 3rem auto 0;
 }
 
 .shareText {
