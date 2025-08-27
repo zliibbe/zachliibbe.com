@@ -1,15 +1,25 @@
-import { BlogPost, BlogPostMetadata, BlogFilterParams, FeaturedImage } from '@/types/blog';
-import { getPhotoForBlogPost, getPhotoAttribution, trackPhotoDownload } from './unsplash';
+import {
+  BlogPost,
+  BlogPostMetadata,
+  BlogFilterParams,
+  FeaturedImage,
+} from "@/types/blog";
+import {
+  getPhotoForBlogPost,
+  getPhotoAttribution,
+  trackPhotoDownload,
+} from "./unsplash";
 
 // Enhanced blog posts with image search keywords
-const blogPostsData: Omit<BlogPost, 'featuredImage'>[] = [
+const blogPostsData: Omit<BlogPost, "featuredImage">[] = [
   {
-    id: '1',
-    slug: 'hello-world',
-    title: 'Hello World - First Blog Post',
-    author: 'Zach Liibbe',
-    publishedAt: '2025-01-15',
-    excerpt: 'Welcome to my blog! This is my first post where I introduce the new blog system and share my thoughts on building in public.',
+    id: "1",
+    slug: "hello-world",
+    title: "Hello World - First Blog Post",
+    author: "Zach Liibbe",
+    publishedAt: "2025-01-15",
+    excerpt:
+      "Welcome to my blog! This is my first post where I introduce the new blog system and share my thoughts on building in public.",
     content: `
       <h2>Welcome to My Blog!</h2>
       <p>I'm excited to finally have a blog on my personal website. This has been something I've wanted to add for a while, and I decided to build it from scratch using Next.js 15.</p>
@@ -26,19 +36,20 @@ const blogPostsData: Omit<BlogPost, 'featuredImage'>[] = [
       
       <p>Thanks for reading, and I hope you'll stick around as I continue to iterate and improve this little corner of the web!</p>
     `,
-    categories: ['Personal'],
-    tags: ['nextjs', 'blogging', 'first-post'],
-    readTime: '3 min read',
-    status: 'published',
-    series: undefined
+    categories: ["Personal"],
+    tags: ["nextjs", "blogging", "first-post"],
+    readTime: "3 min read",
+    status: "published",
+    series: undefined,
   },
   {
-    id: '2',
-    slug: 'building-blog-system',
-    title: 'Building a Simple Blog System with Next.js 15',
-    author: 'Zach Liibbe',
-    publishedAt: '2025-01-18',
-    excerpt: 'How I built this blog system from scratch using Next.js 15, TypeScript, and zero external dependencies for markdown processing.',
+    id: "2",
+    slug: "building-blog-system",
+    title: "Building a Simple Blog System with Next.js 15",
+    author: "Zach Liibbe",
+    publishedAt: "2025-01-18",
+    excerpt:
+      "How I built this blog system from scratch using Next.js 15, TypeScript, and zero external dependencies for markdown processing.",
     content: `
       <h2>The Philosophy: Keep It Simple</h2>
       <p>When building this blog, I had one main goal: avoid unnecessary complexity and dependencies. Instead of reaching for markdown parsers and complex build processes, I opted for a template-based approach.</p>
@@ -73,56 +84,70 @@ const blogPostsData: Omit<BlogPost, 'featuredImage'>[] = [
       
       <p>But for now, simple is perfect. It gets the job done without overengineering.</p>
     `,
-    categories: ['Development'],
-    tags: ['nextjs', 'typescript', 'architecture', 'blog'],
-    readTime: '5 min read',
-    status: 'published',
-    series: undefined
-  }
+    categories: ["Development"],
+    tags: ["nextjs", "typescript", "architecture", "blog"],
+    readTime: "5 min read",
+    status: "published",
+    series: undefined,
+  },
 ];
 
 // Cache for images to avoid repeated API calls
-const imageCache = new Map<string, FeaturedImage | null>();
+const imageCache = new Map<string, FeaturedImage | undefined>();
 
-async function getFeaturedImage(post: Omit<BlogPost, 'featuredImage'>): Promise<FeaturedImage | null> {
+async function getFeaturedImage(
+  post: Omit<BlogPost, "featuredImage">,
+): Promise<FeaturedImage | undefined> {
   const cacheKey = post.slug;
-  
+
   if (imageCache.has(cacheKey)) {
-    return imageCache.get(cacheKey) || null;
+    return imageCache.get(cacheKey);
   }
 
   try {
-    const photo = await getPhotoForBlogPost(post.categories, post.tags, post.title);
-    
+    const photo = await getPhotoForBlogPost(
+      post.categories,
+      post.tags,
+      post.title,
+    );
+
     if (photo) {
       // Track download as required by Unsplash API
       await trackPhotoDownload(photo.links.download_location);
-      
+
       const attribution = getPhotoAttribution(photo);
       const featuredImage: FeaturedImage = {
         url: photo.urls.regular,
-        alt: photo.alt_description || photo.description || `Featured image for ${post.title}`,
+        alt:
+          photo.alt_description ||
+          photo.description ||
+          `Featured image for ${post.title}`,
         width: photo.width,
         height: photo.height,
-        attribution
+        attribution,
       };
-      
+
       imageCache.set(cacheKey, featuredImage);
       return featuredImage;
     }
   } catch (error) {
     console.error(`Error fetching image for post ${post.slug}:`, error);
   }
-  
-  imageCache.set(cacheKey, null);
-  return null;
+
+  imageCache.set(cacheKey, undefined);
+  return undefined;
 }
 
 // Enhanced functions that include images
-export async function getAllPublishedPostsWithImages(): Promise<BlogPostMetadata[]> {
+export async function getAllPublishedPostsWithImages(): Promise<
+  BlogPostMetadata[]
+> {
   const publishedPosts = blogPostsData
-    .filter(post => post.status === 'published')
-    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+    .filter((post) => post.status === "published")
+    .sort(
+      (a, b) =>
+        new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
+    );
 
   // Fetch images for all posts in parallel
   const postsWithImages = await Promise.all(
@@ -139,66 +164,79 @@ export async function getAllPublishedPostsWithImages(): Promise<BlogPostMetadata
         tags: post.tags,
         readTime: post.readTime,
         series: post.series,
-        featuredImage
+        featuredImage,
       };
-    })
+    }),
   );
 
   return postsWithImages;
 }
 
-export async function getPostBySlugWithImage(slug: string): Promise<BlogPost | null> {
-  const post = blogPostsData.find(post => post.slug === slug && post.status === 'published');
+export async function getPostBySlugWithImage(
+  slug: string,
+): Promise<BlogPost | null> {
+  const post = blogPostsData.find(
+    (post) => post.slug === slug && post.status === "published",
+  );
   if (!post) return null;
 
   const featuredImage = await getFeaturedImage(post);
-  
+
   return {
     ...post,
-    featuredImage
+    featuredImage,
   };
 }
 
-export async function getFilteredPostsWithImages(filters: BlogFilterParams): Promise<BlogPostMetadata[]> {
+export async function getFilteredPostsWithImages(
+  filters: BlogFilterParams,
+): Promise<BlogPostMetadata[]> {
   let filtered = await getAllPublishedPostsWithImages();
-  
+
   if (filters.category) {
-    filtered = filtered.filter(post => 
-      post.categories.some(cat => cat.toLowerCase() === filters.category?.toLowerCase())
+    filtered = filtered.filter((post) =>
+      post.categories.some(
+        (cat) => cat.toLowerCase() === filters.category?.toLowerCase(),
+      ),
     );
   }
-  
+
   if (filters.tag) {
-    filtered = filtered.filter(post => 
-      post.tags.some(tag => tag.toLowerCase() === filters.tag?.toLowerCase())
+    filtered = filtered.filter((post) =>
+      post.tags.some((tag) => tag.toLowerCase() === filters.tag?.toLowerCase()),
     );
   }
-  
+
   return filtered;
 }
 
 // Enhanced pagination with images
-export async function getPaginatedPostsWithImages(page: number = 1, filters?: BlogFilterParams): Promise<{
+export async function getPaginatedPostsWithImages(
+  page: number = 1,
+  filters?: BlogFilterParams,
+): Promise<{
   posts: BlogPostMetadata[];
   totalPosts: number;
   currentPage: number;
   totalPages: number;
 }> {
   const POSTS_PER_PAGE = 10;
-  
-  const allPosts = filters ? await getFilteredPostsWithImages(filters) : await getAllPublishedPostsWithImages();
+
+  const allPosts = filters
+    ? await getFilteredPostsWithImages(filters)
+    : await getAllPublishedPostsWithImages();
   const totalPosts = allPosts.length;
   const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
   const startIndex = (page - 1) * POSTS_PER_PAGE;
   const posts = allPosts.slice(startIndex, startIndex + POSTS_PER_PAGE);
-  
+
   return {
     posts,
     totalPosts,
     currentPage: page,
-    totalPages
+    totalPages,
   };
 }
 
 // Re-export functions that don't need images for backwards compatibility
-export { getAllCategories, getAllTags } from './blog';
+export { getAllCategories, getAllTags } from "./blog";

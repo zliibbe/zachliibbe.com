@@ -1,14 +1,15 @@
-import { BlogPost, BlogPostMetadata, BlogFilterParams } from '@/types/blog';
+import { BlogPost, BlogPostMetadata, BlogFilterParams } from "@/types/blog";
 
 // Simple in-memory blog data store
 const blogPosts: BlogPost[] = [
   {
-    id: '1',
-    slug: 'hello-world',
-    title: 'Hello World - First Blog Post',
-    author: 'Zach Liibbe',
-    publishedAt: '2025-01-15',
-    excerpt: 'Welcome to my blog! This is my first post where I introduce the new blog system and share my thoughts on building in public.',
+    id: "1",
+    slug: "hello-world",
+    title: "Hello World - First Blog Post",
+    author: "Zach Liibbe",
+    publishedAt: "2025-01-15",
+    excerpt:
+      "Welcome to my blog! This is my first post where I introduce the new blog system and share my thoughts on building in public.",
     content: `
       <h2>Welcome to My Blog!</h2>
       <p>I'm excited to finally have a blog on my personal website. This has been something I've wanted to add for a while, and I decided to build it from scratch using Next.js 15.</p>
@@ -25,19 +26,20 @@ const blogPosts: BlogPost[] = [
       
       <p>Thanks for reading, and I hope you'll stick around as I continue to iterate and improve this little corner of the web!</p>
     `,
-    categories: ['Personal'],
-    tags: ['nextjs', 'blogging', 'first-post'],
-    readTime: '3 min read',
-    status: 'published',
-    series: undefined
+    categories: ["Personal"],
+    tags: ["nextjs", "blogging", "first-post"],
+    readTime: "3 min read",
+    status: "published",
+    series: undefined,
   },
   {
-    id: '2',
-    slug: 'building-blog-system',
-    title: 'Building a Simple Blog System with Next.js 15',
-    author: 'Zach Liibbe',
-    publishedAt: '2025-01-18',
-    excerpt: 'How I built this blog system from scratch using Next.js 15, TypeScript, and zero external dependencies for markdown processing.',
+    id: "2",
+    slug: "building-blog-system",
+    title: "Building a Simple Blog System with Next.js 15",
+    author: "Zach Liibbe",
+    publishedAt: "2025-01-18",
+    excerpt:
+      "How I built this blog system from scratch using Next.js 15, TypeScript, and zero external dependencies for markdown processing.",
     content: `
       <h2>The Philosophy: Keep It Simple</h2>
       <p>When building this blog, I had one main goal: avoid unnecessary complexity and dependencies. Instead of reaching for markdown parsers and complex build processes, I opted for a template-based approach.</p>
@@ -72,20 +74,23 @@ const blogPosts: BlogPost[] = [
       
       <p>But for now, simple is perfect. It gets the job done without overengineering.</p>
     `,
-    categories: ['Development'],
-    tags: ['nextjs', 'typescript', 'architecture', 'blog'],
-    readTime: '5 min read',
-    status: 'published',
-    series: undefined
-  }
+    categories: ["Development"],
+    tags: ["nextjs", "typescript", "architecture", "blog"],
+    readTime: "5 min read",
+    status: "published",
+    series: undefined,
+  },
 ];
 
 // Utility functions
 export function getAllPublishedPosts(): BlogPostMetadata[] {
   return blogPosts
-    .filter(post => post.status === 'published')
-    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
-    .map(post => ({
+    .filter((post) => post.status === "published")
+    .sort(
+      (a, b) =>
+        new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
+    )
+    .map((post) => ({
       id: post.id,
       slug: post.slug,
       title: post.title,
@@ -95,52 +100,63 @@ export function getAllPublishedPosts(): BlogPostMetadata[] {
       categories: post.categories,
       tags: post.tags,
       readTime: post.readTime,
-      series: post.series
+      series: post.series,
     }));
 }
 
 export function getPostBySlug(slug: string): BlogPost | null {
-  return blogPosts.find(post => post.slug === slug && post.status === 'published') || null;
+  return (
+    blogPosts.find(
+      (post) => post.slug === slug && post.status === "published",
+    ) || null
+  );
 }
 
-export function getFilteredPosts(filters: BlogFilterParams): BlogPostMetadata[] {
+export function getFilteredPosts(
+  filters: BlogFilterParams,
+): BlogPostMetadata[] {
   let filtered = getAllPublishedPosts();
-  
+
   if (filters.category) {
-    filtered = filtered.filter(post => 
-      post.categories.some(cat => cat.toLowerCase() === filters.category?.toLowerCase())
+    filtered = filtered.filter((post) =>
+      post.categories.some(
+        (cat) => cat.toLowerCase() === filters.category?.toLowerCase(),
+      ),
     );
   }
-  
+
   if (filters.tag) {
-    filtered = filtered.filter(post => 
-      post.tags.some(tag => tag.toLowerCase() === filters.tag?.toLowerCase())
+    filtered = filtered.filter((post) =>
+      post.tags.some((tag) => tag.toLowerCase() === filters.tag?.toLowerCase()),
     );
   }
-  
+
   return filtered;
 }
 
 export function getAllCategories(): string[] {
   const categories = new Set<string>();
   blogPosts
-    .filter(post => post.status === 'published')
-    .forEach(post => post.categories.forEach(cat => categories.add(cat)));
+    .filter((post) => post.status === "published")
+    .forEach((post) => post.categories.forEach((cat) => categories.add(cat)));
   return Array.from(categories).sort();
 }
 
 export function getAllTags(): string[] {
   const tags = new Set<string>();
   blogPosts
-    .filter(post => post.status === 'published')
-    .forEach(post => post.tags.forEach(tag => tags.add(tag)));
+    .filter((post) => post.status === "published")
+    .forEach((post) => post.tags.forEach((tag) => tags.add(tag)));
   return Array.from(tags).sort();
 }
 
 // Pagination helpers
 const POSTS_PER_PAGE = 10;
 
-export function getPaginatedPosts(page: number = 1, filters?: BlogFilterParams): {
+export function getPaginatedPosts(
+  page: number = 1,
+  filters?: BlogFilterParams,
+): {
   posts: BlogPostMetadata[];
   totalPosts: number;
   currentPage: number;
@@ -151,11 +167,11 @@ export function getPaginatedPosts(page: number = 1, filters?: BlogFilterParams):
   const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
   const startIndex = (page - 1) * POSTS_PER_PAGE;
   const posts = allPosts.slice(startIndex, startIndex + POSTS_PER_PAGE);
-  
+
   return {
     posts,
     totalPosts,
     currentPage: page,
-    totalPages
+    totalPages,
   };
 }
