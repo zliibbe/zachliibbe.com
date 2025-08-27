@@ -1,7 +1,7 @@
-import Link from 'next/link';
-import Image from 'next/image';
-import { BlogPostMetadata } from '@/types/blog';
-import styles from './PostCard.module.css';
+import Link from "next/link";
+import Image from "next/image";
+import { BlogPostMetadata } from "@/types/blog";
+import styles from "./PostCard.module.css";
 
 interface PostCardProps {
   post: BlogPostMetadata;
@@ -9,10 +9,10 @@ interface PostCardProps {
 
 export default function PostCard({ post }: PostCardProps) {
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
   };
 
@@ -27,10 +27,10 @@ export default function PostCard({ post }: PostCardProps) {
             width={post.featuredImage.width}
             height={200}
             className={styles.featuredImage}
-            style={{ objectFit: 'cover' }}
+            style={{ objectFit: "cover" }}
           />
           <div className={styles.imageAttribution}>
-            <a 
+            <a
               href={post.featuredImage.attribution.photographerUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -40,15 +40,13 @@ export default function PostCard({ post }: PostCardProps) {
           </div>
         </div>
       ) : (
-        <div className={styles.noImage}>
-          {post.title}
-        </div>
+        <div className={styles.noImage}>{post.title}</div>
       )}
 
       <div className={styles.postCardContent}>
         <div className={styles.categories}>
-          {post.categories.map(category => (
-            <Link 
+          {post.categories.map((category) => (
+            <Link
               key={category}
               href={`/blog?category=${encodeURIComponent(category.toLowerCase())}`}
               className={styles.category}
@@ -57,37 +55,33 @@ export default function PostCard({ post }: PostCardProps) {
             </Link>
           ))}
         </div>
-      
-      <h2 className={styles.postTitle}>
-        <Link href={`/blog/${post.slug}`}>
-          {post.title}
-        </Link>
-      </h2>
-      
-      <div className={styles.postMeta}>
-        <span>{formatDate(post.publishedAt)}</span>
-        <span>•</span>
-        <span>{post.readTime}</span>
-        <span>•</span>
-        <span>by {post.author}</span>
-      </div>
-      
-      <p className={styles.postExcerpt}>
-        {post.excerpt}
-      </p>
-      
-      <div className={styles.postTags}>
-        {post.tags.map(tag => (
-          <Link 
-            key={tag}
-            href={`/blog?tag=${encodeURIComponent(tag)}`}
-            className={styles.tag}
-          >
-            #{tag}
-          </Link>
-        ))}
-      </div>
-      
+
+        <h2 className={styles.postTitle}>
+          <Link href={`/blog/${post.slug}`}>{post.title}</Link>
+        </h2>
+
+        <div className={styles.postMeta}>
+          <span>{formatDate(post.publishedAt)}</span>
+          <span>•</span>
+          <span>{post.readTime}</span>
+          <span>•</span>
+          <span>by {post.author}</span>
+        </div>
+
+        <p className={styles.postExcerpt}>{post.excerpt}</p>
+
+        <div className={styles.postTags}>
+          {post.tags.map((tag) => (
+            <Link
+              key={tag}
+              href={`/blog?tag=${encodeURIComponent(tag)}`}
+              className={styles.tag}
+            >
+              #{tag}
+            </Link>
+          ))}
+        </div>
+
         <Link href={`/blog/${post.slug}`} className={styles.readMore}>
           Read more →
         </Link>

@@ -144,7 +144,12 @@
 
 .noImage {
   height: 120px;
-  background: linear-gradient(135deg, var(--gradientOne), var(--gradientTwo), var(--gradientThree));
+  background: linear-gradient(
+    135deg,
+    var(--gradientOne),
+    var(--gradientTwo),
+    var(--gradientThree)
+  );
   background-size: 400% 400%;
   animation: gradientMove 8s ease infinite;
   animation-play-state: var(--animationRunningState, running);
@@ -158,9 +163,15 @@
 }
 
 @keyframes gradientMove {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 /* Respect user's animation preferences */

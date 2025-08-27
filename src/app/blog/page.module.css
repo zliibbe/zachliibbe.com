@@ -208,18 +208,18 @@
   .title {
     font-size: 2rem;
   }
-  
+
   .filters {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
   }
-  
+
   .pagination {
     flex-wrap: wrap;
     gap: 0.5rem;
   }
-  
+
   .contentWrapper {
     padding: 1rem;
   }

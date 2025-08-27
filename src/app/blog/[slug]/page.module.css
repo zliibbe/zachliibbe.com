@@ -35,7 +35,7 @@
   border-radius: 20px;
   backdrop-filter: blur(4px);
   transition: all 0.2s ease;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .backLink:hover {
@@ -80,7 +80,11 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7));
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.3),
+    rgba(0, 0, 0, 0.7)
+  );
   z-index: 2;
 }
 
@@ -152,7 +156,7 @@
   color: white;
   margin-bottom: 1rem;
   line-height: 1.2;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .meta {
@@ -162,7 +166,7 @@
   color: rgba(255, 255, 255, 0.9);
   font-size: 0.875rem;
   margin-bottom: 1rem;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .excerpt {
@@ -171,7 +175,7 @@
   font-style: italic;
   line-height: 1.6;
   margin-bottom: 1rem;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .tags {
@@ -271,7 +275,7 @@
   background: var(--background-secondary);
   padding: 0.125rem 0.25rem;
   border-radius: 4px;
-  font-family: var(--font-roboto-mono), 'Courier New', monospace;
+  font-family: var(--font-roboto-mono), "Courier New", monospace;
   font-size: 0.875em;
   color: var(--theme-color);
 }
@@ -389,34 +393,34 @@
   .title {
     font-size: 2rem;
   }
-  
+
   .postContent {
     font-size: 1rem;
   }
-  
+
   .postContent h1 {
     font-size: 1.75rem;
   }
-  
+
   .postContent h2 {
     font-size: 1.5rem;
   }
-  
+
   .postContent h3 {
     font-size: 1.25rem;
   }
-  
+
   .meta {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
   }
-  
+
   .shareLinks {
     flex-direction: column;
     align-items: center;
   }
-  
+
   .contentWrapper {
     padding: 1rem;
   }
