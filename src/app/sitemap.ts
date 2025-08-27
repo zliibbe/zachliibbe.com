@@ -1,8 +1,10 @@
 import { MetadataRoute } from "next";
+import { getAllPublishedPosts } from "@/lib/blog";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://www.zachliibbe.com";
   const currentDate = new Date().toISOString();
+  const blogPosts = getAllPublishedPosts();
 
   return [
     {
@@ -35,5 +37,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "daily",
       priority: 0.7,
     },
+    {
+      url: `${baseUrl}/blog`,
+      lastModified: currentDate,
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    // Individual blog posts
+    ...blogPosts.map((post) => ({
+      url: `${baseUrl}/blog/${post.slug}`,
+      lastModified: new Date(post.publishedAt).toISOString(),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    })),
   ];
 }
