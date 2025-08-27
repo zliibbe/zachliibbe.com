@@ -9,7 +9,9 @@ export default function About() {
   return (
     <>
       <main>
-        <div className={styles.container}>
+        <div className="universal-gradient-container">
+          <div className="universal-gradient-background"></div>
+          <div className={styles.container}>
           <div className={styles.contentWrapper}>
             <div className={styles.content}>
               <div className={styles.imageContainer}>
@@ -131,6 +133,7 @@ export default function About() {
               <br />
               <p className={styles.signature}>-Zach</p>
             </div>
+          </div>
           </div>
         </div>
       </main>

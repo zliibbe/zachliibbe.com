@@ -43,7 +43,9 @@ export default function LiveFeedPage() {
   return (
     <>
       <main>
-        <div className={styles.container}>
+        <div className="universal-gradient-container">
+          <div className="universal-gradient-background"></div>
+          <div className={styles.container}>
           <div className={styles.contentWrapper}>
             <div className={styles.content}>
               <h1 className={styles.title}>Live Feed</h1>
@@ -114,6 +116,7 @@ export default function LiveFeedPage() {
                 <RecentAudiobooks />
               </section>
             </div>
+          </div>
           </div>
         </div>
       </main>
