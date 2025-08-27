@@ -1,16 +1,17 @@
-import { NextResponse } from 'next/server';
-import { getAllPublishedPosts } from '@/lib/blog';
+import { NextResponse } from "next/server";
+import { getAllPublishedPosts } from "@/lib/blog";
 
 export async function GET() {
   const posts = getAllPublishedPosts();
-  const siteUrl = 'https://zachliibbe.com';
+  const siteUrl = "https://zachliibbe.com";
   const feedUrl = `${siteUrl}/api/feed/rss`;
-  
-  const rssItems = posts.map(post => {
-    const postUrl = `${siteUrl}/blog/${post.slug}`;
-    const pubDate = new Date(post.publishedAt).toUTCString();
-    
-    return `
+
+  const rssItems = posts
+    .map((post) => {
+      const postUrl = `${siteUrl}/blog/${post.slug}`;
+      const pubDate = new Date(post.publishedAt).toUTCString();
+
+      return `
     <item>
       <title><![CDATA[${post.title}]]></title>
       <link>${postUrl}</link>
@@ -18,9 +19,10 @@ export async function GET() {
       <description><![CDATA[${post.excerpt}]]></description>
       <pubDate>${pubDate}</pubDate>
       <author>zach@zachliibbe.com (${post.author})</author>
-      <category><![CDATA[${post.categories.join(', ')}]]></category>
+      <category><![CDATA[${post.categories.join(", ")}]]></category>
     </item>`.trim();
-  }).join('\n');
+    })
+    .join("\n");
 
   const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
@@ -47,8 +49,8 @@ ${rssItems}
 
   return new NextResponse(rss, {
     headers: {
-      'Content-Type': 'application/rss+xml; charset=utf-8',
-      'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
+      "Content-Type": "application/rss+xml; charset=utf-8",
+      "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
     },
   });
 }
