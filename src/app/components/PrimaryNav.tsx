@@ -21,6 +21,12 @@ export default function PrimaryNav() {
         Work
       </Link>
       <Link
+        href="/blog"
+        className={`${styles.navLink} ${pathname?.startsWith("/blog") ? styles.active : ""}`}
+      >
+        Blog
+      </Link>
+      <Link
         href="/live-feed"
         className={`${styles.navLink} ${pathname === "/live-feed" ? styles.active : ""}`}
       >
