@@ -10,14 +10,14 @@ export default function Contact() {
         <div className="universal-gradient-container">
           <div className="universal-gradient-background"></div>
           <div className={styles.container}>
-          <div className={styles.contentWrapper}>
-            <div className={styles.content}>
-              <p className={styles.text}>
-                The quickest way to reach me is to send me an email:
-              </p>
-              <EmailCopy />
+            <div className={styles.contentWrapper}>
+              <div className={styles.content}>
+                <p className={styles.text}>
+                  The quickest way to reach me is to send me an email:
+                </p>
+                <EmailCopy />
+              </div>
             </div>
-          </div>
           </div>
         </div>
       </main>
