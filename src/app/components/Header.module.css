@@ -30,6 +30,8 @@
   display: flex;
   align-items: center;
   gap: 1rem;
+  flex-shrink: 0; /* Prevent icon from shrinking */
+  min-width: fit-content;
 }
 
 .headerRight {
@@ -37,6 +39,7 @@
   justify-content: flex-end;
   align-items: center;
   gap: 1rem;
+  flex-shrink: 0; /* Prevent preferences from shrinking */
 }
 
 .homeLink {
@@ -54,11 +57,12 @@
 }
 
 .homeIcon {
-  height: 5rem;
-  width: 5rem;
+  height: 2rem; /* Default: 48px for mobile */
+  width: 2rem; /* Default: 48px for mobile */
+  flex-shrink: 0; /* Prevent compression from flexbox */
   fill: white;
   stroke: white;
-  transition-duration: 500ms;
+  transition: all 500ms ease;
 }
 
 .name {
@@ -207,12 +211,33 @@
   }
 }
 
-/* Desktop Styles */
+/* Tablet and up: Medium icon */
+@media (min-width: 768px) {
+  .homeIcon {
+    height: 3rem; /* 64px for tablet */
+    width: 3rem; /* 64px for tablet */
+  }
+}
+
+/* Desktop: Large icon */
 @media (min-width: 1024px) {
   .header {
     width: 100%;
     left: 0;
     transform: none;
+  }
+
+  .homeIcon {
+    height: 3rem;
+    width: 3rem;
+  }
+}
+
+/* Very small screens: Extra small icon */
+@media (max-width: 480px) {
+  .homeIcon {
+    height: 2.5rem;
+    width: 2.5rem;
   }
 }
 

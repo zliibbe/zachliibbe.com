@@ -9,6 +9,21 @@
 
   --gradientTiming: 10s;
 
+  /* Gradient aliases for consistency between pages */
+  --gradient-one: var(--gradientOne);
+  --gradient-two: var(--gradientTwo);
+  --gradient-three: var(--gradientThree);
+  --gradient-timing: var(--gradientTiming);
+
+  /* Universal gradient positioning */
+  --gradient-height: calc(60vh + 3rem);
+
+  /* Small screen gradient height to align with archBlur bottom */
+  --gradient-height-mobile: calc(488px + 27rem);
+  --gradient-container-margin-top: -4rem;
+  --gradient-container-padding-top: 4rem;
+  --gradient-top-offset: -6rem;
+
   /* neutral colors */
   --white: #fffafa; /* snow white */
   --black: #0b1215; /* obsidian */
@@ -416,4 +431,77 @@ div {
 body {
   color: var(--text-primary);
   background-color: var(--background-primary);
+}
+
+/* Universal gradient styles for consistent background across all pages */
+.universal-gradient-container {
+  position: relative;
+  width: 100%;
+  min-height: 70vh;
+  margin-top: var(--gradient-container-margin-top);
+  padding-top: var(--gradient-container-padding-top);
+  overflow: visible;
+  z-index: 0;
+}
+
+.universal-gradient-background {
+  position: absolute;
+  top: var(--gradient-top-offset);
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: var(--gradient-height);
+  background: linear-gradient(
+    45deg,
+    var(--gradient-one),
+    var(--gradient-two),
+    var(--gradient-three)
+  );
+  background-size: 400% 400%;
+  z-index: -1;
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  perspective: 1000;
+  animation: universal-bg-animation var(--gradient-timing) ease infinite;
+  -webkit-animation: universal-bg-animation var(--gradient-timing) ease infinite;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  pointer-events: none;
+  transition: background 0.5s ease;
+  opacity: 1;
+}
+
+/* Mobile: Use special height to align with archBlur */
+@media (max-width: 767px) {
+  .universal-gradient-background {
+    height: var(--gradient-height-mobile);
+  }
+}
+
+@media (min-width: 768px) {
+  .universal-gradient-background {
+    height: calc(var(--gradient-height) + 6.25rem);
+    clip-path: polygon(0 0, 100% 0, 100% 75%, 0 100%);
+  }
+}
+
+@media (min-width: 1024px) {
+  .universal-gradient-background {
+    height: calc(var(--gradient-height) + 9.25rem);
+    clip-path: polygon(0 0, 100% 0, 100% 75%, 0 100%);
+  }
+}
+
+@keyframes universal-bg-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }

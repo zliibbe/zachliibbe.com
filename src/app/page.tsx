@@ -22,8 +22,8 @@ export default function Home() {
   return (
     <HomeContent>
       {/* Design for this site courtesy of Brendan Luna (brendanluna.com) and used with permission. Thanks Brendan! */}
-      <div className={styles.heroContainer}>
-        <div className={styles.heroGradient} />
+      <div className="universal-gradient-container">
+        <div className="universal-gradient-background" />
         <div className={styles.main}>
           <section className={styles.heroSection}>
             <p className={styles.greeting}>Hey there, I&apos;m Zach!</p>
