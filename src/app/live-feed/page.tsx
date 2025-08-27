@@ -46,77 +46,77 @@ export default function LiveFeedPage() {
         <div className="universal-gradient-container">
           <div className="universal-gradient-background"></div>
           <div className={styles.container}>
-          <div className={styles.contentWrapper}>
-            <div className={styles.content}>
-              <h1 className={styles.title}>Live Feed</h1>
-              <p className={styles.subtitle}>
-                An up-to-date feed of my recent activity out in the real world
-              </p>
+            <div className={styles.contentWrapper}>
+              <div className={styles.content}>
+                <h1 className={styles.title}>Live Feed</h1>
+                <p className={styles.subtitle}>
+                  An up-to-date feed of my recent activity out in the real world
+                </p>
 
-              <section className={styles.section}>
-                <div className={styles.sectionHeader}>
-                  <h2>Activities</h2>
-                  <p>
-                    A collection of my outdoor (mostly) activities pulled via
-                    the{" "}
-                    <a
-                      href="https://developers.strava.com/"
-                      className={styles.apiLink}
-                    >
-                      Strava API
-                    </a>
-                    .
-                  </p>
-                </div>
+                <section className={styles.section}>
+                  <div className={styles.sectionHeader}>
+                    <h2>Activities</h2>
+                    <p>
+                      A collection of my outdoor (mostly) activities pulled via
+                      the{" "}
+                      <a
+                        href="https://developers.strava.com/"
+                        className={styles.apiLink}
+                      >
+                        Strava API
+                      </a>
+                      .
+                    </p>
+                  </div>
 
-                {activitiesLoading && (
-                  <p className={styles.loadingText}>Loading activities...</p>
-                )}
-                {activitiesError && (
-                  <p className={styles.error}>Error: {activitiesError}</p>
-                )}
-                {!activitiesLoading &&
-                  !activitiesError &&
-                  activities.length > 0 && (
-                    <ActivityGrid activities={activities} />
+                  {activitiesLoading && (
+                    <p className={styles.loadingText}>Loading activities...</p>
                   )}
-              </section>
+                  {activitiesError && (
+                    <p className={styles.error}>Error: {activitiesError}</p>
+                  )}
+                  {!activitiesLoading &&
+                    !activitiesError &&
+                    activities.length > 0 && (
+                      <ActivityGrid activities={activities} />
+                    )}
+                </section>
 
-              <section className={styles.section}>
-                <div className={styles.sectionHeader}>
-                  <h2>Reading</h2>
-                  <p>
-                    Books recently completed (via my{" "}
-                    <a
-                      href="https://www.goodreads.com/review/list/24890536-zach-liibbe?ref=nav_mybooks&shelf=zach-read"
-                      className={styles.apiLink}
-                    >
-                      Goodreads &apos;Read&apos; Shelf
-                    </a>
-                    )
-                  </p>
-                </div>
-                <RecentBooks onLoadingChange={setBooksLoading} />
-              </section>
+                <section className={styles.section}>
+                  <div className={styles.sectionHeader}>
+                    <h2>Reading</h2>
+                    <p>
+                      Books recently completed (via my{" "}
+                      <a
+                        href="https://www.goodreads.com/review/list/24890536-zach-liibbe?ref=nav_mybooks&shelf=zach-read"
+                        className={styles.apiLink}
+                      >
+                        Goodreads &apos;Read&apos; Shelf
+                      </a>
+                      )
+                    </p>
+                  </div>
+                  <RecentBooks onLoadingChange={setBooksLoading} />
+                </section>
 
-              <section className={styles.section}>
-                <div className={styles.sectionHeader}>
-                  <h2>Listening</h2>
-                  <p>
-                    Latest audiobooks I&apos;ve listened to (via my{" "}
-                    <a
-                      href="https://www.goodreads.com/review/list/24890536-zach-liibbe?ref=nav_mybooks&shelf=audiobooks"
-                      className={styles.apiLink}
-                    >
-                      Goodreads &apos;Audiobooks&apos; Shelf
-                    </a>
-                    )
-                  </p>
-                </div>
-                <RecentAudiobooks />
-              </section>
+                <section className={styles.section}>
+                  <div className={styles.sectionHeader}>
+                    <h2>Listening</h2>
+                    <p>
+                      Latest audiobooks I&apos;ve listened to (via my{" "}
+                      <a
+                        href="https://www.goodreads.com/review/list/24890536-zach-liibbe?ref=nav_mybooks&shelf=audiobooks"
+                        className={styles.apiLink}
+                      >
+                        Goodreads &apos;Audiobooks&apos; Shelf
+                      </a>
+                      )
+                    </p>
+                  </div>
+                  <RecentAudiobooks />
+                </section>
+              </div>
             </div>
-          </div>
           </div>
         </div>
       </main>
