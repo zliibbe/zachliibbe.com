@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@vercel/kv";
+import { kv } from "@vercel/kv";
 import { XMLParser } from "fast-xml-parser";
 
 export const dynamic = "force-dynamic";
@@ -73,11 +73,7 @@ interface RssItem {
   pubDate?: string;
 }
 
-// Create KV client
-const kv = createClient({
-  url: process.env.KV_KV_REST_API_URL || "",
-  token: process.env.KV_KV_REST_API_TOKEN || "",
-});
+// KV client is imported above
 
 export async function GET(request: Request) {
   // Check for force refresh parameter
