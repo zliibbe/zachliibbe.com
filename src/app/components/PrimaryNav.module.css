@@ -50,28 +50,62 @@
   background: color-mix(in srgb, var(--clr-neutral-250) 70%, transparent);
 }
 
-/* Mobile Styles */
-@media (max-width: 425px) {
-  .nav {
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-
-  .navLink {
-    font-size: var(--fs-400);
-    text-align: center;
-  }
-}
-
+/* Mobile Styles - Horizontal Scrollable */
 @media (max-width: 768px) {
   .nav {
     display: flex;
-    justify-content: center;
-    gap: 0.25rem;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.5rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0.5rem 0.5rem;
+    margin: 0;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+    flex: 1; /* Allow nav to take available space */
+    max-width: 100%; /* Don't exceed container */
+  }
+
+  .nav::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
   }
 
   .navLink {
-    font-size: var(--fs-400);
-    padding: 0.25rem 0.5rem;
+    font-size: var(--fs-300);
+    padding: 0.4rem 0.8rem;
+    margin: 0;
+    white-space: nowrap;
+    flex-shrink: 0;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    min-width: fit-content;
+  }
+
+  .navLink:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .active {
+    background: rgba(255, 255, 255, 0.3);
+    font-weight: 600;
+  }
+}
+
+/* Extra small screens - even more compact */
+@media (max-width: 480px) {
+  .navLink {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 12px;
+  }
+
+  .nav {
+    gap: 0.3rem;
+    padding: 0.3rem 0.3rem;
   }
 }
