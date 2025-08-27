@@ -1,41 +1,4 @@
-.heroContainer {
-  position: relative;
-  width: 100%;
-  min-height: 70vh;
-  margin-top: -4rem;
-  padding-top: 4rem;
-  overflow: visible;
-  z-index: 0;
-}
-
-.heroGradient {
-  position: absolute;
-  top: -6rem;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: calc(100% + 6rem);
-  background: linear-gradient(
-    45deg,
-    var(--gradient-one),
-    var(--gradient-two),
-    var(--gradient-three)
-  );
-  background-size: 400% 400%;
-  z-index: -1;
-  -webkit-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  -webkit-perspective: 1000;
-  perspective: 1000;
-  animation: bg-animation var(--gradient-timing) ease infinite;
-  -webkit-animation: bg-animation var(--gradient-timing) ease infinite;
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-  pointer-events: none;
-  transition: background 0.5s ease;
-  opacity: 1;
-}
+/* Hero gradient styles now handled by universal gradient system in globals.css */
 
 .heroSection {
   max-width: calc(var(--max-width) + 1rem);
@@ -60,23 +23,8 @@
   }
 }
 
-/* Mobile S */
-@media (max-width: 320px) {
-  .heroContainer {
-    min-height: auto;
-    position: relative;
-  }
-
-  .heroGradient {
-    position: absolute;
-    top: -6rem;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-    animation: bg-animation var(--gradientTiming) infinite alternate;
-  }
-
+/* Mobile layout adjustments */
+@media (max-width: 425px) {
   .main {
     position: relative;
     z-index: 1;
@@ -88,69 +36,9 @@
   }
 }
 
-/* Mobile M */
-@media (min-width: 321px) and (max-width: 375px) {
-  .heroContainer {
-    min-height: auto;
-    position: relative;
-  }
+/* Mobile gradient styles now handled by universal gradient system in globals.css */
 
-  .heroGradient {
-    position: absolute;
-    top: -6rem;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-    animation: bg-animation var(--gradientTiming) infinite alternate;
-  }
-
-  .main {
-    position: relative;
-    z-index: 1;
-    padding-bottom: 0;
-  }
-
-  .homeImage {
-    margin-bottom: 0;
-  }
-}
-
-/* Mobile L */
-@media (min-width: 376px) and (max-width: 425px) {
-  .heroContainer {
-    min-height: auto;
-    position: relative;
-  }
-
-  .heroGradient {
-    position: absolute;
-    top: -6rem;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-    animation: bg-animation 10s infinite alternate;
-  }
-
-  .main {
-    position: relative;
-    z-index: 1;
-    padding-bottom: 0;
-  }
-
-  .homeImage {
-    margin-bottom: 0;
-  }
-}
-
-/* Tablet and above */
-@media (min-width: 768px) {
-  .heroGradient {
-    height: calc(100% + 6.25rem);
-    clip-path: polygon(0 0, 100% 0, 100% 75%, 0 100%);
-  }
-}
+/* Tablet and above styles now handled by universal gradient system in globals.css */
 
 .main {
   position: relative;
@@ -276,6 +164,8 @@
 @media (min-width: 768px) {
   .main {
     flex-direction: row;
+    max-width: 85%; /* Narrow content to show gradient behind */
+    margin: 0 auto;
   }
 
   .archBlur {
