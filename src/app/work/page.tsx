@@ -8,7 +8,9 @@ export default function Work() {
   return (
     <>
       <main>
-        <div className={styles.container}>
+        <div className="universal-gradient-container">
+          <div className="universal-gradient-background"></div>
+          <div className={styles.container}>
           <div className={styles.contentWrapper}>
             <div className={styles.content}>
               <div className={styles.overviewSection}>
@@ -45,6 +47,7 @@ export default function Work() {
                 <Jobs />
               </div>
             </div>
+          </div>
           </div>
         </div>
       </main>

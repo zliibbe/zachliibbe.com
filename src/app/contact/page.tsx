@@ -7,7 +7,9 @@ export default function Contact() {
   return (
     <>
       <main className={styles.main}>
-        <div className={styles.container}>
+        <div className="universal-gradient-container">
+          <div className="universal-gradient-background"></div>
+          <div className={styles.container}>
           <div className={styles.contentWrapper}>
             <div className={styles.content}>
               <p className={styles.text}>
@@ -15,6 +17,7 @@ export default function Contact() {
               </p>
               <EmailCopy />
             </div>
+          </div>
           </div>
         </div>
       </main>
