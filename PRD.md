@@ -12,9 +12,9 @@
 
 Transform zachliibbe.com into an interactive personal website featuring:
 
-1. **RAG-powered AI chat** for visitors to learn about Zach through natural conversation
-2. **Blog system with scheduling** for content creation and automated publishing
-3. **Authentication system** for secure content management
+- [ ] **RAG-powered AI chat** for visitors to learn about Zach through natural conversation
+- [x] **Blog system with scheduling** for content creation and automated publishing
+- [ ] **Authentication system** for secure content management
 
 **Key Constraint:** Minimize costs while maintaining professional quality and performance.
 
@@ -22,11 +22,11 @@ Transform zachliibbe.com into an interactive personal website featuring:
 
 ## Current Technical Stack
 
-- **Framework:** Next.js 15 (React 19)
-- **Hosting:** Vercel
-- **Storage:** Vercel KV
-- **Styling:** CSS Modules
-- **Analytics:** Google Analytics
+- [x] **Framework:** Next.js 15 (React 19)
+- [x] **Hosting:** Vercel
+- [x] **Storage:** Vercel KV
+- [x] **Styling:** CSS Modules
+- [x] **Analytics:** Google Analytics
 
 ---
 
@@ -36,21 +36,21 @@ Transform zachliibbe.com into an interactive personal website featuring:
 
 #### Priority A: Professional Information
 
-- Respond to questions about work experience, technical skills, projects
-- Provide context about career progression and expertise areas
-- Share details about specific technologies and frameworks used
+- [ ] Respond to questions about work experience, technical skills, projects
+- [ ] Provide context about career progression and expertise areas
+- [ ] Share details about specific technologies and frameworks used
 
 #### Priority B: Contact & Availability
 
-- Guide visitors on how to reach out (preferred communication methods)
-- Indicate general availability for opportunities (consulting, full-time, etc.)
-- Provide context on response timeframes
+- [ ] Guide visitors on how to reach out (preferred communication methods)
+- [ ] Indicate general availability for opportunities (consulting, full-time, etc.)
+- [ ] Provide context on response timeframes
 
 #### Priority C: Personal Context
 
-- Share interests, philosophy, and work approach
-- Discuss personal projects and learning goals
-- Provide insights into personality and working style
+- [ ] Share interests, philosophy, and work approach
+- [ ] Discuss personal projects and learning goals
+- [ ] Provide insights into personality and working style
 
 ### 1.2 Technical Specifications
 
@@ -66,27 +66,27 @@ Transform zachliibbe.com into an interactive personal website featuring:
 
 #### AI Integration
 
-- **Provider:** Anthropic Claude (cost-effective, high quality)
-- **Vector Database:** Pinecone (free tier: 1M vectors, 1 index)
-- **Embeddings:** OpenAI text-embedding-3-small ($0.02/1M tokens)
-- **RAG Architecture:** Semantic search → context injection → Claude response
+- [ ] **Provider:** Anthropic Claude (cost-effective, high quality)
+- [ ] **Vector Database:** Pinecone (free tier: 1M vectors, 1 index)
+- [ ] **Embeddings:** OpenAI text-embedding-3-small ($0.02/1M tokens)
+- [ ] **RAG Architecture:** Semantic search → context injection → Claude response
 
 #### Chat Interface
 
-- **Location:** Floating chat widget (bottom-right corner)
-- **Design:** Clearly branded as AI chat with intuitive chat bubble icon, matches existing site theme
-- **Features:**
-  - Session memory (within conversation)
-  - Typing indicators
-  - Copy response functionality
-  - Source attribution ("Based on Zach's professional experience...")
+- [ ] **Location:** Floating chat widget (bottom-right corner)
+- [ ] **Design:** Clearly branded as AI chat with intuitive chat bubble icon, matches existing site theme
+- [ ] **Features:**
+  - [ ] Session memory (within conversation)
+  - [ ] Typing indicators
+  - [ ] Copy response functionality
+  - [ ] Source attribution ("Based on Zach's professional experience...")
 
 ### 1.3 Cost Optimization Strategy
 
-- Cache embeddings in Vercel KV to avoid re-computation
-- Implement conversation limits (10 messages per session initially)
-- Use Claude Haiku for simple queries, Sonnet for complex ones
-- Batch embed knowledge base updates
+- [ ] Cache embeddings in Vercel KV to avoid re-computation
+- [ ] Implement conversation limits (10 messages per session initially)
+- [ ] Use Claude Haiku for simple queries, Sonnet for complex ones
+- [ ] Batch embed knowledge base updates
 
 ---
 
@@ -132,48 +132,48 @@ readTime: "8 min read" # Auto-calculated
 
 #### Authentication
 
-- **Provider:** Google OAuth (NextAuth.js)
-- **Session Duration:** 180 minutes
-- **User Storage:** Username/password stored in Vercel KV database
-- **User Restriction:** Single user (zach@zachliibbe.com) initially, expandable for future users
-- **Admin Access:** Subtle UI element (e.g., small "Admin" link in footer) visible to authenticated users
+- [ ] **Provider:** Google OAuth (NextAuth.js)
+- [ ] **Session Duration:** 180 minutes
+- [ ] **User Storage:** Username/password stored in Vercel KV database
+- [ ] **User Restriction:** Single user (zach@zachliibbe.com) initially, expandable for future users
+- [ ] **Admin Access:** Subtle UI element (e.g., small "Admin" link in footer) visible to authenticated users
 
 #### Writing Interface (`/admin/blog`)
 
-- Markdown editor with live preview
-- Auto-save drafts to Vercel KV
-- Category/tag management
-- Scheduling interface with date/time picker
-- Reading time auto-calculation
-- SEO preview (title, description, social cards)
+- [ ] Markdown editor with live preview
+- [ ] Auto-save drafts to Vercel KV
+- [x] Category/tag management
+- [ ] Scheduling interface with date/time picker
+- [x] Reading time auto-calculation
+- [ ] SEO preview (title, description, social cards)
 
 #### Content Management
 
-- Draft → Review → Schedule → Publish workflow
-- Bulk operations (publish multiple, reschedule)
-- Post analytics integration
-- Simple file upload for images
+- [ ] Draft → Review → Schedule → Publish workflow
+- [ ] Bulk operations (publish multiple, reschedule)
+- [ ] Post analytics integration
+- [ ] Simple file upload for images
 
 ### 2.3 Publishing System
 
 #### Automated Scheduling
 
-- **Trigger:** Vercel Cron Jobs (daily check at 9 AM UTC)
-- **Process:**
-  1. Query scheduled posts due for publication
-  2. Move from `drafts/` to appropriate date folder
-  3. Update post status to "published"
-  4. Trigger site rebuild
-  5. Clear relevant caches
+- [ ] **Trigger:** Vercel Cron Jobs (daily check at 9 AM UTC)
+- [ ] **Process:**
+  1. [ ] Query scheduled posts due for publication
+  2. [ ] Move from `drafts/` to appropriate date folder
+  3. [ ] Update post status to "published"
+  4. [ ] Trigger site rebuild
+  5. [ ] Clear relevant caches
 
 #### Public Blog Interface (`/blog`)
 
-- Post listing with pagination
-- Category/tag filtering
-- Search functionality
-- RSS feed generation
-- Social sharing buttons
-- Reading progress indicator
+- [x] Post listing with pagination
+- [x] Category/tag filtering
+- [ ] Search functionality
+- [ ] RSS feed generation
+- [ ] Social sharing buttons
+- [ ] Reading progress indicator
 
 ---
 
@@ -304,17 +304,17 @@ type EmbeddingCache = {
 
 ### Chat System
 
-- **Engagement:** Average messages per session > 3
-- **Quality:** User satisfaction (manual feedback collection)
-- **Performance:** Response time < 3 seconds
-- **Cost:** < $10/month for AI services
+- [ ] **Engagement:** Average messages per session > 3
+- [ ] **Quality:** User satisfaction (manual feedback collection)
+- [ ] **Performance:** Response time < 3 seconds
+- [ ] **Cost:** < $10/month for AI services
 
 ### Blog System
 
-- **Adoption:** 1-2 posts published per month
-- **Workflow:** Draft to publish time < 30 minutes
-- **Reliability:** 100% successful scheduled publications
-- **Performance:** Blog page load time < 2 seconds
+- [x] **Adoption:** 1-2 posts published per month
+- [ ] **Workflow:** Draft to publish time < 30 minutes
+- [ ] **Reliability:** 100% successful scheduled publications
+- [x] **Performance:** Blog page load time < 2 seconds
 
 ---
 
@@ -322,17 +322,17 @@ type EmbeddingCache = {
 
 ### Chat System
 
-- No persistent user data collection
-- Rate limiting (10 messages per session, 100 per IP per day)
-- Input sanitization and content filtering
-- No sensitive information in knowledge base
+- [ ] No persistent user data collection
+- [ ] Rate limiting (10 messages per session, 100 per IP per day)
+- [ ] Input sanitization and content filtering
+- [x] No sensitive information in knowledge base
 
 ### Blog Admin
 
-- Single-user authentication only
-- Secure JWT token handling
-- CSRF protection on admin endpoints
-- Regular dependency security updates
+- [ ] Single-user authentication only
+- [ ] Secure JWT token handling
+- [ ] CSRF protection on admin endpoints
+- [x] Regular dependency security updates
 
 ---
 
@@ -340,25 +340,25 @@ type EmbeddingCache = {
 
 ### Chat Improvements
 
-- Site navigation assistance
-- Project recommendation engine
-- Multi-language support
-- Voice interface
+- [ ] Site navigation assistance
+- [ ] Project recommendation engine
+- [ ] Multi-language support
+- [ ] Voice interface
 
 ### Blog Features
 
-- Comment system
-- Newsletter integration
-- Social media auto-posting
-- Advanced analytics dashboard
-- Multi-author support
+- [ ] Comment system
+- [ ] Newsletter integration
+- [ ] Social media auto-posting
+- [ ] Advanced analytics dashboard
+- [ ] Multi-author support
 
 ### Technical Upgrades
 
-- Dynamic knowledge base updates
-- Advanced RAG with conversation context
-- A/B testing for chat responses
-- Performance monitoring dashboard
+- [ ] Dynamic knowledge base updates
+- [ ] Advanced RAG with conversation context
+- [ ] A/B testing for chat responses
+- [ ] Performance monitoring dashboard
 
 ---
 
@@ -366,23 +366,23 @@ type EmbeddingCache = {
 
 ### Cost Overruns
 
-- **Risk:** AI API costs exceed budget
-- **Mitigation:** Implement strict rate limiting, usage monitoring, and fallback to cached responses
+- [ ] **Risk:** AI API costs exceed budget
+- [ ] **Mitigation:** Implement strict rate limiting, usage monitoring, and fallback to cached responses
 
 ### Knowledge Base Maintenance
 
-- **Risk:** Outdated information in chat responses
-- **Mitigation:** Quarterly knowledge base review process, clear last-updated timestamps
+- [ ] **Risk:** Outdated information in chat responses
+- [x] **Mitigation:** Quarterly knowledge base review process, clear last-updated timestamps
 
 ### Authentication Security
 
-- **Risk:** Unauthorized access to admin functions
-- **Mitigation:** Single-user restriction, session timeout, regular security audits
+- [ ] **Risk:** Unauthorized access to admin functions
+- [ ] **Mitigation:** Single-user restriction, session timeout, regular security audits
 
 ### Publishing Failures
 
-- **Risk:** Scheduled posts fail to publish
-- **Mitigation:** Error monitoring, manual fallback process, scheduled post notifications
+- [ ] **Risk:** Scheduled posts fail to publish
+- [ ] **Mitigation:** Error monitoring, manual fallback process, scheduled post notifications
 
 ---
 
@@ -392,10 +392,10 @@ This PRD outlines a cost-effective approach to building a personal website with 
 
 **Next Steps:**
 
-1. Review and approve this PRD
-2. Set up development environment
-3. Begin Phase 1 implementation
-4. Create initial knowledge base content
+1. [x] Review and approve this PRD
+2. [x] Set up development environment
+3. [ ] Begin Phase 1 implementation
+4. [x] Create initial knowledge base content
 
 **Estimated Timeline:** 6 weeks for full MVP implementation
 **Estimated Monthly Costs:** $5-15 (primarily AI services and Pinecone)
