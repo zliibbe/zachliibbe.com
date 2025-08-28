@@ -266,20 +266,20 @@ type EmbeddingCache = {
 
 ### Phase 2: Blog Creation Interface (Week 2)
 
-- [ ] Build markdown editor component
-- [ ] Implement draft auto-saving to Vercel KV
-- [ ] Create post metadata management
-- [ ] Add reading time calculation
-- [ ] Build post preview functionality
-- [ ] Set up initial blog categories: "Development", "Personal", "Learning", "Projects"
+- [x] Build markdown editor component
+- [x] Implement draft auto-saving to Vercel KV
+- [x] Create post metadata management
+- [x] Add reading time calculation
+- [x] Build post preview functionality
+- [x] Set up initial blog categories: "Development", "Personal", "Learning", "Projects"
 
 ### Phase 3: Publishing & Scheduling (Week 3)
 
-- [ ] Implement scheduling system
+- [x] Implement scheduling system
 - [ ] Set up Vercel Cron jobs
 - [ ] Build automated publishing workflow
-- [ ] Create public blog interface (`/blog`)
-- [ ] Add RSS feed generation
+- [x] Create public blog interface (`/blog`)
+- [x] Add RSS feed generation
 
 ### Phase 4: RAG Chat Foundation (Week 4-5)
 
