@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Session } from "next-auth";
 import Link from "next/link";
 import Image from "next/image";
+import { MdOpenInNew, MdCreate, MdHourglassEmpty } from "react-icons/md";
 import { BlogPost, FeaturedImage } from "@/types/blog";
 import MarkdownEditor from "./MarkdownEditor";
 import styles from "./BlogAdmin.module.css";
@@ -278,12 +279,16 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
               <div className={styles.postsContainer}>
                 {loading ? (
                   <div className={styles.loading}>
-                    <div className={styles.loadingSpinner}>⏳</div>
+                    <div className={styles.loadingSpinner}>
+                      <MdHourglassEmpty size={24} />
+                    </div>
                     <p>Loading posts...</p>
                   </div>
                 ) : filteredPosts.length === 0 ? (
                   <div className={styles.emptyState}>
-                    <div className={styles.emptyIcon}>📝</div>
+                    <div className={styles.emptyIcon}>
+                      <MdCreate size={48} />
+                    </div>
                     <h3>
                       {activeTab === "all"
                         ? "No posts yet"
