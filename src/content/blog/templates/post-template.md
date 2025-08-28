@@ -20,13 +20,13 @@ Write your blog post content using Markdown formatting.
 You can use:
 
 - **Bold text**
-- *Italic text*
+- _Italic text_
 - `Inline code`
 - [Links](https://example.com)
 
 ```javascript
 // Code blocks
-console.log('Hello, world!');
+console.log("Hello, world!");
 ```
 
 > Blockquotes for emphasis
