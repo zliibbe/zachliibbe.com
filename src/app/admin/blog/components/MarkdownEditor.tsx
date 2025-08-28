@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import styles from "./MarkdownEditor.module.css";
 
 interface BlogPost {
@@ -22,17 +22,23 @@ interface MarkdownEditorProps {
   onCancel: () => void;
 }
 
-const AVAILABLE_CATEGORIES = ["Development", "Personal", "Learning", "Projects"];
+const AVAILABLE_CATEGORIES = [
+  "Development",
+  "Personal",
+  "Learning",
+  "Projects",
+];
 
-export default function MarkdownEditor({ 
-  initialPost, 
-  onSave, 
-  onCancel 
+export default function MarkdownEditor({
+  initialPost,
+  onSave,
+  onCancel,
 }: MarkdownEditorProps) {
   const [post, setPost] = useState<BlogPost>({
     title: initialPost?.title || "",
     author: "Zach Liibbe",
-    publishedAt: initialPost?.publishedAt || new Date().toISOString().split('T')[0],
+    publishedAt:
+      initialPost?.publishedAt || new Date().toISOString().split("T")[0],
     scheduledFor: initialPost?.scheduledFor || "",
     status: initialPost?.status || "draft",
     categories: initialPost?.categories || [],
@@ -54,36 +60,36 @@ export default function MarkdownEditor({
   }, []);
 
   const handleContentChange = (content: string) => {
-    setPost(prev => ({ ...prev, content }));
+    setPost((prev) => ({ ...prev, content }));
   };
 
   const handleMetadataChange = (field: keyof BlogPost, value: any) => {
-    setPost(prev => ({ ...prev, [field]: value }));
+    setPost((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleCategoryToggle = (category: string) => {
-    setPost(prev => ({
+    setPost((prev) => ({
       ...prev,
       categories: prev.categories.includes(category)
-        ? prev.categories.filter(c => c !== category)
-        : [...prev.categories, category]
+        ? prev.categories.filter((c) => c !== category)
+        : [...prev.categories, category],
     }));
   };
 
   const handleAddTag = () => {
     if (newTag.trim() && !post.tags.includes(newTag.trim())) {
-      setPost(prev => ({
+      setPost((prev) => ({
         ...prev,
-        tags: [...prev.tags, newTag.trim()]
+        tags: [...prev.tags, newTag.trim()],
       }));
       setNewTag("");
     }
   };
 
   const handleRemoveTag = (tag: string) => {
-    setPost(prev => ({
+    setPost((prev) => ({
       ...prev,
-      tags: prev.tags.filter(t => t !== tag)
+      tags: prev.tags.filter((t) => t !== tag),
     }));
   };
 
@@ -91,17 +97,19 @@ export default function MarkdownEditor({
     // Auto-generate excerpt if empty
     const finalPost = {
       ...post,
-      excerpt: post.excerpt || post.content.slice(0, 150) + (post.content.length > 150 ? "..." : "")
+      excerpt:
+        post.excerpt ||
+        post.content.slice(0, 150) + (post.content.length > 150 ? "..." : ""),
     };
     onSave(finalPost);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.ctrlKey || e.metaKey) {
-      if (e.key === 's') {
+      if (e.key === "s") {
         e.preventDefault();
         handleSave();
-      } else if (e.key === 'p') {
+      } else if (e.key === "p") {
         e.preventDefault();
         setPreviewMode(!previewMode);
       }
@@ -116,7 +124,7 @@ export default function MarkdownEditor({
             type="text"
             placeholder="Post title..."
             value={post.title}
-            onChange={(e) => handleMetadataChange('title', e.target.value)}
+            onChange={(e) => handleMetadataChange("title", e.target.value)}
             className={styles.titleInput}
           />
           <div className={styles.metadata}>
@@ -129,9 +137,9 @@ export default function MarkdownEditor({
           <button
             type="button"
             onClick={() => setPreviewMode(!previewMode)}
-            className={`${styles.button} ${previewMode ? styles.buttonActive : ''}`}
+            className={`${styles.button} ${previewMode ? styles.buttonActive : ""}`}
           >
-            {previewMode ? 'Edit' : 'Preview'}
+            {previewMode ? "Edit" : "Preview"}
           </button>
           <button
             type="button"
@@ -157,7 +165,7 @@ export default function MarkdownEditor({
             <h3>Post Status</h3>
             <select
               value={post.status}
-              onChange={(e) => handleMetadataChange('status', e.target.value)}
+              onChange={(e) => handleMetadataChange("status", e.target.value)}
               className={styles.select}
             >
               <option value="draft">Draft</option>
@@ -169,7 +177,7 @@ export default function MarkdownEditor({
           <div className={styles.sidebarSection}>
             <h3>Categories</h3>
             <div className={styles.categories}>
-              {AVAILABLE_CATEGORIES.map(category => (
+              {AVAILABLE_CATEGORIES.map((category) => (
                 <label key={category} className={styles.checkbox}>
                   <input
                     type="checkbox"
@@ -185,7 +193,7 @@ export default function MarkdownEditor({
           <div className={styles.sidebarSection}>
             <h3>Tags</h3>
             <div className={styles.tags}>
-              {post.tags.map(tag => (
+              {post.tags.map((tag) => (
                 <span key={tag} className={styles.tag}>
                   {tag}
                   <button
@@ -204,7 +212,9 @@ export default function MarkdownEditor({
                 placeholder="Add tag..."
                 value={newTag}
                 onChange={(e) => setNewTag(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddTag())}
+                onKeyDown={(e) =>
+                  e.key === "Enter" && (e.preventDefault(), handleAddTag())
+                }
                 className={styles.input}
               />
               <button
@@ -223,7 +233,7 @@ export default function MarkdownEditor({
               type="text"
               placeholder="e.g., Learning in Public"
               value={post.series}
-              onChange={(e) => handleMetadataChange('series', e.target.value)}
+              onChange={(e) => handleMetadataChange("series", e.target.value)}
               className={styles.input}
             />
           </div>
@@ -233,19 +243,21 @@ export default function MarkdownEditor({
             <textarea
               placeholder="Brief description for previews..."
               value={post.excerpt}
-              onChange={(e) => handleMetadataChange('excerpt', e.target.value)}
+              onChange={(e) => handleMetadataChange("excerpt", e.target.value)}
               className={styles.textarea}
               rows={3}
             />
           </div>
 
-          {post.status === 'scheduled' && (
+          {post.status === "scheduled" && (
             <div className={styles.sidebarSection}>
               <h3>Scheduled For</h3>
               <input
                 type="datetime-local"
                 value={post.scheduledFor}
-                onChange={(e) => handleMetadataChange('scheduledFor', e.target.value)}
+                onChange={(e) =>
+                  handleMetadataChange("scheduledFor", e.target.value)
+                }
                 className={styles.input}
               />
             </div>
@@ -255,10 +267,10 @@ export default function MarkdownEditor({
         <div className={styles.editor}>
           {previewMode ? (
             <div className={styles.preview}>
-              <div 
+              <div
                 className={styles.previewContent}
-                dangerouslySetInnerHTML={{ 
-                  __html: post.content.replace(/\n/g, '<br>') 
+                dangerouslySetInnerHTML={{
+                  __html: post.content.replace(/\n/g, "<br>"),
                 }}
               />
             </div>
@@ -313,9 +325,11 @@ Use Ctrl/Cmd + S to save, Ctrl/Cmd + P to toggle preview."
         </div>
         <div className={styles.footerRight}>
           <span className={styles.status}>
-            {post.status === 'draft' ? 'Draft' : 
-             post.status === 'scheduled' ? `Scheduled for ${post.scheduledFor}` :
-             'Published'}
+            {post.status === "draft"
+              ? "Draft"
+              : post.status === "scheduled"
+                ? `Scheduled for ${post.scheduledFor}`
+                : "Published"}
           </span>
         </div>
       </div>
