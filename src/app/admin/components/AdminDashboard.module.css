@@ -2,7 +2,41 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: var(--gradient-background);
+  background: var(--background-primary, var(--white));
+  position: relative;
+  overflow: hidden;
+}
+
+.container::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70vh;
+  background: linear-gradient(
+    135deg,
+    var(--gradient-one, var(--gradientOne)) 0%,
+    var(--gradient-two, var(--gradientTwo)) 50%,
+    var(--gradient-three, var(--gradientThree)) 100%
+  );
+  background-size: 200% 200%;
+  animation: adminGradient 8s ease infinite;
+  clip-path: polygon(0 0, 100% 0, 100% 75%, 0 100%);
+  z-index: -1;
+  opacity: 0.9;
+}
+
+@keyframes adminGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .contentWrapper {
@@ -20,11 +54,14 @@
 }
 
 .header {
-  background: var(--card-background);
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 12px;
   padding: 1.5rem;
   margin-bottom: 2rem;
-  box-shadow: var(--card-shadow);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .headerContent {
@@ -36,31 +73,35 @@
 }
 
 .headerContent h1 {
-  color: var(--text-primary);
+  color: var(--text-primary, var(--black));
   margin: 0;
   font-size: 1.75rem;
+  font-weight: 700;
 }
 
 .userInfo {
   display: flex;
   align-items: center;
   gap: 1rem;
-  color: var(--text-secondary);
+  color: var(--text-secondary, var(--clr-neutral-600));
 }
 
 .signOutButton {
   padding: 0.5rem 1rem;
-  background: var(--background-secondary);
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--text-primary, var(--black));
+  border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 6px;
   cursor: pointer;
   font-size: 0.875rem;
+  font-weight: 500;
   transition: all 0.2s ease;
 }
 
 .signOutButton:hover {
-  background: var(--background-hover);
+  background: rgba(255, 255, 255, 0.95);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .dashboard {
@@ -76,20 +117,24 @@
 }
 
 .card {
-  background: var(--card-background);
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 12px;
   padding: 1.5rem;
-  box-shadow: var(--card-shadow);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
   transition: all 0.2s ease;
   text-decoration: none;
-  color: var(--text-primary);
+  color: var(--text-primary, var(--black));
   position: relative;
   display: block;
 }
 
 .card:hover {
   transform: translateY(-2px);
-  box-shadow: var(--card-shadow-hover);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.95);
 }
 
 .cardIcon {
@@ -99,13 +144,14 @@
 
 .card h3 {
   margin: 0 0 0.5rem 0;
-  color: var(--text-primary);
+  color: var(--text-primary, var(--black));
   font-size: 1.25rem;
+  font-weight: 600;
 }
 
 .card p {
   margin: 0;
-  color: var(--text-secondary);
+  color: var(--text-secondary, var(--clr-neutral-600));
   line-height: 1.5;
 }
 
@@ -113,25 +159,30 @@
   position: absolute;
   top: 1rem;
   right: 1rem;
-  background: var(--accent-color);
-  color: white;
+  background: var(--accentPrimary, #ffd700);
+  color: var(--black);
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
   font-size: 0.75rem;
-  font-weight: 500;
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(255, 215, 0, 0.3);
 }
 
 .quickStats {
-  background: var(--card-background);
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 12px;
   padding: 1.5rem;
-  box-shadow: var(--card-shadow);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
 }
 
 .quickStats h2 {
   margin: 0 0 1rem 0;
-  color: var(--text-primary);
+  color: var(--text-primary, var(--black));
   font-size: 1.25rem;
+  font-weight: 600;
 }
 
 .statsGrid {
@@ -143,20 +194,23 @@
 .stat {
   text-align: center;
   padding: 1rem;
-  background: var(--background-secondary);
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 8px;
+  backdrop-filter: blur(5px);
 }
 
 .statValue {
   font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--text-primary);
+  font-weight: 700;
+  color: var(--text-primary, var(--black));
   margin-bottom: 0.25rem;
 }
 
 .statLabel {
   font-size: 0.875rem;
-  color: var(--text-secondary);
+  color: var(--text-secondary, var(--clr-neutral-600));
+  font-weight: 500;
 }
 
 @media (max-width: 768px) {
