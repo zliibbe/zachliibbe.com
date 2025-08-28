@@ -335,6 +335,7 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
                                   Publish Now
                                 </button>
                               )}
+
                               <button
                                 className={styles.actionButtonDanger}
                                 onClick={() => handleDeletePost(post)}
