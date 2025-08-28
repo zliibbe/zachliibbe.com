@@ -57,13 +57,12 @@
   width: 100%;
   font-size: 1.5rem;
   font-weight: 600;
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: var(--background-primary, var(--white));
+  border: 1px solid var(--border-color, #ccc);
   border-radius: 8px;
-  color: var(--black);
+  color: var(--text-primary, var(--black));
   padding: 0.75rem 1rem;
   margin-bottom: 0.5rem;
-  backdrop-filter: blur(5px);
   transition: all 0.2s ease;
 }
 
@@ -74,7 +73,7 @@
 .titleInput:focus {
   outline: none;
   border: 2px solid var(--accentPrimary, #ffd700);
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--background-primary, var(--white));
   box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
 }
 
@@ -82,8 +81,9 @@
   display: flex;
   gap: 0.5rem;
   font-size: 0.875rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-primary, rgba(255, 255, 255, 0.8));
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  transition: color 0.3s ease;
 }
 
 .headerRight {
@@ -93,18 +93,17 @@
 
 .button {
   padding: 0.5rem 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.3));
+  background: var(--background-secondary, rgba(255, 255, 255, 0.2));
+  color: var(--text-primary, white);
   border-radius: 6px;
   cursor: pointer;
   font-size: 0.875rem;
   transition: all 0.2s ease;
-  backdrop-filter: blur(10px);
 }
 
 .button:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: var(--background-primary, rgba(255, 255, 255, 0.3));
   border-color: var(--accentPrimary, #ffd700);
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

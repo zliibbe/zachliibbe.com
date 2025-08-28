@@ -54,14 +54,14 @@
 }
 
 .header {
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: var(--background-primary);
+  border: 1px solid var(--border-color, #ccc);
   border-radius: 12px;
   padding: 1.5rem;
   margin-bottom: 2rem;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  position: relative;
+  z-index: 2;
 }
 
 .headerContent {
@@ -115,19 +115,19 @@
 }
 
 .blogAdmin {
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: var(--background-primary);
+  border: 1px solid var(--border-color, #ccc);
   border-radius: 12px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   overflow: hidden;
+  position: relative;
+  z-index: 2;
 }
 
 .tabsContainer {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
   padding: 0 1.5rem;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--background-secondary, #f8f8f8);
 }
 
 .tabs {
@@ -230,16 +230,16 @@
 }
 
 .postCard {
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: var(--background-primary);
+  border: 1px solid var(--border-color, #ccc);
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
   transition:
     transform 0.2s ease,
-    box-shadow 0.2s ease;
+    box-shadow 0.2s ease,
+    background-color 0.3s ease,
+    border-color 0.3s ease;
 }
 
 .postImageContainer {
@@ -268,7 +268,7 @@
 .postCard:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-  background: rgba(255, 255, 255, 0.95);
+  border-color: var(--accentPrimary, #ffd700);
 }
 
 .postHeader {
@@ -346,13 +346,14 @@
 }
 
 .postTag {
-  background: rgba(255, 215, 0, 0.1);
+  background: var(--background-secondary, rgba(255, 215, 0, 0.1));
   color: var(--text-primary, var(--black));
-  border: 1px solid rgba(255, 215, 0, 0.3);
+  border: 1px solid var(--border-color, rgba(255, 215, 0, 0.3));
   padding: 0.25rem 0.5rem;
   border-radius: 8px;
   font-size: 0.75rem;
   font-weight: 500;
+  transition: all 0.3s ease;
 }
 
 .postActions {
@@ -363,8 +364,8 @@
 
 .actionButton {
   padding: 0.5rem 0.75rem;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid var(--border-color, rgba(0, 0, 0, 0.2));
+  background: var(--background-secondary, #f8f8f8);
   color: var(--text-primary, var(--black));
   border-radius: 6px;
   cursor: pointer;
@@ -374,7 +375,7 @@
 }
 
 .actionButton:hover {
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--background-primary);
   border-color: var(--accentPrimary, #ffd700);
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
