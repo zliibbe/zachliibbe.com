@@ -6,6 +6,7 @@ import { markdownToHtml, generateExcerpt } from "./markdown";
 // Storage paths
 const BLOG_DATA_DIR = path.join(process.cwd(), "src", "content", "blog-data");
 const DRAFTS_FILE = path.join(BLOG_DATA_DIR, "drafts.json");
+const SCHEDULED_FILE = path.join(BLOG_DATA_DIR, "scheduled.json");
 const PUBLISHED_FILE = path.join(BLOG_DATA_DIR, "published.json");
 
 // Ensure storage directory exists
@@ -65,14 +66,23 @@ export function getAllDrafts(): BlogPost[] {
   return loadPostsFromFile(DRAFTS_FILE);
 }
 
+// Get all scheduled posts
+export function getAllScheduledPosts(): BlogPost[] {
+  return loadPostsFromFile(SCHEDULED_FILE);
+}
+
 // Get all published posts
 export function getAllPublishedPosts(): BlogPost[] {
   return loadPostsFromFile(PUBLISHED_FILE);
 }
 
-// Get all posts (drafts + published)
+// Get all posts (drafts + scheduled + published)
 export function getAllPosts(): BlogPost[] {
-  return [...getAllDrafts(), ...getAllPublishedPosts()];
+  return [
+    ...getAllDrafts(),
+    ...getAllScheduledPosts(),
+    ...getAllPublishedPosts(),
+  ];
 }
 
 // Get post by slug from all posts
@@ -89,7 +99,7 @@ export function createBlogPost(postData: {
   categories?: string[];
   tags?: string[];
   series?: string;
-  status?: "draft" | "published";
+  status?: "draft" | "scheduled" | "published";
   scheduledFor?: string;
 }): BlogPost {
   const id = generateId();
@@ -116,14 +126,19 @@ export function createBlogPost(postData: {
     tags: postData.tags || [],
     readTime: calculateReadingTime(postData.content),
     status: postData.status || "draft",
+    scheduledFor: postData.scheduledFor,
     series: postData.series,
   };
 
-  // Save to appropriate file
+  // Save to appropriate file based on status
   if (newPost.status === "draft") {
     const drafts = getAllDrafts();
     drafts.push(newPost);
     savePostsToFile(DRAFTS_FILE, drafts);
+  } else if (newPost.status === "scheduled") {
+    const scheduled = getAllScheduledPosts();
+    scheduled.push(newPost);
+    savePostsToFile(SCHEDULED_FILE, scheduled);
   } else {
     const published = getAllPublishedPosts();
     published.push(newPost);
@@ -143,8 +158,9 @@ export function updateBlogPost(
     categories: string[];
     tags: string[];
     series?: string;
-    status: "draft" | "published";
+    status: "draft" | "scheduled" | "published";
     scheduledFor?: string;
+    publishedAt?: string;
   }>,
 ): BlogPost | null {
   const existingPost = getPostBySlug(slug);
@@ -157,6 +173,11 @@ export function updateBlogPost(
   if (existingPost.status === "draft") {
     const drafts = getAllDrafts().filter((post) => post.slug !== slug);
     savePostsToFile(DRAFTS_FILE, drafts);
+  } else if (existingPost.status === "scheduled") {
+    const scheduled = getAllScheduledPosts().filter(
+      (post) => post.slug !== slug,
+    );
+    savePostsToFile(SCHEDULED_FILE, scheduled);
   } else {
     const published = getAllPublishedPosts().filter(
       (post) => post.slug !== slug,
@@ -178,9 +199,15 @@ export function updateBlogPost(
     }
   }
 
-  // Update published date if status changed to published
-  if (updates.status === "published" && existingPost.status === "draft") {
-    updatedData.publishedAt = new Date().toISOString().split("T")[0];
+  // Update published date if status changed to published or if explicitly provided
+  if (
+    updates.status === "published" &&
+    (existingPost.status === "draft" || existingPost.status === "scheduled")
+  ) {
+    updatedData.publishedAt =
+      updates.publishedAt || new Date().toISOString().split("T")[0];
+  } else if (updates.publishedAt) {
+    updatedData.publishedAt = updates.publishedAt;
   }
 
   // Save to new location
@@ -188,6 +215,10 @@ export function updateBlogPost(
     const drafts = getAllDrafts();
     drafts.push(updatedData);
     savePostsToFile(DRAFTS_FILE, drafts);
+  } else if (updatedData.status === "scheduled") {
+    const scheduled = getAllScheduledPosts();
+    scheduled.push(updatedData);
+    savePostsToFile(SCHEDULED_FILE, scheduled);
   } else {
     const published = getAllPublishedPosts();
     published.push(updatedData);
@@ -209,6 +240,9 @@ export function deleteBlogPost(slug: string): boolean {
     if (post.status === "draft") {
       const drafts = getAllDrafts().filter((p) => p.slug !== slug);
       savePostsToFile(DRAFTS_FILE, drafts);
+    } else if (post.status === "scheduled") {
+      const scheduled = getAllScheduledPosts().filter((p) => p.slug !== slug);
+      savePostsToFile(SCHEDULED_FILE, scheduled);
     } else {
       const published = getAllPublishedPosts().filter((p) => p.slug !== slug);
       savePostsToFile(PUBLISHED_FILE, published);
@@ -226,8 +260,12 @@ export function publishDraft(slug: string): BlogPost | null {
 }
 
 // Get posts by status
-export function getPostsByStatus(status: "draft" | "published"): BlogPost[] {
-  return status === "draft" ? getAllDrafts() : getAllPublishedPosts();
+export function getPostsByStatus(
+  status: "draft" | "scheduled" | "published",
+): BlogPost[] {
+  if (status === "draft") return getAllDrafts();
+  if (status === "scheduled") return getAllScheduledPosts();
+  return getAllPublishedPosts();
 }
 
 // Initialize storage with existing in-memory posts (migration helper)
@@ -235,10 +273,15 @@ export function initializeStorageWithExistingPosts(existingPosts: BlogPost[]) {
   ensureStorageDir();
 
   const published = existingPosts.filter((post) => post.status === "published");
+  const scheduled = existingPosts.filter((post) => post.status === "scheduled");
   const drafts = existingPosts.filter((post) => post.status === "draft");
 
   if (published.length > 0) {
     savePostsToFile(PUBLISHED_FILE, published);
+  }
+
+  if (scheduled.length > 0) {
+    savePostsToFile(SCHEDULED_FILE, scheduled);
   }
 
   if (drafts.length > 0) {
@@ -261,4 +304,94 @@ export function getAllTags(): string[] {
     post.tags.forEach((tag) => tags.add(tag)),
   );
   return Array.from(tags).sort();
+}
+
+// Automated publishing functions
+
+// Get posts scheduled for publication before or at the given date
+export function getPostsDueForPublication(
+  beforeDate: Date = new Date(),
+): BlogPost[] {
+  const scheduledPosts = getAllScheduledPosts();
+  return scheduledPosts.filter((post) => {
+    if (!post.scheduledFor) return false;
+    const scheduledDate = new Date(post.scheduledFor);
+    return scheduledDate <= beforeDate;
+  });
+}
+
+// Publish a scheduled post
+export function publishScheduledPost(slug: string): BlogPost | null {
+  const post = getPostBySlug(slug);
+
+  if (!post || post.status !== "scheduled") {
+    console.error(`Post ${slug} not found or not scheduled`);
+    return null;
+  }
+
+  // Update the post to published status
+  return updateBlogPost(slug, {
+    status: "published",
+    publishedAt: new Date().toISOString().split("T")[0],
+  });
+}
+
+// Schedule a post for future publication
+export function schedulePost(
+  slug: string,
+  scheduledFor: string,
+): BlogPost | null {
+  const post = getPostBySlug(slug);
+
+  if (!post) {
+    console.error(`Post ${slug} not found`);
+    return null;
+  }
+
+  if (post.status === "published") {
+    console.error(`Post ${slug} is already published`);
+    return null;
+  }
+
+  // Validate the scheduled date
+  const scheduledDate = new Date(scheduledFor);
+  if (scheduledDate <= new Date()) {
+    console.error(`Scheduled date must be in the future`);
+    return null;
+  }
+
+  return updateBlogPost(slug, {
+    status: "scheduled",
+    scheduledFor,
+  });
+}
+
+// Process all posts due for publication (used by cron job)
+export function processScheduledPublications(): {
+  published: BlogPost[];
+  errors: string[];
+} {
+  const dueForPublication = getPostsDueForPublication();
+  const published: BlogPost[] = [];
+  const errors: string[] = [];
+
+  console.log(`Found ${dueForPublication.length} posts due for publication`);
+
+  for (const post of dueForPublication) {
+    try {
+      const publishedPost = publishScheduledPost(post.slug);
+      if (publishedPost) {
+        published.push(publishedPost);
+        console.log(`Successfully published: ${post.title} (${post.slug})`);
+      } else {
+        errors.push(`Failed to publish post: ${post.slug}`);
+      }
+    } catch (error) {
+      const errorMessage = `Error publishing ${post.slug}: ${error instanceof Error ? error.message : String(error)}`;
+      errors.push(errorMessage);
+      console.error(errorMessage);
+    }
+  }
+
+  return { published, errors };
 }

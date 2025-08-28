@@ -370,6 +370,13 @@
   color: var(--text-secondary, var(--clr-neutral-400));
 }
 
+.sidebarSection .helpText {
+  text-align: left;
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  font-style: italic;
+}
+
 .status {
   color: var(--text-primary, var(--black));
   font-weight: 500;
