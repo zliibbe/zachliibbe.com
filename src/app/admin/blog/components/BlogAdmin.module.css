@@ -2,41 +2,8 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: var(--background-primary, var(--white));
   position: relative;
-  overflow: hidden;
-}
-
-.container::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 70vh;
-  background: linear-gradient(
-    135deg,
-    var(--gradient-one, var(--gradientOne)) 0%,
-    var(--gradient-two, var(--gradientTwo)) 50%,
-    var(--gradient-three, var(--gradientThree)) 100%
-  );
-  background-size: 200% 200%;
-  animation: adminGradient 8s ease infinite;
-  clip-path: polygon(0 0, 100% 0, 100% 75%, 0 100%);
-  z-index: -1;
-  opacity: 0.9;
-}
-
-@keyframes adminGradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+  z-index: 1;
 }
 
 .contentWrapper {
@@ -54,14 +21,22 @@
 }
 
 .header {
-  background: var(--background-primary);
-  border: 1px solid var(--border-color, #ccc);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 12px;
   padding: 1.5rem;
   margin-bottom: 2rem;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   position: relative;
   z-index: 2;
+}
+
+/* Dark mode header styling */
+html[data-theme="dark"] .header {
+  background: rgba(15, 23, 42, 0.95);
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 .headerContent {

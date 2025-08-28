@@ -15,9 +15,11 @@ export default function AdminDashboard({ session }: AdminDashboardProps) {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.contentWrapper}>
-        <main className={styles.content}>
+    <div className="universal-gradient-container">
+      <div className="universal-gradient-background" />
+      <div className={styles.container}>
+        <div className={styles.contentWrapper}>
+          <main className={styles.content}>
           <header className={styles.header}>
             <div className={styles.headerContent}>
               <h1>Admin Dashboard</h1>
@@ -85,6 +87,7 @@ export default function AdminDashboard({ session }: AdminDashboardProps) {
           </div>
         </main>
       </div>
+    </div>
     </div>
   );
 }
