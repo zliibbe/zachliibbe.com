@@ -317,16 +317,21 @@ html {
 
 /* Dark mode */
 html[data-theme="dark"] {
-  --background-primary: var(--black);
-  --background-secondary: var(--clr-neutral-500);
+  --background-primary: var(--clr-neutral-800);
+  --background-secondary: var(--clr-neutral-700);
   --text-primary: var(--white);
   --text-inverse: var(--black);
   --text-secondary: var(--clr-neutral-250);
-  --border-color: var(--clr-neutral-700);
+  --border-color: var(--clr-neutral-600);
   --modal-bg: var(--clr-neutral-800);
 
   /* Adjust component specific colors */
   --job-bg: var(--background-secondary);
+
+  /* Admin-specific dark mode colors for better contrast */
+  --admin-card-bg: var(--clr-neutral-800);
+  --admin-card-border: var(--clr-neutral-600);
+  --admin-hover-bg: var(--clr-neutral-700);
 
   /* Social media colors with dark mode adjustments */
   --stravaColor: #fc4c02;
