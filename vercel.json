@@ -1,0 +1,16 @@
+{
+  "crons": [
+    {
+      "path": "/api/admin/cron/publish",
+      "schedule": "0 9 * * *"
+    }
+  ],
+  "functions": {
+    "src/app/api/admin/cron/**": {
+      "maxDuration": 30
+    },
+    "src/app/api/blog/**": {
+      "maxDuration": 15
+    }
+  }
+}

@@ -94,6 +94,23 @@ export default function MarkdownEditor({
   };
 
   const handleSave = () => {
+    // Validate scheduling requirements
+    if (post.status === "scheduled" && !post.scheduledFor) {
+      alert(
+        "Please set a scheduled date and time before scheduling this post.",
+      );
+      return;
+    }
+
+    // Validate scheduled date is in the future
+    if (post.status === "scheduled" && post.scheduledFor) {
+      const scheduledDate = new Date(post.scheduledFor);
+      if (scheduledDate <= new Date()) {
+        alert("Scheduled date must be in the future.");
+        return;
+      }
+    }
+
     // Auto-generate excerpt if empty
     const finalPost = {
       ...post,
@@ -154,7 +171,11 @@ export default function MarkdownEditor({
             className={styles.buttonPrimary}
             disabled={!post.title.trim() || !post.content.trim()}
           >
-            Save Draft
+            {post.status === "scheduled"
+              ? "Schedule Post"
+              : post.status === "published"
+                ? "Update Post"
+                : "Save Draft"}
           </button>
         </div>
       </div>
@@ -254,12 +275,26 @@ export default function MarkdownEditor({
               <h3>Scheduled For</h3>
               <input
                 type="datetime-local"
-                value={post.scheduledFor}
+                value={
+                  post.scheduledFor
+                    ? new Date(post.scheduledFor).toISOString().slice(0, 16)
+                    : ""
+                }
                 onChange={(e) =>
-                  handleMetadataChange("scheduledFor", e.target.value)
+                  handleMetadataChange(
+                    "scheduledFor",
+                    e.target.value
+                      ? new Date(e.target.value).toISOString()
+                      : "",
+                  )
                 }
                 className={styles.input}
+                min={new Date().toISOString().slice(0, 16)}
+                required
               />
+              <p className={styles.helpText}>
+                Post will be automatically published at this time
+              </p>
             </div>
           )}
         </div>

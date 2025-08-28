@@ -68,6 +68,7 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
 
   const handleSavePost = async (postData: any) => {
     try {
+      // First save/update the post
       const url = editingPost
         ? `/api/blog/posts/${editingPost.slug}`
         : "/api/blog/posts";
@@ -82,14 +83,37 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
         body: JSON.stringify(postData),
       });
 
-      if (response.ok) {
-        setShowEditor(false);
-        setEditingPost(null);
-        await loadPosts(); // Refresh posts list
-      } else {
+      if (!response.ok) {
         const error = await response.json();
         alert(`Error saving post: ${error.error}`);
+        return;
       }
+
+      const savedPost = await response.json();
+
+      // If the post is scheduled, call the schedule API
+      if (postData.status === "scheduled" && postData.scheduledFor) {
+        const scheduleResponse = await fetch("/api/blog/schedule", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            slug: savedPost.post?.slug || postData.slug,
+            scheduledFor: postData.scheduledFor,
+          }),
+        });
+
+        if (!scheduleResponse.ok) {
+          const scheduleError = await scheduleResponse.json();
+          alert(`Error scheduling post: ${scheduleError.error}`);
+          return;
+        }
+      }
+
+      setShowEditor(false);
+      setEditingPost(null);
+      await loadPosts(); // Refresh posts list
     } catch (error) {
       console.error("Error saving post:", error);
       alert("Error saving post. Please try again.");
@@ -303,6 +327,15 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
                                   Publish
                                 </button>
                               )}
+                              {post.status === "scheduled" && (
+                                <button
+                                  className={styles.actionButtonPrimary}
+                                  onClick={() => handlePublishPost(post)}
+                                >
+                                  Publish Now
+                                </button>
+                              )}
+
                               <button
                                 className={styles.actionButtonDanger}
                                 onClick={() => handleDeletePost(post)}
