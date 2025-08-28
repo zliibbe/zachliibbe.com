@@ -23,8 +23,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const allowedOrigin = `https://${host}`;
-    if (origin !== allowedOrigin || !referer.startsWith(allowedOrigin)) {
+    // Handle both development (http://localhost:3000) and production (https://domain.com)
+    const allowedOrigins = [
+      `https://${host}`,
+      `http://${host}`, // For development
+    ];
+    
+    const isValidOrigin = allowedOrigins.some(allowedOrigin => 
+      origin === allowedOrigin && referer.startsWith(allowedOrigin)
+    );
+    
+    if (!isValidOrigin) {
       return NextResponse.json(
         { error: "Invalid request origin" },
         { status: 403 },
