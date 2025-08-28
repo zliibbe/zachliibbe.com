@@ -2,7 +2,41 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: var(--gradient-background);
+  background: var(--background-primary, var(--white));
+  position: relative;
+  overflow: hidden;
+}
+
+.container::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70vh;
+  background: linear-gradient(
+    135deg,
+    var(--gradient-one, var(--gradientOne)) 0%,
+    var(--gradient-two, var(--gradientTwo)) 50%,
+    var(--gradient-three, var(--gradientThree)) 100%
+  );
+  background-size: 200% 200%;
+  animation: adminGradient 8s ease infinite;
+  clip-path: polygon(0 0, 100% 0, 100% 75%, 0 100%);
+  z-index: -1;
+  opacity: 0.9;
+}
+
+@keyframes adminGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .contentWrapper {
@@ -20,11 +54,14 @@
 }
 
 .header {
-  background: var(--card-background);
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 12px;
   padding: 1.5rem;
   margin-bottom: 2rem;
-  box-shadow: var(--card-shadow);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .headerContent {
@@ -36,7 +73,7 @@
 }
 
 .backLink {
-  color: var(--text-secondary);
+  color: var(--text-secondary, var(--clr-neutral-600));
   text-decoration: none;
   font-size: 0.875rem;
   margin-bottom: 0.5rem;
@@ -45,43 +82,52 @@
 }
 
 .backLink:hover {
-  color: var(--text-primary);
+  color: var(--text-primary, var(--black));
 }
 
 .headerContent h1 {
-  color: var(--text-primary);
+  color: var(--text-primary, var(--black));
   margin: 0;
   font-size: 1.75rem;
+  font-weight: 700;
 }
 
 .newPostButton,
 .createFirstPostButton {
   padding: 0.75rem 1.5rem;
-  background: var(--accent-color);
-  color: white;
-  border: none;
-  border-radius: 6px;
+  background: var(--accentPrimary, #ffd700);
+  color: var(--black);
+  border: 1px solid var(--accentPrimary, #ffd700);
+  border-radius: 8px;
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(255, 215, 0, 0.3);
 }
 
 .newPostButton:hover,
 .createFirstPostButton:hover {
-  background: var(--accent-hover);
+  background: #e6c200;
+  border-color: #e6c200;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(255, 215, 0, 0.4);
 }
 
 .blogAdmin {
-  background: var(--card-background);
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 12px;
-  box-shadow: var(--card-shadow);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   overflow: hidden;
 }
 
 .tabsContainer {
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   padding: 0 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .tabs {
@@ -93,7 +139,7 @@
   padding: 1rem 1.5rem;
   background: none;
   border: none;
-  color: var(--text-secondary);
+  color: var(--text-secondary, var(--clr-neutral-600));
   font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
@@ -102,12 +148,13 @@
 }
 
 .tab:hover {
-  color: var(--text-primary);
+  color: var(--text-primary, var(--black));
 }
 
 .tabActive {
-  color: var(--accent-color);
-  border-bottom-color: var(--accent-color);
+  color: var(--accentPrimary, #ffd700);
+  border-bottom-color: var(--accentPrimary, #ffd700);
+  font-weight: 600;
 }
 
 .postsContainer {
@@ -129,13 +176,14 @@
 }
 
 .emptyState h3 {
-  color: var(--text-primary);
+  color: var(--text-primary, var(--black));
   margin: 0 0 0.5rem 0;
   font-size: 1.25rem;
+  font-weight: 600;
 }
 
 .emptyState p {
-  color: var(--text-secondary);
+  color: var(--text-secondary, var(--clr-neutral-600));
   margin: 0 0 1.5rem 0;
   line-height: 1.5;
 }
@@ -147,7 +195,7 @@
   align-items: center;
   justify-content: center;
   padding: 3rem;
-  color: var(--text-secondary);
+  color: var(--text-secondary, var(--clr-neutral-600));
 }
 
 .loadingSpinner {
@@ -157,8 +205,12 @@
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Posts List */
@@ -178,17 +230,45 @@
 }
 
 .postCard {
-  background: var(--card-background);
-  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.postImageContainer {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+}
+
+.postImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.2s ease;
+}
+
+.postCard:hover .postImage {
+  transform: scale(1.05);
+}
+
+.postContent {
   padding: 1.5rem;
-  box-shadow: var(--card-shadow);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .postCard:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.95);
 }
 
 .postHeader {
@@ -202,7 +282,7 @@
 .postTitle {
   font-size: 1.25rem;
   font-weight: 600;
-  color: var(--text-primary);
+  color: var(--text-primary, var(--black));
   margin: 0;
   flex: 1;
   line-height: 1.3;
@@ -213,7 +293,7 @@
   align-items: center;
   gap: 0.75rem;
   font-size: 0.75rem;
-  color: var(--text-secondary);
+  color: var(--text-secondary, var(--clr-neutral-600));
   white-space: nowrap;
 }
 
@@ -242,7 +322,7 @@
 }
 
 .postExcerpt {
-  color: var(--text-secondary);
+  color: var(--text-secondary, var(--clr-neutral-600));
   line-height: 1.5;
   margin: 0 0 1rem 0;
   display: -webkit-box;
@@ -266,11 +346,13 @@
 }
 
 .postTag {
-  background: var(--color-bg-tertiary, rgba(0, 0, 0, 0.05));
-  color: var(--text-secondary);
+  background: rgba(255, 215, 0, 0.1);
+  color: var(--text-primary, var(--black));
+  border: 1px solid rgba(255, 215, 0, 0.3);
   padding: 0.25rem 0.5rem;
   border-radius: 8px;
   font-size: 0.75rem;
+  font-weight: 500;
 }
 
 .postActions {
@@ -281,25 +363,9 @@
 
 .actionButton {
   padding: 0.5rem 0.75rem;
-  border: 1px solid var(--border-color);
-  background: var(--card-background);
-  color: var(--text-primary);
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.75rem;
-  transition: all 0.2s ease;
-}
-
-.actionButton:hover {
-  background: var(--color-bg-tertiary, rgba(0, 0, 0, 0.05));
-  border-color: var(--accent-color);
-}
-
-.actionButtonPrimary {
-  padding: 0.5rem 0.75rem;
-  border: 1px solid var(--accent-color);
-  background: var(--accent-color);
-  color: white;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--text-primary, var(--black));
   border-radius: 6px;
   cursor: pointer;
   font-size: 0.75rem;
@@ -307,9 +373,31 @@
   transition: all 0.2s ease;
 }
 
+.actionButton:hover {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: var(--accentPrimary, #ffd700);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.actionButtonPrimary {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--accentPrimary, #ffd700);
+  background: var(--accentPrimary, #ffd700);
+  color: var(--black);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(255, 215, 0, 0.3);
+}
+
 .actionButtonPrimary:hover {
-  background: var(--accent-hover);
-  border-color: var(--accent-hover);
+  background: #e6c200;
+  border-color: #e6c200;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(255, 215, 0, 0.4);
 }
 
 .actionButtonDanger {
@@ -346,23 +434,23 @@
   .tab {
     white-space: nowrap;
   }
-  
+
   .postHeader {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
   }
-  
+
   .postMeta {
     flex-wrap: wrap;
   }
-  
+
   .postFooter {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
   }
-  
+
   .postActions {
     width: 100%;
     justify-content: flex-end;
