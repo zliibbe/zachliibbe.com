@@ -6,6 +6,7 @@ import styles from "./Footer.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import { analytics } from "../utils/analytics";
+import { useSession } from "next-auth/react";
 import {
   FaGithub,
   FaGoodreads,
@@ -32,6 +33,7 @@ type Book = {
 
 export default function Footer() {
   const { isDarkMode } = useTheme();
+  const { data: session } = useSession();
   const [activity, setActivity] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -391,6 +393,11 @@ export default function Footer() {
                 />
               </a>
               <span>in Colorado Springs, CO</span>
+              {session && (
+                <Link href="/admin" className={styles.adminLink}>
+                  Admin
+                </Link>
+              )}
             </div>
           </div>
         </div>

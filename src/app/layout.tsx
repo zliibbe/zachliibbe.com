@@ -6,6 +6,7 @@ import { ThemeProvider } from "./context/ThemeContext";
 import { Metadata } from "next";
 import Script from "next/script";
 import Analytics from "./components/Analytics";
+import AuthProvider from "@/lib/auth-provider";
 
 const robotoMono = Roboto_Mono({
   subsets: ["latin"],
@@ -100,13 +101,15 @@ export default function RootLayout({
           </>
         )}
 
-        <ThemeProvider>
-          <Analytics />
-          <div className="root-container theme-transition">
-            <Header />
-            {children}
-          </div>
-        </ThemeProvider>
+        <AuthProvider>
+          <ThemeProvider>
+            <Analytics />
+            <div className="root-container theme-transition">
+              <Header />
+              {children}
+            </div>
+          </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   );
