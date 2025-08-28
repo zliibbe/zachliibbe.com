@@ -140,16 +140,16 @@ readTime: "8 min read" # Auto-calculated
 
 #### Writing Interface (`/admin/blog`)
 
-- [ ] Markdown editor with live preview
-- [ ] Auto-save drafts to Vercel KV
+- [x] Markdown editor with live preview
+- [x] Auto-save drafts to file-based storage
 - [x] Category/tag management
-- [ ] Scheduling interface with date/time picker
+- [x] Scheduling interface with date/time picker
 - [x] Reading time auto-calculation
 - [ ] SEO preview (title, description, social cards)
 
 #### Content Management
 
-- [ ] Draft → Review → Schedule → Publish workflow
+- [x] Draft → Review → Schedule → Publish workflow
 - [ ] Bulk operations (publish multiple, reschedule)
 - [ ] Post analytics integration
 - [ ] Simple file upload for images
@@ -158,20 +158,20 @@ readTime: "8 min read" # Auto-calculated
 
 #### Automated Scheduling
 
-- [ ] **Trigger:** Vercel Cron Jobs (daily check at 9 AM UTC)
-- [ ] **Process:**
-  1. [ ] Query scheduled posts due for publication
-  2. [ ] Move from `drafts/` to appropriate date folder
-  3. [ ] Update post status to "published"
-  4. [ ] Trigger site rebuild
-  5. [ ] Clear relevant caches
+- [x] **Trigger:** Vercel Cron Jobs (daily check at 9 AM UTC)
+- [x] **Process:**
+  1. [x] Query scheduled posts due for publication
+  2. [x] Move from `drafts/` to appropriate date folder
+  3. [x] Update post status to "published"
+  4. [x] Trigger site rebuild
+  5. [x] Clear relevant caches
 
 #### Public Blog Interface (`/blog`)
 
 - [x] Post listing with pagination
 - [x] Category/tag filtering
 - [ ] Search functionality
-- [ ] RSS feed generation
+- [x] RSS feed generation
 - [ ] Social sharing buttons
 - [ ] Reading progress indicator
 
@@ -276,8 +276,8 @@ type EmbeddingCache = {
 ### Phase 3: Publishing & Scheduling (Week 3)
 
 - [x] Implement scheduling system
-- [ ] Set up Vercel Cron jobs
-- [ ] Build automated publishing workflow
+- [x] Set up Vercel Cron jobs
+- [x] Build automated publishing workflow
 - [x] Create public blog interface (`/blog`)
 - [x] Add RSS feed generation
 
