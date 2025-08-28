@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
+import { publishDraft } from "@/lib/blog-storage";
 
 export async function POST(request: NextRequest) {
   try {
@@ -19,7 +20,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Missing required headers" }, { status: 400 });
     }
 
-    const allowedOrigin = `https://${host}`;
+    // Verify the request is coming from our domain (allow localhost for development)
+    const isLocalhost = host.includes('localhost') || host.includes('127.0.0.1');
+    const allowedOrigin = isLocalhost ? `http://${host}` : `https://${host}`;
+    
     if (origin !== allowedOrigin || !referer.startsWith(allowedOrigin)) {
       return NextResponse.json({ error: "Invalid request origin" }, { status: 403 });
     }
@@ -34,13 +38,18 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // TODO: Implement manual blog post publishing
-    console.log("Publishing blog post:", slug);
+    const publishedPost = publishDraft(slug);
+    
+    if (!publishedPost) {
+      return NextResponse.json(
+        { error: "Blog post not found or already published" },
+        { status: 404 }
+      );
+    }
     
     return NextResponse.json({ 
       message: "Blog post published", 
-      slug,
-      publishedAt: new Date().toISOString()
+      post: publishedPost
     });
   } catch (error) {
     console.error("Error publishing blog post:", error);
