@@ -169,6 +169,47 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
     }
   };
 
+  const handleCrossPostToMedium = async (post: BlogPost) => {
+    // Phase 1: Manual cross-posting workflow
+    const confirmed = confirm(
+      `Cross-post "${post.title}" to Medium?\n\n` +
+      `This will:\n` +
+      `1. Copy the post content to your clipboard\n` +
+      `2. Open Medium's new story page\n` +
+      `3. You can then paste and format the content\n` +
+      `4. Add the Medium URL back to this post for tracking\n\n` +
+      `Continue?`
+    );
+    
+    if (!confirmed) return;
+
+    try {
+      // Prepare content for Medium (convert from markdown to plain text for now)
+      const mediumContent = `# ${post.title}\n\n${post.content}\n\n---\n\nOriginally published at zachliibbe.com`;
+      
+      // Copy to clipboard
+      await navigator.clipboard.writeText(mediumContent);
+      
+      // Open Medium's new story page
+      window.open('https://medium.com/new-story', '_blank');
+      
+      // Show success message with next steps
+      alert(
+        `Content copied to clipboard!\n\n` +
+        `Next steps:\n` +
+        `1. Paste the content in the Medium editor\n` +
+        `2. Format and customize as needed\n` +
+        `3. Add any images or additional formatting\n` +
+        `4. Publish on Medium\n` +
+        `5. Come back and edit this post to add the Medium URL for tracking`
+      );
+      
+    } catch (error) {
+      console.error("Error cross-posting to Medium:", error);
+      alert("Error copying content to clipboard. Please try again.");
+    }
+  };
+
   if (showEditor) {
     return (
       <MarkdownEditor
