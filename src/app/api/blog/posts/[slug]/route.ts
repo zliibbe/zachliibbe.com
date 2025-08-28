@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
+import { getPostBySlug, updateBlogPost, deleteBlogPost } from "@/lib/blog-storage";
 
 interface RouteParams {
   params: {
@@ -17,11 +18,16 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     }
 
     const { slug } = params;
+    const post = getPostBySlug(slug);
     
-    // TODO: Implement blog post retrieval by slug
-    console.log("Fetching blog post:", slug);
+    if (!post) {
+      return NextResponse.json(
+        { error: "Blog post not found" },
+        { status: 404 }
+      );
+    }
     
-    return NextResponse.json({ slug, post: null });
+    return NextResponse.json({ post });
   } catch (error) {
     console.error("Error fetching blog post:", error);
     return NextResponse.json(
@@ -48,7 +54,10 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       return NextResponse.json({ error: "Missing required headers" }, { status: 400 });
     }
 
-    const allowedOrigin = `https://${host}`;
+    // Verify the request is coming from our domain (allow localhost for development)
+    const isLocalhost = host.includes('localhost') || host.includes('127.0.0.1');
+    const allowedOrigin = isLocalhost ? `http://${host}` : `https://${host}`;
+    
     if (origin !== allowedOrigin || !referer.startsWith(allowedOrigin)) {
       return NextResponse.json({ error: "Invalid request origin" }, { status: 403 });
     }
@@ -56,10 +65,28 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     const { slug } = params;
     const body = await request.json();
     
-    // TODO: Implement blog post update
-    console.log("Updating blog post:", slug, body);
+    const updatedPost = updateBlogPost(slug, {
+      title: body.title,
+      content: body.content, // markdown content
+      excerpt: body.excerpt,
+      categories: body.categories,
+      tags: body.tags,
+      series: body.series,
+      status: body.status,
+      scheduledFor: body.scheduledFor,
+    });
     
-    return NextResponse.json({ message: "Blog post updated", slug });
+    if (!updatedPost) {
+      return NextResponse.json(
+        { error: "Blog post not found" },
+        { status: 404 }
+      );
+    }
+    
+    return NextResponse.json({ 
+      message: "Blog post updated", 
+      post: updatedPost 
+    });
   } catch (error) {
     console.error("Error updating blog post:", error);
     return NextResponse.json(
@@ -86,17 +113,28 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
       return NextResponse.json({ error: "Missing required headers" }, { status: 400 });
     }
 
-    const allowedOrigin = `https://${host}`;
+    // Verify the request is coming from our domain (allow localhost for development)
+    const isLocalhost = host.includes('localhost') || host.includes('127.0.0.1');
+    const allowedOrigin = isLocalhost ? `http://${host}` : `https://${host}`;
+    
     if (origin !== allowedOrigin || !referer.startsWith(allowedOrigin)) {
       return NextResponse.json({ error: "Invalid request origin" }, { status: 403 });
     }
 
     const { slug } = params;
+    const success = deleteBlogPost(slug);
     
-    // TODO: Implement blog post deletion
-    console.log("Deleting blog post:", slug);
+    if (!success) {
+      return NextResponse.json(
+        { error: "Blog post not found" },
+        { status: 404 }
+      );
+    }
     
-    return NextResponse.json({ message: "Blog post deleted", slug });
+    return NextResponse.json({ 
+      message: "Blog post deleted", 
+      slug 
+    });
   } catch (error) {
     console.error("Error deleting blog post:", error);
     return NextResponse.json(
