@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getAllPublishedPosts } from "@/lib/blog";
+import { getAllPublishedPosts } from "@/lib/blog-storage";
 
 export async function GET() {
   const posts = getAllPublishedPosts();
