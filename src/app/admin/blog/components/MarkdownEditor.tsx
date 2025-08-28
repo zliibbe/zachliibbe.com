@@ -96,7 +96,9 @@ export default function MarkdownEditor({
   const handleSave = () => {
     // Validate scheduling requirements
     if (post.status === "scheduled" && !post.scheduledFor) {
-      alert("Please set a scheduled date and time before scheduling this post.");
+      alert(
+        "Please set a scheduled date and time before scheduling this post.",
+      );
       return;
     }
 
@@ -169,10 +171,10 @@ export default function MarkdownEditor({
             className={styles.buttonPrimary}
             disabled={!post.title.trim() || !post.content.trim()}
           >
-            {post.status === "scheduled" 
-              ? "Schedule Post" 
-              : post.status === "published" 
-                ? "Update Post" 
+            {post.status === "scheduled"
+              ? "Schedule Post"
+              : post.status === "published"
+                ? "Update Post"
                 : "Save Draft"}
           </button>
         </div>
@@ -273,12 +275,18 @@ export default function MarkdownEditor({
               <h3>Scheduled For</h3>
               <input
                 type="datetime-local"
-                value={post.scheduledFor 
-                  ? new Date(post.scheduledFor).toISOString().slice(0, 16)
-                  : ""
+                value={
+                  post.scheduledFor
+                    ? new Date(post.scheduledFor).toISOString().slice(0, 16)
+                    : ""
                 }
                 onChange={(e) =>
-                  handleMetadataChange("scheduledFor", e.target.value ? new Date(e.target.value).toISOString() : "")
+                  handleMetadataChange(
+                    "scheduledFor",
+                    e.target.value
+                      ? new Date(e.target.value).toISOString()
+                      : "",
+                  )
                 }
                 className={styles.input}
                 min={new Date().toISOString().slice(0, 16)}
