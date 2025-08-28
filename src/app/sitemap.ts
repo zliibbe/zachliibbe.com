@@ -1,5 +1,5 @@
 import { MetadataRoute } from "next";
-import { getAllPublishedPosts } from "@/lib/blog";
+import { getAllPublishedPosts } from "@/lib/blog-storage";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://www.zachliibbe.com";
