@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
-import { publishDraft } from "@/lib/blog-storage";
+import {
+  publishDraft,
+  getPostBySlug,
+  updateBlogPost,
+} from "@/lib/blog-storage";
+import { revalidatePath } from "next/cache";
 
 export async function POST(request: NextRequest) {
   try {
@@ -45,18 +50,51 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const publishedPost = publishDraft(slug);
-
-    if (!publishedPost) {
+    // Check if post exists and what status it has
+    const existingPost = getPostBySlug(slug);
+    if (!existingPost) {
       return NextResponse.json(
-        { error: "Blog post not found or already published" },
+        { error: "Blog post not found" },
         { status: 404 },
       );
     }
 
+    if (existingPost.status === "published") {
+      return NextResponse.json(
+        { error: "Blog post is already published" },
+        { status: 400 },
+      );
+    }
+
+    // Publish the post (works for both draft and scheduled posts)
+    const publishedPost = updateBlogPost(slug, {
+      status: "published",
+      publishedAt: new Date().toISOString().split("T")[0],
+    });
+
+    if (!publishedPost) {
+      return NextResponse.json(
+        { error: "Failed to publish blog post" },
+        { status: 500 },
+      );
+    }
+
+    // Clear relevant caches
+    revalidatePath("/blog");
+    revalidatePath(`/blog/${slug}`);
+    revalidatePath("/api/feed/rss");
+
+    console.log(`Successfully published post: ${publishedPost.title}`);
+
     return NextResponse.json({
-      message: "Blog post published",
-      post: publishedPost,
+      success: true,
+      message: "Blog post published successfully",
+      post: {
+        slug: publishedPost.slug,
+        title: publishedPost.title,
+        status: publishedPost.status,
+        publishedAt: publishedPost.publishedAt,
+      },
     });
   } catch (error) {
     console.error("Error publishing blog post:", error);
