@@ -1,6 +1,12 @@
 "use client";
 
 import React, { useState, useRef, useCallback } from "react";
+import { markdownToHtml } from "@/lib/markdown";
+import {
+  parseFrontmatter,
+  stripFrontmatter,
+  createFrontmatter,
+} from "@/lib/frontmatter";
 import styles from "./MarkdownEditor.module.css";
 
 interface BlogPost {
@@ -62,8 +68,77 @@ export default function MarkdownEditor({
   }, []);
 
   const handleContentChange = (content: string) => {
-    setPost((prev) => ({ ...prev, content }));
+    // Auto-strip frontmatter if detected
+    const cleanContent = stripFrontmatter(content);
+    setPost((prev) => ({ ...prev, content: cleanContent }));
   };
+
+  // Import markdown file handler
+  const handleImportFile = useCallback(() => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".md,.markdown";
+    input.onchange = (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const content = e.target?.result as string;
+          // This will trigger the same logic as paste for frontmatter parsing
+          if (content.startsWith("---")) {
+            const { metadata, content: bodyContent } =
+              parseFrontmatter(content);
+
+            if (Object.keys(metadata).length > 0) {
+              setPost((prev) => ({
+                ...prev,
+                title: metadata.title || prev.title,
+                excerpt: metadata.excerpt || prev.excerpt,
+                categories: metadata.categories || prev.categories,
+                tags: metadata.tags || prev.tags,
+                series: metadata.series || prev.series,
+                status: metadata.status || prev.status,
+                content: bodyContent,
+              }));
+              return;
+            }
+          }
+
+          // Fallback to content change handler
+          handleContentChange(content);
+        };
+        reader.readAsText(file);
+      }
+    };
+    input.click();
+  }, []);
+
+  // Export current post as markdown file
+  const handleExportFile = useCallback(() => {
+    const metadata = {
+      title: post.title,
+      author: post.author,
+      publishedAt: post.publishedAt,
+      status: post.status,
+      categories: post.categories,
+      tags: post.tags,
+      excerpt: post.excerpt,
+      readTime: calculateReadingTime(post.content),
+      ...(post.series && { series: post.series }),
+      ...(post.scheduledFor && { scheduledFor: post.scheduledFor }),
+    };
+
+    const frontmatter = createFrontmatter(metadata);
+    const fullContent = frontmatter + post.content;
+
+    const blob = new Blob([fullContent], { type: "text/markdown" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${post.title.replace(/[^a-z0-9]/gi, "-").toLowerCase()}.md`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }, [post, calculateReadingTime]);
 
   const handleMetadataChange = (field: keyof BlogPost, value: any) => {
     setPost((prev) => ({ ...prev, [field]: value }));
@@ -135,6 +210,38 @@ export default function MarkdownEditor({
     }
   };
 
+  // Enhanced paste handler with frontmatter parsing
+  const handlePaste = useCallback((e: React.ClipboardEvent) => {
+    const pastedContent = e.clipboardData.getData("text");
+
+    // Check if pasted content has frontmatter
+    if (pastedContent.startsWith("---")) {
+      e.preventDefault();
+
+      // Use the frontmatter utility to parse
+      const { metadata, content } = parseFrontmatter(pastedContent);
+
+      if (Object.keys(metadata).length > 0) {
+        // Update post with extracted metadata
+        setPost((prev) => ({
+          ...prev,
+          title: metadata.title || prev.title,
+          excerpt: metadata.excerpt || prev.excerpt,
+          categories: metadata.categories || prev.categories,
+          tags: metadata.tags || prev.tags,
+          series: metadata.series || prev.series,
+          status: metadata.status || prev.status,
+          content: content,
+        }));
+        return;
+      }
+    }
+
+    // Normal paste - just strip frontmatter
+    const cleanContent = stripFrontmatter(pastedContent);
+    setPost((prev) => ({ ...prev, content: prev.content + cleanContent }));
+  }, []);
+
   return (
     <div className={styles.container} onKeyDown={handleKeyDown}>
       <div className={styles.header}>
@@ -153,6 +260,23 @@ export default function MarkdownEditor({
           </div>
         </div>
         <div className={styles.headerRight}>
+          <button
+            type="button"
+            onClick={handleImportFile}
+            className={styles.button}
+            title="Import markdown file with frontmatter"
+          >
+            Import
+          </button>
+          <button
+            type="button"
+            onClick={handleExportFile}
+            className={styles.button}
+            title="Export current post as markdown file"
+            disabled={!post.title.trim()}
+          >
+            Export
+          </button>
           <button
             type="button"
             onClick={() => setPreviewMode(!previewMode)}
@@ -267,7 +391,9 @@ export default function MarkdownEditor({
               type="url"
               placeholder="https://medium.com/@username/article-title"
               value={post.mediumUrl}
-              onChange={(e) => handleMetadataChange("mediumUrl", e.target.value)}
+              onChange={(e) =>
+                handleMetadataChange("mediumUrl", e.target.value)
+              }
               className={styles.input}
             />
             <p className={styles.helpText}>
@@ -321,7 +447,7 @@ export default function MarkdownEditor({
               <div
                 className={styles.previewContent}
                 dangerouslySetInnerHTML={{
-                  __html: post.content.replace(/\n/g, "<br>"),
+                  __html: markdownToHtml(post.content), // Fix: Use actual markdown parser
                 }}
               />
             </div>
@@ -359,9 +485,15 @@ console.log('Hello, world!');
 
 Horizontal rule
 
-Use Ctrl/Cmd + S to save, Ctrl/Cmd + P to toggle preview."
+Use Ctrl/Cmd + S to save, Ctrl/Cmd + P to toggle preview.
+
+💡 Tips for smooth workflow:
+• Click 'Import' to import .md files with frontmatter
+• Paste entire markdown files - metadata will be extracted automatically
+• All frontmatter fields (title, tags, categories, etc.) will populate the sidebar"
               value={post.content}
               onChange={(e) => handleContentChange(e.target.value)}
+              onPaste={handlePaste} // Add paste handler
               className={styles.content}
             />
           )}
