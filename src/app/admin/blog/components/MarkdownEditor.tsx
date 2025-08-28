@@ -1,0 +1,324 @@
+"use client";
+
+import { useState, useRef, useCallback } from "react";
+import styles from "./MarkdownEditor.module.css";
+
+interface BlogPost {
+  title: string;
+  author: string;
+  publishedAt: string;
+  scheduledFor?: string;
+  status: "draft" | "scheduled" | "published";
+  categories: string[];
+  tags: string[];
+  series?: string;
+  excerpt: string;
+  content: string;
+}
+
+interface MarkdownEditorProps {
+  initialPost?: Partial<BlogPost>;
+  onSave: (post: BlogPost) => void;
+  onCancel: () => void;
+}
+
+const AVAILABLE_CATEGORIES = ["Development", "Personal", "Learning", "Projects"];
+
+export default function MarkdownEditor({ 
+  initialPost, 
+  onSave, 
+  onCancel 
+}: MarkdownEditorProps) {
+  const [post, setPost] = useState<BlogPost>({
+    title: initialPost?.title || "",
+    author: "Zach Liibbe",
+    publishedAt: initialPost?.publishedAt || new Date().toISOString().split('T')[0],
+    scheduledFor: initialPost?.scheduledFor || "",
+    status: initialPost?.status || "draft",
+    categories: initialPost?.categories || [],
+    tags: initialPost?.tags || [],
+    series: initialPost?.series || "",
+    excerpt: initialPost?.excerpt || "",
+    content: initialPost?.content || "",
+  });
+
+  const [previewMode, setPreviewMode] = useState(false);
+  const [newTag, setNewTag] = useState("");
+  const contentRef = useRef<HTMLTextAreaElement>(null);
+
+  // Calculate reading time (rough estimate: 200 words per minute)
+  const calculateReadingTime = useCallback((content: string) => {
+    const words = content.trim().split(/\s+/).length;
+    const minutes = Math.ceil(words / 200);
+    return `${minutes} min read`;
+  }, []);
+
+  const handleContentChange = (content: string) => {
+    setPost(prev => ({ ...prev, content }));
+  };
+
+  const handleMetadataChange = (field: keyof BlogPost, value: any) => {
+    setPost(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleCategoryToggle = (category: string) => {
+    setPost(prev => ({
+      ...prev,
+      categories: prev.categories.includes(category)
+        ? prev.categories.filter(c => c !== category)
+        : [...prev.categories, category]
+    }));
+  };
+
+  const handleAddTag = () => {
+    if (newTag.trim() && !post.tags.includes(newTag.trim())) {
+      setPost(prev => ({
+        ...prev,
+        tags: [...prev.tags, newTag.trim()]
+      }));
+      setNewTag("");
+    }
+  };
+
+  const handleRemoveTag = (tag: string) => {
+    setPost(prev => ({
+      ...prev,
+      tags: prev.tags.filter(t => t !== tag)
+    }));
+  };
+
+  const handleSave = () => {
+    // Auto-generate excerpt if empty
+    const finalPost = {
+      ...post,
+      excerpt: post.excerpt || post.content.slice(0, 150) + (post.content.length > 150 ? "..." : "")
+    };
+    onSave(finalPost);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.ctrlKey || e.metaKey) {
+      if (e.key === 's') {
+        e.preventDefault();
+        handleSave();
+      } else if (e.key === 'p') {
+        e.preventDefault();
+        setPreviewMode(!previewMode);
+      }
+    }
+  };
+
+  return (
+    <div className={styles.container} onKeyDown={handleKeyDown}>
+      <div className={styles.header}>
+        <div className={styles.headerLeft}>
+          <input
+            type="text"
+            placeholder="Post title..."
+            value={post.title}
+            onChange={(e) => handleMetadataChange('title', e.target.value)}
+            className={styles.titleInput}
+          />
+          <div className={styles.metadata}>
+            <span>{calculateReadingTime(post.content)}</span>
+            <span>•</span>
+            <span>{post.content.length} characters</span>
+          </div>
+        </div>
+        <div className={styles.headerRight}>
+          <button
+            type="button"
+            onClick={() => setPreviewMode(!previewMode)}
+            className={`${styles.button} ${previewMode ? styles.buttonActive : ''}`}
+          >
+            {previewMode ? 'Edit' : 'Preview'}
+          </button>
+          <button
+            type="button"
+            onClick={onCancel}
+            className={styles.buttonSecondary}
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            onClick={handleSave}
+            className={styles.buttonPrimary}
+            disabled={!post.title.trim() || !post.content.trim()}
+          >
+            Save Draft
+          </button>
+        </div>
+      </div>
+
+      <div className={styles.main}>
+        <div className={styles.sidebar}>
+          <div className={styles.sidebarSection}>
+            <h3>Post Status</h3>
+            <select
+              value={post.status}
+              onChange={(e) => handleMetadataChange('status', e.target.value)}
+              className={styles.select}
+            >
+              <option value="draft">Draft</option>
+              <option value="scheduled">Scheduled</option>
+              <option value="published">Published</option>
+            </select>
+          </div>
+
+          <div className={styles.sidebarSection}>
+            <h3>Categories</h3>
+            <div className={styles.categories}>
+              {AVAILABLE_CATEGORIES.map(category => (
+                <label key={category} className={styles.checkbox}>
+                  <input
+                    type="checkbox"
+                    checked={post.categories.includes(category)}
+                    onChange={() => handleCategoryToggle(category)}
+                  />
+                  {category}
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <div className={styles.sidebarSection}>
+            <h3>Tags</h3>
+            <div className={styles.tags}>
+              {post.tags.map(tag => (
+                <span key={tag} className={styles.tag}>
+                  {tag}
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveTag(tag)}
+                    className={styles.tagRemove}
+                  >
+                    ×
+                  </button>
+                </span>
+              ))}
+            </div>
+            <div className={styles.tagInput}>
+              <input
+                type="text"
+                placeholder="Add tag..."
+                value={newTag}
+                onChange={(e) => setNewTag(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddTag())}
+                className={styles.input}
+              />
+              <button
+                type="button"
+                onClick={handleAddTag}
+                className={styles.addTagButton}
+              >
+                Add
+              </button>
+            </div>
+          </div>
+
+          <div className={styles.sidebarSection}>
+            <h3>Series (Optional)</h3>
+            <input
+              type="text"
+              placeholder="e.g., Learning in Public"
+              value={post.series}
+              onChange={(e) => handleMetadataChange('series', e.target.value)}
+              className={styles.input}
+            />
+          </div>
+
+          <div className={styles.sidebarSection}>
+            <h3>Excerpt</h3>
+            <textarea
+              placeholder="Brief description for previews..."
+              value={post.excerpt}
+              onChange={(e) => handleMetadataChange('excerpt', e.target.value)}
+              className={styles.textarea}
+              rows={3}
+            />
+          </div>
+
+          {post.status === 'scheduled' && (
+            <div className={styles.sidebarSection}>
+              <h3>Scheduled For</h3>
+              <input
+                type="datetime-local"
+                value={post.scheduledFor}
+                onChange={(e) => handleMetadataChange('scheduledFor', e.target.value)}
+                className={styles.input}
+              />
+            </div>
+          )}
+        </div>
+
+        <div className={styles.editor}>
+          {previewMode ? (
+            <div className={styles.preview}>
+              <div 
+                className={styles.previewContent}
+                dangerouslySetInnerHTML={{ 
+                  __html: post.content.replace(/\n/g, '<br>') 
+                }}
+              />
+            </div>
+          ) : (
+            <textarea
+              ref={contentRef}
+              placeholder="Write your blog post content here...
+
+You can use Markdown formatting:
+
+# Heading 1
+## Heading 2
+### Heading 3
+
+**Bold text**
+*Italic text*
+`Inline code`
+
+```javascript
+// Code blocks
+console.log('Hello, world!');
+```
+
+- Bullet point
+- Another point
+
+1. Numbered list
+2. Another item
+
+[Link text](https://example.com)
+
+> Blockquote
+
+---
+
+Horizontal rule
+
+Use Ctrl/Cmd + S to save, Ctrl/Cmd + P to toggle preview."
+              value={post.content}
+              onChange={(e) => handleContentChange(e.target.value)}
+              className={styles.content}
+            />
+          )}
+        </div>
+      </div>
+
+      <div className={styles.footer}>
+        <div className={styles.footerLeft}>
+          <span className={styles.helpText}>
+            Ctrl/Cmd + S to save • Ctrl/Cmd + P to toggle preview
+          </span>
+        </div>
+        <div className={styles.footerRight}>
+          <span className={styles.status}>
+            {post.status === 'draft' ? 'Draft' : 
+             post.status === 'scheduled' ? `Scheduled for ${post.scheduledFor}` :
+             'Published'}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
