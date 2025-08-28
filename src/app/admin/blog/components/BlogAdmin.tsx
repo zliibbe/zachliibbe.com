@@ -156,9 +156,11 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
   }
 
   return (
-    <div className={styles.container}>
-      <div className={styles.contentWrapper}>
-        <main className={styles.content}>
+    <div className="universal-gradient-container">
+      <div className="universal-gradient-background" />
+      <div className={styles.container}>
+        <div className={styles.contentWrapper}>
+          <main className={styles.content}>
           <header className={styles.header}>
             <div className={styles.headerContent}>
               <div>
@@ -315,6 +317,7 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
           </div>
         </main>
       </div>
+    </div>
     </div>
   );
 }
