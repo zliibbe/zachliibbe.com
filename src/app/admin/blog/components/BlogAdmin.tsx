@@ -381,6 +381,24 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
                                   Publish Now
                                 </button>
                               )}
+                              {post.status === "published" && !post.mediumUrl && (
+                                <button
+                                  className={styles.actionButton}
+                                  onClick={() => handleCrossPostToMedium(post)}
+                                >
+                                  Cross-post to Medium
+                                </button>
+                              )}
+                              {post.mediumUrl && (
+                                <button
+                                  className={styles.actionButton}
+                                  onClick={() => window.open(post.mediumUrl, '_blank')}
+                                  title="View on Medium"
+                                >
+                                  <MdOpenInNew size={16} style={{ marginRight: '4px' }} />
+                                  Medium
+                                </button>
+                              )}
                               <button
                                 className={styles.actionButtonDanger}
                                 onClick={() => handleDeletePost(post)}
