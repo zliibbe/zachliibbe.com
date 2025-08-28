@@ -175,7 +175,7 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
     const confirmed = confirm(
       `Cross-post "${post.title}" to Medium?\n\n` +
       `This will:\n` +
-      `1. Copy the post content to your clipboard\n` +
+      `1. Copy the post content to your clipboard (as Markdown)\n` +
       `2. Open Medium's new story page\n` +
       `3. You can then paste and format the content\n` +
       `4. Add the Medium URL back to this post for tracking\n\n` +
@@ -185,8 +185,51 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
     if (!confirmed) return;
 
     try {
-      // Prepare content for Medium (convert from markdown to plain text for now)
-      const mediumContent = `# ${post.title}\n\n${post.content}\n\n---\n\nOriginally published at zachliibbe.com`;
+      // Convert HTML content back to clean Markdown for Medium
+      const htmlToMarkdown = (html: string): string => {
+        return html
+          // Headers
+          .replace(/<h1[^>]*>(.*?)<\/h1>/gi, '# $1\n\n')
+          .replace(/<h2[^>]*>(.*?)<\/h2>/gi, '## $1\n\n')
+          .replace(/<h3[^>]*>(.*?)<\/h3>/gi, '### $1\n\n')
+          .replace(/<h4[^>]*>(.*?)<\/h4>/gi, '#### $1\n\n')
+          .replace(/<h5[^>]*>(.*?)<\/h5>/gi, '##### $1\n\n')
+          .replace(/<h6[^>]*>(.*?)<\/h6>/gi, '###### $1\n\n')
+          // Paragraphs
+          .replace(/<p[^>]*>(.*?)<\/p>/gi, '$1\n\n')
+          // Strong/Bold
+          .replace(/<strong[^>]*>(.*?)<\/strong>/gi, '**$1**')
+          .replace(/<b[^>]*>(.*?)<\/b>/gi, '**$1**')
+          // Emphasis/Italic
+          .replace(/<em[^>]*>(.*?)<\/em>/gi, '*$1*')
+          .replace(/<i[^>]*>(.*?)<\/i>/gi, '*$1*')
+          // Code
+          .replace(/<code[^>]*>(.*?)<\/code>/gi, '`$1`')
+          .replace(/<pre[^>]*><code[^>]*>(.*?)<\/code><\/pre>/gis, '```\n$1\n```\n\n')
+          .replace(/<pre[^>]*>(.*?)<\/pre>/gis, '```\n$1\n```\n\n')
+          // Lists
+          .replace(/<ul[^>]*>/gi, '')
+          .replace(/<\/ul>/gi, '\n')
+          .replace(/<ol[^>]*>/gi, '')
+          .replace(/<\/ol>/gi, '\n')
+          .replace(/<li[^>]*>(.*?)<\/li>/gi, '- $1\n')
+          // Links
+          .replace(/<a[^>]*href="([^"]*)"[^>]*>(.*?)<\/a>/gi, '[$2]($1)')
+          // Blockquotes
+          .replace(/<blockquote[^>]*>(.*?)<\/blockquote>/gis, '> $1\n\n')
+          // Horizontal rules
+          .replace(/<hr[^>]*>/gi, '---\n\n')
+          // Line breaks
+          .replace(/<br[^>]*>/gi, '\n')
+          // Remove any remaining HTML tags
+          .replace(/<[^>]*>/g, '')
+          // Clean up extra whitespace
+          .replace(/\n{3,}/g, '\n\n')
+          .trim();
+      };
+
+      const markdownContent = htmlToMarkdown(post.content);
+      const mediumContent = `# ${post.title}\n\n${markdownContent}\n\n---\n\n*Originally published at [zachliibbe.com](https://zachliibbe.com)*`;
       
       // Copy to clipboard
       await navigator.clipboard.writeText(mediumContent);
@@ -196,11 +239,11 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
       
       // Show success message with next steps
       alert(
-        `Content copied to clipboard!\n\n` +
+        `Content copied to clipboard as Markdown!\n\n` +
         `Next steps:\n` +
-        `1. Paste the content in the Medium editor\n` +
-        `2. Format and customize as needed\n` +
-        `3. Add any images or additional formatting\n` +
+        `1. Paste the content in the Medium editor (Ctrl/Cmd + V)\n` +
+        `2. Medium will automatically format the Markdown\n` +
+        `3. Add any images or additional customization\n` +
         `4. Publish on Medium\n` +
         `5. Come back and edit this post to add the Medium URL for tracking`
       );
