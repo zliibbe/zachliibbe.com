@@ -14,6 +14,7 @@ interface BlogPost {
   series?: string;
   excerpt: string;
   content: string;
+  mediumUrl?: string;
 }
 
 interface MarkdownEditorProps {
@@ -46,6 +47,7 @@ export default function MarkdownEditor({
     series: initialPost?.series || "",
     excerpt: initialPost?.excerpt || "",
     content: initialPost?.content || "",
+    mediumUrl: initialPost?.mediumUrl || "",
   });
 
   const [previewMode, setPreviewMode] = useState(false);
@@ -257,6 +259,20 @@ export default function MarkdownEditor({
               onChange={(e) => handleMetadataChange("series", e.target.value)}
               className={styles.input}
             />
+          </div>
+
+          <div className={styles.sidebarSection}>
+            <h3>Medium URL (Optional)</h3>
+            <input
+              type="url"
+              placeholder="https://medium.com/@username/article-title"
+              value={post.mediumUrl}
+              onChange={(e) => handleMetadataChange("mediumUrl", e.target.value)}
+              className={styles.input}
+            />
+            <p className={styles.helpText}>
+              URL of cross-posted Medium article (for tracking purposes)
+            </p>
           </div>
 
           <div className={styles.sidebarSection}>
