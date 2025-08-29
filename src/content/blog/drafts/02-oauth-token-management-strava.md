@@ -75,15 +75,20 @@ export async function refreshStravaToken(): Promise<string> {
 
     if (!response.ok) {
       const errorText = await response.text();
-      throw new Error(`Token refresh failed: ${response.status} - ${errorText}`);
+      throw new Error(
+        `Token refresh failed: ${response.status} - ${errorText}`,
+      );
     }
 
     const tokenData = await response.json();
-    
+
     // Cache the new token with expiration
-    const expiresIn = tokenData.expires_at - Math.floor(Date.now() / 1000) - 300; // 5min buffer
-    await kv.set("strava_access_token", tokenData.access_token, { ex: expiresIn });
-    
+    const expiresIn =
+      tokenData.expires_at - Math.floor(Date.now() / 1000) - 300; // 5min buffer
+    await kv.set("strava_access_token", tokenData.access_token, {
+      ex: expiresIn,
+    });
+
     return tokenData.access_token;
   } catch (error) {
     console.error("Error refreshing Strava token:", error);
@@ -173,20 +178,20 @@ import { refreshStravaToken } from "@/lib/strava/auth";
 export async function POST() {
   try {
     const accessToken = await refreshStravaToken();
-    
-    return NextResponse.json({ 
+
+    return NextResponse.json({
       access_token: accessToken,
       status: "success",
-      expires_at: Math.floor(Date.now() / 1000) + 21600 // 6 hours
+      expires_at: Math.floor(Date.now() / 1000) + 21600, // 6 hours
     });
   } catch (error) {
     console.error("Token refresh API error:", error);
     return NextResponse.json(
-      { 
+      {
         error: "Failed to refresh token",
-        status: "error" 
+        status: "error",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -200,12 +205,15 @@ The client-side code becomes much simpler with this infrastructure:
 export async function fetchStravaActivities() {
   try {
     const accessToken = await getAccessToken();
-    
-    const response = await fetch("https://www.strava.com/api/v3/athlete/activities", {
-      headers: {
-        "Authorization": `Bearer ${accessToken}`,
+
+    const response = await fetch(
+      "https://www.strava.com/api/v3/athlete/activities",
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
       },
-    });
+    );
 
     if (!response.ok) {
       throw new Error(`Strava API error: ${response.status}`);
@@ -231,7 +239,7 @@ export async function getStravaActivitiesWithFallback() {
     return await fetchStravaActivities();
   } catch (error) {
     console.error("Primary Strava fetch failed:", error);
-    
+
     // Try to get cached activities as fallback
     try {
       const cachedActivities = await kv.get("strava_activities_fallback");
@@ -242,7 +250,7 @@ export async function getStravaActivitiesWithFallback() {
     } catch (cacheError) {
       console.error("Cache fallback failed:", cacheError);
     }
-    
+
     // Return empty array as final fallback
     return [];
   }
@@ -256,25 +264,25 @@ I added logging and metrics to understand token refresh patterns:
 ```typescript
 export async function refreshStravaToken(): Promise<string> {
   const startTime = Date.now();
-  
+
   try {
     // ... token refresh logic ...
-    
+
     const duration = Date.now() - startTime;
     console.log(`Strava token refresh succeeded in ${duration}ms`);
-    
+
     // Log success metrics (could send to analytics service)
     await logTokenRefreshMetrics({
       status: "success",
       duration,
       timestamp: new Date().toISOString(),
     });
-    
+
     return tokenData.access_token;
   } catch (error) {
     const duration = Date.now() - startTime;
     console.error(`Strava token refresh failed after ${duration}ms:`, error);
-    
+
     // Log error metrics
     await logTokenRefreshMetrics({
       status: "error",
@@ -282,7 +290,7 @@ export async function refreshStravaToken(): Promise<string> {
       error: error.message,
       timestamp: new Date().toISOString(),
     });
-    
+
     throw error;
   }
 }
@@ -317,29 +325,35 @@ I created a simple test endpoint to verify the token system:
 export async function GET() {
   try {
     const token = await getAccessToken();
-    
+
     // Test the token with a simple API call
     const response = await fetch("https://www.strava.com/api/v3/athlete", {
-      headers: { "Authorization": `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${token}` },
     });
-    
+
     if (response.ok) {
-      return NextResponse.json({ 
+      return NextResponse.json({
         status: "Token is valid",
         tokenPresent: !!token,
-        timestamp: new Date().toISOString() 
+        timestamp: new Date().toISOString(),
       });
     } else {
-      return NextResponse.json({ 
-        status: "Token is invalid",
-        error: `API returned ${response.status}` 
-      }, { status: 400 });
+      return NextResponse.json(
+        {
+          status: "Token is invalid",
+          error: `API returned ${response.status}`,
+        },
+        { status: 400 },
+      );
     }
   } catch (error) {
-    return NextResponse.json({ 
-      status: "Token system error",
-      error: error.message 
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        status: "Token system error",
+        error: error.message,
+      },
+      { status: 500 },
+    );
   }
 }
 ```
@@ -379,11 +393,11 @@ interface OAuthConfig {
 
 export class OAuthTokenManager {
   constructor(private config: OAuthConfig) {}
-  
+
   async getAccessToken(): Promise<string> {
     // Generalized token management logic
   }
-  
+
   async refreshToken(): Promise<string> {
     // Generalized refresh logic
   }
@@ -402,6 +416,7 @@ const stravaTokens = new OAuthTokenManager({
 ## What's Next?
 
 I'm planning to extend this system with:
+
 - **Automatic refresh token rotation** for enhanced security
 - **Multi-tenant support** for handling multiple users
 - **Circuit breakers** for better failure handling
@@ -411,7 +426,10 @@ The complete implementation is available in my [GitHub repository](https://githu
 
 ---
 
-*Building robust APIs requires thinking beyond the happy path. Want to see more real-world API integration patterns? Follow my journey as I share what I learn building production systems.*
+_Building robust APIs requires thinking beyond the happy path. Want to see more real-world API integration patterns? Follow my journey as I share what I learn building production systems._
+
 ```
 
+
+```
 

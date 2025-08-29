@@ -174,44 +174,48 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
     try {
       const confirmed = confirm(
         `Generate a featured image for "${post.title}"?\n\n` +
-        `This will:\n` +
-        `1. Search Unsplash for relevant images based on your post's tags and title\n` +
-        `2. Add the best match as the featured image\n` +
-        `3. Include proper attribution as required by Unsplash\n\n` +
-        `Continue?`
+          `This will:\n` +
+          `1. Search Unsplash for relevant images based on your post's tags and title\n` +
+          `2. Add the best match as the featured image\n` +
+          `3. Include proper attribution as required by Unsplash\n\n` +
+          `Continue?`,
       );
-      
+
       if (!confirmed) return;
 
       // Show loading state
       alert("🔍 Searching for the perfect image...");
-      
+
       // Call API to generate/fetch image
-      const response = await fetch(`/api/blog/posts/${post.slug}/generate-image`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `/api/blog/posts/${post.slug}/generate-image`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
         },
-      });
-      
+      );
+
       if (response.ok) {
         const result = await response.json();
         if (result.featuredImage) {
           alert(
             `✅ Featured image added successfully!\n\n` +
-            `📸 Image: ${result.featuredImage.alt}\n` +
-            `📷 Photo by: ${result.featuredImage.attribution.text}\n\n` +
-            `The image is now available for Medium cross-posting.`
+              `📸 Image: ${result.featuredImage.alt}\n` +
+              `📷 Photo by: ${result.featuredImage.attribution.text}\n\n` +
+              `The image is now available for Medium cross-posting.`,
           );
           await loadPosts(); // Refresh to show the new image
         } else {
-          alert("ℹ️ No suitable image found for this post. You can manually add one later or try different tags.");
+          alert(
+            "ℹ️ No suitable image found for this post. You can manually add one later or try different tags.",
+          );
         }
       } else {
         const error = await response.json();
-        alert(`❌ Error generating image: ${error.error || 'Unknown error'}`);
+        alert(`❌ Error generating image: ${error.error || "Unknown error"}`);
       }
-      
     } catch (error) {
       console.error("Error generating image:", error);
       alert("❌ Error generating image. Please try again.");
@@ -222,73 +226,81 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
     // Phase 1: Manual cross-posting workflow with improved Medium formatting
     const confirmed = confirm(
       `Cross-post "${post.title}" to Medium?\n\n` +
-      `This will:\n` +
-      `1. Copy the post content to your clipboard (optimized for Medium)\n` +
-      `2. Open Medium's new story page\n` +
-      `3. You can then paste, add images, and publish\n` +
-      `4. Add the Medium URL back to this post for tracking\n\n` +
-      `Continue?`
+        `This will:\n` +
+        `1. Copy the post content to your clipboard (optimized for Medium)\n` +
+        `2. Open Medium's new story page\n` +
+        `3. You can then paste, add images, and publish\n` +
+        `4. Add the Medium URL back to this post for tracking\n\n` +
+        `Continue?`,
     );
-    
+
     if (!confirmed) return;
 
     try {
       // Convert HTML content to Medium-optimized format
       const htmlToMediumFormat = (html: string): string => {
-        return html
-          // Headers - Medium prefers single line breaks after headers
-          .replace(/<h1[^>]*>(.*?)<\/h1>/gi, '# $1\n')
-          .replace(/<h2[^>]*>(.*?)<\/h2>/gi, '## $1\n')
-          .replace(/<h3[^>]*>(.*?)<\/h3>/gi, '### $1\n')
-          .replace(/<h4[^>]*>(.*?)<\/h4>/gi, '#### $1\n')
-          .replace(/<h5[^>]*>(.*?)<\/h5>/gi, '##### $1\n')
-          .replace(/<h6[^>]*>(.*?)<\/h6>/gi, '###### $1\n')
-          // Paragraphs - Medium handles spacing better with single line breaks
-          .replace(/<p[^>]*>(.*?)<\/p>/gi, '$1\n')
-          // Strong/Bold
-          .replace(/<strong[^>]*>(.*?)<\/strong>/gi, '**$1**')
-          .replace(/<b[^>]*>(.*?)<\/b>/gi, '**$1**')
-          // Emphasis/Italic
-          .replace(/<em[^>]*>(.*?)<\/em>/gi, '*$1*')
-          .replace(/<i[^>]*>(.*?)<\/i>/gi, '*$1*')
-          // Code blocks - Medium prefers triple backticks with language
-          .replace(/<pre[^>]*><code[^>]*class="language-(\w+)"[^>]*>(.*?)<\/code><\/pre>/gis, '```$1\n$2\n```\n')
-          .replace(/<pre[^>]*><code[^>]*>(.*?)<\/code><\/pre>/gis, '```\n$1\n```\n')
-          .replace(/<pre[^>]*>(.*?)<\/pre>/gis, '```\n$1\n```\n')
-          // Inline code
-          .replace(/<code[^>]*>(.*?)<\/code>/gi, '`$1`')
-          // Lists - Medium handles these well with proper spacing
-          .replace(/<ul[^>]*>/gi, '')
-          .replace(/<\/ul>/gi, '')
-          .replace(/<ol[^>]*>/gi, '')
-          .replace(/<\/ol>/gi, '')
-          .replace(/<li[^>]*>(.*?)<\/li>/gi, '• $1\n')
-          // Links
-          .replace(/<a[^>]*href="([^"]*)"[^>]*>(.*?)<\/a>/gi, '[$2]($1)')
-          // Blockquotes - Medium handles these nicely
-          .replace(/<blockquote[^>]*>(.*?)<\/blockquote>/gis, '> $1\n')
-          // Horizontal rules
-          .replace(/<hr[^>]*>/gi, '---\n')
-          // Line breaks
-          .replace(/<br[^>]*>/gi, '\n')
-          // Images - placeholder for manual insertion
-          .replace(/<img[^>]*src="([^"]*)"[^>]*alt="([^"]*)"[^>]*>/gi, '\n[IMAGE: $2 - $1]\n')
-          // Remove any remaining HTML tags
-          .replace(/<[^>]*>/g, '')
-          // Clean up excessive line breaks (max 2 consecutive)
-          .replace(/\n{3,}/g, '\n\n')
-          // Clean up spaces
-          .replace(/ {2,}/g, ' ')
-          .trim();
+        return (
+          html
+            // Headers - Medium prefers single line breaks after headers
+            .replace(/<h1[^>]*>(.*?)<\/h1>/gi, "# $1\n")
+            .replace(/<h2[^>]*>(.*?)<\/h2>/gi, "## $1\n")
+            .replace(/<h3[^>]*>(.*?)<\/h3>/gi, "### $1\n")
+            .replace(/<h4[^>]*>(.*?)<\/h4>/gi, "#### $1\n")
+            .replace(/<h5[^>]*>(.*?)<\/h5>/gi, "##### $1\n")
+            .replace(/<h6[^>]*>(.*?)<\/h6>/gi, "###### $1\n")
+            // Paragraphs - Medium handles spacing better with single line breaks
+            .replace(/<p[^>]*>(.*?)<\/p>/gi, "$1\n")
+            // Strong/Bold
+            .replace(/<strong[^>]*>(.*?)<\/strong>/gi, "**$1**")
+            .replace(/<b[^>]*>(.*?)<\/b>/gi, "**$1**")
+            // Emphasis/Italic
+            .replace(/<em[^>]*>(.*?)<\/em>/gi, "*$1*")
+            .replace(/<i[^>]*>(.*?)<\/i>/gi, "*$1*")
+            // Code blocks - Medium prefers triple backticks with language
+            .replace(
+              /<pre[^>]*><code[^>]*class="language-(\w+)"[^>]*>(.*?)<\/code><\/pre>/gis,
+              "```$1\n$2\n```\n",
+            )
+            .replace(
+              /<pre[^>]*><code[^>]*>(.*?)<\/code><\/pre>/gis,
+              "```\n$1\n```\n",
+            )
+            .replace(/<pre[^>]*>(.*?)<\/pre>/gis, "```\n$1\n```\n")
+            // Inline code
+            .replace(/<code[^>]*>(.*?)<\/code>/gi, "`$1`")
+            // Lists - Medium handles these well with proper spacing
+            .replace(/<ul[^>]*>/gi, "")
+            .replace(/<\/ul>/gi, "")
+            .replace(/<ol[^>]*>/gi, "")
+            .replace(/<\/ol>/gi, "")
+            .replace(/<li[^>]*>(.*?)<\/li>/gi, "• $1\n")
+            // Links
+            .replace(/<a[^>]*href="([^"]*)"[^>]*>(.*?)<\/a>/gi, "[$2]($1)")
+            // Blockquotes - Medium handles these nicely
+            .replace(/<blockquote[^>]*>(.*?)<\/blockquote>/gis, "> $1\n")
+            // Horizontal rules
+            .replace(/<hr[^>]*>/gi, "---\n")
+            // Line breaks
+            .replace(/<br[^>]*>/gi, "\n")
+            // Images - placeholder for manual insertion
+            .replace(
+              /<img[^>]*src="([^"]*)"[^>]*alt="([^"]*)"[^>]*>/gi,
+              "\n[IMAGE: $2 - $1]\n",
+            )
+            // Remove any remaining HTML tags
+            .replace(/<[^>]*>/g, "")
+            // Clean up excessive line breaks (max 2 consecutive)
+            .replace(/\n{3,}/g, "\n\n")
+            // Clean up spaces
+            .replace(/ {2,}/g, " ")
+            .trim()
+        );
       };
 
       const mediumContent = htmlToMediumFormat(post.content);
-      
+
       // Create the final Medium-ready content with enhanced image support
-      const contentSections = [
-        `# ${post.title}`,
-        '',
-      ];
+      const contentSections = [`# ${post.title}`, ""];
 
       // Add featured image guidance if available
       if (post.featuredImage) {
@@ -297,60 +309,59 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
           `Image URL: ${post.featuredImage.url}`,
           `Alt Text: ${post.featuredImage.alt}`,
           `Attribution: ${post.featuredImage.attribution.text}`,
-          '',
+          "",
           `*Copy the image URL above and add it as your hero image in Medium.*`,
-          '',
-          '---',
-          ''
+          "",
+          "---",
+          "",
         );
       } else {
         contentSections.push(
           `📸 **Image Suggestion:**`,
-          `Consider adding a relevant hero image to this post. Search for images related to: ${post.tags.slice(0, 3).join(', ')}`,
-          '',
-          '---',
-          ''
+          `Consider adding a relevant hero image to this post. Search for images related to: ${post.tags.slice(0, 3).join(", ")}`,
+          "",
+          "---",
+          "",
         );
       }
 
       contentSections.push(
         mediumContent,
-        '',
-        '---',
-        '',
+        "",
+        "---",
+        "",
         `*This article was originally published on [zachliibbe.com](https://zachliibbe.com/blog/${post.slug}). Follow me for more technical deep-dives and development insights.*`,
-        '',
-        `**Medium Tags Suggestion:** ${post.tags.slice(0, 5).join(', ')}`
+        "",
+        `**Medium Tags Suggestion:** ${post.tags.slice(0, 5).join(", ")}`,
       );
 
-      const finalContent = contentSections.join('\n');
-      
+      const finalContent = contentSections.join("\n");
+
       // Copy to clipboard
       await navigator.clipboard.writeText(finalContent);
-      
+
       // Open Medium's new story page
-      window.open('https://medium.com/new-story', '_blank');
-      
+      window.open("https://medium.com/new-story", "_blank");
+
       // Enhanced success message with image-specific guidance
-      const hasImage = post.featuredImage ? '✅' : '⚠️';
-      const imageInstructions = post.featuredImage 
+      const hasImage = post.featuredImage ? "✅" : "⚠️";
+      const imageInstructions = post.featuredImage
         ? `Featured image URL is included at the top - copy and paste it as your hero image in Medium.`
         : `No featured image found. Consider adding a relevant image to enhance your post.`;
-      
+
       alert(
         `✅ Content copied to clipboard and optimized for Medium!\n\n` +
-        `${hasImage} **Image Status:** ${imageInstructions}\n\n` +
-        `📝 **Next steps:**\n` +
-        `1. Paste content in Medium editor (Ctrl/Cmd + V)\n` +
-        `2. ${post.featuredImage ? 'Add the featured image URL as hero image' : 'Add a relevant hero image'}\n` +
-        `3. Replace any [IMAGE: ...] placeholders with actual images\n` +
-        `4. Review formatting and adjust as needed\n` +
-        `5. Use the suggested tags at the bottom (Medium allows up to 5)\n` +
-        `6. Publish on Medium\n` +
-        `7. Copy the Medium URL and add it back to this post\n\n` +
-        `💡 **Pro tip:** Medium's algorithm favors posts with high-quality images and good engagement!`
+          `${hasImage} **Image Status:** ${imageInstructions}\n\n` +
+          `📝 **Next steps:**\n` +
+          `1. Paste content in Medium editor (Ctrl/Cmd + V)\n` +
+          `2. ${post.featuredImage ? "Add the featured image URL as hero image" : "Add a relevant hero image"}\n` +
+          `3. Replace any [IMAGE: ...] placeholders with actual images\n` +
+          `4. Review formatting and adjust as needed\n` +
+          `5. Use the suggested tags at the bottom (Medium allows up to 5)\n` +
+          `6. Publish on Medium\n` +
+          `7. Copy the Medium URL and add it back to this post\n\n` +
+          `💡 **Pro tip:** Medium's algorithm favors posts with high-quality images and good engagement!`,
       );
-      
     } catch (error) {
       console.error("Error cross-posting to Medium:", error);
       alert("❌ Error copying content to clipboard. Please try again.");
@@ -527,32 +538,42 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
                                   Publish Now
                                 </button>
                               )}
-                              {post.status === "published" && !post.mediumUrl && (
-                                <>
-                                  {!post.featuredImage && (
+                              {post.status === "published" &&
+                                !post.mediumUrl && (
+                                  <>
+                                    {!post.featuredImage && (
+                                      <button
+                                        className={styles.actionButton}
+                                        onClick={() =>
+                                          handleGenerateImage(post)
+                                        }
+                                        title="Generate featured image from Unsplash"
+                                      >
+                                        🖼️ Add Image
+                                      </button>
+                                    )}
                                     <button
                                       className={styles.actionButton}
-                                      onClick={() => handleGenerateImage(post)}
-                                      title="Generate featured image from Unsplash"
+                                      onClick={() =>
+                                        handleCrossPostToMedium(post)
+                                      }
                                     >
-                                      🖼️ Add Image
+                                      Cross-post to Medium
                                     </button>
-                                  )}
-                                  <button
-                                    className={styles.actionButton}
-                                    onClick={() => handleCrossPostToMedium(post)}
-                                  >
-                                    Cross-post to Medium
-                                  </button>
-                                </>
-                              )}
+                                  </>
+                                )}
                               {post.mediumUrl && (
                                 <button
                                   className={styles.actionButton}
-                                  onClick={() => window.open(post.mediumUrl, '_blank')}
+                                  onClick={() =>
+                                    window.open(post.mediumUrl, "_blank")
+                                  }
                                   title="View on Medium"
                                 >
-                                  <MdOpenInNew size={16} style={{ marginRight: '4px' }} />
+                                  <MdOpenInNew
+                                    size={16}
+                                    style={{ marginRight: "4px" }}
+                                  />
                                   Medium
                                 </button>
                               )}

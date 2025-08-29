@@ -1,13 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { getPostBySlug, updatePost } from "@/lib/blog-storage";
-import { getPhotoForBlogPost, getPhotoAttribution, trackPhotoDownload } from "@/lib/unsplash";
+import { authOptions } from "@/lib/auth";
+import { getPostBySlug, updateBlogPost } from "@/lib/blog-storage";
+import {
+  getPhotoForBlogPost,
+  getPhotoAttribution,
+  trackPhotoDownload,
+} from "@/lib/unsplash";
 import { FeaturedImage } from "@/types/blog";
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { slug: string } }
+  context: { params: Promise<{ slug: string }> },
 ) {
   try {
     // Check authentication
@@ -16,7 +20,7 @@ export async function POST(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { slug } = params;
+    const { slug } = await context.params;
     if (!slug) {
       return NextResponse.json({ error: "Slug is required" }, { status: 400 });
     }
@@ -29,10 +33,13 @@ export async function POST(
 
     // Check if post already has a featured image
     if (post.featuredImage) {
-      return NextResponse.json({ 
-        error: "Post already has a featured image",
-        featuredImage: post.featuredImage 
-      }, { status: 400 });
+      return NextResponse.json(
+        {
+          error: "Post already has a featured image",
+          featuredImage: post.featuredImage,
+        },
+        { status: 400 },
+      );
     }
 
     try {
@@ -40,13 +47,13 @@ export async function POST(
       const photo = await getPhotoForBlogPost(
         post.categories,
         post.tags,
-        post.title
+        post.title,
       );
 
       if (!photo) {
-        return NextResponse.json({ 
+        return NextResponse.json({
           message: "No suitable image found",
-          featuredImage: null 
+          featuredImage: null,
         });
       }
 
@@ -56,7 +63,10 @@ export async function POST(
       // Create the featured image object
       const featuredImage: FeaturedImage = {
         url: photo.urls.regular,
-        alt: photo.alt_description || photo.description || `Featured image for ${post.title}`,
+        alt:
+          photo.alt_description ||
+          photo.description ||
+          `Featured image for ${post.title}`,
         width: photo.width,
         height: photo.height,
         attribution: getPhotoAttribution(photo),
@@ -68,26 +78,34 @@ export async function POST(
         featuredImage,
       };
 
-      updatePost(slug, updatedPost);
+      updateBlogPost(slug, updatedPost);
 
       return NextResponse.json({
         message: "Featured image added successfully",
         featuredImage,
       });
-
     } catch (unsplashError) {
       console.error("Error fetching from Unsplash:", unsplashError);
-      return NextResponse.json({ 
-        error: "Failed to fetch image from Unsplash",
-        details: process.env.NODE_ENV === 'development' ? String(unsplashError) : undefined
-      }, { status: 500 });
+      return NextResponse.json(
+        {
+          error: "Failed to fetch image from Unsplash",
+          details:
+            process.env.NODE_ENV === "development"
+              ? String(unsplashError)
+              : undefined,
+        },
+        { status: 500 },
+      );
     }
-
   } catch (error) {
     console.error("Error generating featured image:", error);
-    return NextResponse.json({ 
-      error: "Internal server error",
-      details: process.env.NODE_ENV === 'development' ? String(error) : undefined
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        error: "Internal server error",
+        details:
+          process.env.NODE_ENV === "development" ? String(error) : undefined,
+      },
+      { status: 500 },
+    );
   }
 }

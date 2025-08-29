@@ -10,10 +10,11 @@ export interface BlogPost {
   categories: string[];
   tags: string[];
   readTime: string;
-  status: "draft" | "scheduled" | "published";
+  status: 'draft' | 'scheduled' | 'published';
   scheduledFor?: string;
   series?: string;
   featuredImage?: FeaturedImage;
+  mediumUrl?: string;
 }
 
 export interface FeaturedImage {
