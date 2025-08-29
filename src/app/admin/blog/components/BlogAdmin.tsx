@@ -495,16 +495,26 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
                               <span className={styles.postDate}>
                                 {post.status === 'scheduled' &&
                                 post.scheduledFor
-                                  ? `Scheduled: ${new Date(
-                                      post.scheduledFor
-                                    ).toLocaleDateString('en-US', {
-                                      year: 'numeric',
-                                      month: 'short',
-                                      day: 'numeric',
-                                      hour: '2-digit',
-                                      minute: '2-digit',
-                                      timeZoneName: 'short',
-                                    })}`
+                                  ? (() => {
+                                      try {
+                                        return `Scheduled: ${new Date(
+                                          post.scheduledFor
+                                        ).toLocaleDateString('en-US', {
+                                          year: 'numeric',
+                                          month: 'short',
+                                          day: 'numeric',
+                                          hour: '2-digit',
+                                          minute: '2-digit',
+                                          timeZoneName: 'short',
+                                        })}`;
+                                      } catch (error) {
+                                        console.warn(
+                                          'Invalid scheduled date:',
+                                          post.scheduledFor
+                                        );
+                                        return `Scheduled: ${post.scheduledFor}`;
+                                      }
+                                    })()
                                   : post.publishedAt || 'Not published'}
                               </span>
                               <span className={styles.postReadTime}>
