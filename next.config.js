@@ -7,14 +7,6 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ['react-icons'],
   },
-  turbopack: {
-    rules: {
-      '*.svg': {
-        loaders: ['@svgr/webpack'],
-        as: '*.js',
-      },
-    },
-  },
   poweredByHeader: false,
 
   images: {
