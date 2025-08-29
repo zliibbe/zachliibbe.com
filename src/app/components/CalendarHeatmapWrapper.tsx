@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import React, { useEffect, useRef } from "react";
-import CalendarHeatmap from "react-calendar-heatmap";
-import "react-calendar-heatmap/dist/styles.css";
+import React, { useEffect, useRef } from 'react';
+import CalendarHeatmap from 'react-calendar-heatmap';
+import 'react-calendar-heatmap/dist/styles.css';
 
 // Create a wrapped version of CalendarHeatmap that filters out React internal props
 const SafeCalendarHeatmap = React.forwardRef<
@@ -26,27 +26,27 @@ const SafeCalendarHeatmap = React.forwardRef<
 
         // Remove React internal props and styled-components props
         if (
-          name === "$$typeof" ||
-          name.includes("$styled") ||
-          name.includes("$theme") ||
-          name.includes("__reactInternalInstance") ||
-          name.includes("__reactEventHandlers") ||
-          (name.startsWith("$") && name !== "$") ||
-          (name.startsWith("__") && !name.startsWith("__data"))
+          name === '$$typeof' ||
+          name.includes('$styled') ||
+          name.includes('$theme') ||
+          name.includes('__reactInternalInstance') ||
+          name.includes('__reactEventHandlers') ||
+          (name.startsWith('$') && name !== '$') ||
+          (name.startsWith('__') && !name.startsWith('__data'))
         ) {
           attributesToRemove.push(name);
         }
       }
 
       // Remove the problematic attributes
-      attributesToRemove.forEach((attrName) => {
+      attributesToRemove.forEach(attrName => {
         element.removeAttribute(attrName);
       });
     };
 
     // Clean existing elements
     const cleanAllElements = () => {
-      const allElements = containerRef.current?.querySelectorAll("*");
+      const allElements = containerRef.current?.querySelectorAll('*');
       allElements?.forEach(cleanElement);
     };
 
@@ -54,28 +54,28 @@ const SafeCalendarHeatmap = React.forwardRef<
     const timeoutId = setTimeout(cleanAllElements, 0);
 
     // Set up MutationObserver to clean new elements as they're added
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.type === "childList") {
-          mutation.addedNodes.forEach((node) => {
+    const observer = new MutationObserver(mutations => {
+      mutations.forEach(mutation => {
+        if (mutation.type === 'childList') {
+          mutation.addedNodes.forEach(node => {
             if (node.nodeType === Node.ELEMENT_NODE) {
               const element = node as Element;
               cleanElement(element);
               // Also clean any children
-              const children = element.querySelectorAll("*");
+              const children = element.querySelectorAll('*');
               children.forEach(cleanElement);
             }
           });
         }
 
-        if (mutation.type === "attributes") {
+        if (mutation.type === 'attributes') {
           const target = mutation.target as Element;
           if (
             mutation.attributeName &&
-            (mutation.attributeName === "$$typeof" ||
-              mutation.attributeName.includes("$styled") ||
-              mutation.attributeName.includes("$theme") ||
-              mutation.attributeName.startsWith("__react"))
+            (mutation.attributeName === '$$typeof' ||
+              mutation.attributeName.includes('$styled') ||
+              mutation.attributeName.includes('$theme') ||
+              mutation.attributeName.startsWith('__react'))
           ) {
             target.removeAttribute(mutation.attributeName);
           }
@@ -89,10 +89,10 @@ const SafeCalendarHeatmap = React.forwardRef<
       subtree: true,
       attributes: true,
       attributeFilter: [
-        "$$typeof",
-        "$styled",
-        "$theme",
-        "__reactInternalInstance",
+        '$$typeof',
+        '$styled',
+        '$theme',
+        '__reactInternalInstance',
       ],
     });
 
@@ -108,17 +108,17 @@ const SafeCalendarHeatmap = React.forwardRef<
     (acc, key) => {
       // Don't pass through React internal props or styled-components props
       if (
-        key !== "$$typeof" &&
-        key !== "__self" &&
-        key !== "__source" &&
-        !key.includes("$styled") &&
-        !key.includes("$theme")
+        key !== '$$typeof' &&
+        key !== '__self' &&
+        key !== '__source' &&
+        !key.includes('$styled') &&
+        !key.includes('$theme')
       ) {
         (acc as any)[key] = (props as any)[key];
       }
       return acc;
     },
-    {} as React.ComponentProps<typeof CalendarHeatmap>,
+    {} as React.ComponentProps<typeof CalendarHeatmap>
   );
 
   return (
@@ -128,6 +128,6 @@ const SafeCalendarHeatmap = React.forwardRef<
   );
 });
 
-SafeCalendarHeatmap.displayName = "SafeCalendarHeatmap";
+SafeCalendarHeatmap.displayName = 'SafeCalendarHeatmap';
 
 export default SafeCalendarHeatmap;

@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { Session } from "next-auth";
-import { signOut } from "next-auth/react";
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import { MdArticle, MdAnalytics, MdSettings, MdChat } from "react-icons/md";
-import styles from "./AdminDashboard.module.css";
+import { Session } from 'next-auth';
+import { signOut } from 'next-auth/react';
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { MdArticle, MdAnalytics, MdSettings, MdChat } from 'react-icons/md';
+import styles from './AdminDashboard.module.css';
 
 interface AdminDashboardProps {
   session: Session;
@@ -31,20 +31,20 @@ export default function AdminDashboard({ session }: AdminDashboardProps) {
 
   const loadStats = async () => {
     try {
-      const response = await fetch("/api/admin/blog/stats");
+      const response = await fetch('/api/admin/blog/stats');
       if (response.ok) {
         const data = await response.json();
         setStats(data);
       }
     } catch (error) {
-      console.error("Error loading blog stats:", error);
+      console.error('Error loading blog stats:', error);
     } finally {
       setLoading(false);
     }
   };
 
   const handleSignOut = () => {
-    signOut({ callbackUrl: "/" });
+    signOut({ callbackUrl: '/' });
   };
 
   return (
@@ -113,19 +113,19 @@ export default function AdminDashboard({ session }: AdminDashboardProps) {
                 <div className={styles.statsGrid}>
                   <div className={styles.stat}>
                     <div className={styles.statValue}>
-                      {loading ? "..." : stats.published}
+                      {loading ? '...' : stats.published}
                     </div>
                     <div className={styles.statLabel}>Published Posts</div>
                   </div>
                   <div className={styles.stat}>
                     <div className={styles.statValue}>
-                      {loading ? "..." : stats.drafts}
+                      {loading ? '...' : stats.drafts}
                     </div>
                     <div className={styles.statLabel}>Draft Posts</div>
                   </div>
                   <div className={styles.stat}>
                     <div className={styles.statValue}>
-                      {loading ? "..." : stats.scheduled}
+                      {loading ? '...' : stats.scheduled}
                     </div>
                     <div className={styles.statLabel}>Scheduled Posts</div>
                   </div>

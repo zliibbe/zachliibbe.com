@@ -1,13 +1,13 @@
 ---
-title: "Building a Multi-Source RSS Aggregator: Goodreads + Serverless Lambda"
-author: "Zach Liibbe"
-publishedAt: ""
-status: "draft"
-categories: ["Development", "Projects"]
-tags: ["rss", "lambda", "serverless", "goodreads", "xml-parsing", "netlify"]
-series: "Building in Public"
-excerpt: "How I built a resilient RSS aggregator using serverless Lambda functions to parse Goodreads feeds, handle XML inconsistencies, and provide reliable book data for my personal website."
-readTime: "8 min read"
+title: 'Building a Multi-Source RSS Aggregator: Goodreads + Serverless Lambda'
+author: 'Zach Liibbe'
+publishedAt: ''
+status: 'draft'
+categories: ['Development', 'Projects']
+tags: ['rss', 'lambda', 'serverless', 'goodreads', 'xml-parsing', 'netlify']
+series: 'Building in Public'
+excerpt: 'How I built a resilient RSS aggregator using serverless Lambda functions to parse Goodreads feeds, handle XML inconsistencies, and provide reliable book data for my personal website.'
+readTime: '8 min read'
 ---
 
 # Building a Multi-Source RSS Aggregator: Goodreads + Serverless Lambda
@@ -37,11 +37,11 @@ I created a serverless function deployed on Netlify that acts as a middleware la
 ```typescript
 // Core Lambda handler structure
 export const getCurrentlyReading = async (
-  event: APIGatewayProxyEvent,
+  event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
   const queryParams = event.queryStringParameters || {};
-  const limit = parseInt(queryParams.limit || "5", 10);
-  const shelf = "currently-reading";
+  const limit = parseInt(queryParams.limit || '5', 10);
+  const shelf = 'currently-reading';
 
   // Check cache first
   const cacheKey = `${shelf}_${limit}`;
@@ -74,9 +74,9 @@ const CACHE_DURATION = 1000 * 60 * 5; // 5 minutes
 ```typescript
 function decodeHtmlEntities(text: string): string {
   return text
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'")
     .replace(/&apos;/g, "'");
@@ -125,12 +125,12 @@ Sometimes Goodreads returns HTML error pages instead of XML:
 ```typescript
 // Detect HTML responses
 if (
-  xml.trim().startsWith("<!DOCTYPE html>") ||
-  xml.trim().startsWith("<html")
+  xml.trim().startsWith('<!DOCTYPE html>') ||
+  xml.trim().startsWith('<html')
 ) {
-  console.error("Received HTML instead of XML from Goodreads");
+  console.error('Received HTML instead of XML from Goodreads');
   throw new Error(
-    "Goodreads returned HTML instead of RSS feed - they may be blocking automated requests",
+    'Goodreads returned HTML instead of RSS feed - they may be blocking automated requests'
   );
 }
 ```
@@ -141,10 +141,10 @@ Real RSS feeds have missing fields, null values, and unexpected structures:
 
 ```typescript
 const books = limitedItems.map((item: any) => {
-  const title = item.title ? decodeHtmlEntities(item.title) : "Unknown Title";
+  const title = item.title ? decodeHtmlEntities(item.title) : 'Unknown Title';
   const author = item.author_name
     ? decodeHtmlEntities(item.author_name)
-    : "Unknown Author";
+    : 'Unknown Author';
 
   // Safely parse rating with fallback
   const rating = item.user_rating ? parseFloat(item.user_rating) : 0;
@@ -169,14 +169,14 @@ On the frontend, I consume this Lambda through a simple API call:
 // Next.js API route that calls the Lambda
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
-  const shelf = searchParams.get("shelf") || "read";
+  const shelf = searchParams.get('shelf') || 'read';
 
   try {
     const lambdaUrl = `https://goodreads-lambda.netlify.app/.netlify/functions/goodreads-lambda?shelf=${shelf}`;
 
     const response = await fetch(lambdaUrl, {
       headers: {
-        "User-Agent": "Mozilla/5.0 (compatible; GoodreadsApp/1.0)",
+        'User-Agent': 'Mozilla/5.0 (compatible; GoodreadsApp/1.0)',
       },
     });
 
@@ -184,7 +184,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(data);
   } catch (error) {
     // Graceful fallback to cached data
-    return NextResponse.json({ error: "Service temporarily unavailable" });
+    return NextResponse.json({ error: 'Service temporarily unavailable' });
   }
 }
 ```
@@ -207,13 +207,13 @@ The Lambda implements a three-tier caching approach:
 try {
   // RSS processing logic
 } catch (error) {
-  console.error("Lambda error:", error);
+  console.error('Lambda error:', error);
   return {
     statusCode: 500,
     headers: corsHeaders,
     body: JSON.stringify({
-      error: error instanceof Error ? error.message : "Unknown error",
-      status: "error",
+      error: error instanceof Error ? error.message : 'Unknown error',
+      status: 'error',
       timestamp: new Date().toISOString(),
     }),
   };
@@ -224,10 +224,10 @@ try {
 
 ```typescript
 const headers = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type",
-  "Cache-Control": "public, max-age=300",
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type',
+  'Cache-Control': 'public, max-age=300',
 };
 ```
 
@@ -281,4 +281,3 @@ The complete source code for this RSS aggregator is available in my [GitHub repo
 ---
 
 _Want to see more technical deep-dives like this? Follow my journey as I build in public and share what I learn along the way._
-

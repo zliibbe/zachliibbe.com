@@ -3,25 +3,25 @@ import {
   BlogPostMetadata,
   BlogFilterParams,
   FeaturedImage,
-} from "@/types/blog";
+} from '@/types/blog';
 import {
   getPhotoForBlogPost,
   getPhotoAttribution,
   trackPhotoDownload,
-} from "./unsplash";
+} from './unsplash';
 import {
   getAllPublishedPosts,
   getAllPosts,
   getPostBySlug,
   getAllCategories as getStorageCategories,
   getAllTags as getStorageTags,
-} from "./blog-storage";
+} from './blog-storage';
 
 // Cache for images to avoid repeated API calls
 const imageCache = new Map<string, FeaturedImage | undefined>();
 
 async function getFeaturedImage(
-  post: Omit<BlogPost, "featuredImage">,
+  post: Omit<BlogPost, 'featuredImage'>
 ): Promise<FeaturedImage | undefined> {
   const cacheKey = post.slug;
 
@@ -33,7 +33,7 @@ async function getFeaturedImage(
     const photo = await getPhotoForBlogPost(
       post.categories,
       post.tags,
-      post.title,
+      post.title
     );
 
     if (photo) {
@@ -68,15 +68,15 @@ export async function getAllPublishedPostsWithImages(): Promise<
   BlogPostMetadata[]
 > {
   const publishedPosts = getAllPublishedPosts()
-    .filter((post) => post.status === "published")
+    .filter(post => post.status === 'published')
     .sort(
       (a, b) =>
-        new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
+        new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
     );
 
   // Fetch images for all posts in parallel
   const postsWithImages = await Promise.all(
-    publishedPosts.map(async (post) => {
+    publishedPosts.map(async post => {
       const featuredImage = await getFeaturedImage(post);
       return {
         id: post.id,
@@ -91,17 +91,17 @@ export async function getAllPublishedPostsWithImages(): Promise<
         series: post.series,
         featuredImage,
       };
-    }),
+    })
   );
 
   return postsWithImages;
 }
 
 export async function getPostBySlugWithImage(
-  slug: string,
+  slug: string
 ): Promise<BlogPost | null> {
   const post = getPostBySlug(slug);
-  if (!post || post.status !== "published") return null;
+  if (!post || post.status !== 'published') return null;
 
   const featuredImage = await getFeaturedImage(post);
 
@@ -112,21 +112,21 @@ export async function getPostBySlugWithImage(
 }
 
 export async function getFilteredPostsWithImages(
-  filters: BlogFilterParams,
+  filters: BlogFilterParams
 ): Promise<BlogPostMetadata[]> {
   let filtered = await getAllPublishedPostsWithImages();
 
   if (filters.category) {
-    filtered = filtered.filter((post) =>
+    filtered = filtered.filter(post =>
       post.categories.some(
-        (cat) => cat.toLowerCase() === filters.category?.toLowerCase(),
-      ),
+        cat => cat.toLowerCase() === filters.category?.toLowerCase()
+      )
     );
   }
 
   if (filters.tag) {
-    filtered = filtered.filter((post) =>
-      post.tags.some((tag) => tag.toLowerCase() === filters.tag?.toLowerCase()),
+    filtered = filtered.filter(post =>
+      post.tags.some(tag => tag.toLowerCase() === filters.tag?.toLowerCase())
     );
   }
 
@@ -136,7 +136,7 @@ export async function getFilteredPostsWithImages(
 // Enhanced pagination with images
 export async function getPaginatedPostsWithImages(
   page: number = 1,
-  filters?: BlogFilterParams,
+  filters?: BlogFilterParams
 ): Promise<{
   posts: BlogPostMetadata[];
   totalPosts: number;
@@ -165,16 +165,16 @@ export async function getPaginatedPostsWithImages(
 export function getAllCategories(): string[] {
   const categories = new Set<string>();
   getAllPublishedPosts()
-    .filter((post) => post.status === "published")
-    .forEach((post) => post.categories.forEach((cat) => categories.add(cat)));
+    .filter(post => post.status === 'published')
+    .forEach(post => post.categories.forEach(cat => categories.add(cat)));
   return Array.from(categories).sort();
 }
 
 export function getAllTags(): string[] {
   const tags = new Set<string>();
   getAllPublishedPosts()
-    .filter((post) => post.status === "published")
-    .forEach((post) => post.tags.forEach((tag) => tags.add(tag)));
+    .filter(post => post.status === 'published')
+    .forEach(post => post.tags.forEach(tag => tags.add(tag)));
   return Array.from(tags).sort();
 }
 
@@ -183,7 +183,7 @@ const POSTS_PER_PAGE = 10;
 
 export function getPaginatedPosts(
   page: number = 1,
-  filters?: BlogFilterParams,
+  filters?: BlogFilterParams
 ): {
   posts: BlogPostMetadata[];
   totalPosts: number;
@@ -193,13 +193,13 @@ export function getPaginatedPosts(
   const allPosts = filters
     ? getFilteredPosts(filters)
     : getAllPublishedPosts()
-        .filter((post) => post.status === "published")
+        .filter(post => post.status === 'published')
         .sort(
           (a, b) =>
             new Date(b.publishedAt).getTime() -
-            new Date(a.publishedAt).getTime(),
+            new Date(a.publishedAt).getTime()
         )
-        .map((post) => ({
+        .map(post => ({
           id: post.id,
           slug: post.slug,
           title: post.title,
@@ -226,15 +226,15 @@ export function getPaginatedPosts(
 }
 
 export function getFilteredPosts(
-  filters: BlogFilterParams,
+  filters: BlogFilterParams
 ): BlogPostMetadata[] {
   let filtered = getAllPublishedPosts()
-    .filter((post) => post.status === "published")
+    .filter(post => post.status === 'published')
     .sort(
       (a, b) =>
-        new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
+        new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
     )
-    .map((post) => ({
+    .map(post => ({
       id: post.id,
       slug: post.slug,
       title: post.title,
@@ -248,16 +248,16 @@ export function getFilteredPosts(
     }));
 
   if (filters.category) {
-    filtered = filtered.filter((post) =>
+    filtered = filtered.filter(post =>
       post.categories.some(
-        (cat) => cat.toLowerCase() === filters.category?.toLowerCase(),
-      ),
+        cat => cat.toLowerCase() === filters.category?.toLowerCase()
+      )
     );
   }
 
   if (filters.tag) {
-    filtered = filtered.filter((post) =>
-      post.tags.some((tag) => tag.toLowerCase() === filters.tag?.toLowerCase()),
+    filtered = filtered.filter(post =>
+      post.tags.some(tag => tag.toLowerCase() === filters.tag?.toLowerCase())
     );
   }
 
@@ -272,13 +272,13 @@ export async function getAllPostsWithImagesForAdmin(): Promise<
 
   // Fetch images for all posts in parallel
   const postsWithImages = await Promise.all(
-    allPosts.map(async (post) => {
+    allPosts.map(async post => {
       const featuredImage = await getFeaturedImage(post);
       return {
         ...post,
         featuredImage,
       };
-    }),
+    })
   );
 
   // Sort by creation date (most recent first)

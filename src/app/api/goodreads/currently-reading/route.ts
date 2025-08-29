@@ -1,24 +1,24 @@
-import { NextResponse } from "next/server";
-import { kv } from "@vercel/kv";
-import { XMLParser } from "fast-xml-parser";
+import { NextResponse } from 'next/server';
+import { kv } from '@vercel/kv';
+import { XMLParser } from 'fast-xml-parser';
 
-export const dynamic = "force-dynamic";
-const CACHE_KEY = "goodreads_currently_reading";
+export const dynamic = 'force-dynamic';
+const CACHE_KEY = 'goodreads_currently_reading';
 const CACHE_DURATION = 300; // 5 minutes
 
 // Helper function to normalize book titles for matching
 function normalizeTitle(title: string): string {
   return title
     .toLowerCase()
-    .replace(/[^\w\s]/g, "") // Remove punctuation
-    .replace(/\s+/g, " ") // Normalize whitespace
+    .replace(/[^\w\s]/g, '') // Remove punctuation
+    .replace(/\s+/g, ' ') // Normalize whitespace
     .trim();
 }
 
 // Helper function to find matching progress update for a book
 function findProgressUpdate(
   bookTitle: string,
-  progressUpdates: Record<string, any>,
+  progressUpdates: Record<string, any>
 ) {
   const normalizedBookTitle = normalizeTitle(bookTitle);
 
@@ -78,7 +78,7 @@ interface RssItem {
 export async function GET(request: Request) {
   // Check for force refresh parameter
   const url = new URL(request.url);
-  const forceRefresh = url.searchParams.get("refresh") === "true";
+  const forceRefresh = url.searchParams.get('refresh') === 'true';
 
   try {
     // Try to get cached data first (unless force refresh)
@@ -89,22 +89,22 @@ export async function GET(request: Request) {
           return NextResponse.json(cachedData);
         }
       } catch (kvError) {
-        console.warn("KV cache error:", kvError);
+        console.warn('KV cache error:', kvError);
       }
     } else {
-      console.log("Force refresh requested, skipping cache");
+      console.log('Force refresh requested, skipping cache');
     }
 
     // Fetch data from both RSS feeds
     try {
       // 1. First get the updates feed to find reading progress
-      const userId = process.env.GOODREADS_USER_ID || "24890536";
+      const userId = process.env.GOODREADS_USER_ID || '24890536';
       const updatesUrl = `https://www.goodreads.com/user/updates_rss/${userId}`;
 
       const updatesResponse = await fetch(updatesUrl, {
         headers: {
-          "User-Agent": "Mozilla/5.0 (compatible; GoodreadsApp/1.0)",
-          "Cache-Control": "no-cache",
+          'User-Agent': 'Mozilla/5.0 (compatible; GoodreadsApp/1.0)',
+          'Cache-Control': 'no-cache',
         },
         next: { revalidate: 300 }, // Cache for 5 minutes (same as KV cache)
       });
@@ -127,8 +127,8 @@ export async function GET(request: Request) {
 
       const shelfResponse = await fetch(shelfUrl, {
         headers: {
-          "User-Agent": "Mozilla/5.0 (compatible; GoodreadsApp/1.0)",
-          "Cache-Control": "no-cache",
+          'User-Agent': 'Mozilla/5.0 (compatible; GoodreadsApp/1.0)',
+          'Cache-Control': 'no-cache',
         },
         next: { revalidate: 300 }, // Cache for 5 minutes (same as KV cache)
       });
@@ -159,9 +159,9 @@ export async function GET(request: Request) {
 
         for (const item of items) {
           // Look for status updates with reading progress
-          if (item.title && typeof item.title === "string") {
+          if (item.title && typeof item.title === 'string') {
             // Clean up the title by removing extra whitespace and newlines
-            const cleanTitle = item.title.replace(/\s+/g, " ").trim();
+            const cleanTitle = item.title.replace(/\s+/g, ' ').trim();
 
             // Updated regex to handle the actual format: "Zach is on page X of Y of BookTitle"
             const progressRegex =
@@ -227,8 +227,8 @@ export async function GET(request: Request) {
           : [shelfResult.rss.channel.item];
 
         books = items.map((item: RssItem) => {
-          const title = item.title || "Unknown Title";
-          const author = item.author_name || "Unknown Author";
+          const title = item.title || 'Unknown Title';
+          const author = item.author_name || 'Unknown Author';
 
           // Construct proper book URL using book_id if available
           let link = null;
@@ -236,10 +236,10 @@ export async function GET(request: Request) {
             // Create a URL-friendly version of the title for the book URL
             const urlTitle = title
               .toLowerCase()
-              .replace(/[^a-z0-9\s]/g, "") // Remove special characters
-              .replace(/\s+/g, "-") // Replace spaces with hyphens
-              .replace(/-+/g, "-") // Replace multiple hyphens with single
-              .replace(/^-|-$/g, ""); // Remove leading/trailing hyphens
+              .replace(/[^a-z0-9\s]/g, '') // Remove special characters
+              .replace(/\s+/g, '-') // Replace spaces with hyphens
+              .replace(/-+/g, '-') // Replace multiple hyphens with single
+              .replace(/^-|-$/g, ''); // Remove leading/trailing hyphens
 
             link = `https://www.goodreads.com/book/show/${item.book_id}.${urlTitle}`;
           } else {
@@ -315,16 +315,16 @@ export async function GET(request: Request) {
       try {
         await kv.set(CACHE_KEY, books, { ex: CACHE_DURATION });
       } catch (cacheError) {
-        console.warn("Failed to cache data:", cacheError);
+        console.warn('Failed to cache data:', cacheError);
       }
 
       return NextResponse.json(books);
     } catch (fetchError) {
-      console.error("Error fetching from RSS feeds:", fetchError);
+      console.error('Error fetching from RSS feeds:', fetchError);
       throw fetchError;
     }
   } catch (error) {
-    console.error("Error fetching currently reading books:", error);
+    console.error('Error fetching currently reading books:', error);
 
     // Try to get stale data from cache as fallback
     try {
@@ -333,16 +333,16 @@ export async function GET(request: Request) {
         return NextResponse.json(staleData);
       }
     } catch (fallbackError) {
-      console.error("Failed to get stale data:", fallbackError);
+      console.error('Failed to get stale data:', fallbackError);
     }
 
     // Return a fallback empty array
     return NextResponse.json(
       {
-        error: "Failed to fetch currently reading books",
+        error: 'Failed to fetch currently reading books',
         details: error instanceof Error ? error.message : String(error),
       },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

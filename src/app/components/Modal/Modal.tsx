@@ -1,6 +1,6 @@
-import React from "react";
-import { useEffect, useRef, useCallback } from "react";
-import styles from "./Modal.module.css";
+import React from 'react';
+import { useEffect, useRef, useCallback } from 'react';
+import styles from './Modal.module.css';
 
 interface ModalProps {
   isOpen: boolean;
@@ -20,18 +20,18 @@ export function Modal({ isOpen, onClose, children }: ModalProps) {
         onClose();
       }
     },
-    [onClose],
+    [onClose]
   );
 
   useEffect(() => {
     if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-      document.body.style.overflow = "hidden"; // Prevent scrolling when modal is open
+      document.addEventListener('mousedown', handleClickOutside);
+      document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
     }
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.body.style.overflow = "unset";
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.body.style.overflow = 'unset';
     };
   }, [isOpen, handleClickOutside]);
 

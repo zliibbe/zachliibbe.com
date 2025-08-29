@@ -48,11 +48,11 @@ build:
     minify: false
     sourcemap: true
     exclude:
-      - "@playwright/test"
-      - "playwright-core"
-    platform: "node"
-    target: "node18"
+      - '@playwright/test'
+      - 'playwright-core'
+    platform: 'node'
+    target: 'node18'
     external:
-      - "fsevents"
-      - "@playwright/test"
-      - "playwright-core"
+      - 'fsevents'
+      - '@playwright/test'
+      - 'playwright-core'

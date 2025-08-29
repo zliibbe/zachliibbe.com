@@ -1,13 +1,13 @@
 ---
-title: "OAuth Token Management with Automatic Refresh: A Strava API Case Study"
-author: "Zach Liibbe"
-publishedAt: ""
-status: "draft"
-categories: ["Development", "Learning"]
-tags: ["oauth", "strava", "api", "token-refresh", "nextjs", "vercel-kv"]
-series: "API Integration Patterns"
-excerpt: "Learn how to implement robust OAuth token management with automatic refresh, caching strategies, and error handling using the Strava API as a real-world example."
-readTime: "10 min read"
+title: 'OAuth Token Management with Automatic Refresh: A Strava API Case Study'
+author: 'Zach Liibbe'
+publishedAt: ''
+status: 'draft'
+categories: ['Development', 'Learning']
+tags: ['oauth', 'strava', 'api', 'token-refresh', 'nextjs', 'vercel-kv']
+series: 'API Integration Patterns'
+excerpt: 'Learn how to implement robust OAuth token management with automatic refresh, caching strategies, and error handling using the Strava API as a real-world example.'
+readTime: '10 min read'
 ---
 
 # OAuth Token Management with Automatic Refresh: A Strava API Case Study
@@ -46,7 +46,7 @@ const refreshToken = process.env.STRAVA_REFRESH_TOKEN; // Long-lived refresh tok
 ### Layer 2: Redis Caching with Vercel KV
 
 ```typescript
-import { kv } from "@vercel/kv";
+import { kv } from '@vercel/kv';
 
 export async function refreshStravaToken(): Promise<string> {
   const clientId = process.env.STRAVA_CLIENT_ID;
@@ -54,21 +54,21 @@ export async function refreshStravaToken(): Promise<string> {
   const refreshToken = process.env.STRAVA_REFRESH_TOKEN;
 
   if (!clientId || !clientSecret || !refreshToken) {
-    throw new Error("Missing Strava credentials in environment variables");
+    throw new Error('Missing Strava credentials in environment variables');
   }
 
   const params = new URLSearchParams({
     client_id: clientId,
     client_secret: clientSecret,
     refresh_token: refreshToken,
-    grant_type: "refresh_token",
+    grant_type: 'refresh_token',
   });
 
   try {
-    const response = await fetch("https://www.strava.com/oauth/token", {
-      method: "POST",
+    const response = await fetch('https://www.strava.com/oauth/token', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: params.toString(),
     });
@@ -76,7 +76,7 @@ export async function refreshStravaToken(): Promise<string> {
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(
-        `Token refresh failed: ${response.status} - ${errorText}`,
+        `Token refresh failed: ${response.status} - ${errorText}`
       );
     }
 
@@ -85,14 +85,14 @@ export async function refreshStravaToken(): Promise<string> {
     // Cache the new token with expiration
     const expiresIn =
       tokenData.expires_at - Math.floor(Date.now() / 1000) - 300; // 5min buffer
-    await kv.set("strava_access_token", tokenData.access_token, {
+    await kv.set('strava_access_token', tokenData.access_token, {
       ex: expiresIn,
     });
 
     return tokenData.access_token;
   } catch (error) {
-    console.error("Error refreshing Strava token:", error);
-    throw new Error("Failed to refresh Strava token");
+    console.error('Error refreshing Strava token:', error);
+    throw new Error('Failed to refresh Strava token');
   }
 }
 ```
@@ -100,7 +100,7 @@ export async function refreshStravaToken(): Promise<string> {
 ### Layer 3: Smart Token Retrieval
 
 ```typescript
-const STRAVA_TOKEN_CACHE_KEY = "strava_access_token";
+const STRAVA_TOKEN_CACHE_KEY = 'strava_access_token';
 
 export async function getAccessToken(): Promise<string> {
   try {
@@ -114,8 +114,8 @@ export async function getAccessToken(): Promise<string> {
     const newToken = await refreshStravaToken();
     return newToken;
   } catch (error) {
-    console.error("Error getting access token:", error);
-    throw new Error("Failed to get Strava access token");
+    console.error('Error getting access token:', error);
+    throw new Error('Failed to get Strava access token');
   }
 }
 ```
@@ -160,8 +160,8 @@ export async function getStravaAccessToken(): Promise<string> {
   } catch (error) {
     refreshInProgress = false;
     refreshPromise = null;
-    console.error("Error getting Strava access token:", error);
-    throw new Error("Failed to get Strava access token");
+    console.error('Error getting Strava access token:', error);
+    throw new Error('Failed to get Strava access token');
   }
 }
 ```
@@ -172,8 +172,8 @@ I created a dedicated API route for token refresh that other parts of my applica
 
 ```typescript
 // /api/strava/refresh-token/route.ts
-import { NextResponse } from "next/server";
-import { refreshStravaToken } from "@/lib/strava/auth";
+import { NextResponse } from 'next/server';
+import { refreshStravaToken } from '@/lib/strava/auth';
 
 export async function POST() {
   try {
@@ -181,17 +181,17 @@ export async function POST() {
 
     return NextResponse.json({
       access_token: accessToken,
-      status: "success",
+      status: 'success',
       expires_at: Math.floor(Date.now() / 1000) + 21600, // 6 hours
     });
   } catch (error) {
-    console.error("Token refresh API error:", error);
+    console.error('Token refresh API error:', error);
     return NextResponse.json(
       {
-        error: "Failed to refresh token",
-        status: "error",
+        error: 'Failed to refresh token',
+        status: 'error',
       },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
@@ -207,12 +207,12 @@ export async function fetchStravaActivities() {
     const accessToken = await getAccessToken();
 
     const response = await fetch(
-      "https://www.strava.com/api/v3/athlete/activities",
+      'https://www.strava.com/api/v3/athlete/activities',
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
-      },
+      }
     );
 
     if (!response.ok) {
@@ -221,7 +221,7 @@ export async function fetchStravaActivities() {
 
     return await response.json();
   } catch (error) {
-    console.error("Error fetching Strava activities:", error);
+    console.error('Error fetching Strava activities:', error);
     throw error;
   }
 }
@@ -238,17 +238,17 @@ export async function getStravaActivitiesWithFallback() {
   try {
     return await fetchStravaActivities();
   } catch (error) {
-    console.error("Primary Strava fetch failed:", error);
+    console.error('Primary Strava fetch failed:', error);
 
     // Try to get cached activities as fallback
     try {
-      const cachedActivities = await kv.get("strava_activities_fallback");
+      const cachedActivities = await kv.get('strava_activities_fallback');
       if (cachedActivities) {
-        console.log("Using cached activities as fallback");
+        console.log('Using cached activities as fallback');
         return cachedActivities;
       }
     } catch (cacheError) {
-      console.error("Cache fallback failed:", cacheError);
+      console.error('Cache fallback failed:', cacheError);
     }
 
     // Return empty array as final fallback
@@ -273,7 +273,7 @@ export async function refreshStravaToken(): Promise<string> {
 
     // Log success metrics (could send to analytics service)
     await logTokenRefreshMetrics({
-      status: "success",
+      status: 'success',
       duration,
       timestamp: new Date().toISOString(),
     });
@@ -285,7 +285,7 @@ export async function refreshStravaToken(): Promise<string> {
 
     // Log error metrics
     await logTokenRefreshMetrics({
-      status: "error",
+      status: 'error',
       duration,
       error: error.message,
       timestamp: new Date().toISOString(),
@@ -327,32 +327,32 @@ export async function GET() {
     const token = await getAccessToken();
 
     // Test the token with a simple API call
-    const response = await fetch("https://www.strava.com/api/v3/athlete", {
+    const response = await fetch('https://www.strava.com/api/v3/athlete', {
       headers: { Authorization: `Bearer ${token}` },
     });
 
     if (response.ok) {
       return NextResponse.json({
-        status: "Token is valid",
+        status: 'Token is valid',
         tokenPresent: !!token,
         timestamp: new Date().toISOString(),
       });
     } else {
       return NextResponse.json(
         {
-          status: "Token is invalid",
+          status: 'Token is invalid',
           error: `API returned ${response.status}`,
         },
-        { status: 400 },
+        { status: 400 }
       );
     }
   } catch (error) {
     return NextResponse.json(
       {
-        status: "Token system error",
+        status: 'Token system error',
         error: error.message,
       },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
@@ -408,8 +408,8 @@ const stravaTokens = new OAuthTokenManager({
   clientId: process.env.STRAVA_CLIENT_ID,
   clientSecret: process.env.STRAVA_CLIENT_SECRET,
   refreshToken: process.env.STRAVA_REFRESH_TOKEN,
-  tokenUrl: "https://www.strava.com/oauth/token",
-  cacheKey: "strava_access_token",
+  tokenUrl: 'https://www.strava.com/oauth/token',
+  cacheKey: 'strava_access_token',
 });
 ```
 
@@ -432,4 +432,3 @@ _Building robust APIs requires thinking beyond the happy path. Want to see more 
 
 
 ```
-

@@ -124,7 +124,7 @@
 }
 
 .subTaskItem:before {
-  content: "- ";
+  content: '- ';
   position: absolute;
   left: 0;
 }
@@ -151,34 +151,34 @@
 }
 
 /* Dark mode styles */
-[data-theme="dark"] .jobContainer {
+[data-theme='dark'] .jobContainer {
   background: var(--black);
   color: var(--white);
 }
 
-[data-theme="dark"] .recentSection {
+[data-theme='dark'] .recentSection {
   background-color: var(--clr-neutral-600);
 }
 
-[data-theme="dark"] .jobTimeframe {
+[data-theme='dark'] .jobTimeframe {
   color: var(--clr-neutral-300);
 }
 
-[data-theme="dark"] .jobTitleAndCompany h3 {
+[data-theme='dark'] .jobTitleAndCompany h3 {
   color: var(--white);
 }
 
-[data-theme="dark"] .jobDetails p,
-[data-theme="dark"] .jobDetails li,
-[data-theme="dark"] .jobListItem {
+[data-theme='dark'] .jobDetails p,
+[data-theme='dark'] .jobDetails li,
+[data-theme='dark'] .jobListItem {
   color: var(--white);
 }
 
-[data-theme="dark"] .jobDivider {
+[data-theme='dark'] .jobDivider {
   background-color: var(--clr-neutral-600);
 }
 
-[data-theme="dark"] .subTaskItem {
+[data-theme='dark'] .subTaskItem {
   color: var(--white);
 }
 
@@ -203,11 +203,11 @@
   border-top: 6px solid var(--text-primary);
 }
 
-[data-theme="dark"] .caretRight {
+[data-theme='dark'] .caretRight {
   border-left-color: var(--white);
 }
 
-[data-theme="dark"] .caretDown {
+[data-theme='dark'] .caretDown {
   border-top-color: var(--white);
 }
 

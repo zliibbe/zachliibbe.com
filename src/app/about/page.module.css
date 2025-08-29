@@ -177,12 +177,12 @@
 }
 
 /* Dark mode styles for recent section */
-[data-theme="dark"] .recentSection {
+[data-theme='dark'] .recentSection {
   background: var(--clr-neutral-600);
   color: var(--white);
 }
 
-[data-theme="dark"] .recentItem {
+[data-theme='dark'] .recentItem {
   color: var(--white);
 }
 

@@ -1,14 +1,14 @@
 ---
-title: "Building a Production Blog System with Next.js 15 App Router"
-author: "Zach Liibbe"
-publishedAt: ""
-status: "draft"
-categories: ["Development", "Projects"]
+title: 'Building a Production Blog System with Next.js 15 App Router'
+author: 'Zach Liibbe'
+publishedAt: ''
+status: 'draft'
+categories: ['Development', 'Projects']
 tags:
-  ["nextjs", "blog", "markdown", "app-router", "typescript", "vercel", "cms"]
-series: "Modern Web Architecture"
-excerpt: "How I built a complete blog system using Next.js 15 App Router with custom markdown processing, scheduled publishing, admin interface, and automated workflows - all without external dependencies."
-readTime: "15 min read"
+  ['nextjs', 'blog', 'markdown', 'app-router', 'typescript', 'vercel', 'cms']
+series: 'Modern Web Architecture'
+excerpt: 'How I built a complete blog system using Next.js 15 App Router with custom markdown processing, scheduled publishing, admin interface, and automated workflows - all without external dependencies.'
+readTime: '15 min read'
 ---
 
 # Building a Production Blog System with Next.js 15 App Router
@@ -52,7 +52,7 @@ interface BlogPost {
   categories: string[];
   tags: string[];
   readTime: string;
-  status: "draft" | "scheduled" | "published";
+  status: 'draft' | 'scheduled' | 'published';
   scheduledFor?: string;
   series?: string;
   featuredImage?: FeaturedImage;
@@ -100,20 +100,20 @@ export function markdownToHtml(markdown: string): string {
   let html = markdown;
 
   // Headers
-  html = html.replace(/^### (.*$)/gim, "<h3>$1</h3>");
-  html = html.replace(/^## (.*$)/gim, "<h2>$1</h2>");
-  html = html.replace(/^# (.*$)/gim, "<h1>$1</h1>");
+  html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
+  html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
+  html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
 
   // Bold and Italic
-  html = html.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
-  html = html.replace(/\*(.*?)\*/g, "<em>$1</em>");
+  html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
 
   // Inline code
-  html = html.replace(/`(.*?)`/g, "<code>$1</code>");
+  html = html.replace(/`(.*?)`/g, '<code>$1</code>');
 
   // Code blocks with language support
   html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, language, code) => {
-    const lang = language ? ` class="language-${language}"` : "";
+    const lang = language ? ` class="language-${language}"` : '';
     return `<pre><code${lang}>${code.trim()}</code></pre>`;
   });
 
@@ -121,28 +121,28 @@ export function markdownToHtml(markdown: string): string {
   html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
 
   // Lists
-  html = html.replace(/^- (.*$)/gim, "<li>$1</li>");
-  html = html.replace(/(<li>.*<\/li>)/s, "<ul>$1</ul>");
+  html = html.replace(/^- (.*$)/gim, '<li>$1</li>');
+  html = html.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
 
   // Blockquotes
-  html = html.replace(/^> (.*$)/gim, "<blockquote><p>$1</p></blockquote>");
+  html = html.replace(/^> (.*$)/gim, '<blockquote><p>$1</p></blockquote>');
 
   // Paragraphs - smart paragraph wrapping
   const paragraphs = html.split(/\n\n+/);
   html = paragraphs
-    .map((paragraph) => {
+    .map(paragraph => {
       const trimmed = paragraph.trim();
-      if (!trimmed) return "";
+      if (!trimmed) return '';
 
       // Don't wrap if already wrapped in HTML tags
       if (trimmed.match(/^<(h[1-6]|ul|ol|blockquote|pre|hr)/)) {
         return trimmed;
       }
 
-      return `<p>${trimmed.replace(/\n/g, "<br>")}</p>`;
+      return `<p>${trimmed.replace(/\n/g, '<br>')}</p>`;
     })
-    .filter((p) => p)
-    .join("\n\n");
+    .filter(p => p)
+    .join('\n\n');
 
   return html;
 }
@@ -150,18 +150,18 @@ export function markdownToHtml(markdown: string): string {
 // Generate excerpt from content
 export function generateExcerpt(content: string, maxLength = 150): string {
   const plainText = content
-    .replace(/<[^>]*>/g, "") // Remove HTML tags
-    .replace(/\s+/g, " ") // Normalize whitespace
+    .replace(/<[^>]*>/g, '') // Remove HTML tags
+    .replace(/\s+/g, ' ') // Normalize whitespace
     .trim();
 
   if (plainText.length <= maxLength) return plainText;
 
   const truncated = plainText.slice(0, maxLength);
-  const lastSpace = truncated.lastIndexOf(" ");
+  const lastSpace = truncated.lastIndexOf(' ');
 
   return lastSpace > 0
-    ? truncated.slice(0, lastSpace) + "..."
-    : truncated + "...";
+    ? truncated.slice(0, lastSpace) + '...'
+    : truncated + '...';
 }
 ````
 
@@ -170,14 +170,14 @@ export function generateExcerpt(content: string, maxLength = 150): string {
 The storage layer manages the three-state workflow with pure JSON:
 
 ```typescript
-import { BlogPost } from "@/types/blog";
-import { markdownToHtml, generateExcerpt } from "./markdown";
+import { BlogPost } from '@/types/blog';
+import { markdownToHtml, generateExcerpt } from './markdown';
 
 // Storage paths
-const BLOG_DATA_DIR = path.join(process.cwd(), "src", "content", "blog-data");
-const DRAFTS_FILE = path.join(BLOG_DATA_DIR, "drafts.json");
-const SCHEDULED_FILE = path.join(BLOG_DATA_DIR, "scheduled.json");
-const PUBLISHED_FILE = path.join(BLOG_DATA_DIR, "published.json");
+const BLOG_DATA_DIR = path.join(process.cwd(), 'src', 'content', 'blog-data');
+const DRAFTS_FILE = path.join(BLOG_DATA_DIR, 'drafts.json');
+const SCHEDULED_FILE = path.join(BLOG_DATA_DIR, 'scheduled.json');
+const PUBLISHED_FILE = path.join(BLOG_DATA_DIR, 'published.json');
 
 export function createBlogPost(postData: {
   title: string;
@@ -186,7 +186,7 @@ export function createBlogPost(postData: {
   categories?: string[];
   tags?: string[];
   series?: string;
-  status?: "draft" | "scheduled" | "published";
+  status?: 'draft' | 'scheduled' | 'published';
   scheduledFor?: string;
 }): BlogPost {
   const id = generateId();
@@ -202,27 +202,27 @@ export function createBlogPost(postData: {
     id,
     slug,
     title: postData.title,
-    author: "Zach Liibbe",
+    author: 'Zach Liibbe',
     publishedAt:
-      postData.status === "published"
-        ? new Date().toISOString().split("T")[0]
-        : "",
+      postData.status === 'published'
+        ? new Date().toISOString().split('T')[0]
+        : '',
     excerpt,
     content: htmlContent,
     categories: postData.categories || [],
     tags: postData.tags || [],
     readTime: calculateReadingTime(postData.content),
-    status: postData.status || "draft",
+    status: postData.status || 'draft',
     scheduledFor: postData.scheduledFor,
     series: postData.series,
   };
 
   // Save to appropriate JSON file based on status
-  if (newPost.status === "draft") {
+  if (newPost.status === 'draft') {
     const drafts = getAllDrafts();
     drafts.push(newPost);
     savePostsToFile(DRAFTS_FILE, drafts);
-  } else if (newPost.status === "scheduled") {
+  } else if (newPost.status === 'scheduled') {
     const scheduled = getAllScheduledPosts();
     scheduled.push(newPost);
     savePostsToFile(SCHEDULED_FILE, scheduled);
@@ -255,16 +255,16 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async signIn({ user }) {
       // Restrict to single user
-      return user.email === "zliibbe@gmail.com";
+      return user.email === 'zliibbe@gmail.com';
     },
   },
   session: {
-    strategy: "jwt",
+    strategy: 'jwt',
     maxAge: 180 * 60, // 3 hours
   },
   pages: {
-    signIn: "/auth/signin",
-    error: "/auth/error",
+    signIn: '/auth/signin',
+    error: '/auth/error',
   },
 };
 
@@ -272,7 +272,7 @@ export const authOptions: NextAuthOptions = {
 export async function requireAuth() {
   const session = await getServerSession(authOptions);
   if (!session) {
-    throw new Error("Unauthorized");
+    throw new Error('Unauthorized');
   }
   return session;
 }
@@ -406,20 +406,20 @@ The API routes handle CRUD operations with proper authentication:
 // /src/app/api/blog/posts/route.ts
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
-  const status = searchParams.get("status") || "published";
-  const limit = parseInt(searchParams.get("limit") || "10");
+  const status = searchParams.get('status') || 'published';
+  const limit = parseInt(searchParams.get('limit') || '10');
 
   try {
     let posts: BlogPost[];
 
     switch (status) {
-      case "draft":
+      case 'draft':
         posts = getAllDrafts();
         break;
-      case "scheduled":
+      case 'scheduled':
         posts = getAllScheduledPosts();
         break;
-      case "published":
+      case 'published':
       default:
         posts = getAllPublishedPosts();
         break;
@@ -429,15 +429,15 @@ export async function GET(request: NextRequest) {
     const sortedPosts = posts
       .sort(
         (a, b) =>
-          new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
+          new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
       )
       .slice(0, limit);
 
     return NextResponse.json({ posts: sortedPosts });
   } catch (error) {
     return NextResponse.json(
-      { error: "Failed to fetch posts" },
-      { status: 500 },
+      { error: 'Failed to fetch posts' },
+      { status: 500 }
     );
   }
 }
@@ -450,16 +450,16 @@ export async function POST(request: NextRequest) {
     // Validate required fields
     if (!postData.title || !postData.content) {
       return NextResponse.json(
-        { error: "Title and content are required" },
-        { status: 400 },
+        { error: 'Title and content are required' },
+        { status: 400 }
       );
     }
 
     const newPost = createBlogPost(postData);
 
     // Revalidate relevant paths
-    revalidatePath("/blog");
-    revalidatePath("/admin/blog");
+    revalidatePath('/blog');
+    revalidatePath('/admin/blog');
 
     return NextResponse.json({
       success: true,
@@ -467,8 +467,8 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     return NextResponse.json(
-      { error: "Failed to create post" },
-      { status: 500 },
+      { error: 'Failed to create post' },
+      { status: 500 }
     );
   }
 }
@@ -482,15 +482,15 @@ I implemented automated publishing using Vercel Cron Jobs:
 // /src/app/api/admin/cron/publish/route.ts
 export async function POST(request: NextRequest) {
   // Verify this is a legitimate cron request
-  const cronSecret = request.headers.get("authorization");
+  const cronSecret = request.headers.get('authorization');
   if (cronSecret !== `Bearer ${process.env.CRON_SECRET}`) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
     const scheduledPosts = getAllScheduledPosts();
     const now = new Date();
-    const postsToPublish = scheduledPosts.filter((post) => {
+    const postsToPublish = scheduledPosts.filter(post => {
       if (!post.scheduledFor) return false;
       const scheduledDate = new Date(post.scheduledFor);
       return scheduledDate <= now;
@@ -502,8 +502,8 @@ export async function POST(request: NextRequest) {
       try {
         // Move from scheduled to published
         const publishedPost = updateBlogPost(post.slug, {
-          status: "published",
-          publishedAt: new Date().toISOString().split("T")[0],
+          status: 'published',
+          publishedAt: new Date().toISOString().split('T')[0],
         });
 
         if (publishedPost) {
@@ -516,8 +516,8 @@ export async function POST(request: NextRequest) {
 
     // Revalidate affected paths
     if (publishedPosts.length > 0) {
-      revalidatePath("/blog");
-      revalidatePath("/api/feed/rss");
+      revalidatePath('/blog');
+      revalidatePath('/api/feed/rss');
 
       for (const post of publishedPosts) {
         revalidatePath(`/blog/${post.slug}`);
@@ -527,16 +527,16 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       publishedCount: publishedPosts.length,
-      publishedPosts: publishedPosts.map((p) => ({
+      publishedPosts: publishedPosts.map(p => ({
         slug: p.slug,
         title: p.title,
       })),
     });
   } catch (error) {
-    console.error("Cron job error:", error);
+    console.error('Cron job error:', error);
     return NextResponse.json(
-      { error: "Failed to process scheduled posts" },
-      { status: 500 },
+      { error: 'Failed to process scheduled posts' },
+      { status: 500 }
     );
   }
 }
@@ -568,15 +568,15 @@ export async function GET() {
     const posts = getAllPublishedPosts()
       .sort(
         (a, b) =>
-          new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
+          new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
       )
       .slice(0, 20); // Latest 20 posts
 
-    const siteUrl = "https://zachliibbe.com";
+    const siteUrl = 'https://zachliibbe.com';
 
     const rssItems = posts
       .map(
-        (post) => `
+        post => `
       <item>
         <title><![CDATA[${post.title}]]></title>
         <description><![CDATA[${post.excerpt}]]></description>
@@ -584,11 +584,11 @@ export async function GET() {
         <guid>${siteUrl}/blog/${post.slug}</guid>
         <pubDate>${new Date(post.publishedAt).toUTCString()}</pubDate>
         <author>zliibbe@gmail.com (Zach Liibbe)</author>
-        ${post.categories.map((cat) => `<category>${cat}</category>`).join("")}
+        ${post.categories.map(cat => `<category>${cat}</category>`).join('')}
       </item>
-    `,
+    `
       )
-      .join("");
+      .join('');
 
     const rssXml = `<?xml version="1.0" encoding="UTF-8"?>
       <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
@@ -605,14 +605,14 @@ export async function GET() {
 
     return new Response(rssXml, {
       headers: {
-        "Content-Type": "application/xml",
-        "Cache-Control": "s-maxage=3600, stale-while-revalidate=86400",
+        'Content-Type': 'application/xml',
+        'Cache-Control': 's-maxage=3600, stale-while-revalidate=86400',
       },
     });
   } catch (error) {
     return NextResponse.json(
-      { error: "Failed to generate RSS feed" },
-      { status: 500 },
+      { error: 'Failed to generate RSS feed' },
+      { status: 500 }
     );
   }
 }
@@ -725,7 +725,7 @@ export function generateMetadata({ searchParams }: {
 // /src/app/blog/[slug]/page.tsx
 export async function generateStaticParams() {
   const posts = getAllPublishedPosts();
-  return posts.map((post) => ({
+  return posts.map(post => ({
     slug: post.slug,
   }));
 }
@@ -739,7 +739,7 @@ export const revalidate = 3600; // Revalidate every hour
 // Optimize images in markdown content
 function processMarkdownImages(content: string): string {
   return content.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, src) => {
-    if (src.startsWith("http")) {
+    if (src.startsWith('http')) {
       // Use Next.js Image component for external images
       return `<Image src="${src}" alt="${alt}" width={800} height={400} />`;
     }
@@ -755,7 +755,7 @@ function processMarkdownImages(content: string): string {
 export async function GET() {
   return NextResponse.json(data, {
     headers: {
-      "Cache-Control": "s-maxage=300, stale-while-revalidate=3600",
+      'Cache-Control': 's-maxage=300, stale-while-revalidate=3600',
     },
   });
 }
@@ -773,7 +773,7 @@ export function generateMetadata({
 
   if (!post) {
     return {
-      title: "Post Not Found",
+      title: 'Post Not Found',
     };
   }
 
@@ -784,12 +784,12 @@ export function generateMetadata({
     openGraph: {
       title: post.title,
       description: post.excerpt,
-      type: "article",
+      type: 'article',
       publishedTime: post.publishedAt,
       authors: [post.author],
     },
     twitter: {
-      card: "summary_large_image",
+      card: 'summary_large_image',
       title: post.title,
       description: post.excerpt,
     },
@@ -808,7 +808,7 @@ export function useReadingProgress() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const article = document.querySelector("article");
+      const article = document.querySelector('article');
       if (!article) return;
 
       const scrolled = window.scrollY;
@@ -818,14 +818,14 @@ export function useReadingProgress() {
       setProgress(progress);
 
       // Track reading milestones
-      if (progress >= 25 && !milestones.has("25")) {
-        analytics.track("Reading Progress", { milestone: "25%" });
-        milestones.add("25");
+      if (progress >= 25 && !milestones.has('25')) {
+        analytics.track('Reading Progress', { milestone: '25%' });
+        milestones.add('25');
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return progress;
@@ -875,7 +875,7 @@ interface TenantBlogConfig {
   tenantId: string;
   contentPath: string;
   customFields: Record<string, any>;
-  workflow: "simple" | "editorial" | "enterprise";
+  workflow: 'simple' | 'editorial' | 'enterprise';
 }
 
 export function useTenantBlogSystem(tenantId: string) {
