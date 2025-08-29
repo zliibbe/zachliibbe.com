@@ -46,9 +46,11 @@ export const getCurrentlyReading = async (
   // Check cache first
   const cacheKey = `${shelf}_${limit}`;
   const now = Date.now();
-  
-  if (cachedData[cacheKey] && 
-      now - (lastFetch[cacheKey] || 0) < CACHE_DURATION) {
+
+  if (
+    cachedData[cacheKey] &&
+    now - (lastFetch[cacheKey] || 0) < CACHE_DURATION
+  ) {
     return cachedResponse(cachedData[cacheKey]);
   }
 
@@ -59,6 +61,7 @@ export const getCurrentlyReading = async (
 ### Key Architecture Decisions
 
 **1. In-Memory Caching**
+
 ```typescript
 // Simple but effective caching
 let cachedData: { [key: string]: any } = {};
@@ -67,6 +70,7 @@ const CACHE_DURATION = 1000 * 60 * 5; // 5 minutes
 ```
 
 **2. Resilient XML Parsing**
+
 ```typescript
 function decodeHtmlEntities(text: string): string {
   return text
@@ -80,6 +84,7 @@ function decodeHtmlEntities(text: string): string {
 ```
 
 **3. Flexible Image Extraction**
+
 ```typescript
 // Handle multiple possible image URL formats
 let coverImg = null;
@@ -119,11 +124,13 @@ Sometimes Goodreads returns HTML error pages instead of XML:
 
 ```typescript
 // Detect HTML responses
-if (xml.trim().startsWith("<!DOCTYPE html>") || 
-    xml.trim().startsWith("<html")) {
+if (
+  xml.trim().startsWith("<!DOCTYPE html>") ||
+  xml.trim().startsWith("<html")
+) {
   console.error("Received HTML instead of XML from Goodreads");
   throw new Error(
-    "Goodreads returned HTML instead of RSS feed - they may be blocking automated requests"
+    "Goodreads returned HTML instead of RSS feed - they may be blocking automated requests",
   );
 }
 ```
@@ -134,17 +141,15 @@ Real RSS feeds have missing fields, null values, and unexpected structures:
 
 ```typescript
 const books = limitedItems.map((item: any) => {
-  const title = item.title 
-    ? decodeHtmlEntities(item.title) 
-    : "Unknown Title";
-  const author = item.author_name 
-    ? decodeHtmlEntities(item.author_name) 
+  const title = item.title ? decodeHtmlEntities(item.title) : "Unknown Title";
+  const author = item.author_name
+    ? decodeHtmlEntities(item.author_name)
     : "Unknown Author";
-  
+
   // Safely parse rating with fallback
   const rating = item.user_rating ? parseFloat(item.user_rating) : 0;
   const dateRead = item.user_read_at || null;
-  
+
   return {
     title,
     author,
@@ -265,6 +270,7 @@ This serverless RSS aggregator now reliably serves book data to my website with:
 ## What's Next?
 
 I'm planning to extend this system to:
+
 - Support additional book platforms (StoryGraph, Amazon)
 - Add reading progress tracking
 - Implement webhook-based cache invalidation
@@ -274,5 +280,5 @@ The complete source code for this RSS aggregator is available in my [GitHub repo
 
 ---
 
-*Want to see more technical deep-dives like this? Follow my journey as I build in public and share what I learn along the way.*
+_Want to see more technical deep-dives like this? Follow my journey as I build in public and share what I learn along the way._
 

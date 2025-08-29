@@ -4,12 +4,7 @@ import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { 
-  MdArticle, 
-  MdAnalytics, 
-  MdSettings, 
-  MdChat 
-} from "react-icons/md";
+import { MdArticle, MdAnalytics, MdSettings, MdChat } from "react-icons/md";
 import styles from "./AdminDashboard.module.css";
 
 interface AdminDashboardProps {

@@ -4,7 +4,8 @@ author: "Zach Liibbe"
 publishedAt: ""
 status: "draft"
 categories: ["Development", "Learning"]
-tags: ["css", "react", "themes", "css-custom-properties", "local-storage", "nextjs"]
+tags:
+  ["css", "react", "themes", "css-custom-properties", "local-storage", "nextjs"]
 series: "Frontend Architecture"
 excerpt: "Build a complete dynamic theming system using CSS custom properties, React Context, and localStorage persistence. Includes gradient animations, dark mode, and user preferences."
 readTime: "12 min read"
@@ -46,10 +47,10 @@ I started with a robust CSS custom properties system:
   --gradient-three: #cb2048;
   --accent-primary: #ff5b4a;
   --accent-secondary: #e8f6fa;
-  
+
   /* Animation control */
   --gradient-timing: 10s;
-  
+
   /* Layout variables */
   --gradient-height: calc(60vh + 3rem);
   --gradient-height-mobile: calc(488px + 27rem);
@@ -77,7 +78,15 @@ I created a strongly-typed theme system:
 
 ```typescript
 export interface Theme {
-  name: "default" | "ocean" | "forest" | "evergreen" | "sunset" | "twilight" | "lotusBloom" | "aurora-borealis";
+  name:
+    | "default"
+    | "ocean"
+    | "forest"
+    | "evergreen"
+    | "sunset"
+    | "twilight"
+    | "lotusBloom"
+    | "aurora-borealis";
   label: string;
   colors: {
     themeColor: string;
@@ -147,10 +156,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
     // Set initial dark mode (saved preference overrides system)
-    const initialDarkMode = savedDarkMode !== null 
-      ? JSON.parse(savedDarkMode) 
+    const initialDarkMode = savedDarkMode !== null
+      ? JSON.parse(savedDarkMode)
       : prefersDark;
-    
+
     setIsDarkMode(initialDarkMode);
     document.documentElement.setAttribute(
       "data-theme",
@@ -201,7 +210,7 @@ function applyTheme(themeName: Theme["name"]) {
   if (!theme) return;
 
   const root = document.documentElement;
-  
+
   // Update CSS custom properties
   root.style.setProperty("--theme-color", theme.colors.themeColor);
   root.style.setProperty("--gradient-one", theme.colors.gradientOne);
@@ -235,9 +244,15 @@ One of the most engaging features is the animated gradient background:
 }
 
 @keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 /* Animation control */
@@ -255,7 +270,7 @@ const toggleAnimation = () => {
   localStorage.setItem("gradientAnimation", JSON.stringify(newValue));
   document.documentElement.style.setProperty(
     "--gradient-timing",
-    newValue ? "10s" : "0s"
+    newValue ? "10s" : "0s",
   );
 };
 ```
@@ -269,7 +284,7 @@ The system respects user's OS preferences while allowing overrides:
 ```typescript
 useEffect(() => {
   const darkModeMediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-  
+
   const handleDarkModeChange = (e: MediaQueryListEvent) => {
     // Only auto-switch if user hasn't set a preference
     if (!localStorage.getItem("darkMode")) {
@@ -278,7 +293,8 @@ useEffect(() => {
   };
 
   darkModeMediaQuery.addEventListener("change", handleDarkModeChange);
-  return () => darkModeMediaQuery.removeEventListener("change", handleDarkModeChange);
+  return () =>
+    darkModeMediaQuery.removeEventListener("change", handleDarkModeChange);
 }, []);
 ```
 
@@ -346,7 +362,7 @@ By using CSS custom properties and CSS animations, theme changes are hardware-ac
 
 /* Smooth transitions between themes */
 :root {
-  transition: 
+  transition:
     --gradient-one 0.3s ease,
     --gradient-two 0.3s ease,
     --gradient-three 0.3s ease;
@@ -382,7 +398,7 @@ Respecting accessibility preferences:
   .gradient-background {
     animation: none !important;
   }
-  
+
   :root {
     transition: none !important;
   }
@@ -470,21 +486,21 @@ For accessibility, I calculate contrast ratios automatically:
 function getContrastRatio(color1: string, color2: string): number {
   const luminance1 = getLuminance(color1);
   const luminance2 = getLuminance(color2);
-  
+
   const brighter = Math.max(luminance1, luminance2);
   const darker = Math.min(luminance1, luminance2);
-  
+
   return (brighter + 0.05) / (darker + 0.05);
 }
 
 function ensureAccessibleContrast(theme: Theme): Theme {
   const contrastRatio = getContrastRatio(theme.colors.themeColor, "#ffffff");
-  
+
   if (contrastRatio < 4.5) {
     // Adjust colors to meet WCAG AA standards
     return adjustThemeContrast(theme);
   }
-  
+
   return theme;
 }
 ```
@@ -507,7 +523,12 @@ The system gracefully degrades on older browsers:
 ```css
 /* Fallback for browsers without custom property support */
 .gradient-background {
-  background: linear-gradient(132.6deg, #67c6b5 23.3%, #2795ba 51.1%, #cb2048 84.7%);
+  background: linear-gradient(
+    132.6deg,
+    #67c6b5 23.3%,
+    #2795ba 51.1%,
+    #cb2048 84.7%
+  );
 }
 
 /* Progressive enhancement */
@@ -535,6 +556,7 @@ The system gracefully degrades on older browsers:
 ## What's Next?
 
 I'm planning to extend this system with:
+
 - **Automatic theme scheduling** (different themes for different times of day)
 - **Color blindness simulation** for better accessibility testing
 - **Theme sharing** via URL parameters
@@ -567,7 +589,10 @@ The complete theming system is available in my [GitHub repository](https://githu
 
 ---
 
-*Building engaging user interfaces requires attention to the details users interact with most. Want to see more frontend architecture patterns? Follow my journey as I share what I learn building production web applications.*
+_Building engaging user interfaces requires attention to the details users interact with most. Want to see more frontend architecture patterns? Follow my journey as I share what I learn building production web applications._
+
 ```
 
+
+```
 

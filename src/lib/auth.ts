@@ -10,30 +10,30 @@ function getBaseUrl() {
   if (process.env.NEXTAUTH_URL) {
     return process.env.NEXTAUTH_URL;
   }
-  
+
   // In development, try to detect from various sources
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === "development") {
     // Check for explicit PORT environment variable
     if (process.env.PORT) {
       return `http://localhost:${process.env.PORT}`;
     }
-    
+
     // Check for NEXT_PUBLIC_APP_URL (if set in .env.local)
     if (process.env.NEXT_PUBLIC_APP_URL) {
       return process.env.NEXT_PUBLIC_APP_URL;
     }
-    
+
     // Default development port
-    return 'http://localhost:3000';
+    return "http://localhost:3000";
   }
-  
+
   // Fallback to production domain
-  return 'https://zachliibbe.com';
+  return "https://zachliibbe.com";
 }
 
 // Log the detected base URL for debugging
 const baseUrl = getBaseUrl();
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === "development") {
   console.log(`🔗 OAuth Base URL detected: ${baseUrl}`);
 }
 
@@ -45,7 +45,7 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
       authorization: {
         params: {
-          scope: 'openid email profile',
+          scope: "openid email profile",
         },
       },
     }),
@@ -77,7 +77,7 @@ export const authOptions: NextAuthOptions = {
     error: "/auth/error",
   },
   // Dynamic base URL for OAuth redirects
-  ...(process.env.NODE_ENV === 'development' && {
+  ...(process.env.NODE_ENV === "development" && {
     url: baseUrl,
   }),
 };

@@ -28,11 +28,12 @@ export async function POST(request: NextRequest) {
       `https://${host}`,
       `http://${host}`, // For development
     ];
-    
-    const isValidOrigin = allowedOrigins.some(allowedOrigin => 
-      origin === allowedOrigin && referer.startsWith(allowedOrigin)
+
+    const isValidOrigin = allowedOrigins.some(
+      (allowedOrigin) =>
+        origin === allowedOrigin && referer.startsWith(allowedOrigin),
     );
-    
+
     if (!isValidOrigin) {
       return NextResponse.json(
         { error: "Invalid request origin" },
