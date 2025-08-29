@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
-import { createClient } from "@vercel/kv";
+import { NextResponse } from 'next/server';
+import { createClient } from '@vercel/kv';
 
 interface Book {
   title: string;
@@ -15,18 +15,18 @@ interface Book {
 
 // Create KV client with the environment variables
 const kv = createClient({
-  url: process.env.KV_KV_REST_API_URL || "",
-  token: process.env.KV_KV_REST_API_TOKEN || "",
+  url: process.env.KV_KV_REST_API_URL || '',
+  token: process.env.KV_KV_REST_API_TOKEN || '',
 });
 
-export const dynamic = "force-dynamic";
-const CACHE_KEY = "goodreads_read_books";
+export const dynamic = 'force-dynamic';
+const CACHE_KEY = 'goodreads_read_books';
 const CACHE_DURATION = 300; // 5 minutes (reduced from 1 hour)
 
 export async function GET(request: Request) {
   // Check for force refresh parameter
   const url = new URL(request.url);
-  const forceRefresh = url.searchParams.get("refresh") === "true";
+  const forceRefresh = url.searchParams.get('refresh') === 'true';
 
   try {
     // Try to get cached data first (unless force refresh)
@@ -37,7 +37,7 @@ export async function GET(request: Request) {
           return NextResponse.json(cachedData);
         }
       } catch (kvError) {
-        console.warn("KV cache error:", kvError);
+        console.warn('KV cache error:', kvError);
       }
     } else {
       // console.log("Force refresh requested, skipping cache");
@@ -47,8 +47,8 @@ export async function GET(request: Request) {
     const lambdaUrl = process.env.GOODREADS_GETREADBOOKS_URL_PROD;
 
     if (!lambdaUrl) {
-      console.error("Lambda URL is not defined");
-      throw new Error("Lambda URL is not defined in environment variables");
+      console.error('Lambda URL is not defined');
+      throw new Error('Lambda URL is not defined in environment variables');
     }
 
     // Fetch data from Lambda function with timeout
@@ -57,10 +57,10 @@ export async function GET(request: Request) {
 
     try {
       const response = await fetch(lambdaUrl, {
-        method: "GET",
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
-          "Cache-Control": "no-cache",
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache',
         },
         signal: controller.signal,
       });
@@ -83,12 +83,12 @@ export async function GET(request: Request) {
       } else if (data && data.books && Array.isArray(data.books)) {
         books = data.books;
       } else {
-        console.error("Unexpected data format from Lambda:", data);
-        throw new Error("Invalid data format from Lambda");
+        console.error('Unexpected data format from Lambda:', data);
+        throw new Error('Invalid data format from Lambda');
       }
 
       // Normalize the books data
-      const normalizedBooks = books.map((book) => ({
+      const normalizedBooks = books.map(book => ({
         title: book.title,
         author: book.author,
         coverImg: book.coverImg || book.coverUrl || null,
@@ -101,16 +101,16 @@ export async function GET(request: Request) {
       try {
         await kv.set(CACHE_KEY, normalizedBooks, { ex: CACHE_DURATION });
       } catch (cacheError) {
-        console.warn("Failed to cache data:", cacheError);
+        console.warn('Failed to cache data:', cacheError);
       }
 
       return NextResponse.json(normalizedBooks);
     } catch (fetchError) {
-      console.error("Error fetching from Lambda:", fetchError);
+      console.error('Error fetching from Lambda:', fetchError);
       throw fetchError;
     }
   } catch (error) {
-    console.error("Error fetching read books:", error);
+    console.error('Error fetching read books:', error);
 
     // Try to get stale data from cache as fallback
     try {
@@ -119,33 +119,33 @@ export async function GET(request: Request) {
         return NextResponse.json(staleData);
       }
     } catch (fallbackError) {
-      console.error("Failed to get stale data:", fallbackError);
+      console.error('Failed to get stale data:', fallbackError);
     }
 
     // Return hardcoded fallback data
     const fallbackBooks: Book[] = [
       {
-        title: "The Hobbit",
-        author: "J.R.R. Tolkien",
-        coverImg: "https://covers.openlibrary.org/b/id/12003329-M.jpg",
-        link: "https://www.goodreads.com/book/show/5907.The_Hobbit",
-        dateRead: "2023-06-15",
+        title: 'The Hobbit',
+        author: 'J.R.R. Tolkien',
+        coverImg: 'https://covers.openlibrary.org/b/id/12003329-M.jpg',
+        link: 'https://www.goodreads.com/book/show/5907.The_Hobbit',
+        dateRead: '2023-06-15',
         rating: 5,
       },
       {
-        title: "Jayber Crow",
-        author: "Wendell Berry",
-        coverImg: "https://covers.openlibrary.org/b/isbn/9781582431604-M.jpg",
-        link: "https://www.goodreads.com/book/show/57460.Jayber_Crow",
-        dateRead: "2023-05-20",
+        title: 'Jayber Crow',
+        author: 'Wendell Berry',
+        coverImg: 'https://covers.openlibrary.org/b/isbn/9781582431604-M.jpg',
+        link: 'https://www.goodreads.com/book/show/57460.Jayber_Crow',
+        dateRead: '2023-05-20',
         rating: 5,
       },
       {
-        title: "The Orchardist",
-        author: "Amanda Coplin",
-        coverImg: "https://covers.openlibrary.org/b/isbn/9780062188502-M.jpg",
-        link: "https://www.goodreads.com/book/show/13540351-the-orchardist",
-        dateRead: "2023-04-10",
+        title: 'The Orchardist',
+        author: 'Amanda Coplin',
+        coverImg: 'https://covers.openlibrary.org/b/isbn/9780062188502-M.jpg',
+        link: 'https://www.goodreads.com/book/show/13540351-the-orchardist',
+        dateRead: '2023-04-10',
         rating: 5,
       },
     ];

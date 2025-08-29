@@ -1,20 +1,20 @@
-import React from "react";
-import Image from "next/image";
-import zachPic from "../../public/just-zach.png";
-import styles from "./page.module.css";
-import Footer from "./components/Footer";
-import HomeContent from "./components/HomeContent";
+import React from 'react';
+import Image from 'next/image';
+import zachPic from '../../public/just-zach.png';
+import styles from './page.module.css';
+import Footer from './components/Footer';
+import HomeContent from './components/HomeContent';
 
 export const metadata = {
-  title: "Zach Liibbe | Always Iterating",
+  title: 'Zach Liibbe | Always Iterating',
   description:
-    "Zach Liibbe&apos;s corner of the web—thinking, tinkering, and typing it all out. Part work, part words, all curiosity (with the occasional tangent).",
+    'Zach Liibbe&apos;s corner of the web—thinking, tinkering, and typing it all out. Part work, part words, all curiosity (with the occasional tangent).',
   icons: {
     icon: {
-      url: "/favicon.png",
-      type: "image/png",
+      url: '/favicon.png',
+      type: 'image/png',
     },
-    shortcut: { url: "/favicon.png", type: "image/png" },
+    shortcut: { url: '/favicon.png', type: 'image/png' },
   },
 };
 
@@ -30,7 +30,7 @@ export default function Home() {
             <h1 className={styles.title}>
               <span>
                 <span className={styles.titleText}>
-                  Full Stack Web Developer{" "}
+                  Full Stack Web Developer{' '}
                 </span>
                 <br />
                 &amp;<span className={styles.titleText}> code craftsman</span>
@@ -53,8 +53,8 @@ export default function Home() {
                   (min-width: 768px) 450px,
                   350px"
                   style={{
-                    width: "auto",
-                    height: "100%",
+                    width: 'auto',
+                    height: '100%',
                   }}
                   placeholder="empty"
                   priority={true}

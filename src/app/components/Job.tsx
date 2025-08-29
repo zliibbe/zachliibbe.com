@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import Image, { StaticImageData } from "next/image";
-import styles from "./job.module.css";
-import { analytics } from "../utils/analytics";
+import React, { useState } from 'react';
+import Image, { StaticImageData } from 'next/image';
+import styles from './job.module.css';
+import { analytics } from '../utils/analytics';
 
 interface JobProps {
   title: string;
@@ -34,12 +34,12 @@ const Job: React.FC<JobProps> = ({
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const isHealthcareJob = companyName === "Centura Health";
+  const isHealthcareJob = companyName === 'Centura Health';
 
   return (
     <div className={`${styles.jobContainer} job${id}`}>
       <div className={styles.jobImage}>
-        {typeof logo === "string" ? (
+        {typeof logo === 'string' ? (
           <Image
             src={logo}
             alt={`${companyName} logo`}
@@ -64,12 +64,12 @@ const Job: React.FC<JobProps> = ({
               onClick={() => setIsExpanded(!isExpanded)}
               className={styles.expandButton}
               aria-expanded={isExpanded}
-              aria-label={`${isExpanded ? "Collapse" : "Expand"} ${role} details`}
+              aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${role} details`}
             >
               <span
                 className={isExpanded ? styles.caretDown : styles.caretRight}
               ></span>
-              <h3 style={{ display: "inline-block", marginLeft: "8px" }}>
+              <h3 style={{ display: 'inline-block', marginLeft: '8px' }}>
                 {role}
               </h3>
             </button>
@@ -84,7 +84,7 @@ const Job: React.FC<JobProps> = ({
             onClick={() =>
               analytics.trackExternalLink(
                 companyLink,
-                `${companyName} Company Link`,
+                `${companyName} Company Link`
               )
             }
           >
@@ -107,7 +107,7 @@ const Job: React.FC<JobProps> = ({
           <p>{description}</p>
           <ul>
             {taskList.map((task, index) =>
-              typeof task === "string" ? (
+              typeof task === 'string' ? (
                 <li key={index} className={styles.jobListItem}>
                   {task}
                 </li>
@@ -125,7 +125,7 @@ const Job: React.FC<JobProps> = ({
                     ))}
                   </ul>
                 </li>
-              ),
+              )
             )}
           </ul>
         </div>

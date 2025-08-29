@@ -1,14 +1,14 @@
 ---
-title: "Post Title"
-author: "Zach Liibbe"
-publishedAt: "2025-01-15"
-scheduledFor: "2025-01-20T09:00:00Z" # Optional
-status: "draft" # draft | scheduled | published
-categories: ["Development", "Personal", "Learning", "Projects"]
-tags: ["nextjs", "typescript", "learning"]
-series: "Learning in Public" # Optional
-excerpt: "Brief description for previews"
-readTime: "8 min read" # Auto-calculated
+title: 'Post Title'
+author: 'Zach Liibbe'
+publishedAt: '2025-01-15'
+scheduledFor: '2025-01-20T09:00:00Z' # Optional
+status: 'draft' # draft | scheduled | published
+categories: ['Development', 'Personal', 'Learning', 'Projects']
+tags: ['nextjs', 'typescript', 'learning']
+series: 'Learning in Public' # Optional
+excerpt: 'Brief description for previews'
+readTime: '8 min read' # Auto-calculated
 ---
 
 # Post Content Here
@@ -26,7 +26,7 @@ You can use:
 
 ```javascript
 // Code blocks
-console.log("Hello, world!");
+console.log('Hello, world!');
 ```
 
 > Blockquotes for emphasis

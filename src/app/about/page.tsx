@@ -1,9 +1,9 @@
-import React from "react";
-import styles from "./page.module.css";
-import Image from "next/image";
-import headshot from "../../../public/headshot.png";
-import Footer from "../components/Footer";
-import { Metadata } from "next";
+import React from 'react';
+import styles from './page.module.css';
+import Image from 'next/image';
+import headshot from '../../../public/headshot.png';
+import Footer from '../components/Footer';
+import { Metadata } from 'next';
 
 export default function About() {
   return (
@@ -109,7 +109,7 @@ export default function About() {
                     big impact.
                   </li>
                   <li className={styles.listItem}>
-                    Curled up with a good book. Check out my{" "}
+                    Curled up with a good book. Check out my{' '}
                     <a
                       className={styles.link}
                       href="https://www.goodreads.com/review/list/24890536-zach?shelf=zach-read"
@@ -117,7 +117,7 @@ export default function About() {
                       rel="noopener noreferrer"
                     >
                       Goodreads
-                    </a>{" "}
+                    </a>{' '}
                     to see what I&apos;m reading or what I&apos;ve read
                     recently.
                   </li>
@@ -146,5 +146,5 @@ export default function About() {
 }
 
 export const metadata: Metadata = {
-  title: "About | zachliibbe.com",
+  title: 'About | zachliibbe.com',
 };

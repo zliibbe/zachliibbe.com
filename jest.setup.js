@@ -1,7 +1,7 @@
-import "@testing-library/jest-dom";
+import '@testing-library/jest-dom';
 
 // Mock Next.js router
-jest.mock("next/navigation", () => ({
+jest.mock('next/navigation', () => ({
   useRouter() {
     return {
       push: jest.fn(),
@@ -13,7 +13,7 @@ jest.mock("next/navigation", () => ({
     };
   },
   usePathname() {
-    return "/";
+    return '/';
   },
   useSearchParams() {
     return new URLSearchParams();
@@ -21,9 +21,9 @@ jest.mock("next/navigation", () => ({
 }));
 
 // Mock Next.js Image component
-jest.mock("next/image", () => ({
+jest.mock('next/image', () => ({
   __esModule: true,
-  default: (props) => {
+  default: props => {
     // eslint-disable-next-line @next/next/no-img-element
     return <img {...props} />;
   },
@@ -44,9 +44,9 @@ global.IntersectionObserver = jest.fn().mockImplementation(() => ({
 }));
 
 // Mock window.matchMedia
-Object.defineProperty(window, "matchMedia", {
+Object.defineProperty(window, 'matchMedia', {
   writable: true,
-  value: jest.fn().mockImplementation((query) => ({
+  value: jest.fn().mockImplementation(query => ({
     matches: false,
     media: query,
     onchange: null,

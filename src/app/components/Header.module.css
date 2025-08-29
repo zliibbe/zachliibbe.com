@@ -182,7 +182,7 @@
 }
 
 /* For mobile nav when open */
-.primaryNav[data-visible="true"] {
+.primaryNav[data-visible='true'] {
   opacity: 1;
 }
 
@@ -197,7 +197,7 @@
     width: 100%;
   }
 
-  .primaryNav[data-visible="true"] {
+  .primaryNav[data-visible='true'] {
     opacity: 1;
     transform: translateY(0);
   }

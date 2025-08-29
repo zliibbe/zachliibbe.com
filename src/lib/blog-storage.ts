@@ -1,13 +1,13 @@
-import fs from "fs";
-import path from "path";
-import { BlogPost } from "@/types/blog";
-import { markdownToHtml, generateExcerpt } from "./markdown";
+import fs from 'fs';
+import path from 'path';
+import { BlogPost } from '@/types/blog';
+import { markdownToHtml, generateExcerpt } from './markdown';
 
 // Storage paths
-const BLOG_DATA_DIR = path.join(process.cwd(), "src", "content", "blog-data");
-const DRAFTS_FILE = path.join(BLOG_DATA_DIR, "drafts.json");
-const SCHEDULED_FILE = path.join(BLOG_DATA_DIR, "scheduled.json");
-const PUBLISHED_FILE = path.join(BLOG_DATA_DIR, "published.json");
+const BLOG_DATA_DIR = path.join(process.cwd(), 'src', 'content', 'blog-data');
+const DRAFTS_FILE = path.join(BLOG_DATA_DIR, 'drafts.json');
+const SCHEDULED_FILE = path.join(BLOG_DATA_DIR, 'scheduled.json');
+const PUBLISHED_FILE = path.join(BLOG_DATA_DIR, 'published.json');
 
 // Ensure storage directory exists
 function ensureStorageDir() {
@@ -25,8 +25,8 @@ function generateId(): string {
 function generateSlug(title: string): string {
   return title
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
 }
 
 // Calculate reading time
@@ -42,10 +42,10 @@ function loadPostsFromFile(filePath: string): BlogPost[] {
     if (!fs.existsSync(filePath)) {
       return [];
     }
-    const data = fs.readFileSync(filePath, "utf8");
+    const data = fs.readFileSync(filePath, 'utf8');
     return JSON.parse(data);
   } catch (error) {
-    console.error("Error loading posts from file:", filePath, error);
+    console.error('Error loading posts from file:', filePath, error);
     return [];
   }
 }
@@ -54,9 +54,9 @@ function loadPostsFromFile(filePath: string): BlogPost[] {
 function savePostsToFile(filePath: string, posts: BlogPost[]) {
   ensureStorageDir();
   try {
-    fs.writeFileSync(filePath, JSON.stringify(posts, null, 2), "utf8");
+    fs.writeFileSync(filePath, JSON.stringify(posts, null, 2), 'utf8');
   } catch (error) {
-    console.error("Error saving posts to file:", filePath, error);
+    console.error('Error saving posts to file:', filePath, error);
     throw error;
   }
 }
@@ -88,7 +88,7 @@ export function getAllPosts(): BlogPost[] {
 // Get post by slug from all posts
 export function getPostBySlug(slug: string): BlogPost | null {
   const allPosts = getAllPosts();
-  return allPosts.find((post) => post.slug === slug) || null;
+  return allPosts.find(post => post.slug === slug) || null;
 }
 
 // Create new blog post
@@ -99,7 +99,7 @@ export function createBlogPost(postData: {
   categories?: string[];
   tags?: string[];
   series?: string;
-  status?: "draft" | "scheduled" | "published";
+  status?: 'draft' | 'scheduled' | 'published';
   scheduledFor?: string;
 }): BlogPost {
   const id = generateId();
@@ -115,27 +115,27 @@ export function createBlogPost(postData: {
     id,
     slug,
     title: postData.title,
-    author: "Zach Liibbe",
+    author: 'Zach Liibbe',
     publishedAt:
-      postData.status === "published"
-        ? new Date().toISOString().split("T")[0]
-        : "",
+      postData.status === 'published'
+        ? new Date().toISOString().split('T')[0]
+        : '',
     excerpt,
     content: htmlContent,
     categories: postData.categories || [],
     tags: postData.tags || [],
     readTime: calculateReadingTime(postData.content),
-    status: postData.status || "draft",
+    status: postData.status || 'draft',
     scheduledFor: postData.scheduledFor,
     series: postData.series,
   };
 
   // Save to appropriate file based on status
-  if (newPost.status === "draft") {
+  if (newPost.status === 'draft') {
     const drafts = getAllDrafts();
     drafts.push(newPost);
     savePostsToFile(DRAFTS_FILE, drafts);
-  } else if (newPost.status === "scheduled") {
+  } else if (newPost.status === 'scheduled') {
     const scheduled = getAllScheduledPosts();
     scheduled.push(newPost);
     savePostsToFile(SCHEDULED_FILE, scheduled);
@@ -158,10 +158,10 @@ export function updateBlogPost(
     categories: string[];
     tags: string[];
     series?: string;
-    status: "draft" | "scheduled" | "published";
+    status: 'draft' | 'scheduled' | 'published';
     scheduledFor?: string;
     publishedAt?: string;
-  }>,
+  }>
 ): BlogPost | null {
   const existingPost = getPostBySlug(slug);
 
@@ -170,18 +170,14 @@ export function updateBlogPost(
   }
 
   // Remove from current location
-  if (existingPost.status === "draft") {
-    const drafts = getAllDrafts().filter((post) => post.slug !== slug);
+  if (existingPost.status === 'draft') {
+    const drafts = getAllDrafts().filter(post => post.slug !== slug);
     savePostsToFile(DRAFTS_FILE, drafts);
-  } else if (existingPost.status === "scheduled") {
-    const scheduled = getAllScheduledPosts().filter(
-      (post) => post.slug !== slug,
-    );
+  } else if (existingPost.status === 'scheduled') {
+    const scheduled = getAllScheduledPosts().filter(post => post.slug !== slug);
     savePostsToFile(SCHEDULED_FILE, scheduled);
   } else {
-    const published = getAllPublishedPosts().filter(
-      (post) => post.slug !== slug,
-    );
+    const published = getAllPublishedPosts().filter(post => post.slug !== slug);
     savePostsToFile(PUBLISHED_FILE, published);
   }
 
@@ -201,21 +197,21 @@ export function updateBlogPost(
 
   // Update published date if status changed to published or if explicitly provided
   if (
-    updates.status === "published" &&
-    (existingPost.status === "draft" || existingPost.status === "scheduled")
+    updates.status === 'published' &&
+    (existingPost.status === 'draft' || existingPost.status === 'scheduled')
   ) {
     updatedData.publishedAt =
-      updates.publishedAt || new Date().toISOString().split("T")[0];
+      updates.publishedAt || new Date().toISOString().split('T')[0];
   } else if (updates.publishedAt) {
     updatedData.publishedAt = updates.publishedAt;
   }
 
   // Save to new location
-  if (updatedData.status === "draft") {
+  if (updatedData.status === 'draft') {
     const drafts = getAllDrafts();
     drafts.push(updatedData);
     savePostsToFile(DRAFTS_FILE, drafts);
-  } else if (updatedData.status === "scheduled") {
+  } else if (updatedData.status === 'scheduled') {
     const scheduled = getAllScheduledPosts();
     scheduled.push(updatedData);
     savePostsToFile(SCHEDULED_FILE, scheduled);
@@ -237,34 +233,34 @@ export function deleteBlogPost(slug: string): boolean {
   }
 
   try {
-    if (post.status === "draft") {
-      const drafts = getAllDrafts().filter((p) => p.slug !== slug);
+    if (post.status === 'draft') {
+      const drafts = getAllDrafts().filter(p => p.slug !== slug);
       savePostsToFile(DRAFTS_FILE, drafts);
-    } else if (post.status === "scheduled") {
-      const scheduled = getAllScheduledPosts().filter((p) => p.slug !== slug);
+    } else if (post.status === 'scheduled') {
+      const scheduled = getAllScheduledPosts().filter(p => p.slug !== slug);
       savePostsToFile(SCHEDULED_FILE, scheduled);
     } else {
-      const published = getAllPublishedPosts().filter((p) => p.slug !== slug);
+      const published = getAllPublishedPosts().filter(p => p.slug !== slug);
       savePostsToFile(PUBLISHED_FILE, published);
     }
     return true;
   } catch (error) {
-    console.error("Error deleting blog post:", error);
+    console.error('Error deleting blog post:', error);
     return false;
   }
 }
 
 // Publish a draft
 export function publishDraft(slug: string): BlogPost | null {
-  return updateBlogPost(slug, { status: "published" });
+  return updateBlogPost(slug, { status: 'published' });
 }
 
 // Get posts by status
 export function getPostsByStatus(
-  status: "draft" | "scheduled" | "published",
+  status: 'draft' | 'scheduled' | 'published'
 ): BlogPost[] {
-  if (status === "draft") return getAllDrafts();
-  if (status === "scheduled") return getAllScheduledPosts();
+  if (status === 'draft') return getAllDrafts();
+  if (status === 'scheduled') return getAllScheduledPosts();
   return getAllPublishedPosts();
 }
 
@@ -272,9 +268,9 @@ export function getPostsByStatus(
 export function initializeStorageWithExistingPosts(existingPosts: BlogPost[]) {
   ensureStorageDir();
 
-  const published = existingPosts.filter((post) => post.status === "published");
-  const scheduled = existingPosts.filter((post) => post.status === "scheduled");
-  const drafts = existingPosts.filter((post) => post.status === "draft");
+  const published = existingPosts.filter(post => post.status === 'published');
+  const scheduled = existingPosts.filter(post => post.status === 'scheduled');
+  const drafts = existingPosts.filter(post => post.status === 'draft');
 
   if (published.length > 0) {
     savePostsToFile(PUBLISHED_FILE, published);
@@ -292,16 +288,16 @@ export function initializeStorageWithExistingPosts(existingPosts: BlogPost[]) {
 // Additional helper functions for backwards compatibility
 export function getAllCategories(): string[] {
   const categories = new Set<string>();
-  getAllPublishedPosts().forEach((post) =>
-    post.categories.forEach((cat) => categories.add(cat)),
+  getAllPublishedPosts().forEach(post =>
+    post.categories.forEach(cat => categories.add(cat))
   );
   return Array.from(categories).sort();
 }
 
 export function getAllTags(): string[] {
   const tags = new Set<string>();
-  getAllPublishedPosts().forEach((post) =>
-    post.tags.forEach((tag) => tags.add(tag)),
+  getAllPublishedPosts().forEach(post =>
+    post.tags.forEach(tag => tags.add(tag))
   );
   return Array.from(tags).sort();
 }
@@ -310,10 +306,10 @@ export function getAllTags(): string[] {
 
 // Get posts scheduled for publication before or at the given date
 export function getPostsDueForPublication(
-  beforeDate: Date = new Date(),
+  beforeDate: Date = new Date()
 ): BlogPost[] {
   const scheduledPosts = getAllScheduledPosts();
-  return scheduledPosts.filter((post) => {
+  return scheduledPosts.filter(post => {
     if (!post.scheduledFor) return false;
     const scheduledDate = new Date(post.scheduledFor);
     return scheduledDate <= beforeDate;
@@ -324,22 +320,22 @@ export function getPostsDueForPublication(
 export function publishScheduledPost(slug: string): BlogPost | null {
   const post = getPostBySlug(slug);
 
-  if (!post || post.status !== "scheduled") {
+  if (!post || post.status !== 'scheduled') {
     console.error(`Post ${slug} not found or not scheduled`);
     return null;
   }
 
   // Update the post to published status
   return updateBlogPost(slug, {
-    status: "published",
-    publishedAt: new Date().toISOString().split("T")[0],
+    status: 'published',
+    publishedAt: new Date().toISOString().split('T')[0],
   });
 }
 
 // Schedule a post for future publication
 export function schedulePost(
   slug: string,
-  scheduledFor: string,
+  scheduledFor: string
 ): BlogPost | null {
   const post = getPostBySlug(slug);
 
@@ -348,7 +344,7 @@ export function schedulePost(
     return null;
   }
 
-  if (post.status === "published") {
+  if (post.status === 'published') {
     console.error(`Post ${slug} is already published`);
     return null;
   }
@@ -361,7 +357,7 @@ export function schedulePost(
   }
 
   return updateBlogPost(slug, {
-    status: "scheduled",
+    status: 'scheduled',
     scheduledFor,
   });
 }

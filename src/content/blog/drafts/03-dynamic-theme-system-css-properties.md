@@ -1,14 +1,14 @@
 ---
-title: "Dynamic Theme System with CSS Custom Properties and React Context"
-author: "Zach Liibbe"
-publishedAt: ""
-status: "draft"
-categories: ["Development", "Learning"]
+title: 'Dynamic Theme System with CSS Custom Properties and React Context'
+author: 'Zach Liibbe'
+publishedAt: ''
+status: 'draft'
+categories: ['Development', 'Learning']
 tags:
-  ["css", "react", "themes", "css-custom-properties", "local-storage", "nextjs"]
-series: "Frontend Architecture"
-excerpt: "Build a complete dynamic theming system using CSS custom properties, React Context, and localStorage persistence. Includes gradient animations, dark mode, and user preferences."
-readTime: "12 min read"
+  ['css', 'react', 'themes', 'css-custom-properties', 'local-storage', 'nextjs']
+series: 'Frontend Architecture'
+excerpt: 'Build a complete dynamic theming system using CSS custom properties, React Context, and localStorage persistence. Includes gradient animations, dark mode, and user preferences.'
+readTime: '12 min read'
 ---
 
 # Dynamic Theme System with CSS Custom Properties and React Context
@@ -57,14 +57,14 @@ I started with a robust CSS custom properties system:
 }
 
 /* Dark mode overrides */
-[data-theme="dark"] {
+[data-theme='dark'] {
   --text-primary: #ffffff;
   --text-secondary: #cccccc;
   --background: #0b1215;
   --surface: rgba(255, 255, 255, 0.1);
 }
 
-[data-theme="light"] {
+[data-theme='light'] {
   --text-primary: #0b1215;
   --text-secondary: #666666;
   --background: #ffffff;
@@ -79,14 +79,14 @@ I created a strongly-typed theme system:
 ```typescript
 export interface Theme {
   name:
-    | "default"
-    | "ocean"
-    | "forest"
-    | "evergreen"
-    | "sunset"
-    | "twilight"
-    | "lotusBloom"
-    | "aurora-borealis";
+    | 'default'
+    | 'ocean'
+    | 'forest'
+    | 'evergreen'
+    | 'sunset'
+    | 'twilight'
+    | 'lotusBloom'
+    | 'aurora-borealis';
   label: string;
   colors: {
     themeColor: string;
@@ -100,27 +100,27 @@ export interface Theme {
 
 export const themes = {
   default: {
-    name: "default",
-    label: "Default",
+    name: 'default',
+    label: 'Default',
     colors: {
-      themeColor: "#1a6b8a",
-      gradientOne: "#67c6b5",
-      gradientTwo: "#2795ba",
-      gradientThree: "#cb2048",
-      accentPrimary: "#ff5b4a",
-      accentSecondary: "#e8f6fa",
+      themeColor: '#1a6b8a',
+      gradientOne: '#67c6b5',
+      gradientTwo: '#2795ba',
+      gradientThree: '#cb2048',
+      accentPrimary: '#ff5b4a',
+      accentSecondary: '#e8f6fa',
     },
   },
   ocean: {
-    name: "ocean",
-    label: "Ocean Depths",
+    name: 'ocean',
+    label: 'Ocean Depths',
     colors: {
-      themeColor: "#2563eb",
-      gradientOne: "#478bd6",
-      gradientTwo: "#478bd6",
-      gradientThree: "#25d8d3",
-      accentPrimary: "#ffd700",
-      accentSecondary: "#fff3b0",
+      themeColor: '#2563eb',
+      gradientOne: '#478bd6',
+      gradientTwo: '#478bd6',
+      gradientThree: '#25d8d3',
+      accentPrimary: '#ffd700',
+      accentSecondary: '#fff3b0',
     },
   },
   // ... more themes
@@ -205,25 +205,25 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 The `applyTheme` function dynamically updates CSS custom properties:
 
 ```typescript
-function applyTheme(themeName: Theme["name"]) {
+function applyTheme(themeName: Theme['name']) {
   const theme = themes[themeName];
   if (!theme) return;
 
   const root = document.documentElement;
 
   // Update CSS custom properties
-  root.style.setProperty("--theme-color", theme.colors.themeColor);
-  root.style.setProperty("--gradient-one", theme.colors.gradientOne);
-  root.style.setProperty("--gradient-two", theme.colors.gradientTwo);
-  root.style.setProperty("--gradient-three", theme.colors.gradientThree);
-  root.style.setProperty("--accent-primary", theme.colors.accentPrimary);
-  root.style.setProperty("--accent-secondary", theme.colors.accentSecondary);
+  root.style.setProperty('--theme-color', theme.colors.themeColor);
+  root.style.setProperty('--gradient-one', theme.colors.gradientOne);
+  root.style.setProperty('--gradient-two', theme.colors.gradientTwo);
+  root.style.setProperty('--gradient-three', theme.colors.gradientThree);
+  root.style.setProperty('--accent-primary', theme.colors.accentPrimary);
+  root.style.setProperty('--accent-secondary', theme.colors.accentSecondary);
 }
 
-const setTheme = (theme: Theme["name"]) => {
+const setTheme = (theme: Theme['name']) => {
   setCurrentTheme(theme);
   applyTheme(theme);
-  localStorage.setItem("selectedTheme", theme);
+  localStorage.setItem('selectedTheme', theme);
 };
 ```
 
@@ -267,10 +267,10 @@ Users can toggle animations on/off:
 const toggleAnimation = () => {
   const newValue = !isAnimated;
   setIsAnimated(newValue);
-  localStorage.setItem("gradientAnimation", JSON.stringify(newValue));
+  localStorage.setItem('gradientAnimation', JSON.stringify(newValue));
   document.documentElement.style.setProperty(
-    "--gradient-timing",
-    newValue ? "10s" : "0s",
+    '--gradient-timing',
+    newValue ? '10s' : '0s'
   );
 };
 ```
@@ -283,18 +283,18 @@ The system respects user's OS preferences while allowing overrides:
 
 ```typescript
 useEffect(() => {
-  const darkModeMediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+  const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
   const handleDarkModeChange = (e: MediaQueryListEvent) => {
     // Only auto-switch if user hasn't set a preference
-    if (!localStorage.getItem("darkMode")) {
+    if (!localStorage.getItem('darkMode')) {
       setIsDarkMode(e.matches);
     }
   };
 
-  darkModeMediaQuery.addEventListener("change", handleDarkModeChange);
+  darkModeMediaQuery.addEventListener('change', handleDarkModeChange);
   return () =>
-    darkModeMediaQuery.removeEventListener("change", handleDarkModeChange);
+    darkModeMediaQuery.removeEventListener('change', handleDarkModeChange);
 }, []);
 ```
 
@@ -460,14 +460,14 @@ describe("Theme System", () => {
 I added a live preview system that shows theme changes before applying them:
 
 ```typescript
-const [previewTheme, setPreviewTheme] = useState<Theme["name"] | null>(null);
+const [previewTheme, setPreviewTheme] = useState<Theme['name'] | null>(null);
 
-const handleThemePreview = (themeName: Theme["name"]) => {
+const handleThemePreview = (themeName: Theme['name']) => {
   setPreviewTheme(themeName);
   applyTheme(themeName);
 };
 
-const handleThemeSelect = (themeName: Theme["name"]) => {
+const handleThemeSelect = (themeName: Theme['name']) => {
   setTheme(themeName);
   setPreviewTheme(null);
 };
@@ -494,7 +494,7 @@ function getContrastRatio(color1: string, color2: string): number {
 }
 
 function ensureAccessibleContrast(theme: Theme): Theme {
-  const contrastRatio = getContrastRatio(theme.colors.themeColor, "#ffffff");
+  const contrastRatio = getContrastRatio(theme.colors.themeColor, '#ffffff');
 
   if (contrastRatio < 4.5) {
     // Adjust colors to meet WCAG AA standards
@@ -595,4 +595,3 @@ _Building engaging user interfaces requires attention to the details users inter
 
 
 ```
-

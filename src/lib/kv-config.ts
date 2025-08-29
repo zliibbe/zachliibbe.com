@@ -1,4 +1,4 @@
-import { kv } from "@vercel/kv";
+import { kv } from '@vercel/kv';
 
 // Verify environment variables are loaded
 const requiredEnvVars = {
@@ -12,7 +12,7 @@ const missingVars = Object.entries(requiredEnvVars)
   .map(([key]) => key);
 
 if (missingVars.length > 0) {
-  console.error("Missing required environment variables:", missingVars);
+  console.error('Missing required environment variables:', missingVars);
 }
 
 export { kv };
