@@ -38,7 +38,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 export const authOptions: NextAuthOptions = {
-  adapter: UpstashRedisAdapter(kv),
+  // adapter: UpstashRedisAdapter(kv), // Temporarily disabled to debug OAuth issue
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
