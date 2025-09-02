@@ -75,5 +75,5 @@ If you still get OAuth errors:
 To test the OAuth flow:
 
 1. Navigate to `/admin`
-2. You should be redirected to Google OAuth
+2. You should be redirnected to Google OAuth
 3. After successful authentication, you'll be redirected back to the admin dashboard
