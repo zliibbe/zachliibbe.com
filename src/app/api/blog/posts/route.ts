@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const posts = getAllPosts();
+    const posts = await getAllPosts();
     return NextResponse.json({ posts });
   } catch (error) {
     console.error('Error fetching blog posts:', error);
@@ -96,7 +96,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const newPost = createBlogPost({
+    const newPost = await createBlogPost({
       title: body.title,
       content: body.content, // markdown content
       excerpt: body.excerpt,

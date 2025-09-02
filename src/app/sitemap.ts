@@ -1,10 +1,10 @@
 import { MetadataRoute } from 'next';
 import { getAllPublishedPosts } from '@/lib/blog-storage';
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://www.zachliibbe.com';
   const currentDate = new Date().toISOString();
-  const blogPosts = getAllPublishedPosts();
+  const blogPosts = await getAllPublishedPosts();
 
   return [
     {

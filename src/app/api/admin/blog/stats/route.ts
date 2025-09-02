@@ -16,9 +16,9 @@ export async function GET(request: NextRequest) {
     }
 
     // Load all blog posts
-    const published = getAllPublishedPosts();
-    const drafts = getAllDrafts();
-    const scheduled = getAllScheduledPosts();
+    const published = await getAllPublishedPosts();
+    const drafts = await getAllDrafts();
+    const scheduled = await getAllScheduledPosts();
 
     // Calculate stats
     const stats = {

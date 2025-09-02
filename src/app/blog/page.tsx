@@ -32,8 +32,8 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
     currentPage: page,
     totalPages,
   } = await getPaginatedPostsWithImages(currentPage, filters);
-  const categories = getAllCategories();
-  const tags = getAllTags();
+  const categories = await getAllCategories();
+  const tags = await getAllTags();
 
   // Helper function to create URL search params with defined values only
   const createSearchParams = (

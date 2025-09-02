@@ -3,6 +3,16 @@ import path from 'path';
 import { BlogPost } from '@/types/blog';
 import { markdownToHtml, generateExcerpt } from './markdown';
 
+// Import KV only when needed (production)
+let kv: any = null;
+async function getKV() {
+  if (!kv && process.env.NODE_ENV === 'production') {
+    const kvModule = await import('@vercel/kv');
+    kv = kvModule.kv;
+  }
+  return kv;
+}
+
 // Storage paths
 const BLOG_DATA_DIR = path.join(process.cwd(), 'src', 'content', 'blog-data');
 const DRAFTS_FILE = path.join(BLOG_DATA_DIR, 'drafts.json');
@@ -36,9 +46,20 @@ function calculateReadingTime(content: string): string {
   return `${minutes} min read`;
 }
 
-// Load posts from file
-function loadPostsFromFile(filePath: string): BlogPost[] {
+// Load posts from file (development) or KV (production)
+async function loadPostsFromFile(filePath: string): Promise<BlogPost[]> {
   try {
+    // In production, use KV store
+    if (process.env.NODE_ENV === 'production') {
+      const kvStore = await getKV();
+      if (kvStore) {
+        const key = `blog:${path.basename(filePath, '.json')}`; // blog:drafts, blog:scheduled, blog:published
+        const data = await kvStore.get(key);
+        return data || [];
+      }
+    }
+
+    // In development, use file system
     if (!fs.existsSync(filePath)) {
       return [];
     }
@@ -50,45 +71,54 @@ function loadPostsFromFile(filePath: string): BlogPost[] {
   }
 }
 
-// Save posts to file
-function savePostsToFile(filePath: string, posts: BlogPost[]) {
-  // Check if we're in production on Vercel
-  if (process.env.NODE_ENV === 'production' && process.env.VERCEL) {
-    throw new Error(
-      'File-based storage not supported in Vercel production. Please use database storage.'
-    );
-  }
-
-  ensureStorageDir();
+// Save posts to file (development) or KV (production)
+async function savePostsToFile(
+  filePath: string,
+  posts: BlogPost[]
+): Promise<void> {
   try {
+    // In production, use KV store
+    if (process.env.NODE_ENV === 'production') {
+      const kvStore = await getKV();
+      if (kvStore) {
+        const key = `blog:${path.basename(filePath, '.json')}`; // blog:drafts, blog:scheduled, blog:published
+        await kvStore.set(key, posts);
+        console.log(`Saved ${posts.length} posts to KV store with key: ${key}`);
+        return;
+      }
+    }
+
+    // In development, use file system
+    ensureStorageDir();
     fs.writeFileSync(filePath, JSON.stringify(posts, null, 2), 'utf8');
+    console.log(`Saved ${posts.length} posts to file: ${filePath}`);
   } catch (error) {
-    console.error('Error saving posts to file:', filePath, error);
+    console.error('Error saving posts:', filePath, error);
     throw error;
   }
 }
 
 // Get all drafts
-export function getAllDrafts(): BlogPost[] {
-  return loadPostsFromFile(DRAFTS_FILE);
+export async function getAllDrafts(): Promise<BlogPost[]> {
+  return await loadPostsFromFile(DRAFTS_FILE);
 }
 
 // Get all scheduled posts
-export function getAllScheduledPosts(): BlogPost[] {
-  return loadPostsFromFile(SCHEDULED_FILE);
+export async function getAllScheduledPosts(): Promise<BlogPost[]> {
+  return await loadPostsFromFile(SCHEDULED_FILE);
 }
 
 // Get all published posts
-export function getAllPublishedPosts(): BlogPost[] {
-  return loadPostsFromFile(PUBLISHED_FILE);
+export async function getAllPublishedPosts(): Promise<BlogPost[]> {
+  return await loadPostsFromFile(PUBLISHED_FILE);
 }
 
 // Get all posts (drafts + scheduled + published)
-export function getAllPosts(): BlogPost[] {
+export async function getAllPosts(): Promise<BlogPost[]> {
   const allPosts = [
-    ...getAllDrafts(),
-    ...getAllScheduledPosts(),
-    ...getAllPublishedPosts(),
+    ...(await getAllDrafts()),
+    ...(await getAllScheduledPosts()),
+    ...(await getAllPublishedPosts()),
   ];
 
   // Remove duplicates based on ID to prevent React key conflicts
@@ -109,13 +139,13 @@ export function getAllPosts(): BlogPost[] {
 }
 
 // Get post by slug from all posts
-export function getPostBySlug(slug: string): BlogPost | null {
-  const allPosts = getAllPosts();
+export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
+  const allPosts = await getAllPosts();
   return allPosts.find(post => post.slug === slug) || null;
 }
 
 // Create new blog post
-export function createBlogPost(postData: {
+export async function createBlogPost(postData: {
   title: string;
   content: string; // markdown content
   excerpt?: string;
@@ -124,7 +154,7 @@ export function createBlogPost(postData: {
   series?: string;
   status?: 'draft' | 'scheduled' | 'published';
   scheduledFor?: string;
-}): BlogPost {
+}): Promise<BlogPost> {
   const id = generateId();
   const slug = generateSlug(postData.title);
 
@@ -155,24 +185,24 @@ export function createBlogPost(postData: {
 
   // Save to appropriate file based on status
   if (newPost.status === 'draft') {
-    const drafts = getAllDrafts();
+    const drafts = await getAllDrafts();
     drafts.push(newPost);
-    savePostsToFile(DRAFTS_FILE, drafts);
+    await savePostsToFile(DRAFTS_FILE, drafts);
   } else if (newPost.status === 'scheduled') {
-    const scheduled = getAllScheduledPosts();
+    const scheduled = await getAllScheduledPosts();
     scheduled.push(newPost);
-    savePostsToFile(SCHEDULED_FILE, scheduled);
+    await savePostsToFile(SCHEDULED_FILE, scheduled);
   } else {
-    const published = getAllPublishedPosts();
+    const published = await getAllPublishedPosts();
     published.push(newPost);
-    savePostsToFile(PUBLISHED_FILE, published);
+    await savePostsToFile(PUBLISHED_FILE, published);
   }
 
   return newPost;
 }
 
 // Update existing blog post
-export function updateBlogPost(
+export async function updateBlogPost(
   slug: string,
   updates: Partial<{
     title: string;
@@ -185,8 +215,8 @@ export function updateBlogPost(
     scheduledFor?: string;
     publishedAt?: string;
   }>
-): BlogPost | null {
-  const existingPost = getPostBySlug(slug);
+): Promise<BlogPost | null> {
+  const existingPost = await getPostBySlug(slug);
 
   if (!existingPost) {
     return null;
@@ -194,14 +224,18 @@ export function updateBlogPost(
 
   // Remove from current location
   if (existingPost.status === 'draft') {
-    const drafts = getAllDrafts().filter(post => post.slug !== slug);
-    savePostsToFile(DRAFTS_FILE, drafts);
+    const drafts = (await getAllDrafts()).filter(post => post.slug !== slug);
+    await savePostsToFile(DRAFTS_FILE, drafts);
   } else if (existingPost.status === 'scheduled') {
-    const scheduled = getAllScheduledPosts().filter(post => post.slug !== slug);
-    savePostsToFile(SCHEDULED_FILE, scheduled);
+    const scheduled = (await getAllScheduledPosts()).filter(
+      post => post.slug !== slug
+    );
+    await savePostsToFile(SCHEDULED_FILE, scheduled);
   } else {
-    const published = getAllPublishedPosts().filter(post => post.slug !== slug);
-    savePostsToFile(PUBLISHED_FILE, published);
+    const published = (await getAllPublishedPosts()).filter(
+      post => post.slug !== slug
+    );
+    await savePostsToFile(PUBLISHED_FILE, published);
   }
 
   // Create updated post
@@ -231,25 +265,25 @@ export function updateBlogPost(
 
   // Save to new location
   if (updatedData.status === 'draft') {
-    const drafts = getAllDrafts();
+    const drafts = await getAllDrafts();
     drafts.push(updatedData);
-    savePostsToFile(DRAFTS_FILE, drafts);
+    await savePostsToFile(DRAFTS_FILE, drafts);
   } else if (updatedData.status === 'scheduled') {
-    const scheduled = getAllScheduledPosts();
+    const scheduled = await getAllScheduledPosts();
     scheduled.push(updatedData);
-    savePostsToFile(SCHEDULED_FILE, scheduled);
+    await savePostsToFile(SCHEDULED_FILE, scheduled);
   } else {
-    const published = getAllPublishedPosts();
+    const published = await getAllPublishedPosts();
     published.push(updatedData);
-    savePostsToFile(PUBLISHED_FILE, published);
+    await savePostsToFile(PUBLISHED_FILE, published);
   }
 
   return updatedData;
 }
 
 // Delete blog post
-export function deleteBlogPost(slug: string): boolean {
-  const post = getPostBySlug(slug);
+export async function deleteBlogPost(slug: string): Promise<boolean> {
+  const post = await getPostBySlug(slug);
 
   if (!post) {
     return false;
@@ -257,14 +291,18 @@ export function deleteBlogPost(slug: string): boolean {
 
   try {
     if (post.status === 'draft') {
-      const drafts = getAllDrafts().filter(p => p.slug !== slug);
-      savePostsToFile(DRAFTS_FILE, drafts);
+      const drafts = (await getAllDrafts()).filter(p => p.slug !== slug);
+      await savePostsToFile(DRAFTS_FILE, drafts);
     } else if (post.status === 'scheduled') {
-      const scheduled = getAllScheduledPosts().filter(p => p.slug !== slug);
-      savePostsToFile(SCHEDULED_FILE, scheduled);
+      const scheduled = (await getAllScheduledPosts()).filter(
+        p => p.slug !== slug
+      );
+      await savePostsToFile(SCHEDULED_FILE, scheduled);
     } else {
-      const published = getAllPublishedPosts().filter(p => p.slug !== slug);
-      savePostsToFile(PUBLISHED_FILE, published);
+      const published = (await getAllPublishedPosts()).filter(
+        p => p.slug !== slug
+      );
+      await savePostsToFile(PUBLISHED_FILE, published);
     }
     return true;
   } catch (error) {
@@ -274,21 +312,23 @@ export function deleteBlogPost(slug: string): boolean {
 }
 
 // Publish a draft
-export function publishDraft(slug: string): BlogPost | null {
-  return updateBlogPost(slug, { status: 'published' });
+export async function publishDraft(slug: string): Promise<BlogPost | null> {
+  return await updateBlogPost(slug, { status: 'published' });
 }
 
 // Get posts by status
-export function getPostsByStatus(
+export async function getPostsByStatus(
   status: 'draft' | 'scheduled' | 'published'
-): BlogPost[] {
-  if (status === 'draft') return getAllDrafts();
-  if (status === 'scheduled') return getAllScheduledPosts();
-  return getAllPublishedPosts();
+): Promise<BlogPost[]> {
+  if (status === 'draft') return await getAllDrafts();
+  if (status === 'scheduled') return await getAllScheduledPosts();
+  return await getAllPublishedPosts();
 }
 
 // Initialize storage with existing in-memory posts (migration helper)
-export function initializeStorageWithExistingPosts(existingPosts: BlogPost[]) {
+export async function initializeStorageWithExistingPosts(
+  existingPosts: BlogPost[]
+): Promise<void> {
   ensureStorageDir();
 
   const published = existingPosts.filter(post => post.status === 'published');
@@ -296,42 +336,40 @@ export function initializeStorageWithExistingPosts(existingPosts: BlogPost[]) {
   const drafts = existingPosts.filter(post => post.status === 'draft');
 
   if (published.length > 0) {
-    savePostsToFile(PUBLISHED_FILE, published);
+    await savePostsToFile(PUBLISHED_FILE, published);
   }
 
   if (scheduled.length > 0) {
-    savePostsToFile(SCHEDULED_FILE, scheduled);
+    await savePostsToFile(SCHEDULED_FILE, scheduled);
   }
 
   if (drafts.length > 0) {
-    savePostsToFile(DRAFTS_FILE, drafts);
+    await savePostsToFile(DRAFTS_FILE, drafts);
   }
 }
 
 // Additional helper functions for backwards compatibility
-export function getAllCategories(): string[] {
+export async function getAllCategories(): Promise<string[]> {
   const categories = new Set<string>();
-  getAllPublishedPosts().forEach(post =>
-    post.categories.forEach(cat => categories.add(cat))
-  );
+  const posts = await getAllPublishedPosts();
+  posts.forEach(post => post.categories.forEach(cat => categories.add(cat)));
   return Array.from(categories).sort();
 }
 
-export function getAllTags(): string[] {
+export async function getAllTags(): Promise<string[]> {
   const tags = new Set<string>();
-  getAllPublishedPosts().forEach(post =>
-    post.tags.forEach(tag => tags.add(tag))
-  );
+  const posts = await getAllPublishedPosts();
+  posts.forEach(post => post.tags.forEach(tag => tags.add(tag)));
   return Array.from(tags).sort();
 }
 
 // Automated publishing functions
 
 // Get posts scheduled for publication before or at the given date
-export function getPostsDueForPublication(
+export async function getPostsDueForPublication(
   beforeDate: Date = new Date()
-): BlogPost[] {
-  const scheduledPosts = getAllScheduledPosts();
+): Promise<BlogPost[]> {
+  const scheduledPosts = await getAllScheduledPosts();
   return scheduledPosts.filter(post => {
     if (!post.scheduledFor) return false;
     const scheduledDate = new Date(post.scheduledFor);
@@ -340,8 +378,10 @@ export function getPostsDueForPublication(
 }
 
 // Publish a scheduled post
-export function publishScheduledPost(slug: string): BlogPost | null {
-  const post = getPostBySlug(slug);
+export async function publishScheduledPost(
+  slug: string
+): Promise<BlogPost | null> {
+  const post = await getPostBySlug(slug);
 
   if (!post || post.status !== 'scheduled') {
     console.error(`Post ${slug} not found or not scheduled`);
@@ -349,18 +389,18 @@ export function publishScheduledPost(slug: string): BlogPost | null {
   }
 
   // Update the post to published status
-  return updateBlogPost(slug, {
+  return await updateBlogPost(slug, {
     status: 'published',
     publishedAt: new Date().toISOString().split('T')[0],
   });
 }
 
 // Schedule a post for future publication
-export function schedulePost(
+export async function schedulePost(
   slug: string,
   scheduledFor: string
-): BlogPost | null {
-  const post = getPostBySlug(slug);
+): Promise<BlogPost | null> {
+  const post = await getPostBySlug(slug);
 
   if (!post) {
     console.error(`Post ${slug} not found`);
@@ -379,18 +419,18 @@ export function schedulePost(
     return null;
   }
 
-  return updateBlogPost(slug, {
+  return await updateBlogPost(slug, {
     status: 'scheduled',
     scheduledFor,
   });
 }
 
 // Process all posts due for publication (used by cron job)
-export function processScheduledPublications(): {
+export async function processScheduledPublications(): Promise<{
   published: BlogPost[];
   errors: string[];
-} {
-  const dueForPublication = getPostsDueForPublication();
+}> {
+  const dueForPublication = await getPostsDueForPublication();
   const published: BlogPost[] = [];
   const errors: string[] = [];
 
@@ -398,7 +438,7 @@ export function processScheduledPublications(): {
 
   for (const post of dueForPublication) {
     try {
-      const publishedPost = publishScheduledPost(post.slug);
+      const publishedPost = await publishScheduledPost(post.slug);
       if (publishedPost) {
         published.push(publishedPost);
         console.log(`Successfully published: ${post.title} (${post.slug})`);

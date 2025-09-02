@@ -21,7 +21,7 @@ export async function GET(request: NextRequest, context: RouteContext) {
     }
 
     const { slug } = params;
-    const post = getPostBySlug(slug);
+    const post = await getPostBySlug(slug);
 
     if (!post) {
       return NextResponse.json(
@@ -108,7 +108,7 @@ export async function PUT(request: NextRequest, context: RouteContext) {
     const { slug } = params;
     const body = await request.json();
 
-    const updatedPost = updateBlogPost(slug, {
+    const updatedPost = await updateBlogPost(slug, {
       title: body.title,
       content: body.content, // markdown content
       excerpt: body.excerpt,
@@ -218,7 +218,7 @@ export async function DELETE(request: NextRequest, context: RouteContext) {
     console.log('CSRF validation passed (DELETE):', { origin, referer });
 
     const { slug } = params;
-    const success = deleteBlogPost(slug);
+    const success = await deleteBlogPost(slug);
 
     if (!success) {
       return NextResponse.json(
