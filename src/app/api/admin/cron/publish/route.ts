@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
     console.log('Starting automated blog post publishing check...');
 
     // Process all scheduled publications
-    const result = processScheduledPublications();
+    const result = await processScheduledPublications();
 
     // Clear caches for updated blog content
     if (result.published.length > 0) {

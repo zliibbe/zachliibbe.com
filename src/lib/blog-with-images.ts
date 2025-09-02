@@ -67,7 +67,7 @@ async function getFeaturedImage(
 export async function getAllPublishedPostsWithImages(): Promise<
   BlogPostMetadata[]
 > {
-  const publishedPosts = getAllPublishedPosts()
+  const publishedPosts = (await getAllPublishedPosts())
     .filter(post => post.status === 'published')
     .sort(
       (a, b) =>
@@ -100,7 +100,7 @@ export async function getAllPublishedPostsWithImages(): Promise<
 export async function getPostBySlugWithImage(
   slug: string
 ): Promise<BlogPost | null> {
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlug(slug);
   if (!post || post.status !== 'published') return null;
 
   const featuredImage = await getFeaturedImage(post);
@@ -162,17 +162,17 @@ export async function getPaginatedPostsWithImages(
 }
 
 // Re-export functions that don't need images for backwards compatibility
-export function getAllCategories(): string[] {
+export async function getAllCategories(): Promise<string[]> {
   const categories = new Set<string>();
-  getAllPublishedPosts()
+  (await getAllPublishedPosts())
     .filter(post => post.status === 'published')
     .forEach(post => post.categories.forEach(cat => categories.add(cat)));
   return Array.from(categories).sort();
 }
 
-export function getAllTags(): string[] {
+export async function getAllTags(): Promise<string[]> {
   const tags = new Set<string>();
-  getAllPublishedPosts()
+  (await getAllPublishedPosts())
     .filter(post => post.status === 'published')
     .forEach(post => post.tags.forEach(tag => tags.add(tag)));
   return Array.from(tags).sort();
@@ -181,18 +181,18 @@ export function getAllTags(): string[] {
 // Add pagination helpers for backwards compatibility
 const POSTS_PER_PAGE = 10;
 
-export function getPaginatedPosts(
+export async function getPaginatedPosts(
   page: number = 1,
   filters?: BlogFilterParams
-): {
+): Promise<{
   posts: BlogPostMetadata[];
   totalPosts: number;
   currentPage: number;
   totalPages: number;
-} {
+}> {
   const allPosts = filters
-    ? getFilteredPosts(filters)
-    : getAllPublishedPosts()
+    ? await getFilteredPosts(filters)
+    : (await getAllPublishedPosts())
         .filter(post => post.status === 'published')
         .sort(
           (a, b) =>
@@ -225,10 +225,10 @@ export function getPaginatedPosts(
   };
 }
 
-export function getFilteredPosts(
+export async function getFilteredPosts(
   filters: BlogFilterParams
-): BlogPostMetadata[] {
-  let filtered = getAllPublishedPosts()
+): Promise<BlogPostMetadata[]> {
+  let filtered = (await getAllPublishedPosts())
     .filter(post => post.status === 'published')
     .sort(
       (a, b) =>
@@ -268,7 +268,7 @@ export function getFilteredPosts(
 export async function getAllPostsWithImagesForAdmin(): Promise<
   (BlogPost & { featuredImage?: FeaturedImage })[]
 > {
-  const allPosts = getAllPosts();
+  const allPosts = await getAllPosts();
 
   // Fetch images for all posts in parallel
   const postsWithImages = await Promise.all(

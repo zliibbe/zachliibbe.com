@@ -26,7 +26,7 @@ export async function POST(
     }
 
     // Get the post
-    const post = getPostBySlug(slug);
+    const post = await getPostBySlug(slug);
     if (!post) {
       return NextResponse.json({ error: 'Post not found' }, { status: 404 });
     }
@@ -78,7 +78,7 @@ export async function POST(
         featuredImage,
       };
 
-      updateBlogPost(slug, updatedPost);
+      await updateBlogPost(slug, updatedPost);
 
       return NextResponse.json({
         message: 'Featured image added successfully',

@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if post exists and what status it has
-    const existingPost = getPostBySlug(slug);
+    const existingPost = await getPostBySlug(slug);
     if (!existingPost) {
       return NextResponse.json(
         { error: 'Blog post not found' },
@@ -99,7 +99,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Publish the post (works for both draft and scheduled posts)
-    const publishedPost = updateBlogPost(slug, {
+    const publishedPost = await updateBlogPost(slug, {
       status: 'published',
       publishedAt: new Date().toISOString().split('T')[0],
     });
