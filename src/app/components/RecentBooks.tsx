@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import Image from "next/image";
-import styles from "../live-feed/LiveFeed.module.css";
-import { FaStar, FaStarHalf } from "react-icons/fa6";
-import { formatDate, cleanGoodreadsUrl } from "@/app/utils/index";
+import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
+import styles from '../live-feed/LiveFeed.module.css';
+import { FaStar, FaStarHalf } from 'react-icons/fa6';
+import { formatDate, cleanGoodreadsUrl } from '@/app/utils/index';
 
 interface Book {
   title: string;
@@ -31,8 +31,8 @@ export default function RecentBooks({ onLoadingChange }: RecentBooksProps) {
       if (onLoadingChange) onLoadingChange(true);
 
       try {
-        const response = await fetch("/api/goodreads/read-books", {
-          cache: "no-store", // Don't use cache to ensure we get fresh data or fallbacks
+        const response = await fetch('/api/goodreads/read-books', {
+          cache: 'no-store', // Don't use cache to ensure we get fresh data or fallbacks
         });
 
         const data = await response.json();
@@ -48,19 +48,19 @@ export default function RecentBooks({ onLoadingChange }: RecentBooksProps) {
               ? cleanGoodreadsUrl(book.link, book.title)
               : book.title
                 ? `https://www.goodreads.com/book/title?id=${encodeURIComponent(book.title)}`
-                : "#",
+                : '#',
           }));
 
           setBooks(processedBooks);
           setError(null);
         } else {
-          console.warn("No books returned from API");
-          setError("No books data received");
+          console.warn('No books returned from API');
+          setError('No books data received');
           setBooks([]);
         }
       } catch (err) {
-        console.error("Error fetching books:", err);
-        setError(err instanceof Error ? err.message : "Failed to fetch books");
+        console.error('Error fetching books:', err);
+        setError(err instanceof Error ? err.message : 'Failed to fetch books');
       } finally {
         setLoading(false);
         if (onLoadingChange) onLoadingChange(false);
@@ -92,7 +92,7 @@ export default function RecentBooks({ onLoadingChange }: RecentBooksProps) {
         <FaStar
           key={`empty-star-${i}`}
           className={`${styles.starIcon} ${styles.starEmpty}`}
-        />,
+        />
       );
     }
 
@@ -108,17 +108,17 @@ export default function RecentBooks({ onLoadingChange }: RecentBooksProps) {
       <>
         <p className={styles.error}>Error: {error}</p>
         <div className={styles.bookGrid}>
-          {books.map((book) => (
+          {books.map(book => (
             <div key={book.title + book.author} className={styles.bookCard}>
               <a
-                href={book.bookLink || "#"}
+                href={book.bookLink || '#'}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.bookLinkWrapper}
               >
                 <div className={styles.bookCoverContainer}>
                   <Image
-                    src={book.coverImg || "/images/no-cover.svg"}
+                    src={book.coverImg || '/images/no-cover.svg'}
                     alt={`Cover of ${book.title}`}
                     className={styles.bookCover}
                     width={100}
@@ -126,8 +126,7 @@ export default function RecentBooks({ onLoadingChange }: RecentBooksProps) {
                     onError={() => {
                       const updatedBooks = [...books];
                       const bookIndex = updatedBooks.findIndex(
-                        (b) =>
-                          b.title === book.title && b.author === book.author,
+                        b => b.title === book.title && b.author === book.author
                       );
                       if (bookIndex !== -1) {
                         updatedBooks[bookIndex] = {
@@ -167,17 +166,17 @@ export default function RecentBooks({ onLoadingChange }: RecentBooksProps) {
 
   return (
     <div className={styles.bookGrid}>
-      {books.map((book) => (
+      {books.map(book => (
         <div key={book.title + book.author} className={styles.bookCard}>
           <a
-            href={book.bookLink || "#"}
+            href={book.bookLink || '#'}
             target="_blank"
             rel="noopener noreferrer"
             className={styles.bookLinkWrapper}
           >
             <div className={styles.bookCoverContainer}>
               <Image
-                src={book.coverImg || "/images/no-cover.png"}
+                src={book.coverImg || '/images/no-cover.png'}
                 alt={`Cover of ${book.title}`}
                 className={styles.bookCover}
                 width={100}
@@ -185,7 +184,7 @@ export default function RecentBooks({ onLoadingChange }: RecentBooksProps) {
                 onError={() => {
                   const updatedBooks = [...books];
                   const bookIndex = updatedBooks.findIndex(
-                    (b) => b.title === book.title && b.author === book.author,
+                    b => b.title === book.title && b.author === book.author
                   );
                   if (bookIndex !== -1) {
                     updatedBooks[bookIndex] = {

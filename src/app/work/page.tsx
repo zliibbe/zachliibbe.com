@@ -1,8 +1,8 @@
-import React from "react";
-import styles from "./page.module.css";
-import Footer from "../components/Footer";
-import { Metadata } from "next";
-import { Jobs } from "../components/Jobs";
+import React from 'react';
+import styles from './page.module.css';
+import Footer from '../components/Footer';
+import { Metadata } from 'next';
+import { Jobs } from '../components/Jobs';
 
 export default function Work() {
   return (
@@ -58,35 +58,35 @@ export default function Work() {
 }
 
 export const metadata: Metadata = {
-  title: "Work Experience | Zach Liibbe - Full Stack Developer",
+  title: 'Work Experience | Zach Liibbe - Full Stack Developer',
   description:
-    "Full-stack Software Engineer with frontend focus. Former cardiac nurse manager turned web developer. Passionate about clean design, collaborative teamwork, and meaningful user experiences.",
+    'Full-stack Software Engineer with frontend focus. Former cardiac nurse manager turned web developer. Passionate about clean design, collaborative teamwork, and meaningful user experiences.',
   keywords: [
-    "full stack developer",
-    "software engineer",
-    "web developer",
-    "frontend developer",
-    "React",
-    "Next.js",
-    "nurse manager",
-    "healthcare tech",
+    'full stack developer',
+    'software engineer',
+    'web developer',
+    'frontend developer',
+    'React',
+    'Next.js',
+    'nurse manager',
+    'healthcare tech',
   ],
-  authors: [{ name: "Zach Liibbe" }],
-  creator: "Zach Liibbe",
+  authors: [{ name: 'Zach Liibbe' }],
+  creator: 'Zach Liibbe',
   openGraph: {
-    title: "Work Experience | Zach Liibbe - Full Stack Developer",
+    title: 'Work Experience | Zach Liibbe - Full Stack Developer',
     description:
-      "Full-stack Software Engineer with frontend focus. Former cardiac nurse manager turned web developer. Passionate about clean design, collaborative teamwork, and meaningful user experiences.",
-    url: "https://zachliibbe.com/work",
-    siteName: "Zach Liibbe",
-    type: "website",
-    locale: "en_US",
+      'Full-stack Software Engineer with frontend focus. Former cardiac nurse manager turned web developer. Passionate about clean design, collaborative teamwork, and meaningful user experiences.',
+    url: 'https://zachliibbe.com/work',
+    siteName: 'Zach Liibbe',
+    type: 'website',
+    locale: 'en_US',
   },
   twitter: {
-    card: "summary",
-    title: "Work Experience | Zach Liibbe - Full Stack Developer",
+    card: 'summary',
+    title: 'Work Experience | Zach Liibbe - Full Stack Developer',
     description:
-      "Full-stack Software Engineer with frontend focus. Former cardiac nurse manager turned web developer.",
+      'Full-stack Software Engineer with frontend focus. Former cardiac nurse manager turned web developer.',
   },
   robots: {
     index: true,
@@ -97,6 +97,6 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: "https://zachliibbe.com/work",
+    canonical: 'https://zachliibbe.com/work',
   },
 };

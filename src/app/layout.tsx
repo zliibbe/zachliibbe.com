@@ -1,43 +1,43 @@
-import { Lexend, Roboto_Mono } from "next/font/google";
-import "./globals.css";
-import Header from "./components/Header";
-import React from "react";
-import { ThemeProvider } from "./context/ThemeContext";
-import { Metadata } from "next";
-import Script from "next/script";
-import Analytics from "./components/Analytics";
-import AuthProvider from "@/lib/auth-provider";
+import { Lexend, Roboto_Mono } from 'next/font/google';
+import './globals.css';
+import Header from './components/Header';
+import React from 'react';
+import { ThemeProvider } from './context/ThemeContext';
+import { Metadata } from 'next';
+import Script from 'next/script';
+import Analytics from './components/Analytics';
+import AuthProvider from '@/lib/auth-provider';
 
 const robotoMono = Roboto_Mono({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-roboto-mono",
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-roboto-mono',
 });
 
 const lexend = Lexend({
-  subsets: ["latin"],
-  display: "swap",
+  subsets: ['latin'],
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
-  title: "Zach Liibbe - Always Iterating...",
+  title: 'Zach Liibbe - Always Iterating...',
   description:
     "Zach Liibbe's corner of the web—thinking, tinkering, and typing it all out. Part work, part words, all curiosity (with the occasional tangent).",
-  applicationName: "zachliibbe.com",
+  applicationName: 'zachliibbe.com',
   icons: {
     icon: [
       {
-        url: "/favicon-light.png",
-        media: "(prefers-color-scheme: light)",
-        type: "image/png",
+        url: '/favicon-light.png',
+        media: '(prefers-color-scheme: light)',
+        type: 'image/png',
       },
       {
-        url: "/favicon-dark.png",
-        media: "(prefers-color-scheme: dark)",
-        type: "image/png",
+        url: '/favicon-dark.png',
+        media: '(prefers-color-scheme: dark)',
+        type: 'image/png',
       },
     ],
-    apple: "/apple-touch-icon.png",
+    apple: '/apple-touch-icon.png',
   },
 };
 

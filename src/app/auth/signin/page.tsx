@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { signIn, getSession } from "next-auth/react";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import styles from "./signin.module.css";
+import { signIn, getSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import styles from './signin.module.css';
 
 export default function SignIn() {
   const router = useRouter();
@@ -11,9 +11,9 @@ export default function SignIn() {
 
   useEffect(() => {
     // Check if already signed in
-    getSession().then((session) => {
+    getSession().then(session => {
       if (session) {
-        router.push("/admin");
+        router.push('/admin');
       }
     });
   }, [router]);
@@ -21,18 +21,18 @@ export default function SignIn() {
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
     try {
-      const result = await signIn("google", {
-        callbackUrl: "/admin",
+      const result = await signIn('google', {
+        callbackUrl: '/admin',
         redirect: false,
       });
 
       if (result?.error) {
-        console.error("Sign in error:", result.error);
+        console.error('Sign in error:', result.error);
       } else if (result?.url) {
         router.push(result.url);
       }
     } catch (error) {
-      console.error("Sign in failed:", error);
+      console.error('Sign in failed:', error);
     } finally {
       setIsLoading(false);
     }
@@ -51,7 +51,7 @@ export default function SignIn() {
               disabled={isLoading}
               className={styles.googleButton}
             >
-              {isLoading ? "Signing in..." : "Continue with Google"}
+              {isLoading ? 'Signing in...' : 'Continue with Google'}
             </button>
 
             <p className={styles.note}>

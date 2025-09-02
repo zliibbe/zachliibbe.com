@@ -132,7 +132,7 @@
 }
 
 .animationToggle:not(.active)::after {
-  content: "";
+  content: '';
   position: absolute;
   width: 1.5px;
   height: 1rem;
@@ -301,11 +301,11 @@
   /* padding: 0.5rem; */
 }
 
-[data-theme="dark"] .toggleLabel {
+[data-theme='dark'] .toggleLabel {
   color: var(--white);
 }
 
-[data-theme="dark"] .preferences {
+[data-theme='dark'] .preferences {
   background: var(--modal-bg);
   color: var(--white);
 }

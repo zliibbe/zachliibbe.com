@@ -1,9 +1,9 @@
-import { NextResponse } from "next/server";
-import { kv } from "@vercel/kv";
-import { getAccessToken } from "@/lib/strava/auth";
+import { NextResponse } from 'next/server';
+import { kv } from '@vercel/kv';
+import { getAccessToken } from '@/lib/strava/auth';
 
-export const dynamic = "force-dynamic";
-const CACHE_KEY = "strava_activities";
+export const dynamic = 'force-dynamic';
+const CACHE_KEY = 'strava_activities';
 const CACHE_DURATION = 300; // 5 minutes
 
 export async function GET(request: Request) {
@@ -24,8 +24,8 @@ export async function GET(request: Request) {
 
     // Get parameters from the request
     const url = new URL(request.url);
-    const days = url.searchParams.get("days")
-      ? parseInt(url.searchParams.get("days")!)
+    const days = url.searchParams.get('days')
+      ? parseInt(url.searchParams.get('days')!)
       : 365;
 
     // Calculate the timestamp for 'days' ago
@@ -46,7 +46,7 @@ export async function GET(request: Request) {
             Authorization: `Bearer ${accessToken}`,
           },
           signal: controller.signal,
-        },
+        }
       );
 
       clearTimeout(timeoutId);
@@ -55,7 +55,7 @@ export async function GET(request: Request) {
         const errorText = await response.text();
         console.error(
           `[${requestId}] Strava API error: ${response.status}`,
-          errorText,
+          errorText
         );
         throw new Error(`Strava API returned ${response.status}: ${errorText}`);
       }
@@ -72,7 +72,7 @@ export async function GET(request: Request) {
 
       return NextResponse.json(activities, {
         headers: {
-          "Cache-Control": "public, max-age=300", // 5 minutes
+          'Cache-Control': 'public, max-age=300', // 5 minutes
         },
       });
     } catch (innerError) {
@@ -80,7 +80,7 @@ export async function GET(request: Request) {
 
       // Try to get stale data as fallback
       try {
-        const staleData = await kv.get("strava_activities_stale");
+        const staleData = await kv.get('strava_activities_stale');
         if (staleData) {
           return NextResponse.json(staleData);
         }
@@ -101,10 +101,10 @@ export async function GET(request: Request) {
 
     return NextResponse.json(
       {
-        error: "Failed to fetch activities",
+        error: 'Failed to fetch activities',
         details: error instanceof Error ? error.message : String(error),
       },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

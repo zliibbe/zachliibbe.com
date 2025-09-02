@@ -11,19 +11,5 @@
     "tags": ["draft", "work-in-progress"],
     "readTime": "1 min read",
     "status": "draft"
-  },
-  {
-    "id": "scheduled-post-2025",
-    "slug": "upcoming-features",
-    "title": "Upcoming Features and Roadmap",
-    "author": "Zach Liibbe",
-    "publishedAt": "",
-    "scheduledFor": "2025-08-30T09:00:00Z",
-    "excerpt": "A look ahead at what's coming next in the blog system development, including the RAG-powered chat feature.",
-    "content": "<h2>What's Coming Next?</h2>\n\n<p>Now that we have a working blog system, here's what's on the roadmap:</p>\n\n<h3>Phase 3: RAG-Powered Chat</h3>\n\n<ul>\n<li><strong>Pinecone integration</strong>: Vector database for knowledge storage</li>\n<li><strong>Claude API</strong>: AI-powered responses about my work and experience</li>\n<li><strong>Knowledge base</strong>: Professional info, projects, and personal details</li>\n<li><strong>Floating chat widget</strong>: Bottom-right corner interface</li>\n</ul>\n\n<h3>Additional Improvements</h3>\n\n<ul>\n<li>RSS feed generation</li>\n<li>Search functionality</li>\n<li>Social sharing buttons</li>\n<li>Reading progress indicator</li>\n<li>Comment system (future consideration)</li>\n</ul>\n\n<blockquote>\n<p>This post is scheduled to publish on August 30th at 9 AM UTC.</p>\n</blockquote>\n\n<h3>Cost Optimization</h3>\n\n<p>We're keeping costs low by:</p>\n\n<ul>\n<li>Using file-based storage instead of a database</li>\n<li>Implementing conversation limits for the chat system</li>\n<li>Caching embeddings to avoid re-computation</li>\n</ul>\n\n<p>Excited to continue building in public! 🚀</p>",
-    "categories": ["Development", "Projects"],
-    "tags": ["roadmap", "rag", "chat", "planning"],
-    "readTime": "3 min read",
-    "status": "scheduled"
   }
 ]

@@ -195,7 +195,7 @@ type ChatSession = {
 type BlogPost = {
   id: string;
   slug: string;
-  status: "draft" | "scheduled" | "published";
+  status: 'draft' | 'scheduled' | 'published';
   scheduledFor?: string;
   publishedAt?: string;
   metadata: PostMetadata;

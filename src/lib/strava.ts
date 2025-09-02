@@ -1,6 +1,6 @@
-import { kv } from "@vercel/kv";
+import { kv } from '@vercel/kv';
 
-const STRAVA_TOKEN_CACHE_KEY = "strava_access_token";
+const STRAVA_TOKEN_CACHE_KEY = 'strava_access_token';
 
 interface StravaTokenResponse {
   access_token: string;
@@ -17,16 +17,16 @@ export async function getStravaAccessToken(): Promise<string> {
     }
 
     // If no cached token, get a new one
-    const tokenResponse = await fetch("https://www.strava.com/oauth/token", {
-      method: "POST",
+    const tokenResponse = await fetch('https://www.strava.com/oauth/token', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         client_id: process.env.STRAVA_CLIENT_ID,
         client_secret: process.env.STRAVA_CLIENT_SECRET,
         refresh_token: process.env.STRAVA_REFRESH_TOKEN,
-        grant_type: "refresh_token",
+        grant_type: 'refresh_token',
       }),
     });
 
@@ -46,8 +46,8 @@ export async function getStravaAccessToken(): Promise<string> {
 
     return data.access_token;
   } catch (error) {
-    console.error("Error getting Strava access token:", error);
-    throw new Error("Failed to get Strava access token");
+    console.error('Error getting Strava access token:', error);
+    throw new Error('Failed to get Strava access token');
   }
 }
 
@@ -65,7 +65,7 @@ export async function fetchStravaActivities() {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
-      },
+      }
     );
 
     if (!response.ok) {
@@ -74,7 +74,7 @@ export async function fetchStravaActivities() {
 
     return await response.json();
   } catch (error) {
-    console.error("Error fetching Strava activities:", error);
+    console.error('Error fetching Strava activities:', error);
     throw error;
   }
 }
