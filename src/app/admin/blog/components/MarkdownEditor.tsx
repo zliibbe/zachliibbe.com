@@ -78,28 +78,31 @@ export default function MarkdownEditor({
         const reader = new FileReader();
         reader.onload = e => {
           const content = e.target?.result as string;
-          console.log('Raw file content:', content.substring(0, 200));
+          
+          try {
+            // Parse frontmatter
+            const { data: frontmatter, content: bodyContent } = matter(content);
 
-          // Parse frontmatter
-          const { data: frontmatter, content: bodyContent } = matter(content);
-          console.log('Parsed frontmatter:', frontmatter);
-          console.log('Body content preview:', bodyContent.substring(0, 200));
+            // Update the post content (without frontmatter)  
+            handleContentChange(bodyContent);
 
-          // Update the post content (without frontmatter)
-          handleContentChange(bodyContent);
-
-          // Update the post metadata from frontmatter
-          setPost(prev => ({
-            ...prev,
-            title: frontmatter.title || prev.title,
-            categories: frontmatter.categories || prev.categories,
-            tags: frontmatter.tags || prev.tags,
-            series: frontmatter.series || prev.series,
-            excerpt: frontmatter.excerpt || prev.excerpt,
-            status: frontmatter.status || prev.status,
-            scheduledFor: frontmatter.scheduledFor || prev.scheduledFor,
-            mediumUrl: frontmatter.mediumUrl || prev.mediumUrl,
-          }));
+            // Update the post metadata from frontmatter
+            setPost(prev => ({
+              ...prev,
+              title: frontmatter.title || prev.title,
+              categories: frontmatter.categories || prev.categories,
+              tags: frontmatter.tags || prev.tags,
+              series: frontmatter.series || prev.series,
+              excerpt: frontmatter.excerpt || prev.excerpt,
+              status: frontmatter.status || prev.status,
+              scheduledFor: frontmatter.scheduledFor || prev.scheduledFor,
+              mediumUrl: frontmatter.mediumUrl || prev.mediumUrl,
+            }));
+          } catch (error) {
+            console.error('Error parsing frontmatter:', error);
+            // Fallback to importing raw content
+            handleContentChange(content);
+          }
         };
         reader.readAsText(file);
       }
