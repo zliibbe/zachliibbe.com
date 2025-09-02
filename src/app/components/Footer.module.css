@@ -1,6 +1,6 @@
 /* Admin link styles */
 .adminLink {
-  color: var(--text-tertiary);
+  color: var(--text-primary);
   text-decoration: none;
   font-size: 0.875rem;
   opacity: 0.6;
@@ -14,7 +14,6 @@
 
 /* Base container styles */
 .footer {
-  background-color: var(--background-primary);
   color: var(--text-primary);
   width: 100%;
   padding: 0 0 2rem 0;
@@ -32,7 +31,6 @@
   max-width: calc(var(--max-width) + 2rem);
   margin: 0 auto;
   padding: 1rem 2rem;
-  background-color: var(--background-primary);
   color: var(--text-primary);
   /* transition: all 0.3s ease; */
   border-radius: var(--border-radius);
@@ -125,14 +123,6 @@
 }
 
 /* Dark mode styles */
-html[data-theme='dark'] .footer {
-  background-color: var(--background-primary);
-  color: var(--text-primary);
-}
-
-html[data-theme='dark'] .footerContent {
-  background-color: var(--black);
-}
 
 html[data-theme='dark'] .stravaIcon,
 html[data-theme='dark'] .goodreadsIcon,
@@ -145,6 +135,10 @@ html[data-theme='dark'] .feedIcon {
 html[data-theme='dark'] .liveFeedText,
 html[data-theme='dark'] .liveFeedHeader,
 html[data-theme='dark'] .copywrite {
+  color: var(--white);
+}
+
+html[data-theme='dark'] .adminLink {
   color: var(--white);
 }
 
@@ -312,10 +306,6 @@ html[data-theme='dark'] .stravaLink {
   }
 }
 /* Dark mode styles */
-html[data-theme='dark'] .footerContent {
-  background-color: var(--black);
-  color: var(--text-primary);
-}
 
 html[data-theme='dark'] .nextVercelIcon {
   filter: invert(1);
@@ -362,10 +352,6 @@ html[data-theme='dark'] .liveFeedHeader {
   color: var(--white);
 }
 
-[data-theme='dark'] .footerContent {
-  background-color: var(--black);
-  color: var(--text-primary);
-}
 
 html[data-theme='dark'] .liveFeed {
   background-color: var(--background-primary);
