@@ -173,8 +173,6 @@ export default function MarkdownEditor({
 
   const handleSave = () => {
     console.log('Scheduling post with date:', post.scheduledFor);
-    console.log('Parsed date:', new Date(post.scheduledFor));
-    console.log('Is future?', new Date(post.scheduledFor) > new Date());
     // Validate scheduling requirements
     if (post.status === 'scheduled' && !post.scheduledFor) {
       alert(
