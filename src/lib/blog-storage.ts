@@ -52,6 +52,11 @@ function loadPostsFromFile(filePath: string): BlogPost[] {
 
 // Save posts to file
 function savePostsToFile(filePath: string, posts: BlogPost[]) {
+  // Check if we're in production on Vercel
+  if (process.env.NODE_ENV === 'production' && process.env.VERCEL) {
+    throw new Error('File-based storage not supported in Vercel production. Please use database storage.');
+  }
+  
   ensureStorageDir();
   try {
     fs.writeFileSync(filePath, JSON.stringify(posts, null, 2), 'utf8');
