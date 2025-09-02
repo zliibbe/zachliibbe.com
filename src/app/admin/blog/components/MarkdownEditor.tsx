@@ -199,6 +199,7 @@ export default function MarkdownEditor({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
+    // Only prevent default for specific shortcuts, let other keys pass through
     if (e.ctrlKey || e.metaKey) {
       if (e.key === 's') {
         e.preventDefault();
@@ -208,6 +209,7 @@ export default function MarkdownEditor({
         setPreviewMode(!previewMode);
       }
     }
+    // Don't prevent default for other keys - let them reach the textarea
   };
 
   // Enhanced paste handler with frontmatter parsing
@@ -243,7 +245,7 @@ export default function MarkdownEditor({
   }, []);
 
   return (
-    <div className={styles.container} onKeyDown={handleKeyDown}>
+    <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.headerLeft}>
           <input
@@ -459,7 +461,7 @@ export default function MarkdownEditor({
               <div
                 className={styles.previewContent}
                 dangerouslySetInnerHTML={{
-                  __html: markdownToHtml(post.content), // Fix: Use actual markdown parser
+                  __html: markdownToHtml(post.content),
                 }}
               />
             </div>
@@ -505,7 +507,8 @@ Use Ctrl/Cmd + S to save, Ctrl/Cmd + P to toggle preview.
 • All frontmatter fields (title, tags, categories, etc.) will populate the sidebar"
               value={post.content}
               onChange={e => handleContentChange(e.target.value)}
-              onPaste={handlePaste} // Add paste handler
+              onPaste={handlePaste}
+              onKeyDown={handleKeyDown}
               className={styles.content}
             />
           )}
