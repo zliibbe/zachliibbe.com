@@ -21,19 +21,12 @@ export default function SignIn() {
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
     try {
-      const result = await signIn('google', {
+      await signIn('google', {
         callbackUrl: '/admin',
-        redirect: false,
+        redirect: true,
       });
-
-      if (result?.error) {
-        console.error('Sign in error:', result.error);
-      } else if (result?.url) {
-        router.push(result.url);
-      }
     } catch (error) {
       console.error('Sign in failed:', error);
-    } finally {
       setIsLoading(false);
     }
   };
@@ -45,7 +38,6 @@ export default function SignIn() {
           <div className={styles.signInCard}>
             <h1>Admin Access</h1>
             <p>Sign in to access the blog administration interface.</p>
-
             <button
               onClick={handleGoogleSignIn}
               disabled={isLoading}
@@ -53,7 +45,6 @@ export default function SignIn() {
             >
               {isLoading ? 'Signing in...' : 'Continue with Google'}
             </button>
-
             <p className={styles.note}>
               Access restricted to authorized users only.
             </p>
