@@ -1,6 +1,6 @@
-import Link from "next/link";
-import Footer from "@/app/components/Footer";
-import styles from "./page.module.css";
+import Link from 'next/link';
+import Footer from '@/app/components/Footer';
+import styles from './page.module.css';
 
 export default function NotFound() {
   return (

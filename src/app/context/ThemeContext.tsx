@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import React, { createContext, useContext, useState, useEffect } from "react";
-import { Theme, themes, applyTheme } from "@/app/styles/themes";
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { Theme, themes, applyTheme } from '@/app/styles/themes';
 
 interface ThemeContextType {
-  currentTheme: Theme["name"];
-  setTheme: (theme: Theme["name"]) => void;
+  currentTheme: Theme['name'];
+  setTheme: (theme: Theme['name']) => void;
   isDarkMode: boolean;
   toggleDarkMode: () => void;
   isAnimated: boolean;
@@ -15,20 +15,20 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [currentTheme, setCurrentTheme] = useState<Theme["name"]>("default");
+  const [currentTheme, setCurrentTheme] = useState<Theme['name']>('default');
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isAnimated, setIsAnimated] = useState(true);
 
   // Initial setup
   useEffect(() => {
     // Check for saved theme preference
-    const savedTheme = localStorage.getItem("selectedTheme") as Theme["name"];
-    const savedDarkMode = localStorage.getItem("darkMode");
-    const savedAnimation = localStorage.getItem("gradientAnimation");
+    const savedTheme = localStorage.getItem('selectedTheme') as Theme['name'];
+    const savedDarkMode = localStorage.getItem('darkMode');
+    const savedAnimation = localStorage.getItem('gradientAnimation');
 
     // Check system dark mode preference
     const prefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)",
+      '(prefers-color-scheme: dark)'
     ).matches;
 
     // Set initial dark mode
@@ -38,8 +38,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
     // Set the theme on the html element
     document.documentElement.setAttribute(
-      "data-theme",
-      initialDarkMode ? "dark" : "light",
+      'data-theme',
+      initialDarkMode ? 'dark' : 'light'
     );
 
     // Set initial theme
@@ -47,8 +47,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       setCurrentTheme(savedTheme);
       applyTheme(savedTheme);
     } else {
-      setCurrentTheme("default");
-      applyTheme("default");
+      setCurrentTheme('default');
+      applyTheme('default');
     }
 
     // Set initial animation state and apply it
@@ -59,40 +59,40 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
     // Add this line to set the CSS variable on initial load
     document.documentElement.style.setProperty(
-      "--gradient-timing",
-      initialAnimationState ? "10s" : "0s",
+      '--gradient-timing',
+      initialAnimationState ? '10s' : '0s'
     );
   }, []);
 
   // Handle dark mode changes
   useEffect(() => {
     document.documentElement.setAttribute(
-      "data-theme",
-      isDarkMode ? "dark" : "light",
+      'data-theme',
+      isDarkMode ? 'dark' : 'light'
     );
-    localStorage.setItem("darkMode", JSON.stringify(isDarkMode));
+    localStorage.setItem('darkMode', JSON.stringify(isDarkMode));
   }, [isDarkMode]);
 
   // Handle theme changes
-  const setTheme = (theme: Theme["name"]) => {
+  const setTheme = (theme: Theme['name']) => {
     setCurrentTheme(theme);
     applyTheme(theme);
-    localStorage.setItem("selectedTheme", theme);
+    localStorage.setItem('selectedTheme', theme);
   };
 
   // Handle dark mode toggle
   const toggleDarkMode = () => {
-    setIsDarkMode((prev) => {
+    setIsDarkMode(prev => {
       const newValue = !prev;
 
       // Set theme attribute
       document.documentElement.setAttribute(
-        "data-theme",
-        newValue ? "dark" : "light",
+        'data-theme',
+        newValue ? 'dark' : 'light'
       );
 
       // Update localStorage
-      localStorage.setItem("darkMode", JSON.stringify(newValue));
+      localStorage.setItem('darkMode', JSON.stringify(newValue));
 
       return newValue;
     });
@@ -102,34 +102,34 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const toggleAnimation = () => {
     const newValue = !isAnimated;
     setIsAnimated(newValue);
-    localStorage.setItem("gradientAnimation", JSON.stringify(newValue));
+    localStorage.setItem('gradientAnimation', JSON.stringify(newValue));
     document.documentElement.style.setProperty(
-      "--gradient-timing",
-      newValue ? "10s" : "0s",
+      '--gradient-timing',
+      newValue ? '10s' : '0s'
     );
   };
 
   // Listen for system dark mode changes
   useEffect(() => {
     const darkModeMediaQuery = window.matchMedia(
-      "(prefers-color-scheme: dark)",
+      '(prefers-color-scheme: dark)'
     );
     const handleDarkModeChange = (e: MediaQueryListEvent) => {
-      if (!localStorage.getItem("darkMode")) {
+      if (!localStorage.getItem('darkMode')) {
         setIsDarkMode(e.matches);
       }
     };
 
-    darkModeMediaQuery.addEventListener("change", handleDarkModeChange);
+    darkModeMediaQuery.addEventListener('change', handleDarkModeChange);
     return () =>
-      darkModeMediaQuery.removeEventListener("change", handleDarkModeChange);
+      darkModeMediaQuery.removeEventListener('change', handleDarkModeChange);
   }, []);
 
   useEffect(() => {
     // Apply theme to document
     document.documentElement.setAttribute(
-      "data-theme",
-      isDarkMode ? "dark" : "light",
+      'data-theme',
+      isDarkMode ? 'dark' : 'light'
     );
   }, [isDarkMode]);
 
@@ -152,7 +152,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 export function useTheme() {
   const context = useContext(ThemeContext);
   if (context === undefined) {
-    throw new Error("useTheme must be used within a ThemeProvider");
+    throw new Error('useTheme must be used within a ThemeProvider');
   }
   return context;
 }

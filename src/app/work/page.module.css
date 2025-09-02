@@ -85,18 +85,18 @@
 }
 
 /* Add dark mode styles for container */
-[data-theme="dark"] .container {
+[data-theme='dark'] .container {
   background: var(--background-primary);
   color: var(--text-primary);
 }
 
 /* Update overview text color for dark mode */
-[data-theme="dark"] .overviewText {
+[data-theme='dark'] .overviewText {
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .overviewTitle,
-[data-theme="dark"] .experienceTitle {
+[data-theme='dark'] .overviewTitle,
+[data-theme='dark'] .experienceTitle {
   color: var(--text-primary);
 }
 

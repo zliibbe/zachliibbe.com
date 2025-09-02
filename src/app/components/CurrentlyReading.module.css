@@ -16,7 +16,7 @@
 }
 
 .bookTitle::before {
-  content: "";
+  content: '';
   position: absolute;
   top: -140px;
   transform: translateX(-50%);

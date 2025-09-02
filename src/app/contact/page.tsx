@@ -1,7 +1,7 @@
-import styles from "./page.module.css";
-import EmailCopy from "./EmailCopy";
-import Footer from "../components/Footer";
-import { Metadata } from "next";
+import styles from './page.module.css';
+import EmailCopy from './EmailCopy';
+import Footer from '../components/Footer';
+import { Metadata } from 'next';
 
 export default function Contact() {
   return (
@@ -27,33 +27,33 @@ export default function Contact() {
 }
 
 export const metadata: Metadata = {
-  title: "Contact Zach Liibbe | Get in Touch with Full Stack Developer",
+  title: 'Contact Zach Liibbe | Get in Touch with Full Stack Developer',
   description:
-    "Get in touch with Zach Liibbe, full-stack software engineer. Quick response via email for collaboration opportunities, project inquiries, or just to say hello.",
+    'Get in touch with Zach Liibbe, full-stack software engineer. Quick response via email for collaboration opportunities, project inquiries, or just to say hello.',
   keywords: [
-    "contact Zach Liibbe",
-    "email developer",
-    "hire full stack developer",
-    "collaboration",
-    "project inquiry",
-    "software engineer contact",
+    'contact Zach Liibbe',
+    'email developer',
+    'hire full stack developer',
+    'collaboration',
+    'project inquiry',
+    'software engineer contact',
   ],
-  authors: [{ name: "Zach Liibbe" }],
-  creator: "Zach Liibbe",
+  authors: [{ name: 'Zach Liibbe' }],
+  creator: 'Zach Liibbe',
   openGraph: {
-    title: "Contact Zach Liibbe | Get in Touch with Full Stack Developer",
+    title: 'Contact Zach Liibbe | Get in Touch with Full Stack Developer',
     description:
-      "Get in touch with Zach Liibbe, full-stack software engineer. Quick response via email for collaboration opportunities, project inquiries, or just to say hello.",
-    url: "https://zachliibbe.com/contact",
-    siteName: "Zach Liibbe",
-    type: "website",
-    locale: "en_US",
+      'Get in touch with Zach Liibbe, full-stack software engineer. Quick response via email for collaboration opportunities, project inquiries, or just to say hello.',
+    url: 'https://zachliibbe.com/contact',
+    siteName: 'Zach Liibbe',
+    type: 'website',
+    locale: 'en_US',
   },
   twitter: {
-    card: "summary",
-    title: "Contact Zach Liibbe | Get in Touch with Full Stack Developer",
+    card: 'summary',
+    title: 'Contact Zach Liibbe | Get in Touch with Full Stack Developer',
     description:
-      "Get in touch with Zach Liibbe, full-stack software engineer. Quick response via email for collaboration opportunities.",
+      'Get in touch with Zach Liibbe, full-stack software engineer. Quick response via email for collaboration opportunities.',
   },
   robots: {
     index: true,
@@ -64,6 +64,6 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: "https://zachliibbe.com/contact",
+    canonical: 'https://zachliibbe.com/contact',
   },
 };

@@ -1,14 +1,14 @@
-import { Suspense } from "react";
-import Link from "next/link";
-import { Metadata } from "next";
+import { Suspense } from 'react';
+import Link from 'next/link';
+import { Metadata } from 'next';
 import {
   getPaginatedPostsWithImages,
   getAllCategories,
   getAllTags,
-} from "@/lib/blog-with-images";
-import PostCard from "@/app/components/Blog/PostCard";
-import Footer from "@/app/components/Footer";
-import styles from "./page.module.css";
+} from '@/lib/blog-with-images';
+import PostCard from '@/app/components/Blog/PostCard';
+import Footer from '@/app/components/Footer';
+import styles from './page.module.css';
 
 interface BlogPageProps {
   searchParams: Promise<{
@@ -20,7 +20,7 @@ interface BlogPageProps {
 
 export default async function BlogPage({ searchParams }: BlogPageProps) {
   const params = await searchParams;
-  const currentPage = parseInt(params.page || "1");
+  const currentPage = parseInt(params.page || '1');
   const filters = {
     category: params.category,
     tag: params.tag,
@@ -37,7 +37,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
 
   // Helper function to create URL search params with defined values only
   const createSearchParams = (
-    params: Record<string, string | undefined>,
+    params: Record<string, string | undefined>
   ): string => {
     const definedParams: Record<string, string> = {};
     Object.entries(params).forEach(([key, value]) => {
@@ -71,14 +71,14 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
                 <div className={styles.filters}>
                   <div className={styles.filterLabel}>Categories:</div>
                   <div className={styles.filterLinks}>
-                    {categories.map((category) => (
+                    {categories.map(category => (
                       <Link
                         key={category}
                         href={`/blog?category=${encodeURIComponent(category.toLowerCase())}`}
                         className={`${styles.filterLink} ${
                           filters.category === category.toLowerCase()
                             ? styles.active
-                            : ""
+                            : ''
                         }`}
                       >
                         {category}
@@ -90,12 +90,12 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
                 <div className={styles.filters}>
                   <div className={styles.filterLabel}>Tags:</div>
                   <div className={styles.filterLinks}>
-                    {tags.slice(0, 10).map((tag) => (
+                    {tags.slice(0, 10).map(tag => (
                       <Link
                         key={tag}
                         href={`/blog?tag=${encodeURIComponent(tag)}`}
                         className={`${styles.filterLink} ${
-                          filters.tag === tag ? styles.active : ""
+                          filters.tag === tag ? styles.active : ''
                         }`}
                       >
                         #{tag}
@@ -112,14 +112,14 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
                 {/* Blog Posts */}
                 <div className={styles.postsContainer}>
                   {posts.length > 0 ? (
-                    posts.map((post) => <PostCard key={post.id} post={post} />)
+                    posts.map(post => <PostCard key={post.id} post={post} />)
                   ) : (
                     <div className={styles.noResults}>
                       <h2 className={styles.noResultsTitle}>No posts found</h2>
                       <p>
                         {hasFilters
-                          ? "Try adjusting your filters or browse all posts."
-                          : "Check back soon for new content!"}
+                          ? 'Try adjusting your filters or browse all posts.'
+                          : 'Check back soon for new content!'}
                       </p>
                       {hasFilters && (
                         <Link href="/blog" className={styles.clearFilters}>
@@ -173,7 +173,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
 }
 
 export const metadata: Metadata = {
-  title: "Blog | Zach Liibbe",
+  title: 'Blog | Zach Liibbe',
   description:
-    "Thoughts on development, life, and everything in between. I write about building things, learning new technologies, and the journey of being a developer.",
+    'Thoughts on development, life, and everything in between. I write about building things, learning new technologies, and the journey of being a developer.',
 };

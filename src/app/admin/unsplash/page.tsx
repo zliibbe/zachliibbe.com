@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import { Metadata } from "next";
-import styles from "./page.module.css";
+import { useState, useEffect } from 'react';
+import { Metadata } from 'next';
+import styles from './page.module.css';
 
 interface UnsplashStatus {
-  mode: "demo" | "production" | "unconfigured";
+  mode: 'demo' | 'production' | 'unconfigured';
   configured: boolean;
   limits: {
     requests_per_hour: number;
@@ -35,12 +35,12 @@ export default function UnsplashAdminPage() {
 
   const fetchStatus = async () => {
     try {
-      const response = await fetch("/api/unsplash/status");
-      if (!response.ok) throw new Error("Failed to fetch status");
+      const response = await fetch('/api/unsplash/status');
+      if (!response.ok) throw new Error('Failed to fetch status');
       const data = await response.json();
       setStatus(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Unknown error");
+      setError(err instanceof Error ? err.message : 'Unknown error');
     } finally {
       setLoading(false);
     }
@@ -54,14 +54,14 @@ export default function UnsplashAdminPage() {
 
   const getModeColor = (mode: string) => {
     switch (mode) {
-      case "production":
-        return "#22c55e";
-      case "demo":
-        return "#eab308";
-      case "unconfigured":
-        return "#ef4444";
+      case 'production':
+        return '#22c55e';
+      case 'demo':
+        return '#eab308';
+      case 'unconfigured':
+        return '#ef4444';
       default:
-        return "#6b7280";
+        return '#6b7280';
     }
   };
 
@@ -146,7 +146,7 @@ export default function UnsplashAdminPage() {
                       <span className={styles.checkbox}>☐</span>
                       {criterion}
                     </li>
-                  ),
+                  )
                 )}
               </ul>
 

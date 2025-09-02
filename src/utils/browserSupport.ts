@@ -8,19 +8,19 @@
  * @returns true if browser supports ES2020+ features
  */
 export function isModernBrowser(): boolean {
-  if (typeof window === "undefined") return true; // SSR context
+  if (typeof window === 'undefined') return true; // SSR context
 
   try {
     // Check for key modern features we rely on
     return (
-      "fetch" in window &&
-      "Promise" in window &&
-      "Map" in window &&
-      "Set" in window &&
-      typeof globalThis !== "undefined" &&
+      'fetch' in window &&
+      'Promise' in window &&
+      'Map' in window &&
+      'Set' in window &&
+      typeof globalThis !== 'undefined' &&
       // Check for optional chaining support (ES2020)
       // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-      eval("const obj = {}; obj?.test") !== undefined
+      eval('const obj = {}; obj?.test') !== undefined
     );
   } catch {
     return false;
@@ -32,13 +32,13 @@ export function isModernBrowser(): boolean {
  * @returns true if browser supports modern CSS
  */
 export function supportsModernCSS(): boolean {
-  if (typeof window === "undefined") return true; // SSR context
+  if (typeof window === 'undefined') return true; // SSR context
 
   try {
     return (
-      CSS.supports("display", "grid") &&
-      CSS.supports("gap", "1rem") &&
-      CSS.supports("backdrop-filter", "blur(10px)")
+      CSS.supports('display', 'grid') &&
+      CSS.supports('gap', '1rem') &&
+      CSS.supports('backdrop-filter', 'blur(10px)')
     );
   } catch {
     return false;
@@ -50,9 +50,9 @@ export function supportsModernCSS(): boolean {
  * Should be called sparingly and only for critical incompatibilities
  */
 export function showBrowserUpgradeNotice(): void {
-  if (typeof window === "undefined") return;
+  if (typeof window === 'undefined') return;
 
-  const notice = document.createElement("div");
+  const notice = document.createElement('div');
   notice.style.cssText = `
     position: fixed;
     top: 0;

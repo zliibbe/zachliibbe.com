@@ -1,24 +1,24 @@
-"use client";
+'use client';
 
-import { useSearchParams } from "next/navigation";
-import Link from "next/link";
-import { Suspense } from "react";
-import styles from "./error.module.css";
+import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
+import { Suspense } from 'react';
+import styles from './error.module.css';
 
 function AuthErrorContent() {
   const searchParams = useSearchParams();
-  const error = searchParams.get("error");
+  const error = searchParams.get('error');
 
   const getErrorMessage = (error: string | null) => {
     switch (error) {
-      case "AccessDenied":
-        return "Access denied. This admin interface is restricted to authorized users only.";
-      case "Configuration":
-        return "Authentication configuration error. Please try again later.";
-      case "Verification":
-        return "Email verification failed. Please try again.";
+      case 'AccessDenied':
+        return 'Access denied. This admin interface is restricted to authorized users only.';
+      case 'Configuration':
+        return 'Authentication configuration error. Please try again later.';
+      case 'Verification':
+        return 'Email verification failed. Please try again.';
       default:
-        return "An authentication error occurred. Please try again.";
+        return 'An authentication error occurred. Please try again.';
     }
   };
 

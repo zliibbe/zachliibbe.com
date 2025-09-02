@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
-import styles from "./CurrentlyReading.module.css";
-import footerStyles from "./Footer.module.css";
-import { getTimeAgo } from "@/app/utils/index";
+import React, { useEffect, useState } from 'react';
+import styles from './CurrentlyReading.module.css';
+import footerStyles from './Footer.module.css';
+import { getTimeAgo } from '@/app/utils/index';
 
 type Book = {
   title: string;
@@ -28,7 +28,7 @@ export default function CurrentlyReading() {
         setLoading(true);
         setError(null);
 
-        const response = await fetch("/api/goodreads/currently-reading");
+        const response = await fetch('/api/goodreads/currently-reading');
         const responseText = await response.text();
 
         // Store raw response for debugging
@@ -39,7 +39,7 @@ export default function CurrentlyReading() {
             rawResponse: responseText.substring(0, 500), // First 500 chars for debugging
           });
         } catch (e) {
-          console.error("Error setting debug info:", e);
+          console.error('Error setting debug info:', e);
         }
 
         if (!response.ok) {
@@ -52,9 +52,9 @@ export default function CurrentlyReading() {
           data = JSON.parse(responseText);
           // console.log("Received data from API:", data);
         } catch (parseError) {
-          console.error("Error parsing JSON:", parseError);
+          console.error('Error parsing JSON:', parseError);
           throw new Error(
-            `Invalid JSON response: ${responseText.substring(0, 100)}...`,
+            `Invalid JSON response: ${responseText.substring(0, 100)}...`
           );
         }
 
@@ -65,8 +65,8 @@ export default function CurrentlyReading() {
         } else if (data && data.books && Array.isArray(data.books)) {
           booksArray = data.books;
         } else {
-          console.error("Unexpected data format:", data);
-          throw new Error("No books data received");
+          console.error('Unexpected data format:', data);
+          throw new Error('No books data received');
         }
 
         // Normalize the data to ensure consistent property names
@@ -97,15 +97,15 @@ export default function CurrentlyReading() {
 
         setBooks(normalizedBooks);
       } catch (err) {
-        console.error("Error fetching currently reading books:", err);
+        console.error('Error fetching currently reading books:', err);
         setError(
-          err instanceof Error ? err.message : "An unknown error occurred",
+          err instanceof Error ? err.message : 'An unknown error occurred'
         );
 
         // Set fallback data for testing
         const fallbackBook: Book = {
-          title: "The Four Winds",
-          author: "Kristin Hannah",
+          title: 'The Four Winds',
+          author: 'Kristin Hannah',
           currentPage: 156,
           totalPages: 464,
           lastUpdated: new Date().toISOString(),
@@ -128,7 +128,7 @@ export default function CurrentlyReading() {
     );
   if (error) {
     // In development, show debug info
-    if (process.env.NODE_ENV === "development" || debugInfo) {
+    if (process.env.NODE_ENV === 'development' || debugInfo) {
       // console.log("Debug info:", debugInfo);
     }
     return <span>Error loading reading progress: {error}</span>;
@@ -144,7 +144,7 @@ export default function CurrentlyReading() {
 
   return (
     <>
-      Currently reading{" "}
+      Currently reading{' '}
       {currentBook.link ? (
         <a
           href={currentBook.link}
@@ -164,7 +164,7 @@ export default function CurrentlyReading() {
             ? ` (${currentBook.currentPage}% complete`
             : ` (on page ${currentBook.currentPage}/${currentBook.totalPages}`}
           {currentBook.lastUpdated && ` ${getTimeAgo(currentBook.lastUpdated)}`}
-          {")"}
+          {')'}
         </span>
       )}
     </>

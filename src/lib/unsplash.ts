@@ -31,30 +31,30 @@ export interface UnsplashSearchResponse {
   total_pages: number;
 }
 
-const UNSPLASH_API_URL = "https://api.unsplash.com";
+const UNSPLASH_API_URL = 'https://api.unsplash.com';
 const ACCESS_KEY = process.env.UNSPLASH_ACCESS_KEY;
 
 // Unsplash API Rate Limits
 export const UNSPLASH_LIMITS = {
   DEMO: {
     requests_per_hour: 50,
-    description: "Demo applications are limited to 50 requests per hour",
+    description: 'Demo applications are limited to 50 requests per hour',
   },
   PRODUCTION: {
     requests_per_hour: 5000,
     description:
-      "Production applications can make up to 5,000 requests per hour",
+      'Production applications can make up to 5,000 requests per hour',
   },
 } as const;
 
 // Current mode detection
-export function getUnsplashMode(): "demo" | "production" | "unconfigured" {
-  if (!ACCESS_KEY) return "unconfigured";
+export function getUnsplashMode(): 'demo' | 'production' | 'unconfigured' {
+  if (!ACCESS_KEY) return 'unconfigured';
 
   // In demo mode, you'll typically see rate limit headers indicating 50/hour
   // Production apps have much higher limits
   // For now, we'll assume demo mode until you get production approval
-  return "demo";
+  return 'demo';
 }
 
 // Rate limit tracking (simple in-memory counter)
@@ -74,7 +74,7 @@ export function getRemainingRequests(): {
 
   const mode = getUnsplashMode();
   const limit =
-    mode === "demo"
+    mode === 'demo'
       ? UNSPLASH_LIMITS.DEMO.requests_per_hour
       : UNSPLASH_LIMITS.PRODUCTION.requests_per_hour;
 
@@ -91,10 +91,10 @@ function incrementRequestCount() {
 
 export async function searchPhotos(
   query: string,
-  perPage: number = 1,
+  perPage: number = 1
 ): Promise<UnsplashPhoto[]> {
   if (!ACCESS_KEY) {
-    console.warn("Unsplash API key not configured, returning empty results");
+    console.warn('Unsplash API key not configured, returning empty results');
     return [];
   }
 
@@ -102,7 +102,7 @@ export async function searchPhotos(
   const { remaining, mode } = getRemainingRequests();
   if (remaining <= 0) {
     console.warn(
-      `Unsplash API rate limit exceeded for ${mode} mode. Try again later.`,
+      `Unsplash API rate limit exceeded for ${mode} mode. Try again later.`
     );
     return [];
   }
@@ -116,7 +116,7 @@ export async function searchPhotos(
         },
         // Cache for 1 hour to avoid hitting rate limits
         next: { revalidate: 3600 },
-      },
+      }
     );
 
     // Track the request for rate limiting
@@ -124,17 +124,17 @@ export async function searchPhotos(
 
     if (!response.ok) {
       console.error(
-        "Unsplash API error:",
+        'Unsplash API error:',
         response.status,
-        response.statusText,
+        response.statusText
       );
 
       // Log rate limit info if available
-      const rateLimitRemaining = response.headers.get("X-Ratelimit-Remaining");
-      const rateLimitLimit = response.headers.get("X-Ratelimit-Limit");
+      const rateLimitRemaining = response.headers.get('X-Ratelimit-Remaining');
+      const rateLimitLimit = response.headers.get('X-Ratelimit-Limit');
       if (rateLimitRemaining && rateLimitLimit) {
         console.log(
-          `Unsplash rate limit: ${rateLimitRemaining}/${rateLimitLimit} remaining`,
+          `Unsplash rate limit: ${rateLimitRemaining}/${rateLimitLimit} remaining`
         );
       }
 
@@ -144,15 +144,15 @@ export async function searchPhotos(
     const data: UnsplashSearchResponse = await response.json();
 
     // Log current usage for demo mode monitoring
-    if (mode === "demo") {
+    if (mode === 'demo') {
       console.log(
-        `Unsplash ${mode} mode: ${remaining - 1} requests remaining this hour`,
+        `Unsplash ${mode} mode: ${remaining - 1} requests remaining this hour`
       );
     }
 
     return data.results;
   } catch (error) {
-    console.error("Error fetching Unsplash photos:", error);
+    console.error('Error fetching Unsplash photos:', error);
     return [];
   }
 }
@@ -160,7 +160,7 @@ export async function searchPhotos(
 export async function getPhotoForBlogPost(
   categories: string[],
   tags: string[],
-  title: string,
+  title: string
 ): Promise<UnsplashPhoto | null> {
   // Create search queries from most to least specific
   const searchQueries = [
@@ -171,12 +171,12 @@ export async function getPhotoForBlogPost(
     // Try main tag
     tags[0] || null,
     // Fallback to generic terms based on category
-    categories.includes("Development") ? "programming code" : null,
-    categories.includes("Personal") ? "lifestyle personal" : null,
-    categories.includes("Learning") ? "education learning" : null,
-    categories.includes("Projects") ? "technology project" : null,
+    categories.includes('Development') ? 'programming code' : null,
+    categories.includes('Personal') ? 'lifestyle personal' : null,
+    categories.includes('Learning') ? 'education learning' : null,
+    categories.includes('Projects') ? 'technology project' : null,
     // Final fallback
-    "abstract minimal",
+    'abstract minimal',
   ].filter(Boolean);
 
   // Try each query until we get a result
@@ -194,7 +194,7 @@ export async function getPhotoForBlogPost(
 
 // Helper function to trigger download tracking (required by Unsplash API)
 export async function trackPhotoDownload(
-  downloadLocation: string,
+  downloadLocation: string
 ): Promise<void> {
   if (!ACCESS_KEY || !downloadLocation) return;
 
@@ -205,7 +205,7 @@ export async function trackPhotoDownload(
       },
     });
   } catch (error) {
-    console.error("Error tracking photo download:", error);
+    console.error('Error tracking photo download:', error);
   }
 }
 

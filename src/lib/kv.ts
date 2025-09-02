@@ -1,4 +1,4 @@
-import { kv } from "@vercel/kv";
+import { kv } from '@vercel/kv';
 
 // Export configured kv instance
 export { kv };
@@ -10,7 +10,7 @@ export async function verifyKVConnection() {
     // console.log("Successfully connected to KV store");
     return true;
   } catch (error) {
-    console.error("Failed to connect to KV store:", error);
+    console.error('Failed to connect to KV store:', error);
     return false;
   }
 }

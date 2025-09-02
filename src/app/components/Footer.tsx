@@ -1,29 +1,29 @@
-"use client";
+'use client';
 
-import React from "react";
-import { useEffect, useState } from "react";
-import styles from "./Footer.module.css";
-import Image from "next/image";
-import Link from "next/link";
-import { analytics } from "../utils/analytics";
-import { useSession } from "next-auth/react";
+import React from 'react';
+import { useEffect, useState } from 'react';
+import styles from './Footer.module.css';
+import Image from 'next/image';
+import Link from 'next/link';
+import { analytics } from '../utils/analytics';
+import { useSession } from 'next-auth/react';
 import {
   FaGithub,
   FaGoodreads,
   FaStrava,
   FaLinkedin,
   FaEnvelope,
-} from "react-icons/fa6";
-import moment from "moment";
-import CurrentlyReading from "./CurrentlyReading";
-import { useTheme } from "@/app/context/ThemeContext";
+} from 'react-icons/fa6';
+import moment from 'moment';
+import CurrentlyReading from './CurrentlyReading';
+import { useTheme } from '@/app/context/ThemeContext';
 import {
   formatDistanceToMiles,
   formatDistanceToYards,
   formatElapsedTime,
   getTimeAgo,
   numberToWords,
-} from "@/app/utils/index";
+} from '@/app/utils/index';
 
 type Book = {
   title: string;
@@ -54,24 +54,24 @@ export default function Footer() {
       setLoading(true);
       setError(null);
 
-      const response = await fetch("/api/strava/latest", {
+      const response = await fetch('/api/strava/latest', {
         next: {
           revalidate: 1800, // Revalidate cache every 30 minutes
         },
       });
 
       if (!response.ok) {
-        throw new Error("Failed to fetch activity");
+        throw new Error('Failed to fetch activity');
       }
 
       const latestActivity = await response.json();
       setActivity(latestActivity);
     } catch (err) {
       console.error(
-        "Footer: Error fetching activity:",
-        err instanceof Error ? err.message : err,
+        'Footer: Error fetching activity:',
+        err instanceof Error ? err.message : err
       );
-      setError("Failed to load most-recent activity");
+      setError('Failed to load most-recent activity');
       setActivity(null);
     } finally {
       setLoading(false);
@@ -84,7 +84,7 @@ export default function Footer() {
       setBookLoading(true);
       setBookError(null);
 
-      const response = await fetch("/api/goodreads/currently-reading");
+      const response = await fetch('/api/goodreads/currently-reading');
 
       if (!response.ok) {
         throw new Error(`Failed to fetch books: ${response.status}`);
@@ -98,14 +98,14 @@ export default function Footer() {
       } else if (data && data.books && Array.isArray(data.books)) {
         booksArray = data.books;
       } else {
-        throw new Error("No books data received");
+        throw new Error('No books data received');
       }
 
       setCurrentlyReading(booksArray);
     } catch (err) {
-      console.error("Error fetching books:", err);
+      console.error('Error fetching books:', err);
       setBookError(
-        err instanceof Error ? err.message : "Failed to fetch books",
+        err instanceof Error ? err.message : 'Failed to fetch books'
       );
       setCurrentlyReading([]); // Reset books on error
     } finally {
@@ -134,7 +134,7 @@ export default function Footer() {
    */
   const getActivityTimeAgo = (activity: any) => {
     if (!activity || !activity.start_date) {
-      return "recently";
+      return 'recently';
     }
 
     // Pass the start_date to getTimeAgo
@@ -142,9 +142,9 @@ export default function Footer() {
   };
 
   const getActivityDisplay = () => {
-    if (loading) return { text: "Loading activity...", isLoading: true };
+    if (loading) return { text: 'Loading activity...', isLoading: true };
     if (error) return { text: error, isLoading: false };
-    if (!activity) return { text: "No recent activity", isLoading: false };
+    if (!activity) return { text: 'No recent activity', isLoading: false };
 
     const getActivityText = () => {
       // Use the new helper function instead of directly calling getTimeAgo
@@ -152,10 +152,10 @@ export default function Footer() {
       const activityUrl = `https://www.strava.com/activities/${activity.id}`;
 
       switch (activity.type) {
-        case "Walk":
+        case 'Walk':
           return (
             <>
-              Recorded a{" "}
+              Recorded a{' '}
               <a
                 href={activityUrl}
                 className={styles.stravaLink}
@@ -164,11 +164,11 @@ export default function Footer() {
                 aria-label={`View ${formatDistanceToMiles(activity.distance)} walk on Strava`}
               >
                 {formatDistanceToMiles(activity.distance)} walk
-              </a>{" "}
+              </a>{' '}
               {daysAgo}.
             </>
           );
-        case "WeightTraining":
+        case 'WeightTraining':
           return (
             <>
               <a
@@ -179,14 +179,14 @@ export default function Footer() {
                 aria-label="View weight training session on Strava"
               >
                 Lifted weights
-              </a>{" "}
+              </a>{' '}
               for {formatElapsedTime(activity.elapsed_time)} {daysAgo}.
             </>
           );
-        case "Ride":
+        case 'Ride':
           return (
             <>
-              Recorded a{" "}
+              Recorded a{' '}
               <a
                 href={activityUrl}
                 className={styles.stravaLink}
@@ -195,14 +195,14 @@ export default function Footer() {
                 aria-label={`View ${formatDistanceToMiles(activity.distance)} bike ride on Strava`}
               >
                 {formatDistanceToMiles(activity.distance)} ride
-              </a>{" "}
+              </a>{' '}
               {daysAgo}.
             </>
           );
-        case "Run":
+        case 'Run':
           return (
             <>
-              Recorded a{" "}
+              Recorded a{' '}
               <a
                 href={activityUrl}
                 className={styles.stravaLink}
@@ -211,14 +211,14 @@ export default function Footer() {
                 aria-label={`View ${formatDistanceToMiles(activity.distance)} run on Strava`}
               >
                 {formatDistanceToMiles(activity.distance)} run
-              </a>{" "}
+              </a>{' '}
               {daysAgo}.
             </>
           );
-        case "Swim":
+        case 'Swim':
           return (
             <>
-              Recorded a{" "}
+              Recorded a{' '}
               <a
                 href={activityUrl}
                 className={styles.stravaLink}
@@ -227,14 +227,14 @@ export default function Footer() {
                 aria-label={`View ${formatDistanceToYards(activity.distance)} swim on Strava`}
               >
                 {formatDistanceToYards(activity.distance)} swim
-              </a>{" "}
+              </a>{' '}
               {formatElapsedTime(activity.elapsed_time)} {daysAgo}.
             </>
           );
         default:
           return (
             <>
-              Recorded{" "}
+              Recorded{' '}
               <a
                 href={activityUrl}
                 className={styles.stravaLink}
@@ -243,7 +243,7 @@ export default function Footer() {
                 aria-label={`View ${activity.name} activity on Strava`}
               >
                 {activity.name} - {formatDistanceToMiles(activity.distance)}
-              </a>{" "}
+              </a>{' '}
               {daysAgo}.
             </>
           );
@@ -270,8 +270,8 @@ export default function Footer() {
                     aria-label="View Strava profile"
                     onClick={() =>
                       handleExternalLinkClick(
-                        "https://www.strava.com/athletes/zachliibbe",
-                        "Strava Profile",
+                        'https://www.strava.com/athletes/zachliibbe',
+                        'Strava Profile'
                       )
                     }
                   >
@@ -279,7 +279,7 @@ export default function Footer() {
                   </a>
                   <p
                     className={`${styles.liveFeedText} ${
-                      loading ? styles.loadingText : ""
+                      loading ? styles.loadingText : ''
                     }`}
                   >
                     <span className={styles.liveFeedTextContent}>
@@ -295,8 +295,8 @@ export default function Footer() {
                     rel="noopener noreferrer"
                     onClick={() =>
                       handleExternalLinkClick(
-                        "https://www.goodreads.com/user/show/24890536-zach-liibbe",
-                        "Goodreads Profile",
+                        'https://www.goodreads.com/user/show/24890536-zach-liibbe',
+                        'Goodreads Profile'
                       )
                     }
                   >
@@ -324,8 +324,8 @@ export default function Footer() {
                 aria-label="Visit LinkedIn profile"
                 onClick={() =>
                   handleExternalLinkClick(
-                    "https://linkedin.com/in/zach-liibbe",
-                    "LinkedIn Profile",
+                    'https://linkedin.com/in/zach-liibbe',
+                    'LinkedIn Profile'
                   )
                 }
               >
@@ -342,8 +342,8 @@ export default function Footer() {
                 aria-label="Visit GitHub profile"
                 onClick={() =>
                   handleExternalLinkClick(
-                    "https://github.com/zliibbe",
-                    "GitHub Profile",
+                    'https://github.com/zliibbe',
+                    'GitHub Profile'
                   )
                 }
               >

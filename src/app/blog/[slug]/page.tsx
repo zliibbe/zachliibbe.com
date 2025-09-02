@@ -1,14 +1,14 @@
-import { notFound } from "next/navigation";
-import Link from "next/link";
-import Image from "next/image";
-import { Metadata } from "next";
-import { FaTwitter, FaLinkedin, FaEnvelope } from "react-icons/fa";
+import { notFound } from 'next/navigation';
+import Link from 'next/link';
+import Image from 'next/image';
+import { Metadata } from 'next';
+import { FaTwitter, FaLinkedin, FaEnvelope } from 'react-icons/fa';
 import {
   getPostBySlugWithImage,
   getAllPublishedPostsWithImages,
-} from "@/lib/blog-with-images";
-import Footer from "@/app/components/Footer";
-import styles from "./page.module.css";
+} from '@/lib/blog-with-images';
+import Footer from '@/app/components/Footer';
+import styles from './page.module.css';
 
 interface BlogPostPageProps {
   params: Promise<{
@@ -25,16 +25,16 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   }
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
     });
   };
 
   const shareUrl = `https://zachliibbe.com/blog/${post.slug}`;
   const shareText = encodeURIComponent(
-    `Check out "${post.title}" by ${post.author}`,
+    `Check out "${post.title}" by ${post.author}`
   );
 
   return (
@@ -57,7 +57,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                             width={post.featuredImage.width}
                             height={400}
                             className={styles.featuredImage}
-                            style={{ objectFit: "cover" }}
+                            style={{ objectFit: 'cover' }}
                             priority
                           />
                           <div className={styles.imageAttribution}>
@@ -82,7 +82,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                       </Link>
 
                       <div className={styles.categories}>
-                        {post.categories.map((category) => (
+                        {post.categories.map(category => (
                           <Link
                             key={category}
                             href={`/blog?category=${encodeURIComponent(category.toLowerCase())}`}
@@ -108,7 +108,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                       )}
 
                       <div className={styles.tags}>
-                        {post.tags.map((tag) => (
+                        {post.tags.map(tag => (
                           <Link
                             key={tag}
                             href={`/blog?tag=${encodeURIComponent(tag)}`}
@@ -174,7 +174,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 export async function generateStaticParams() {
   const posts = await getAllPublishedPostsWithImages();
 
-  return posts.map((post) => ({
+  return posts.map(post => ({
     slug: post.slug,
   }));
 }
@@ -188,7 +188,7 @@ export async function generateMetadata({
 
   if (!post) {
     return {
-      title: "Post Not Found | Zach Liibbe",
+      title: 'Post Not Found | Zach Liibbe',
     };
   }
 
@@ -198,13 +198,13 @@ export async function generateMetadata({
     openGraph: {
       title: post.title,
       description: post.excerpt,
-      type: "article",
+      type: 'article',
       publishedTime: post.publishedAt,
       authors: [post.author],
       tags: post.tags,
     },
     twitter: {
-      card: "summary_large_image",
+      card: 'summary_large_image',
       title: post.title,
       description: post.excerpt,
     },

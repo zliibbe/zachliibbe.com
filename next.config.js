@@ -2,70 +2,62 @@
 const nextConfig = {
   // Performance optimizations
   compiler: {
-    removeConsole: process.env.NODE_ENV === "production",
+    removeConsole: process.env.NODE_ENV === 'production',
   },
   experimental: {
-    optimizePackageImports: ["react-icons"],
-    turbo: {
-      rules: {
-        "*.svg": {
-          loaders: ["@svgr/webpack"],
-          as: "*.js",
-        },
-      },
-    },
+    optimizePackageImports: ['react-icons'],
   },
   poweredByHeader: false,
 
   images: {
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "images-na.ssl-images-amazon.com",
-        port: "",
-        pathname: "/images/**",
+        protocol: 'https',
+        hostname: 'images-na.ssl-images-amazon.com',
+        port: '',
+        pathname: '/images/**',
       },
       {
-        protocol: "https",
-        hostname: "images.gr-assets.com",
-        port: "",
-        pathname: "/images/**",
+        protocol: 'https',
+        hostname: 'images.gr-assets.com',
+        port: '',
+        pathname: '/images/**',
       },
       {
-        protocol: "https",
-        hostname: "i.gr-assets.com",
-        port: "",
-        pathname: "/images/**",
+        protocol: 'https',
+        hostname: 'i.gr-assets.com',
+        port: '',
+        pathname: '/images/**',
       },
       {
-        protocol: "https",
-        hostname: "images-us.ssl-images-amazon.com",
-        port: "",
-        pathname: "/images/**",
+        protocol: 'https',
+        hostname: 'images-us.ssl-images-amazon.com',
+        port: '',
+        pathname: '/images/**',
       },
       {
-        protocol: "https",
-        hostname: "images-eu.ssl-images-amazon.com",
-        port: "",
-        pathname: "/images/**",
+        protocol: 'https',
+        hostname: 'images-eu.ssl-images-amazon.com',
+        port: '',
+        pathname: '/images/**',
       },
       {
-        protocol: "https",
-        hostname: "s.gr-assets.com",
-        port: "",
-        pathname: "/images/**",
+        protocol: 'https',
+        hostname: 's.gr-assets.com',
+        port: '',
+        pathname: '/images/**',
       },
       {
-        protocol: "https",
-        hostname: "covers.openlibrary.org",
-        port: "",
-        pathname: "/**",
+        protocol: 'https',
+        hostname: 'covers.openlibrary.org',
+        port: '',
+        pathname: '/**',
       },
       {
-        protocol: "https",
-        hostname: "images.unsplash.com",
-        port: "",
-        pathname: "/**",
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        port: '',
+        pathname: '/**',
       },
     ],
   },
@@ -87,40 +79,40 @@ const nextConfig = {
   async headers() {
     return [
       {
-        source: "/api/:path*",
+        source: '/api/:path*',
         headers: [
-          { key: "Access-Control-Allow-Credentials", value: "true" },
-          { key: "Access-Control-Allow-Origin", value: "*" },
+          { key: 'Access-Control-Allow-Credentials', value: 'true' },
+          { key: 'Access-Control-Allow-Origin', value: '*' },
           {
-            key: "Access-Control-Allow-Methods",
-            value: "GET,OPTIONS,PATCH,DELETE,POST,PUT",
+            key: 'Access-Control-Allow-Methods',
+            value: 'GET,OPTIONS,PATCH,DELETE,POST,PUT',
           },
           {
-            key: "Access-Control-Allow-Headers",
+            key: 'Access-Control-Allow-Headers',
             value:
-              "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version",
+              'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
           },
         ],
       },
       {
         // Add resource hints for performance
-        source: "/:path*",
+        source: '/:path*',
         headers: [
           {
-            key: "X-DNS-Prefetch-Control",
-            value: "on",
+            key: 'X-DNS-Prefetch-Control',
+            value: 'on',
           },
           {
-            key: "X-Frame-Options",
-            value: "DENY",
+            key: 'X-Frame-Options',
+            value: 'DENY',
           },
           {
-            key: "X-Content-Type-Options",
-            value: "nosniff",
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
           },
           {
-            key: "Referrer-Policy",
-            value: "origin-when-cross-origin",
+            key: 'Referrer-Policy',
+            value: 'origin-when-cross-origin',
           },
         ],
       },
@@ -129,14 +121,14 @@ const nextConfig = {
   env: {
     UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
     UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
-    GOODREADS_GETREADBOOKS_URL_LOCAL: "http://localhost:3003/getReadBooks",
-    GOODREADS_GETAUDIOBOOKS_URL_LOCAL: "http://localhost:3003/getAudiobooks",
+    GOODREADS_GETREADBOOKS_URL_LOCAL: 'http://localhost:3003/getReadBooks',
+    GOODREADS_GETAUDIOBOOKS_URL_LOCAL: 'http://localhost:3003/getAudiobooks',
     GOODREADS_GETCURRENTLYREADING_URL_LOCAL:
-      "http://localhost:3003/getCurrentlyReading",
-    NEXT_PUBLIC_USE_LOCAL_LAMBDA: "true",
+      'http://localhost:3003/getCurrentlyReading',
+    NEXT_PUBLIC_USE_LOCAL_LAMBDA: 'true',
     VERCEL_ENV: process.env.VERCEL_ENV,
   },
-  assetPrefix: process.env.NODE_ENV === "production" ? "/" : "",
+  assetPrefix: process.env.NODE_ENV === 'production' ? '/' : '',
 };
 
 module.exports = nextConfig;
