@@ -55,7 +55,9 @@ export async function POST(request: NextRequest) {
         host,
         allowedOrigins,
         originMatch: allowedOrigins.map(ao => ({ [ao]: origin === ao })),
-        refererMatch: allowedOrigins.map(ao => ({ [ao]: referer.startsWith(ao) })),
+        refererMatch: allowedOrigins.map(ao => ({
+          [ao]: referer.startsWith(ao),
+        })),
       });
       return NextResponse.json(
         { error: 'Invalid request origin for CSRF protection' },
