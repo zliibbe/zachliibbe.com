@@ -41,6 +41,8 @@ Follow the coding commandments located at `~/.claude/commandments.md` for all de
 - **Jest & React Testing Library**: Unit and integration testing
 - **Vercel**: Deployment platform with automatic CI/CD
 
+Run `npm run format:fix` after making changes to ensure Prettier and ESLint rules are follwed.
+
 ## Architecture Overview
 
 This is a Next.js 15 portfolio website with the following key characteristics:

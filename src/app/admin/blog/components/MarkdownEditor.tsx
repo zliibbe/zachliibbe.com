@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useCallback } from 'react';
+import matter from 'gray-matter';
 import { markdownToHtml } from '@/lib/markdown';
 import styles from './MarkdownEditor.module.css';
 
@@ -77,7 +78,28 @@ export default function MarkdownEditor({
         const reader = new FileReader();
         reader.onload = e => {
           const content = e.target?.result as string;
-          handleContentChange(content);
+          console.log('Raw file content:', content.substring(0, 200));
+
+          // Parse frontmatter
+          const { data: frontmatter, content: bodyContent } = matter(content);
+          console.log('Parsed frontmatter:', frontmatter);
+          console.log('Body content preview:', bodyContent.substring(0, 200));
+
+          // Update the post content (without frontmatter)
+          handleContentChange(bodyContent);
+
+          // Update the post metadata from frontmatter
+          setPost(prev => ({
+            ...prev,
+            title: frontmatter.title || prev.title,
+            categories: frontmatter.categories || prev.categories,
+            tags: frontmatter.tags || prev.tags,
+            series: frontmatter.series || prev.series,
+            excerpt: frontmatter.excerpt || prev.excerpt,
+            status: frontmatter.status || prev.status,
+            scheduledFor: frontmatter.scheduledFor || prev.scheduledFor,
+            mediumUrl: frontmatter.mediumUrl || prev.mediumUrl,
+          }));
         };
         reader.readAsText(file);
       }
@@ -87,7 +109,24 @@ export default function MarkdownEditor({
 
   // Export current post as markdown file
   const handleExportFile = useCallback(() => {
-    const blob = new Blob([post.content], { type: 'text/markdown' });
+    // Create frontmatter
+    const frontmatterData = {
+      title: post.title,
+      author: post.author,
+      publishedAt: post.publishedAt,
+      status: post.status,
+      categories: post.categories,
+      tags: post.tags,
+      series: post.series,
+      excerpt: post.excerpt,
+      scheduledFor: post.scheduledFor,
+      mediumUrl: post.mediumUrl,
+    };
+
+    // Use gray-matter to create the full markdown file with frontmatter
+    const fullMarkdown = matter.stringify(post.content, frontmatterData);
+
+    const blob = new Blob([fullMarkdown], { type: 'text/markdown' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;

@@ -12,15 +12,11 @@ readTime: '8 min read'
 
 # Building a Multi-Source RSS Aggregator: Goodreads + Serverless Lambda
 
-![RSS Feeds and Lambda Architecture](https://images.unsplash.com/photo-1551808525-51a94da548ce?w=800&h=400&fit=crop)
-
 When I decided to display my reading activity on my personal website, I quickly discovered that working with RSS feeds in 2025 isn't as straightforward as it might seem. Goodreads provides RSS feeds, but they're inconsistent, sometimes malformed, and definitely not designed for modern web applications.
 
 Here's how I built a robust RSS aggregator using serverless Lambda functions that handles real-world XML parsing challenges and provides clean, reliable data for my website.
 
 ## The Challenge: RSS Feeds Are Messy
-
-![XML Parsing Challenges](https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=800&h=400&fit=crop)
 
 RSS feeds, especially from platforms like Goodreads, come with several challenges:
 
@@ -104,8 +100,6 @@ if (item.book_large_image_url) {
 ```
 
 ## Real-World XML Parsing Challenges
-
-![Data Processing Flow](https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&h=400&fit=crop)
 
 ### Challenge 1: Array vs Single Item Inconsistency
 
@@ -191,8 +185,6 @@ export async function GET(request: NextRequest) {
 
 ## Performance and Reliability
 
-![Performance Monitoring](https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=400&fit=crop)
-
 ### Caching Strategy
 
 The Lambda implements a three-tier caching approach:
@@ -249,8 +241,6 @@ The Lambda is deployed using Netlify Functions with a simple `netlify.toml`:
 ```
 
 ## Results and Lessons Learned
-
-![Success Metrics](https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=400&fit=crop)
 
 This serverless RSS aggregator now reliably serves book data to my website with:
 
