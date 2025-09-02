@@ -137,14 +137,15 @@ export async function PUT(request: NextRequest, context: RouteContext) {
       slug: params.slug,
       timestamp: new Date().toISOString(),
     });
-    
+
     // Return more specific error in development
     const isDev = process.env.NODE_ENV === 'development';
     return NextResponse.json(
-      { 
-        error: isDev && error instanceof Error 
-          ? `Internal server error: ${error.message}` 
-          : 'Internal server error' 
+      {
+        error:
+          isDev && error instanceof Error
+            ? `Internal server error: ${error.message}`
+            : 'Internal server error',
       },
       { status: 500 }
     );
