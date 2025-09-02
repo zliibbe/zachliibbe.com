@@ -2,11 +2,6 @@
 
 import React, { useState, useRef, useCallback } from 'react';
 import { markdownToHtml } from '@/lib/markdown';
-import {
-  parseFrontmatter,
-  stripFrontmatter,
-  createFrontmatter,
-} from '@/lib/frontmatter';
 import styles from './MarkdownEditor.module.css';
 
 interface BlogPost {
@@ -68,9 +63,7 @@ export default function MarkdownEditor({
   }, []);
 
   const handleContentChange = (content: string) => {
-    // Auto-strip frontmatter if detected
-    const cleanContent = stripFrontmatter(content);
-    setPost(prev => ({ ...prev, content: cleanContent }));
+    setPost(prev => ({ ...prev, content }));
   };
 
   // Import markdown file handler
@@ -84,27 +77,6 @@ export default function MarkdownEditor({
         const reader = new FileReader();
         reader.onload = e => {
           const content = e.target?.result as string;
-          // This will trigger the same logic as paste for frontmatter parsing
-          if (content.startsWith('---')) {
-            const { metadata, content: bodyContent } =
-              parseFrontmatter(content);
-
-            if (Object.keys(metadata).length > 0) {
-              setPost(prev => ({
-                ...prev,
-                title: metadata.title || prev.title,
-                excerpt: metadata.excerpt || prev.excerpt,
-                categories: metadata.categories || prev.categories,
-                tags: metadata.tags || prev.tags,
-                series: metadata.series || prev.series,
-                status: metadata.status || prev.status,
-                content: bodyContent,
-              }));
-              return;
-            }
-          }
-
-          // Fallback to content change handler
           handleContentChange(content);
         };
         reader.readAsText(file);
@@ -115,33 +87,62 @@ export default function MarkdownEditor({
 
   // Export current post as markdown file
   const handleExportFile = useCallback(() => {
-    const metadata = {
-      title: post.title,
-      author: post.author,
-      publishedAt: post.publishedAt,
-      status: post.status,
-      categories: post.categories,
-      tags: post.tags,
-      excerpt: post.excerpt,
-      readTime: calculateReadingTime(post.content),
-      ...(post.series && { series: post.series }),
-      ...(post.scheduledFor && { scheduledFor: post.scheduledFor }),
-    };
-
-    const frontmatter = createFrontmatter(metadata);
-    const fullContent = frontmatter + post.content;
-
-    const blob = new Blob([fullContent], { type: 'text/markdown' });
+    const blob = new Blob([post.content], { type: 'text/markdown' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
     a.download = `${post.title.replace(/[^a-z0-9]/gi, '-').toLowerCase()}.md`;
     a.click();
     URL.revokeObjectURL(url);
-  }, [post, calculateReadingTime]);
+  }, [post]);
 
   const handleMetadataChange = (field: keyof BlogPost, value: any) => {
     setPost(prev => ({ ...prev, [field]: value }));
+  };
+
+  // Simple timezone conversion helpers
+  const utcToMst = (utcString: string) => {
+    // Parse the UTC datetime string and manually adjust for MST (-7 hours)
+    const [date, time] = utcString.replace('Z', '').split('T');
+    const [hours, minutes] = time.split(':').map(Number);
+
+    let mstHours = hours - 7;
+    let mstDate = date;
+
+    // Handle day rollover
+    if (mstHours < 0) {
+      mstHours += 24;
+      const dateObj = new Date(date);
+      dateObj.setDate(dateObj.getDate() - 1);
+      mstDate = dateObj.toISOString().split('T')[0];
+    }
+
+    return `${mstDate}T${String(mstHours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+  };
+
+  const mstToUtc = (datetimeLocal: string) => {
+    // Parse the datetime-local value and manually adjust for UTC (+7 hours)
+    const [date, time] = datetimeLocal.split('T');
+    const [hours, minutes] = time.split(':').map(Number);
+
+    let utcHours = hours + 7;
+    let utcDate = date;
+
+    // Handle day rollover
+    if (utcHours >= 24) {
+      utcHours -= 24;
+      const dateObj = new Date(date);
+      dateObj.setDate(dateObj.getDate() + 1);
+      utcDate = dateObj.toISOString().split('T')[0];
+    }
+
+    return `${utcDate}T${String(utcHours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:00.000Z`;
+  };
+
+  const getCurrentMstMin = () => {
+    const now = new Date();
+    const utcString = now.toISOString();
+    return utcToMst(utcString);
   };
 
   const handleCategoryToggle = (category: string) => {
@@ -212,36 +213,10 @@ export default function MarkdownEditor({
     // Don't prevent default for other keys - let them reach the textarea
   };
 
-  // Enhanced paste handler with frontmatter parsing
+  // Paste handler
   const handlePaste = useCallback((e: React.ClipboardEvent) => {
     const pastedContent = e.clipboardData.getData('text');
-
-    // Check if pasted content has frontmatter
-    if (pastedContent.startsWith('---')) {
-      e.preventDefault();
-
-      // Use the frontmatter utility to parse
-      const { metadata, content } = parseFrontmatter(pastedContent);
-
-      if (Object.keys(metadata).length > 0) {
-        // Update post with extracted metadata
-        setPost(prev => ({
-          ...prev,
-          title: metadata.title || prev.title,
-          excerpt: metadata.excerpt || prev.excerpt,
-          categories: metadata.categories || prev.categories,
-          tags: metadata.tags || prev.tags,
-          series: metadata.series || prev.series,
-          status: metadata.status || prev.status,
-          content: content,
-        }));
-        return;
-      }
-    }
-
-    // Normal paste - just strip frontmatter
-    const cleanContent = stripFrontmatter(pastedContent);
-    setPost(prev => ({ ...prev, content: prev.content + cleanContent }));
+    setPost(prev => ({ ...prev, content: prev.content + pastedContent }));
   }, []);
 
   return (
@@ -266,7 +241,7 @@ export default function MarkdownEditor({
             type="button"
             onClick={handleImportFile}
             className={styles.button}
-            title="Import markdown file with frontmatter"
+            title="Import markdown file"
           >
             Import
           </button>
@@ -274,7 +249,7 @@ export default function MarkdownEditor({
             type="button"
             onClick={handleExportFile}
             className={styles.button}
-            title="Export current post as markdown file"
+            title="Export current post as markdown"
             disabled={!post.title.trim()}
           >
             Export
@@ -414,42 +389,24 @@ export default function MarkdownEditor({
 
           {post.status === 'scheduled' && (
             <div className={styles.sidebarSection}>
-              <h3>Scheduled For</h3>
+              <h3>Scheduled For (MST)</h3>
               <input
                 type="datetime-local"
-                value={
-                  post.scheduledFor
-                    ? (() => {
-                        const date = new Date(post.scheduledFor);
-                        const offset = date.getTimezoneOffset() * 60000;
-                        const localDate = new Date(date.getTime() - offset);
-                        return localDate.toISOString().slice(0, 16);
-                      })()
-                    : ''
-                }
+                value={post.scheduledFor ? utcToMst(post.scheduledFor) : ''}
                 onChange={e => {
-                  if (e.target.value) {
-                    // Parse the datetime-local value as local time, then convert to UTC
-                    const localDate = new Date(e.target.value);
-                    const offset = localDate.getTimezoneOffset() * 60000;
-                    const utcDate = new Date(localDate.getTime() + offset);
-                    handleMetadataChange('scheduledFor', utcDate.toISOString());
-                  } else {
-                    handleMetadataChange('scheduledFor', '');
-                  }
+                  const value = e.target.value;
+                  handleMetadataChange(
+                    'scheduledFor',
+                    value ? mstToUtc(value) : ''
+                  );
                 }}
                 className={styles.input}
-                min={(() => {
-                  const now = new Date();
-                  const offset = now.getTimezoneOffset() * 60000;
-                  const localNow = new Date(now.getTime() - offset);
-                  return localNow.toISOString().slice(0, 16);
-                })()}
+                min={getCurrentMstMin()}
                 required
               />
               <p className={styles.helpText}>
-                Post will be automatically published at this time (times shown
-                in your local timezone, stored as UTC)
+                Enter time in Mountain Standard Time (MST). Post will be
+                automatically published at this time (stored as UTC internally).
               </p>
             </div>
           )}
@@ -468,7 +425,7 @@ export default function MarkdownEditor({
           ) : (
             <textarea
               ref={contentRef}
-              placeholder="Write your blog post content here...
+              placeholder={`Write your blog post content here...
 
 You can use Markdown formatting:
 
@@ -478,12 +435,12 @@ You can use Markdown formatting:
 
 **Bold text**
 *Italic text*
-`Inline code`
+\`Inline code\`
 
-```javascript
+\`\`\`javascript
 // Code blocks
 console.log('Hello, world!');
-```
+\`\`\`
 
 - Bullet point
 - Another point
@@ -502,9 +459,9 @@ Horizontal rule
 Use Ctrl/Cmd + S to save, Ctrl/Cmd + P to toggle preview.
 
 💡 Tips for smooth workflow:
-• Click 'Import' to import .md files with frontmatter
-• Paste entire markdown files - metadata will be extracted automatically
-• All frontmatter fields (title, tags, categories, etc.) will populate the sidebar"
+• Click 'Import' to import .md files
+• Use 'Export' to download your content as markdown
+• Fill out metadata in the sidebar to organize your posts`}
               value={post.content}
               onChange={e => handleContentChange(e.target.value)}
               onPaste={handlePaste}
