@@ -78,7 +78,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate that the post exists
-    const existingPost = getPostBySlug(slug);
+    const existingPost = await getPostBySlug(slug);
     if (!existingPost) {
       return NextResponse.json({ error: 'Post not found' }, { status: 404 });
     }
@@ -100,7 +100,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Schedule the post
-    const scheduledPost = schedulePost(slug, scheduledFor);
+    const scheduledPost = await schedulePost(slug, scheduledFor);
 
     if (!scheduledPost) {
       return NextResponse.json(

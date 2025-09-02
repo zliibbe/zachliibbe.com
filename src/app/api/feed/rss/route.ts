@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { getAllPublishedPosts } from '@/lib/blog-storage';
 
 export async function GET() {
-  const posts = getAllPublishedPosts();
+  const posts = await getAllPublishedPosts();
   const siteUrl = 'https://zachliibbe.com';
   const feedUrl = `${siteUrl}/api/feed/rss`;
 
