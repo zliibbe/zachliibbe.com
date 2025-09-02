@@ -38,7 +38,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 export const authOptions: NextAuthOptions = {
-  // adapter: UpstashRedisAdapter(kv), // Temporarily disabled to debug OAuth issue
+  adapter: UpstashRedisAdapter(kv),
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -59,7 +59,7 @@ export const authOptions: NextAuthOptions = {
         return true;
       }
 
-      return false;
+      return '/auth/error?error=AccessDenied';
     },
     async session({ session, token }) {
       return session;
