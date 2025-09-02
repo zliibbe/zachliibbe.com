@@ -9,13 +9,6 @@ export const metadata = {
   title: 'Zach Liibbe | Always Iterating',
   description:
     'Zach Liibbe&apos;s corner of the web—thinking, tinkering, and typing it all out. Part work, part words, all curiosity (with the occasional tangent).',
-  icons: {
-    icon: {
-      url: '/favicon.png',
-      type: 'image/png',
-    },
-    shortcut: { url: '/favicon.png', type: 'image/png' },
-  },
 };
 
 export default function Home() {
