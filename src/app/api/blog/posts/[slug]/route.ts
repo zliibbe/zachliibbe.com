@@ -54,9 +54,13 @@ export async function PUT(request: NextRequest, context: RouteContext) {
     const referer = request.headers.get('referer');
     const host = request.headers.get('host');
 
+    // Log headers for debugging in production
+    console.log('CSRF Headers (PUT):', { origin, referer, host });
+
     if (!origin || !referer || !host) {
+      console.error('Missing CSRF headers:', { origin, referer, host });
       return NextResponse.json(
-        { error: 'Missing required headers' },
+        { error: 'Missing required headers for CSRF protection' },
         { status: 400 }
       );
     }
@@ -65,32 +69,41 @@ export async function PUT(request: NextRequest, context: RouteContext) {
     const isLocalhost =
       host.includes('localhost') || host.includes('127.0.0.1');
 
-    // Allow both with and without www for production
+    // More comprehensive origin validation for production
     const allowedOrigins = isLocalhost
-      ? [`http://${host}`]
+      ? [`http://${host}`, `https://${host}`]
       : [
           `https://${host}`,
           `https://www.${host.replace('www.', '')}`,
           `https://${host.replace('www.', '')}`,
+          // Handle edge cases for Vercel deployments
+          ...(host.includes('vercel.app') ? [`https://${host}`] : []),
         ];
 
-    const isValidOrigin = allowedOrigins.some(
-      allowedOrigin =>
-        origin === allowedOrigin && referer.startsWith(allowedOrigin)
-    );
+    const isValidOrigin = allowedOrigins.some(allowedOrigin => {
+      const originMatch = origin === allowedOrigin;
+      const refererMatch = referer.startsWith(allowedOrigin);
+      return originMatch && refererMatch;
+    });
 
     if (!isValidOrigin) {
-      console.error('CORS validation failed:', {
+      console.error('CSRF validation failed (PUT):', {
         origin,
         referer,
         host,
         allowedOrigins,
+        originMatch: allowedOrigins.map(ao => ({ [ao]: origin === ao })),
+        refererMatch: allowedOrigins.map(ao => ({
+          [ao]: referer.startsWith(ao),
+        })),
       });
       return NextResponse.json(
-        { error: 'Invalid request origin' },
+        { error: 'Invalid request origin for CSRF protection' },
         { status: 403 }
       );
     }
+
+    console.log('CSRF validation passed (PUT):', { origin, referer });
 
     const { slug } = params;
     const body = await request.json();
@@ -140,9 +153,13 @@ export async function DELETE(request: NextRequest, context: RouteContext) {
     const referer = request.headers.get('referer');
     const host = request.headers.get('host');
 
+    // Log headers for debugging in production
+    console.log('CSRF Headers (DELETE):', { origin, referer, host });
+
     if (!origin || !referer || !host) {
+      console.error('Missing CSRF headers:', { origin, referer, host });
       return NextResponse.json(
-        { error: 'Missing required headers' },
+        { error: 'Missing required headers for CSRF protection' },
         { status: 400 }
       );
     }
@@ -150,14 +167,42 @@ export async function DELETE(request: NextRequest, context: RouteContext) {
     // Verify the request is coming from our domain (allow localhost for development)
     const isLocalhost =
       host.includes('localhost') || host.includes('127.0.0.1');
-    const allowedOrigin = isLocalhost ? `http://${host}` : `https://${host}`;
 
-    if (origin !== allowedOrigin || !referer.startsWith(allowedOrigin)) {
+    // More comprehensive origin validation for production
+    const allowedOrigins = isLocalhost
+      ? [`http://${host}`, `https://${host}`]
+      : [
+          `https://${host}`,
+          `https://www.${host.replace('www.', '')}`,
+          `https://${host.replace('www.', '')}`,
+          // Handle edge cases for Vercel deployments
+          ...(host.includes('vercel.app') ? [`https://${host}`] : []),
+        ];
+
+    const isValidOrigin = allowedOrigins.some(allowedOrigin => {
+      const originMatch = origin === allowedOrigin;
+      const refererMatch = referer.startsWith(allowedOrigin);
+      return originMatch && refererMatch;
+    });
+
+    if (!isValidOrigin) {
+      console.error('CSRF validation failed (DELETE):', {
+        origin,
+        referer,
+        host,
+        allowedOrigins,
+        originMatch: allowedOrigins.map(ao => ({ [ao]: origin === ao })),
+        refererMatch: allowedOrigins.map(ao => ({
+          [ao]: referer.startsWith(ao),
+        })),
+      });
       return NextResponse.json(
-        { error: 'Invalid request origin' },
+        { error: 'Invalid request origin for CSRF protection' },
         { status: 403 }
       );
     }
+
+    console.log('CSRF validation passed (DELETE):', { origin, referer });
 
     const { slug } = params;
     const success = deleteBlogPost(slug);
