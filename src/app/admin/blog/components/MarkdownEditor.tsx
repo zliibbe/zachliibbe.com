@@ -417,17 +417,32 @@ export default function MarkdownEditor({
                 type="datetime-local"
                 value={
                   post.scheduledFor
-                    ? new Date(post.scheduledFor).toISOString().slice(0, 16)
+                    ? (() => {
+                        const date = new Date(post.scheduledFor);
+                        const offset = date.getTimezoneOffset() * 60000;
+                        const localDate = new Date(date.getTime() - offset);
+                        return localDate.toISOString().slice(0, 16);
+                      })()
                     : ''
                 }
-                onChange={e =>
-                  handleMetadataChange(
-                    'scheduledFor',
-                    e.target.value ? new Date(e.target.value).toISOString() : ''
-                  )
-                }
+                onChange={e => {
+                  if (e.target.value) {
+                    // Parse the datetime-local value as local time, then convert to UTC
+                    const localDate = new Date(e.target.value);
+                    const offset = localDate.getTimezoneOffset() * 60000;
+                    const utcDate = new Date(localDate.getTime() + offset);
+                    handleMetadataChange('scheduledFor', utcDate.toISOString());
+                  } else {
+                    handleMetadataChange('scheduledFor', '');
+                  }
+                }}
                 className={styles.input}
-                min={new Date().toISOString().slice(0, 16)}
+                min={(() => {
+                  const now = new Date();
+                  const offset = now.getTimezoneOffset() * 60000;
+                  const localNow = new Date(now.getTime() - offset);
+                  return localNow.toISOString().slice(0, 16);
+                })()}
                 required
               />
               <p className={styles.helpText}>
