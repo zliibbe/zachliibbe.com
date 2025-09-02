@@ -131,9 +131,21 @@ export async function PUT(request: NextRequest, context: RouteContext) {
       post: updatedPost,
     });
   } catch (error) {
-    console.error('Error updating blog post:', error);
+    console.error('Error updating blog post:', {
+      error: error instanceof Error ? error.message : error,
+      stack: error instanceof Error ? error.stack : undefined,
+      slug: params.slug,
+      timestamp: new Date().toISOString(),
+    });
+    
+    // Return more specific error in development
+    const isDev = process.env.NODE_ENV === 'development';
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { 
+        error: isDev && error instanceof Error 
+          ? `Internal server error: ${error.message}` 
+          : 'Internal server error' 
+      },
       { status: 500 }
     );
   }
