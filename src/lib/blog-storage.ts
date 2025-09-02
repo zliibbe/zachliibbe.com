@@ -78,11 +78,27 @@ export function getAllPublishedPosts(): BlogPost[] {
 
 // Get all posts (drafts + scheduled + published)
 export function getAllPosts(): BlogPost[] {
-  return [
+  const allPosts = [
     ...getAllDrafts(),
     ...getAllScheduledPosts(),
     ...getAllPublishedPosts(),
   ];
+
+  // Remove duplicates based on ID to prevent React key conflicts
+  const uniquePosts = new Map<string, BlogPost>();
+  allPosts.forEach(post => {
+    // Keep the most recent version (by status priority: published > scheduled > draft)
+    const existing = uniquePosts.get(post.id);
+    if (
+      !existing ||
+      (post.status === 'published' && existing.status !== 'published') ||
+      (post.status === 'scheduled' && existing.status === 'draft')
+    ) {
+      uniquePosts.set(post.id, post);
+    }
+  });
+
+  return Array.from(uniquePosts.values());
 }
 
 // Get post by slug from all posts
