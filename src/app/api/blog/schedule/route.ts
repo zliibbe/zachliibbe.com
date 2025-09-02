@@ -16,9 +16,13 @@ export async function POST(request: NextRequest) {
     const referer = request.headers.get('referer');
     const host = request.headers.get('host');
 
+    // Log headers for debugging in production
+    console.log('CSRF Headers (SCHEDULE):', { origin, referer, host });
+
     if (!origin || !referer || !host) {
+      console.error('Missing CSRF headers:', { origin, referer, host });
       return NextResponse.json(
-        { error: 'Missing required headers' },
+        { error: 'Missing required headers for CSRF protection' },
         { status: 400 }
       );
     }
@@ -27,32 +31,39 @@ export async function POST(request: NextRequest) {
     const isLocalhost =
       host.includes('localhost') || host.includes('127.0.0.1');
 
-    // Allow both with and without www for production
+    // More comprehensive origin validation for production
     const allowedOrigins = isLocalhost
-      ? [`http://${host}`]
+      ? [`http://${host}`, `https://${host}`]
       : [
           `https://${host}`,
           `https://www.${host.replace('www.', '')}`,
           `https://${host.replace('www.', '')}`,
+          // Handle edge cases for Vercel deployments
+          ...(host.includes('vercel.app') ? [`https://${host}`] : []),
         ];
 
-    const isValidOrigin = allowedOrigins.some(
-      allowedOrigin =>
-        origin === allowedOrigin && referer.startsWith(allowedOrigin)
-    );
+    const isValidOrigin = allowedOrigins.some(allowedOrigin => {
+      const originMatch = origin === allowedOrigin;
+      const refererMatch = referer.startsWith(allowedOrigin);
+      return originMatch && refererMatch;
+    });
 
     if (!isValidOrigin) {
-      console.error('CORS validation failed:', {
+      console.error('CSRF validation failed (SCHEDULE):', {
         origin,
         referer,
         host,
         allowedOrigins,
+        originMatch: allowedOrigins.map(ao => ({ [ao]: origin === ao })),
+        refererMatch: allowedOrigins.map(ao => ({ [ao]: referer.startsWith(ao) })),
       });
       return NextResponse.json(
-        { error: 'Invalid request origin' },
+        { error: 'Invalid request origin for CSRF protection' },
         { status: 403 }
       );
     }
+
+    console.log('CSRF validation passed (SCHEDULE):', { origin, referer });
 
     const body = await request.json();
     const { slug, scheduledFor } = body;
