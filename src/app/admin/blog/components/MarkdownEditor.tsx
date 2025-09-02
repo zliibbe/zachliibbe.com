@@ -431,7 +431,8 @@ export default function MarkdownEditor({
                 required
               />
               <p className={styles.helpText}>
-                Post will be automatically published at this time
+                Post will be automatically published at this time (times shown
+                in your local timezone, stored as UTC)
               </p>
             </div>
           )}
