@@ -24,10 +24,17 @@ export async function POST(request: NextRequest) {
     }
 
     // Handle both development (http://localhost:3000) and production (https://domain.com)
-    const allowedOrigins = [
-      `https://${host}`,
-      `http://${host}`, // For development
-    ];
+    const isLocalhost =
+      host.includes('localhost') || host.includes('127.0.0.1');
+
+    // Allow both with and without www for production
+    const allowedOrigins = isLocalhost
+      ? [`http://${host}`]
+      : [
+          `https://${host}`,
+          `https://www.${host.replace('www.', '')}`,
+          `https://${host.replace('www.', '')}`,
+        ];
 
     const isValidOrigin = allowedOrigins.some(
       allowedOrigin =>
@@ -35,6 +42,12 @@ export async function POST(request: NextRequest) {
     );
 
     if (!isValidOrigin) {
+      console.error('CORS validation failed:', {
+        origin,
+        referer,
+        host,
+        allowedOrigins,
+      });
       return NextResponse.json(
         { error: 'Invalid request origin' },
         { status: 403 }
