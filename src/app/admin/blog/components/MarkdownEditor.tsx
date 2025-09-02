@@ -105,10 +105,10 @@ export default function MarkdownEditor({
     // Parse the UTC datetime string and manually adjust for MST (-7 hours)
     const [date, time] = utcString.replace('Z', '').split('T');
     const [hours, minutes] = time.split(':').map(Number);
-    
+
     let mstHours = hours - 7;
     let mstDate = date;
-    
+
     // Handle day rollover
     if (mstHours < 0) {
       mstHours += 24;
@@ -116,7 +116,7 @@ export default function MarkdownEditor({
       dateObj.setDate(dateObj.getDate() - 1);
       mstDate = dateObj.toISOString().split('T')[0];
     }
-    
+
     return `${mstDate}T${String(mstHours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
   };
 
@@ -124,10 +124,10 @@ export default function MarkdownEditor({
     // Parse the datetime-local value and manually adjust for UTC (+7 hours)
     const [date, time] = datetimeLocal.split('T');
     const [hours, minutes] = time.split(':').map(Number);
-    
+
     let utcHours = hours + 7;
     let utcDate = date;
-    
+
     // Handle day rollover
     if (utcHours >= 24) {
       utcHours -= 24;
@@ -135,7 +135,7 @@ export default function MarkdownEditor({
       dateObj.setDate(dateObj.getDate() + 1);
       utcDate = dateObj.toISOString().split('T')[0];
     }
-    
+
     return `${utcDate}T${String(utcHours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:00.000Z`;
   };
 
@@ -396,7 +396,7 @@ export default function MarkdownEditor({
                 onChange={e => {
                   const value = e.target.value;
                   handleMetadataChange(
-                    'scheduledFor', 
+                    'scheduledFor',
                     value ? mstToUtc(value) : ''
                   );
                 }}

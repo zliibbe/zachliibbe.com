@@ -352,7 +352,6 @@ html[data-theme='dark'] .liveFeedHeader {
   color: var(--white);
 }
 
-
 html[data-theme='dark'] .liveFeed {
   background-color: var(--background-primary);
   color: var(--text-primary);
