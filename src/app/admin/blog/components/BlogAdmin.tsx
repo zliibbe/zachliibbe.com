@@ -470,7 +470,10 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
                 ) : (
                   <div className={styles.postsList}>
                     {filteredPosts.map(post => (
-                      <div key={post.id} className={styles.postCard}>
+                      <div
+                        key={post.slug || post.id}
+                        className={styles.postCard}
+                      >
                         {post.featuredImage && (
                           <div className={styles.postImageContainer}>
                             <Image
