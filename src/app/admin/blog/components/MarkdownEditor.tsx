@@ -78,12 +78,12 @@ export default function MarkdownEditor({
         const reader = new FileReader();
         reader.onload = e => {
           const content = e.target?.result as string;
-          
+
           try {
             // Parse frontmatter
             const { data: frontmatter, content: bodyContent } = matter(content);
 
-            // Update the post content (without frontmatter)  
+            // Update the post content (without frontmatter)
             handleContentChange(bodyContent);
 
             // Update the post metadata from frontmatter
