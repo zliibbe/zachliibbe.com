@@ -150,7 +150,6 @@
   }
 }
 
-
 .caretRight,
 .caretDown {
   display: inline-block;
@@ -171,7 +170,6 @@
   border-right: 6px solid transparent;
   border-top: 6px solid var(--text-primary);
 }
-
 
 .expandButton {
   background: none;
