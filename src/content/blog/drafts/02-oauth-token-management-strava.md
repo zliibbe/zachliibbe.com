@@ -12,15 +12,11 @@ readTime: '10 min read'
 
 # OAuth Token Management with Automatic Refresh: A Strava API Case Study
 
-![OAuth Flow Diagram](https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=800&h=400&fit=crop)
-
 OAuth token management is one of those things that seems simple in tutorials but gets complex fast in production. When I integrated Strava's API into my personal website to display my recent activities, I learned firsthand about token expiration, refresh flows, and building resilient authentication systems.
 
 Here's how I built a production-ready OAuth token management system that handles automatic refresh, caching, and graceful error recovery.
 
 ## The OAuth Challenge
-
-![API Authentication Flow](https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&h=400&fit=crop)
 
 Strava's OAuth implementation follows the standard OAuth 2.0 flow, but with real-world complications:
 
@@ -37,10 +33,9 @@ I implemented a three-layer approach to token management:
 ### Layer 1: Environment Variable Storage
 
 ```typescript
-// Environment variables for OAuth credentials
 const clientId = process.env.STRAVA_CLIENT_ID;
 const clientSecret = process.env.STRAVA_CLIENT_SECRET;
-const refreshToken = process.env.STRAVA_REFRESH_TOKEN; // Long-lived refresh token
+const refreshToken = process.env.STRAVA_REFRESH_TOKEN;
 ```
 
 ### Layer 2: Redis Caching with Vercel KV
@@ -121,8 +116,6 @@ export async function getAccessToken(): Promise<string> {
 ```
 
 ## Handling Race Conditions
-
-![Concurrent Requests](https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=400&fit=crop)
 
 One of the biggest challenges with token refresh is handling concurrent requests. If multiple API calls happen simultaneously and all find an expired token, they might all try to refresh at once.
 
@@ -229,8 +222,6 @@ export async function fetchStravaActivities() {
 
 ## Error Handling and Fallbacks
 
-![Error Handling Strategy](https://images.unsplash.com/photo-1584464491033-06628f3a6b7b?w=800&h=400&fit=crop)
-
 Real-world OAuth implementations need robust error handling:
 
 ```typescript
@@ -257,48 +248,7 @@ export async function getStravaActivitiesWithFallback() {
 }
 ```
 
-## Monitoring and Observability
-
-I added logging and metrics to understand token refresh patterns:
-
-```typescript
-export async function refreshStravaToken(): Promise<string> {
-  const startTime = Date.now();
-
-  try {
-    // ... token refresh logic ...
-
-    const duration = Date.now() - startTime;
-    console.log(`Strava token refresh succeeded in ${duration}ms`);
-
-    // Log success metrics (could send to analytics service)
-    await logTokenRefreshMetrics({
-      status: 'success',
-      duration,
-      timestamp: new Date().toISOString(),
-    });
-
-    return tokenData.access_token;
-  } catch (error) {
-    const duration = Date.now() - startTime;
-    console.error(`Strava token refresh failed after ${duration}ms:`, error);
-
-    // Log error metrics
-    await logTokenRefreshMetrics({
-      status: 'error',
-      duration,
-      error: error.message,
-      timestamp: new Date().toISOString(),
-    });
-
-    throw error;
-  }
-}
-```
-
 ## Security Considerations
-
-![Security Best Practices](https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=800&h=400&fit=crop)
 
 ### Environment Variable Management
 
@@ -316,48 +266,6 @@ STRAVA_REFRESH_TOKEN=your_initial_refresh_token
 - **Implement token rotation** - update refresh tokens when possible
 - **Add expiration buffers** - refresh tokens 5 minutes before they expire
 
-## Testing Token Management
-
-I created a simple test endpoint to verify the token system:
-
-```typescript
-// /api/test-strava/route.ts
-export async function GET() {
-  try {
-    const token = await getAccessToken();
-
-    // Test the token with a simple API call
-    const response = await fetch('https://www.strava.com/api/v3/athlete', {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
-    if (response.ok) {
-      return NextResponse.json({
-        status: 'Token is valid',
-        tokenPresent: !!token,
-        timestamp: new Date().toISOString(),
-      });
-    } else {
-      return NextResponse.json(
-        {
-          status: 'Token is invalid',
-          error: `API returned ${response.status}`,
-        },
-        { status: 400 }
-      );
-    }
-  } catch (error) {
-    return NextResponse.json(
-      {
-        status: 'Token system error',
-        error: error.message,
-      },
-      { status: 500 }
-    );
-  }
-}
-```
-
 ## Performance Results
 
 After implementing this system, I achieved:
@@ -368,8 +276,6 @@ After implementing this system, I achieved:
 - **Graceful degradation** during Strava API outages
 
 ## Key Lessons Learned
-
-![Lessons Learned](https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&h=400&fit=crop)
 
 1. **Always cache tokens** - API calls are expensive and slow
 2. **Handle race conditions** - concurrent requests will happen
@@ -427,8 +333,3 @@ The complete implementation is available in my [GitHub repository](https://githu
 ---
 
 _Building robust APIs requires thinking beyond the happy path. Want to see more real-world API integration patterns? Follow my journey as I share what I learn building production systems._
-
-```
-
-
-```
