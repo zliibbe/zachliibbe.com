@@ -13,15 +13,11 @@ readTime: '12 min read'
 
 # Dynamic Theme System with CSS Custom Properties and React Context
 
-![Dynamic Themes Preview](https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=800&h=400&fit=crop)
-
 When I started building my personal website, I wanted something more engaging than a static color scheme. I built a dynamic theming system that lets users choose from multiple gradient themes, toggle dark mode, and control animations—all while persisting their preferences across visits.
 
 Here's how I built a production-ready theming system using CSS custom properties, React Context, and smart defaults that respect user preferences.
 
 ## The Challenge: Beyond Basic Theming
-
-![Design System Complexity](https://images.unsplash.com/photo-1558655146-d09347e92766?w=800&h=400&fit=crop)
 
 Most theming solutions handle basic light/dark mode, but I wanted something more sophisticated:
 
@@ -200,8 +196,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
 ## Dynamic Theme Application
 
-![Color Palette Selection](https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=800&h=400&fit=crop)
-
 The `applyTheme` function dynamically updates CSS custom properties:
 
 ```typescript
@@ -277,8 +271,6 @@ const toggleAnimation = () => {
 
 ## System Preference Integration
 
-![Dark Mode Toggle](https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=400&fit=crop)
-
 The system respects user's OS preferences while allowing overrides:
 
 ```typescript
@@ -348,8 +340,6 @@ export function Preferences() {
 
 ## Performance Optimizations
 
-![Performance Monitoring](https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=400&fit=crop)
-
 ### CSS-Only Animations
 
 By using CSS custom properties and CSS animations, theme changes are hardware-accelerated:
@@ -369,26 +359,6 @@ By using CSS custom properties and CSS animations, theme changes are hardware-ac
 }
 ```
 
-### Debounced Updates
-
-For rapid theme changes, I added debouncing:
-
-```typescript
-const debounce = (func: Function, wait: number) => {
-  let timeout: NodeJS.Timeout;
-  return function executedFunction(...args: any[]) {
-    const later = () => {
-      clearTimeout(timeout);
-      func(...args);
-    };
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-  };
-};
-
-const debouncedApplyTheme = debounce(applyTheme, 100);
-```
-
 ### Reduced Motion Support
 
 Respecting accessibility preferences:
@@ -405,106 +375,6 @@ Respecting accessibility preferences:
 }
 ```
 
-## Testing the Theme System
-
-I created comprehensive tests for the theming system:
-
-```typescript
-describe("Theme System", () => {
-  it("should apply theme colors to CSS custom properties", () => {
-    render(
-      <ThemeProvider>
-        <TestComponent />
-      </ThemeProvider>
-    );
-
-    const { setTheme } = useTheme();
-    act(() => {
-      setTheme("ocean");
-    });
-
-    const root = document.documentElement;
-    expect(root.style.getPropertyValue("--gradient-one")).toBe("#478bd6");
-  });
-
-  it("should persist theme preference to localStorage", () => {
-    const { setTheme } = useTheme();
-    act(() => {
-      setTheme("forest");
-    });
-
-    expect(localStorage.getItem("selectedTheme")).toBe("forest");
-  });
-
-  it("should respect system dark mode preference", () => {
-    Object.defineProperty(window, "matchMedia", {
-      writable: true,
-      value: jest.fn().mockImplementation(query => ({
-        matches: query === "(prefers-color-scheme: dark)",
-        media: query,
-        addEventListener: jest.fn(),
-        removeEventListener: jest.fn(),
-      })),
-    });
-
-    const { isDarkMode } = useTheme();
-    expect(isDarkMode).toBe(true);
-  });
-});
-```
-
-## Advanced Features
-
-### Theme Preview
-
-I added a live preview system that shows theme changes before applying them:
-
-```typescript
-const [previewTheme, setPreviewTheme] = useState<Theme['name'] | null>(null);
-
-const handleThemePreview = (themeName: Theme['name']) => {
-  setPreviewTheme(themeName);
-  applyTheme(themeName);
-};
-
-const handleThemeSelect = (themeName: Theme['name']) => {
-  setTheme(themeName);
-  setPreviewTheme(null);
-};
-
-const handlePreviewCancel = () => {
-  setPreviewTheme(null);
-  applyTheme(currentTheme);
-};
-```
-
-### Smart Contrast Calculation
-
-For accessibility, I calculate contrast ratios automatically:
-
-```typescript
-function getContrastRatio(color1: string, color2: string): number {
-  const luminance1 = getLuminance(color1);
-  const luminance2 = getLuminance(color2);
-
-  const brighter = Math.max(luminance1, luminance2);
-  const darker = Math.min(luminance1, luminance2);
-
-  return (brighter + 0.05) / (darker + 0.05);
-}
-
-function ensureAccessibleContrast(theme: Theme): Theme {
-  const contrastRatio = getContrastRatio(theme.colors.themeColor, '#ffffff');
-
-  if (contrastRatio < 4.5) {
-    // Adjust colors to meet WCAG AA standards
-    return adjustThemeContrast(theme);
-  }
-
-  return theme;
-}
-```
-
 ## Real-World Results
 
 After implementing this system on my website:
@@ -513,36 +383,6 @@ After implementing this system on my website:
 - **Zero accessibility complaints** - contrast ratios meet WCAG standards
 - **98% preference persistence** - localStorage works reliably across sessions
 - **Smooth 60fps animations** - CSS-only animations perform well on all devices
-
-## Browser Support and Fallbacks
-
-![Browser Compatibility](https://images.unsplash.com/photo-1559526324-593bc54d88e6?w=800&h=400&fit=crop)
-
-The system gracefully degrades on older browsers:
-
-```css
-/* Fallback for browsers without custom property support */
-.gradient-background {
-  background: linear-gradient(
-    132.6deg,
-    #67c6b5 23.3%,
-    #2795ba 51.1%,
-    #cb2048 84.7%
-  );
-}
-
-/* Progressive enhancement */
-@supports (background: var(--gradient-one)) {
-  .gradient-background {
-    background: linear-gradient(
-      132.6deg,
-      var(--gradient-one) 23.3%,
-      var(--gradient-two) 51.1%,
-      var(--gradient-three) 84.7%
-    );
-  }
-}
-```
 
 ## Key Lessons Learned
 
@@ -562,28 +402,6 @@ I'm planning to extend this system with:
 - **Theme sharing** via URL parameters
 - **Custom theme creation** tools for users
 - **Integration with system accent colors** on supported platforms
-
-## Beyond Personal Sites: Enterprise Applications
-
-This pattern scales well for business applications:
-
-```typescript
-// Multi-tenant theming
-interface TenantTheme extends Theme {
-  tenantId: string;
-  brandColors: {
-    primary: string;
-    secondary: string;
-    logo: string;
-  };
-}
-
-export function useTenantTheming(tenantId: string) {
-  // Load tenant-specific themes
-  // Apply brand colors
-  // Handle white-label requirements
-}
-```
 
 The complete theming system is available in my [GitHub repository](https://github.com/zliibbe/zachliibbe.com), and you can test it live on my [personal website](https://zachliibbe.com) - try the preferences menu!
 

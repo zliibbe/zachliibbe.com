@@ -13,15 +13,11 @@ readTime: '15 min read'
 
 # Building a Production Blog System with Next.js 15 App Router
 
-![Next.js Blog Architecture](https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=800&h=400&fit=crop)
-
 When I decided to add a blog to my personal website, I wanted something more sophisticated than a static site generator but simpler than a full CMS. I built a complete blog system using Next.js 15's App Router that handles everything from custom markdown processing to scheduled publishing, all while maintaining the performance and SEO benefits of static generation.
 
-Here's how I architected a production-ready blog system that competes with traditional CMSs while leveraging the power of modern React and Next.js - without relying on external markdown libraries.
+Here's how I architected a production-ready blog system that competes with traditional CMSs while leveraging the power of modern React and Next.js.
 
 ## The Architecture: JSON-Based Storage with Markdown Input
-
-![Blog System Architecture](https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&h=400&fit=crop)
 
 Instead of using a traditional database or complex file parsing, I built a streamlined system:
 
@@ -34,11 +30,7 @@ Instead of using a traditional database or complex file parsing, I built a strea
 
 ## Core Type Definitions
 
-TypeScript is my architectural compass. Before writing a single line of implementation code, I define my types - it forces me to think through exactly what my blog post needs to contain, how different states should work, and what the data flow will look like. If I don't write something down, I'll forget it! Having these type definitions acts as both documentation and guardrails, ensuring I don't miss critical fields or accidentally introduce bugs by changing data shapes without thinking through the implications.
-
-This upfront investment in types pays dividends throughout development. When I'm building the admin interface, the types tell me exactly what form fields I need. When I'm writing API routes, they ensure I'm handling all the required data. When I'm displaying posts, they remind me of optional fields that need null checks.
-
-I started with a robust TypeScript foundation:
+TypeScript is my architectural compass. I started with a robust TypeScript foundation:
 
 ```typescript
 interface BlogPost {
@@ -88,14 +80,11 @@ The content structure prioritizes simplicity and performance:
 └── scheduled.json
 ```
 
-## Markdown Processing Pipeline
-
-![Content Processing Flow](https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=800&h=400&fit=crop)
+## Custom Markdown Processing Pipeline
 
 Rather than adding dependencies like `gray-matter` or `marked`, I built a lightweight, custom markdown processor:
 
 ````typescript
-// Simple markdown to HTML converter without external dependencies
 export function markdownToHtml(markdown: string): string {
   let html = markdown;
 
@@ -237,8 +226,6 @@ export function createBlogPost(postData: {
 ```
 
 ## Admin Interface with Authentication
-
-![Admin Dashboard](https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&h=400&fit=crop)
 
 The admin interface uses NextAuth.js with Google OAuth for security:
 
@@ -398,8 +385,6 @@ export default function MarkdownEditor({
 
 ## API Routes for Blog Management
 
-![API Architecture](https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=400&fit=crop)
-
 The API routes handle CRUD operations with proper authentication:
 
 ```typescript
@@ -557,8 +542,6 @@ The cron job configuration in `vercel.json`:
 
 ## RSS Feed Generation
 
-![RSS Feed Icon](https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=400&fit=crop)
-
 I built an RSS feed generator for better discoverability:
 
 ```typescript
@@ -618,106 +601,7 @@ export async function GET() {
 }
 ```
 
-## Public Blog Interface
-
-The public blog uses App Router with proper SEO optimization:
-
-```typescript
-// /src/app/blog/page.tsx
-export default async function BlogPage({
-  searchParams,
-}: {
-  searchParams: { category?: string; tag?: string; page?: string };
-}) {
-  const page = parseInt(searchParams.page || "1");
-  const category = searchParams.category;
-  const tag = searchParams.tag;
-
-  let posts = getAllPublishedPosts();
-
-  // Apply filters
-  if (category) {
-    posts = posts.filter(post => post.categories.includes(category));
-  }
-
-  if (tag) {
-    posts = posts.filter(post => post.tags.includes(tag));
-  }
-
-  // Pagination
-  const postsPerPage = 6;
-  const totalPages = Math.ceil(posts.length / postsPerPage);
-  const startIndex = (page - 1) * postsPerPage;
-  const paginatedPosts = posts
-    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
-    .slice(startIndex, startIndex + postsPerPage);
-
-  return (
-    <div className={styles.container}>
-      <div className={styles.contentWrapper}>
-        <main className={styles.content}>
-          <h1>Blog</h1>
-
-          <CategoryFilter
-            categories={getUniqueCategories()}
-            selectedCategory={category}
-          />
-
-          <div className={styles.postsGrid}>
-            {paginatedPosts.map(post => (
-              <PostCard key={post.id} post={post} />
-            ))}
-          </div>
-
-          {totalPages > 1 && (
-            <Pagination
-              currentPage={page}
-              totalPages={totalPages}
-              baseUrl="/blog"
-              searchParams={searchParams}
-            />
-          )}
-        </main>
-      </div>
-    </div>
-  );
-}
-
-// Generate metadata for SEO
-export function generateMetadata({ searchParams }: {
-  searchParams: { category?: string; tag?: string };
-}): Metadata {
-  const category = searchParams.category;
-  const tag = searchParams.tag;
-
-  let title = "Blog - Zach Liibbe";
-  let description = "Thoughts on development, learning, and building in public";
-
-  if (category) {
-    title = `${category} Posts - Zach Liibbe`;
-    description = `All posts in the ${category} category`;
-  }
-
-  if (tag) {
-    title = `${tag} Posts - Zach Liibbe`;
-    description = `All posts tagged with ${tag}`;
-  }
-
-  return {
-    title,
-    description,
-    openGraph: {
-      title,
-      description,
-      type: "website",
-    },
-  };
-}
-```
-
 ## Performance Optimizations
-
-![Performance Metrics](https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=400&fit=crop)
 
 ### Static Generation with ISR
 
@@ -844,8 +728,6 @@ After implementing this blog system:
 
 ## Key Lessons Learned
 
-![Learning Journey](https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&h=400&fit=crop)
-
 1. **File-based storage scales well** for personal/small business blogs
 2. **App Router's flexibility** enables complex content workflows
 3. **Authentication matters** even for personal blogs
@@ -864,26 +746,6 @@ I'm planning to extend this system with:
 - **Multi-author support** for team blogs
 - **Medium integration** for cross-posting
 - **Email newsletter** automation
-
-## Beyond Personal Blogs: Enterprise Applications
-
-This architecture scales for business applications:
-
-```typescript
-// Multi-tenant blog system
-interface TenantBlogConfig {
-  tenantId: string;
-  contentPath: string;
-  customFields: Record<string, any>;
-  workflow: 'simple' | 'editorial' | 'enterprise';
-}
-
-export function useTenantBlogSystem(tenantId: string) {
-  // Load tenant-specific configuration
-  // Apply custom workflows
-  // Handle multi-author permissions
-}
-```
 
 The complete blog system source code is available in my [GitHub repository](https://github.com/zliibbe/zachliibbe.com), and you can see it in action on this very blog you're reading!
 

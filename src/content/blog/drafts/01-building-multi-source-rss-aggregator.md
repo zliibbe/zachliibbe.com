@@ -1,20 +1,20 @@
 ---
-title: 'Building a Multi-Source RSS Aggregator: Goodreads + Serverless Lambda'
+title: 'Building a Multi-Source RSS Aggregator: Goodreads + AWS Lambda'
 author: 'Zach Liibbe'
 publishedAt: ''
 status: 'draft'
 categories: ['Development', 'Projects']
-tags: ['rss', 'lambda', 'serverless', 'goodreads', 'xml-parsing', 'netlify']
+tags: ['rss', 'lambda', 'serverless', 'goodreads', 'xml-parsing', 'aws']
 series: 'Building in Public'
-excerpt: 'How I built a resilient RSS aggregator using serverless Lambda functions to parse Goodreads feeds, handle XML inconsistencies, and provide reliable book data for my personal website.'
+excerpt: 'How I built a resilient RSS aggregator using AWS Lambda functions to parse Goodreads feeds, handle XML inconsistencies, and provide reliable book data for my personal website.'
 readTime: '8 min read'
 ---
 
-# Building a Multi-Source RSS Aggregator: Goodreads + Serverless Lambda
+# Building a Multi-Source RSS Aggregator: Goodreads + AWS Lambda
 
 When I decided to display my reading activity on my personal website, I quickly discovered that working with RSS feeds in 2025 isn't as straightforward as it might seem. Goodreads provides RSS feeds, but they're inconsistent, sometimes malformed, and definitely not designed for modern web applications.
 
-Here's how I built a robust RSS aggregator using serverless Lambda functions that handles real-world XML parsing challenges and provides clean, reliable data for my website.
+Here's how I built a robust RSS aggregator using AWS Lambda functions that handles real-world XML parsing challenges and provides clean, reliable data for my website.
 
 ## The Challenge: RSS Feeds Are Messy
 
@@ -22,16 +22,15 @@ RSS feeds, especially from platforms like Goodreads, come with several challenge
 
 - **Inconsistent Structure**: Fields appear and disappear between entries
 - **HTML Entities**: Text is often encoded with `&amp;`, `&lt;`, etc.
-- **Variable Image URLs**: Cover images might be in `book_large_image_url`, `book_medium_image_url`, or embedded in descriptions
+- **Variable Image URLs**: Cover images might be in different fields
 - **Rate Limiting**: Direct browser requests get blocked
 - **Performance**: Parsing XML in the browser is slow and unreliable
 
-## The Solution: Serverless Lambda Aggregator
+## The Solution: AWS Lambda Middleware
 
-I created a serverless function deployed on Netlify that acts as a middleware layer between Goodreads and my website. Here's the architecture:
+I created a serverless function deployed on **AWS Lambda** using the Serverless Framework that acts as a middleware layer between Goodreads and my website. Here's the core architecture:
 
 ```typescript
-// Core Lambda handler structure
 export const getCurrentlyReading = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
@@ -103,7 +102,7 @@ if (item.book_large_image_url) {
 
 ### Challenge 1: Array vs Single Item Inconsistency
 
-RSS feeds return arrays when there are multiple items, but single objects when there's only one item. This breaks everything:
+RSS feeds return arrays when there are multiple items, but single objects when there's only one item:
 
 ```typescript
 // Ensure items is always an array
@@ -166,7 +165,7 @@ export async function GET(request: NextRequest) {
   const shelf = searchParams.get('shelf') || 'read';
 
   try {
-    const lambdaUrl = `https://goodreads-lambda.netlify.app/.netlify/functions/goodreads-lambda?shelf=${shelf}`;
+    const lambdaUrl = `https://your-lambda-url.amazonaws.com/dev/getCurrentlyReading?shelf=${shelf}`;
 
     const response = await fetch(lambdaUrl, {
       headers: {
@@ -212,39 +211,33 @@ try {
 }
 ```
 
-### CORS Configuration
+## Deployment with Serverless Framework
 
-```typescript
-const headers = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
-  'Cache-Control': 'public, max-age=300',
-};
-```
+The Lambda is deployed using the Serverless Framework with AWS:
 
-## Deployment and Monitoring
+```yaml
+service: goodreads-lambda
 
-The Lambda is deployed using Netlify Functions with a simple `netlify.toml`:
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
 
-```toml
-[build]
-  functions = "functions"
-
-[functions]
-  node_bundler = "esbuild"
-
-[[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
-  status = 200
+functions:
+  getCurrentlyReading:
+    handler: handler.getCurrentlyReading
+    events:
+      - http:
+          path: getCurrentlyReading
+          method: get
+          cors: true
 ```
 
 ## Results and Lessons Learned
 
 This serverless RSS aggregator now reliably serves book data to my website with:
 
-- **99.9% uptime** through Netlify's infrastructure
+- **99.9% uptime** through AWS Lambda's infrastructure
 - **Sub-200ms response times** with effective caching
 - **Graceful degradation** when Goodreads is unavailable
 - **Clean, consistent data** regardless of RSS feed quirks
