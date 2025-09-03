@@ -151,8 +151,8 @@ export default function Footer() {
       const daysAgo = getActivityTimeAgo(activity);
       const activityUrl = `https://www.strava.com/activities/${activity.id}`;
 
-      switch (activity.type) {
-        case 'Walk':
+      switch (activity.type.toLowerCase()) {
+        case 'walk':
           return (
             <>
               Recorded a{' '}
@@ -168,7 +168,8 @@ export default function Footer() {
               {daysAgo}.
             </>
           );
-        case 'WeightTraining':
+        case 'weighttraining':
+        case 'workout':
           return (
             <>
               <a
@@ -183,7 +184,7 @@ export default function Footer() {
               for {formatElapsedTime(activity.elapsed_time)} {daysAgo}.
             </>
           );
-        case 'Ride':
+        case 'ride':
           return (
             <>
               Recorded a{' '}
@@ -199,7 +200,7 @@ export default function Footer() {
               {daysAgo}.
             </>
           );
-        case 'Run':
+        case 'run':
           return (
             <>
               Recorded a{' '}
@@ -215,7 +216,7 @@ export default function Footer() {
               {daysAgo}.
             </>
           );
-        case 'Swim':
+        case 'swim':
           return (
             <>
               Recorded a{' '}
