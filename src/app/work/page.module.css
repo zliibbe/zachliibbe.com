@@ -84,21 +84,6 @@
   flex-grow: 1;
 }
 
-/* Add dark mode styles for container */
-[data-theme='dark'] .container {
-  background: var(--background-primary);
-  color: var(--text-primary);
-}
-
-/* Update overview text color for dark mode */
-[data-theme='dark'] .overviewText {
-  color: var(--text-primary);
-}
-
-[data-theme='dark'] .overviewTitle,
-[data-theme='dark'] .experienceTitle {
-  color: var(--text-primary);
-}
 
 .overviewSection {
   flex: 1;
@@ -111,10 +96,12 @@
   font-size: 1.25rem;
   margin: 1rem 0;
   font-weight: var(--fw-bold);
+  color: var(--text-primary);
 }
 
 .overviewText {
   margin-bottom: 1rem;
+  color: var(--text-primary);
 }
 
 .link {
@@ -133,12 +120,14 @@
   justify-content: flex-start;
   font-size: 1.25rem;
   font-weight: var(--fw-bold);
+  color: var(--text-primary);
 }
 
 .experienceItem {
   display: flex;
   justify-content: flex-start;
   margin: 0.5rem;
+  color: var(--text-primary);
 }
 
 /* smaller screens */
@@ -187,8 +176,3 @@
   }
 }
 
-.overviewText,
-.experienceTitle,
-.overviewTitle {
-  color: var(--text-primary);
-}
