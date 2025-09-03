@@ -84,7 +84,6 @@
   flex-grow: 1;
 }
 
-
 .overviewSection {
   flex: 1;
   flex-direction: column;
@@ -175,4 +174,3 @@
     width: 75%;
   }
 }
-
