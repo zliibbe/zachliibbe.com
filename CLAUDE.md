@@ -121,3 +121,5 @@ Refer to `PRD.md` for detailed specifications of upcoming features:
 - Anthropic Claude API for responses
 - Knowledge base from `/src/data/knowledge/` markdown files
 - Floating chat widget (bottom-right corner)
+
+- don't ask to run npm dev, it's usually running already
