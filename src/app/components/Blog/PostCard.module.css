@@ -98,7 +98,7 @@
   font-size: 0.75rem;
   background: var(--clr-neutral-150);
   border: 1px solid var(--border-color);
-  color: var(--text-secondary);
+  color: var(--theme-color);
   border-radius: 4px;
   text-decoration: none;
   transition: all 0.2s ease;

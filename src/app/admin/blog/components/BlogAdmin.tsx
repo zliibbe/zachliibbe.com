@@ -7,6 +7,8 @@ import Image from 'next/image';
 import { MdOpenInNew, MdCreate, MdHourglassEmpty } from 'react-icons/md';
 import { BlogPost, FeaturedImage } from '@/types/blog';
 import MarkdownEditor from './MarkdownEditor';
+import ImageModal, { ImageOption } from './ImageModal';
+import Modal from './Modal';
 import styles from './BlogAdmin.module.css';
 
 interface BlogAdminProps {
@@ -24,6 +26,32 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
   const [showEditor, setShowEditor] = useState(false);
   const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
 
+  // Modal states
+  const [imageModal, setImageModal] = useState<{
+    isOpen: boolean;
+    type: 'loading' | 'quick-result' | 'selection' | 'success' | 'error';
+    title?: string;
+    message?: string;
+    image?: ImageOption;
+    images?: ImageOption[];
+    currentPost?: BlogPost;
+    forceReplace?: boolean;
+  }>({
+    isOpen: false,
+    type: 'loading',
+  });
+
+  const [generalModal, setGeneralModal] = useState<{
+    isOpen: boolean;
+    title?: string;
+    message?: string;
+    type: 'success' | 'error' | 'confirm' | 'confirmation';
+    onConfirm?: () => void;
+  }>({
+    isOpen: false,
+    type: 'success',
+  });
+
   // Load posts on component mount
   useEffect(() => {
     loadPosts();
@@ -32,7 +60,14 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
   const loadPosts = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/admin/blog/posts');
+      // Add cache busting to ensure fresh data
+      const timestamp = new Date().getTime();
+      const response = await fetch(`/api/admin/blog/posts?t=${timestamp}`, {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache',
+        },
+      });
       if (response.ok) {
         const data = await response.json();
         setPosts(data.posts || []);
@@ -86,7 +121,12 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
 
       if (!response.ok) {
         const error = await response.json();
-        alert(`Error saving post: ${error.error}`);
+        setGeneralModal({
+          isOpen: true,
+          type: 'error',
+          title: 'Error Saving Post',
+          message: error.error || 'Unknown error occurred',
+        });
         return;
       }
 
@@ -107,7 +147,12 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
 
         if (!scheduleResponse.ok) {
           const scheduleError = await scheduleResponse.json();
-          alert(`Error scheduling post: ${scheduleError.error}`);
+          setGeneralModal({
+            isOpen: true,
+            type: 'error',
+            title: 'Error Scheduling Post',
+            message: scheduleError.error || 'Unknown error occurred',
+          });
           return;
         }
       }
@@ -117,7 +162,12 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
       await loadPosts(); // Refresh posts list
     } catch (error) {
       console.error('Error saving post:', error);
-      alert('Error saving post. Please try again.');
+      setGeneralModal({
+        isOpen: true,
+        type: 'error',
+        title: 'Error Saving Post',
+        message: 'Please try again.',
+      });
     }
   };
 
@@ -127,10 +177,16 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
   };
 
   const handleDeletePost = async (post: BlogPost) => {
-    if (!confirm(`Are you sure you want to delete "${post.title}"?`)) {
-      return;
-    }
+    setGeneralModal({
+      isOpen: true,
+      type: 'confirm',
+      title: 'Delete Post',
+      message: `Are you sure you want to delete "${post.title}"? This action cannot be undone.`,
+      onConfirm: () => confirmDeletePost(post),
+    });
+  };
 
+  const confirmDeletePost = async (post: BlogPost) => {
     try {
       const response = await fetch(`/api/blog/posts/${post.slug}`, {
         method: 'DELETE',
@@ -140,11 +196,21 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
         await loadPosts(); // Refresh posts list
       } else {
         const error = await response.json();
-        alert(`Error deleting post: ${error.error}`);
+        setGeneralModal({
+          isOpen: true,
+          type: 'error',
+          title: 'Error Deleting Post',
+          message: error.error || 'Unknown error occurred',
+        });
       }
     } catch (error) {
       console.error('Error deleting post:', error);
-      alert('Error deleting post. Please try again.');
+      setGeneralModal({
+        isOpen: true,
+        type: 'error',
+        title: 'Error Deleting Post',
+        message: 'Please try again.',
+      });
     }
   };
 
@@ -162,29 +228,34 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
         await loadPosts(); // Refresh posts list
       } else {
         const error = await response.json();
-        alert(`Error publishing post: ${error.error}`);
+        setGeneralModal({
+          isOpen: true,
+          type: 'error',
+          title: 'Error Publishing Post',
+          message: error.error || 'Unknown error occurred',
+        });
       }
     } catch (error) {
       console.error('Error publishing post:', error);
-      alert('Error publishing post. Please try again.');
+      setGeneralModal({
+        isOpen: true,
+        type: 'error',
+        title: 'Error Publishing Post',
+        message: 'Please try again.',
+      });
     }
   };
 
-  const handleGenerateImage = async (post: BlogPost) => {
+  const handleGenerateImage = async (post: BlogPost, forceReplace = false) => {
     try {
-      const confirmed = confirm(
-        `Generate a featured image for "${post.title}"?\n\n` +
-          `This will:\n` +
-          `1. Search Unsplash for relevant images based on your post's tags and title\n` +
-          `2. Add the best match as the featured image\n` +
-          `3. Include proper attribution as required by Unsplash\n\n` +
-          `Continue?`
-      );
-
-      if (!confirmed) return;
-
-      // Show loading state
-      alert('🔍 Searching for the perfect image...');
+      // Show loading modal
+      setImageModal({
+        isOpen: true,
+        type: 'loading',
+        title: `Generating Image for "${post.title}"`,
+        message: '🔍 Searching for the perfect image...',
+        currentPost: post,
+      });
 
       // Call API to generate/fetch image
       const response = await fetch(
@@ -194,40 +265,82 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
           headers: {
             'Content-Type': 'application/json',
           },
+          body: JSON.stringify({ forceReplace }),
         }
       );
 
       if (response.ok) {
         const result = await response.json();
         if (result.featuredImage) {
-          alert(
-            `✅ Featured image added successfully!\n\n` +
-              `📸 Image: ${result.featuredImage.alt}\n` +
-              `📷 Photo by: ${result.featuredImage.attribution.text}\n\n` +
-              `The image is now available for Medium cross-posting.`
-          );
-          await loadPosts(); // Refresh to show the new image
+          // Convert FeaturedImage to ImageOption format
+          const imageOption: ImageOption = {
+            id: result.featuredImage.id || 'generated',
+            url: result.featuredImage.url,
+            thumbnailUrl:
+              result.featuredImage.thumbnailUrl || result.featuredImage.url,
+            alt: result.featuredImage.alt,
+            attribution: result.featuredImage.attribution,
+            width: result.featuredImage.width,
+            height: result.featuredImage.height,
+          };
+
+          // Refresh posts data to show updated image
+          await loadPosts();
+
+          // Show success modal
+          setImageModal({
+            isOpen: true,
+            type: 'success',
+            title: 'Featured Image Added Successfully!',
+            message: 'The image is now available for Medium cross-posting.',
+            image: imageOption,
+          });
         } else {
-          alert(
-            'ℹ️ No suitable image found for this post. You can manually add one later or try different tags.'
-          );
+          // Show no results
+          setImageModal({
+            isOpen: true,
+            type: 'selection',
+            title: `No Images Found for "${post.title}"`,
+            images: [],
+          });
         }
       } else {
         const error = await response.json();
-        alert(`❌ Error generating image: ${error.error || 'Unknown error'}`);
+        setImageModal({
+          isOpen: true,
+          type: 'error',
+          title: 'Error Generating Image',
+          message: error.error || 'Unknown error occurred',
+        });
       }
     } catch (error) {
       console.error('Error generating image:', error);
-      alert('❌ Error generating image. Please try again.');
+      setImageModal({
+        isOpen: true,
+        type: 'error',
+        title: 'Error Generating Image',
+        message: 'Please try again.',
+      });
     }
   };
 
-  const handleSelectFromImageOptions = async (post: BlogPost) => {
+  const handleSelectFromImageOptions = async (
+    post: BlogPost,
+    forceReplace = false
+  ) => {
     try {
-      // Show loading state
-      alert(
-        `🔍 Searching for ${post.featuredImage ? 'replacement ' : ''}image options...`
-      );
+      // Determine if this is a replacement operation
+      const isReplacement = forceReplace || !!post.featuredImage;
+
+      // Show loading modal
+      setImageModal({
+        isOpen: true,
+        type: 'loading',
+        title: `${isReplacement ? 'Replace' : 'Choose'} Image for "${post.title}"`,
+        message: `🔍 Searching for ${isReplacement ? 'replacement ' : ''}image options...`,
+        currentPost: post,
+        forceReplace: isReplacement,
+      });
 
       // Get image options
       const response = await fetch(
@@ -236,130 +349,150 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
 
       if (!response.ok) {
         const error = await response.json();
-        alert(
-          `❌ Error getting image options: ${error.error || 'Unknown error'}`
-        );
+        setImageModal({
+          isOpen: true,
+          type: 'error',
+          title: 'Error Getting Image Options',
+          message: error.error || 'Unknown error occurred',
+        });
         return;
       }
 
       const result = await response.json();
 
-      if (result.options.length === 0) {
-        alert(
-          'ℹ️ No suitable images found for this post. You can try the quick image generation or different tags.'
-        );
-        return;
-      }
+      // Convert API response to ImageOption format
+      const imageOptions: ImageOption[] = result.options.map((option: any) => ({
+        id: option.id,
+        url: option.url,
+        thumbnailUrl: option.thumbnailUrl,
+        alt: option.alt,
+        attribution: option.attribution,
+        width: option.width,
+        height: option.height,
+      }));
 
-      // Create a modal-like selection interface
-      const imageOptionsHtml = result.options
-        .map(
-          (option: any, index: number) =>
-            `<div style="margin: 10px 0; padding: 10px; border: 1px solid #ccc; border-radius: 8px;">
-          <img src="${option.thumbnailUrl}" alt="${option.alt}" style="width: 200px; height: 120px; object-fit: cover; border-radius: 4px;" />
-          <div style="margin-top: 8px;">
-            <strong>Option ${index + 1}</strong><br/>
-            <small>${option.attribution.text}</small><br/>
-            <button onclick="selectImage('${option.id}')" style="margin-top: 8px; padding: 4px 8px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Select This Image</button>
-          </div>
-        </div>`
-        )
-        .join('');
-
-      // Create a temporary overlay for image selection
-      const overlay = document.createElement('div');
-      overlay.style.cssText = `
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-        background: rgba(0,0,0,0.8); z-index: 10000; overflow-y: auto;
-        display: flex; justify-content: center; align-items: flex-start; padding: 20px;
-      `;
-
-      const modal = document.createElement('div');
-      modal.style.cssText = `
-        background: white; border-radius: 12px; padding: 20px; max-width: 800px; width: 100%; 
-        max-height: 80vh; overflow-y: auto; position: relative;
-      `;
-
-      modal.innerHTML = `
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
-          <h2 style="margin: 0; color: #333;">${post.featuredImage ? 'Replace' : 'Choose'} Image for "${post.title}"</h2>
-          <button onclick="closeModal()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #666;">&times;</button>
-        </div>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
-          ${imageOptionsHtml}
-        </div>
-      `;
-
-      overlay.appendChild(modal);
-      document.body.appendChild(overlay);
-
-      // Add global functions for modal interaction
-      (window as any).selectImage = async (imageId: string) => {
-        try {
-          document.body.removeChild(overlay);
-
-          alert('📸 Setting selected image...');
-
-          const selectResponse = await fetch(
-            `/api/blog/posts/${post.slug}/image-options`,
-            {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ selectedImageId: imageId }),
-            }
-          );
-
-          if (selectResponse.ok) {
-            const selectResult = await selectResponse.json();
-            alert(
-              `✅ Featured image ${post.featuredImage ? 'replaced' : 'added'} successfully!\n\n` +
-                `📸 Image: ${selectResult.featuredImage.alt}\n` +
-                `📷 Photo by: ${selectResult.featuredImage.attribution.text}\n\n` +
-                `The image is now available for Medium cross-posting.`
-            );
-            await loadPosts(); // Refresh to show the new image
-          } else {
-            const error = await selectResponse.json();
-            alert(`❌ Error setting image: ${error.error || 'Unknown error'}`);
-          }
-        } catch (error) {
-          console.error('Error selecting image:', error);
-          alert('❌ Error selecting image. Please try again.');
-        }
-      };
-
-      (window as any).closeModal = () => {
-        document.body.removeChild(overlay);
-      };
-
-      // Close modal when clicking outside
-      overlay.addEventListener('click', e => {
-        if (e.target === overlay) {
-          document.body.removeChild(overlay);
-        }
+      // Show selection modal
+      setImageModal({
+        isOpen: true,
+        type: 'selection',
+        title: `${isReplacement ? 'Replace' : 'Choose'} Image for "${post.title}"`,
+        images: imageOptions,
+        currentPost: post,
+        forceReplace: isReplacement,
       });
     } catch (error) {
       console.error('Error getting image options:', error);
-      alert('❌ Error getting image options. Please try again.');
+      setImageModal({
+        isOpen: true,
+        type: 'error',
+        title: 'Error Getting Image Options',
+        message: 'Please try again.',
+      });
     }
   };
 
+  // Handle image selection from modal
+  const handleImageSelect = async (image: ImageOption) => {
+    const post = imageModal.currentPost;
+    if (!post) return;
+
+    try {
+      // Show loading state for selection
+      setImageModal({
+        isOpen: true,
+        type: 'loading',
+        title: 'Setting Selected Image',
+        message: '📸 Setting selected image...',
+        currentPost: post,
+      });
+
+      const selectResponse = await fetch(
+        `/api/blog/posts/${post.slug}/image-options`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            selectedImageId: image.id,
+            forceReplace: imageModal.forceReplace || false,
+          }),
+        }
+      );
+
+      if (selectResponse.ok) {
+        const selectResult = await selectResponse.json();
+
+        // Convert response to ImageOption format
+        const resultImage: ImageOption = {
+          id: selectResult.featuredImage.id || image.id,
+          url: selectResult.featuredImage.url,
+          thumbnailUrl:
+            selectResult.featuredImage.thumbnailUrl ||
+            selectResult.featuredImage.url,
+          alt: selectResult.featuredImage.alt,
+          attribution: selectResult.featuredImage.attribution,
+          width: selectResult.featuredImage.width,
+          height: selectResult.featuredImage.height,
+        };
+
+        // Refresh posts data to show updated image
+        await loadPosts();
+
+        // Show success modal
+        setImageModal({
+          isOpen: true,
+          type: 'success',
+          title: `Featured Image ${post.featuredImage ? 'Replaced' : 'Added'} Successfully!`,
+          message: 'The image is now available for Medium cross-posting.',
+          image: resultImage,
+        });
+      } else {
+        const error = await selectResponse.json();
+        setImageModal({
+          isOpen: true,
+          type: 'error',
+          title: 'Error Setting Image',
+          message: error.error || 'Unknown error occurred',
+        });
+      }
+    } catch (error) {
+      console.error('Error selecting image:', error);
+      setImageModal({
+        isOpen: true,
+        type: 'error',
+        title: 'Error Selecting Image',
+        message: 'Please try again.',
+      });
+    }
+  };
+
+  // Handle modal close
+  const closeImageModal = () => {
+    setImageModal({
+      isOpen: false,
+      type: 'loading',
+    });
+  };
+
+  const closeGeneralModal = () => {
+    setGeneralModal({
+      isOpen: false,
+      type: 'success',
+    });
+  };
+
   const handleCrossPostToMedium = async (post: BlogPost) => {
-    // Phase 1: Manual cross-posting workflow with improved Medium formatting
-    const confirmed = confirm(
-      `Cross-post "${post.title}" to Medium?\n\n` +
-        `This will:\n` +
-        `1. Copy the post content to your clipboard (optimized for Medium)\n` +
-        `2. Open Medium's new story page\n` +
-        `3. You can then paste, add images, and publish\n` +
-        `4. Add the Medium URL back to this post for tracking\n\n` +
-        `Continue?`
-    );
+    setGeneralModal({
+      isOpen: true,
+      type: 'confirmation',
+      title: `Cross-post "${post.title}" to Medium?`,
+      message: `This will:\n\n1. Copy the post content to your clipboard (optimized for Medium)\n2. Open Medium's new story page\n3. You can then paste, add images, and publish\n4. Add the Medium URL back to this post for tracking`,
+      onConfirm: () => performMediumCrossPost(post),
+    });
+  };
 
-    if (!confirmed) return;
-
+  const performMediumCrossPost = async (post: BlogPost) => {
     try {
       // Convert HTML content to Medium-optimized format
       const htmlToMediumFormat = (html: string): string => {
@@ -473,22 +606,20 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
         ? `Featured image URL is included at the top - copy and paste it as your hero image in Medium.`
         : `No featured image found. Consider adding a relevant image to enhance your post.`;
 
-      alert(
-        `✅ Content copied to clipboard and optimized for Medium!\n\n` +
-          `${hasImage} **Image Status:** ${imageInstructions}\n\n` +
-          `📝 **Next steps:**\n` +
-          `1. Paste content in Medium editor (Ctrl/Cmd + V)\n` +
-          `2. ${post.featuredImage ? 'Add the featured image URL as hero image' : 'Add a relevant hero image'}\n` +
-          `3. Replace any [IMAGE: ...] placeholders with actual images\n` +
-          `4. Review formatting and adjust as needed\n` +
-          `5. Use the suggested tags at the bottom (Medium allows up to 5)\n` +
-          `6. Publish on Medium\n` +
-          `7. Copy the Medium URL and add it back to this post\n\n` +
-          `💡 **Pro tip:** Medium's algorithm favors posts with high-quality images and good engagement!`
-      );
+      setGeneralModal({
+        isOpen: true,
+        type: 'success',
+        title: 'Content Copied to Clipboard',
+        message: `✅ Content optimized for Medium!\n\n${hasImage} Image Status: ${imageInstructions}\n\n📝 Next steps:\n1. Paste content in Medium editor (Ctrl/Cmd + V)\n2. ${post.featuredImage ? 'Add the featured image URL as hero image' : 'Add a relevant hero image'}\n3. Replace any [IMAGE: ...] placeholders\n4. Review formatting and adjust as needed\n5. Use the suggested tags (Medium allows up to 5)\n6. Publish on Medium\n7. Copy the Medium URL back to this post\n\n💡 Pro tip: Medium's algorithm favors posts with high-quality images!`,
+      });
     } catch (error) {
       console.error('Error cross-posting to Medium:', error);
-      alert('❌ Error copying content to clipboard. Please try again.');
+      setGeneralModal({
+        isOpen: true,
+        type: 'error',
+        title: 'Error Copying to Clipboard',
+        message: 'Please try again.',
+      });
     }
   };
 
@@ -619,6 +750,14 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
                               >
                                 {post.status.toUpperCase()}
                               </span>
+                              {post.featuredImage && post.featuredImage.url && (
+                                <span
+                                  className={styles.imageIndicator}
+                                  title="Has featured image"
+                                >
+                                  📸
+                                </span>
+                              )}
                               <span className={styles.postDate}>
                                 {post.status === 'scheduled' &&
                                 post.scheduledFor
@@ -689,46 +828,27 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
                               )}
 
                               {/* Image options for all post types */}
-                              {!post.featuredImage ? (
-                                <>
-                                  <button
-                                    className={styles.actionButton}
-                                    onClick={() => handleGenerateImage(post)}
-                                    title="Generate featured image from Unsplash (quick)"
-                                  >
-                                    🎯 Quick Image
-                                  </button>
-                                  <button
-                                    className={styles.actionButton}
-                                    onClick={() =>
-                                      handleSelectFromImageOptions(post)
-                                    }
-                                    title="Choose from multiple image options"
-                                  >
-                                    🖼️ Choose Image
-                                  </button>
-                                </>
+                              {!post.featuredImage ||
+                              !post.featuredImage.url ? (
+                                <button
+                                  className={styles.actionButton}
+                                  onClick={() =>
+                                    handleSelectFromImageOptions(post)
+                                  }
+                                  title="Choose a featured image for this post"
+                                >
+                                  🖼️ Choose Image
+                                </button>
                               ) : (
-                                <>
-                                  <button
-                                    className={styles.actionButton}
-                                    onClick={() =>
-                                      handleSelectFromImageOptions(post)
-                                    }
-                                    title="Choose from fresh image options"
-                                  >
-                                    🖼️ Choose Image
-                                  </button>
-                                  <button
-                                    className={styles.actionButton}
-                                    onClick={() =>
-                                      handleSelectFromImageOptions(post)
-                                    }
-                                    title="Replace current image with different option"
-                                  >
-                                    🔄 Replace Image
-                                  </button>
-                                </>
+                                <button
+                                  className={styles.actionButton}
+                                  onClick={() =>
+                                    handleSelectFromImageOptions(post, true)
+                                  }
+                                  title="Replace current featured image"
+                                >
+                                  🔄 Replace Image
+                                </button>
                               )}
                               {post.status === 'published' &&
                                 !post.mediumUrl && (
@@ -774,6 +894,87 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
           </main>
         </div>
       </div>
+
+      {/* Image Modal */}
+      <ImageModal
+        isOpen={imageModal.isOpen}
+        onClose={closeImageModal}
+        type={imageModal.type}
+        title={imageModal.title}
+        message={imageModal.message}
+        image={imageModal.image}
+        images={imageModal.images}
+        onSelectImage={handleImageSelect}
+      />
+
+      {/* General Purpose Modal */}
+      <Modal
+        isOpen={generalModal.isOpen}
+        onClose={closeGeneralModal}
+        title={generalModal.title}
+      >
+        <div style={{ padding: '20px', textAlign: 'center' }}>
+          <div style={{ fontSize: '3rem', marginBottom: '16px' }}>
+            {generalModal.type === 'success'
+              ? '✅'
+              : generalModal.type === 'error'
+                ? '❌'
+                : '⚠️'}
+          </div>
+          <p
+            style={{
+              margin: '0 0 24px 0',
+              color: 'var(--text-primary, #1f2937)',
+            }}
+          >
+            {generalModal.message}
+          </p>
+          <div
+            style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}
+          >
+            <button
+              onClick={closeGeneralModal}
+              style={{
+                background: '#3b82f6',
+                color: 'white',
+                border: 'none',
+                padding: '10px 20px',
+                borderRadius: '6px',
+                cursor: 'pointer',
+                fontWeight: '500',
+              }}
+            >
+              {generalModal.type === 'confirm' ||
+              generalModal.type === 'confirmation'
+                ? 'Cancel'
+                : 'Close'}
+            </button>
+            {(generalModal.type === 'confirm' ||
+              generalModal.type === 'confirmation') &&
+              generalModal.onConfirm && (
+                <button
+                  onClick={() => {
+                    generalModal.onConfirm?.();
+                    closeGeneralModal();
+                  }}
+                  style={{
+                    background: '#dc2626',
+                    color: 'white',
+                    border: 'none',
+                    padding: '10px 20px',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    fontWeight: '500',
+                  }}
+                >
+                  {generalModal.type === 'confirmation'
+                    ? 'Cross-Post to Medium'
+                    : 'Confirm'}
+                </button>
+              )}
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }

@@ -272,6 +272,12 @@ html[data-theme='dark'] .header {
   white-space: nowrap;
 }
 
+.imageIndicator {
+  font-size: 0.875rem;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
 .postStatus {
   padding: 0.25rem 0.5rem;
   border-radius: 12px;
