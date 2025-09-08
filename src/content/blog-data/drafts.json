@@ -1,5 +1,20 @@
 [
   {
+    "id": "code-block-test-2025",
+    "slug": "code-block-test",
+    "title": "Code Block Test Post",
+    "author": "Zach Liibbe",
+    "publishedAt": "",
+    "excerpt": "Testing code block rendering to debug production issues.",
+    "content": "<h2>Code Block Test</h2>\n\n<p>This post tests code block rendering.</p>\n\n<h3>JavaScript Example</h3>\n\n<pre><code class=\"language-javascript\">function hello() {\n  console.log(&quot;Hello, world!&quot;);\n  return &quot;success&quot;;\n}</code></pre>\n\n<h3>CSS Example</h3>\n\n<pre><code class=\"language-css\">.example {\n  color: blue;\n  background: white;\n}</code></pre>\n\n<p>And some inline <code>code here</code> for testing.</p>",
+    "categories": ["Development"],
+    "tags": ["testing", "code-blocks"],
+    "readTime": "1 min read",
+    "status": "draft",
+    "createdAt": "2025-09-08T12:00:00.000Z",
+    "updatedAt": "2025-09-08T12:00:00.000Z"
+  },
+  {
     "id": "draft-post-2025",
     "slug": "my-first-draft",
     "title": "My First Draft Post",
