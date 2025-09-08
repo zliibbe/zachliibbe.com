@@ -239,8 +239,12 @@ export async function updateBlogPost(
     await savePostsToFile(PUBLISHED_FILE, published);
   }
 
-  // Create updated post
-  const updatedData = { ...existingPost, ...updates };
+  // Create updated post with updated timestamp
+  const updatedData = { 
+    ...existingPost, 
+    ...updates,
+    updatedAt: new Date().toISOString(),
+  };
 
   // If content was updated, convert markdown to HTML
   if (updates.content) {
