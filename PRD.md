@@ -293,6 +293,20 @@ type EmbeddingCache = {
 - [x] Implement manual workflow with clipboard API and redirect
 - [x] Add comprehensive error handling and user feedback
 
+### Phase 3.6: Enhanced LinkedIn Post Creation (Current Priority)
+
+- [ ] **LinkedIn Post Generator Modal:** Create modal component for Published Blogs in Blog Management
+- [ ] **Content Summarization:** Auto-generate LinkedIn-appropriate hooks from blog post content and maximize content for incresing user engagement
+- [ ] **Post Preview:** Show formatted LinkedIn post preview with character count
+- [ ] **Direct Publishing Integration:** Enable direct posting to LinkedIn from admin dashboard
+- [ ] **Post Tracking:** Track LinkedIn engagement and link back to original blog posts
+
+### Phase 3.7: Blog Management UX Enhancements
+
+- [ ] **CSS Style Consistency:** Update production blog styles (`/blog`) to match Blog Management interface styling
+- [ ] **Published Blog Navigation:** Make published blog titles in "All Posts" section clickable links to live blog pages
+- [ ] **Admin Interface Polish:** Improve user experience with direct navigation from admin to public blog posts
+
 ### Phase 4: RAG Chat Foundation (Week 4-5)
 
 - [ ] Set up Pinecone integration
