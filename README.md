@@ -273,6 +273,110 @@ The application includes automated blog publishing via Vercel Cron Jobs:
 - Test admin functionality with proper authentication
 - Ensure mobile responsiveness for new features
 
+## 📋 Commit Convention & Emojis
+
+This project uses conventional commits with emojis for clear, semantic version history. Each commit message follows the format: `<emoji> <type>(<scope>): <description>`
+
+### Core Commit Types
+
+| Emoji | Type | Description | Example |
+|-------|------|-------------|---------|
+| ✨ | `feat` | New features | `✨ feat(auth): add JWT token validation middleware` |
+| 🐛 | `fix` | Bug fixes | `🐛 fix(api): resolve race condition in user lookup` |
+| 📝 | `docs` | Documentation changes | `📝 docs: update README with installation steps` |
+| 💄 | `style` | Code style/formatting | `💄 style(css): improve button hover animations` |
+| ♻️ | `refactor` | Code restructuring | `♻️ refactor(utils): simplify error handling logic` |
+| ⚡️ | `perf` | Performance improvements | `⚡️ perf(api): optimize database query caching` |
+| ✅ | `test` | Adding/fixing tests | `✅ test(auth): add unit tests for login validation` |
+| 🔧 | `chore` | Tooling/configuration | `🔧 chore: update ESLint configuration` |
+
+### Specialized Types
+
+| Emoji | Type | Description |
+|-------|------|-------------|
+| 🚀 | `ci` | CI/CD improvements |
+| 🔒️ | `fix` | Security fixes |
+| 🚑️ | `fix` | Critical hotfixes |
+| 🚚 | `refactor` | Move/rename resources |
+| 🏗️ | `refactor` | Architectural changes |
+| 📦️ | `chore` | Dependencies/packages |
+| 🧑‍💻 | `chore` | Developer experience |
+| 🔍️ | `feat` | SEO improvements |
+| 🏷️ | `feat` | Type definitions |
+| 📱 | `feat` | Responsive design |
+| 🚸 | `feat` | UX/usability improvements |
+| 🩹 | `fix` | Non-critical fixes |
+| 🥅 | `fix` | Error handling |
+| 🔥 | `fix` | Remove code/files |
+| 🎨 | `style` | Code structure |
+| 🚧 | `wip` | Work in progress |
+| 💚 | `fix` | Fix CI builds |
+| 📌 | `chore` | Pin dependencies |
+| 👷 | `ci` | Build system updates |
+| 📈 | `feat` | Analytics/tracking |
+| ✏️ | `fix` | Typo fixes |
+| ⏪️ | `revert` | Revert changes |
+| 💥 | `feat` | Breaking changes |
+| 🍱 | `assets` | Asset updates |
+| ♿️ | `feat` | Accessibility |
+| 💡 | `docs` | Source comments |
+| 🔊 | `feat` | Add logs |
+| 🔇 | `fix` | Remove logs |
+| 🙈 | `chore` | .gitignore updates |
+| 🦺 | `feat` | Validation logic |
+
+### Scope Examples
+
+Common scopes used in this project:
+
+- `auth` - Authentication and authorization
+- `blog` - Blog system functionality
+- `api` - API routes and endpoints
+- `ui` - User interface components
+- `admin` - Admin dashboard features
+- `strava` - Strava integration
+- `theme` - Theme system and styling
+- `build` - Build system and configuration
+- `deps` - Dependencies and packages
+
+### Commit Message Examples
+
+```bash
+# Feature additions
+✨ feat(blog): add scheduled publishing with cron jobs
+🔍️ feat(seo): implement dynamic meta tags for blog posts
+📱 feat(ui): add responsive navigation for mobile devices
+
+# Bug fixes
+🐛 fix(auth): resolve session timeout in admin dashboard
+🚑️ fix(api): patch critical memory leak in image processing
+🩹 fix(ui): correct button alignment on small screens
+
+# Performance & improvements
+⚡️ perf(cache): implement Redis caching for API responses
+♻️ refactor(components): extract reusable modal component
+🎨 style(blog): improve code block syntax highlighting
+
+# Maintenance & tooling
+🔧 chore(deps): update Next.js to version 15
+📦️ chore: add TypeScript strict mode configuration
+✅ test(api): add integration tests for blog endpoints
+
+# Documentation & assets
+📝 docs: add API documentation for admin endpoints
+🍱 assets: optimize blog post featured images
+💡 docs(code): add JSDoc comments for utility functions
+```
+
+### Atomic Commits
+
+We follow atomic commit principles:
+
+- **One logical change per commit** - Each commit addresses a single concern
+- **Self-contained** - Commits can be cherry-picked or reverted independently
+- **Descriptive** - Clear commit messages explain what and why
+- **Tested** - Code is linted and tested before committing
+
 ## 📝 License
 
 This project is open source and available under the [MIT License](LICENSE).
