@@ -743,7 +743,20 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
                         )}
                         <div className={styles.postContent}>
                           <div className={styles.postHeader}>
-                            <h3 className={styles.postTitle}>{post.title}</h3>
+                            <h3 className={styles.postTitle}>
+                              {post.status === 'published' ? (
+                                <a
+                                  href={`/blog/${post.slug}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className={styles.postTitleLink}
+                                >
+                                  {post.title}
+                                </a>
+                              ) : (
+                                post.title
+                              )}
+                            </h3>
                             <div className={styles.postMeta}>
                               <span
                                 className={`${styles.postStatus} ${styles[`status${post.status.charAt(0).toUpperCase() + post.status.slice(1)}`]}`}
