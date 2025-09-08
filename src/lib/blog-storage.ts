@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { BlogPost } from '@/types/blog';
+import { BlogPost, FeaturedImage } from '@/types/blog';
 import { markdownToHtml, generateExcerpt } from './markdown';
 
 // Import KV only when needed (production)
@@ -214,6 +214,7 @@ export async function updateBlogPost(
     status: 'draft' | 'scheduled' | 'published';
     scheduledFor?: string;
     publishedAt?: string;
+    featuredImage?: FeaturedImage;
   }>
 ): Promise<BlogPost | null> {
   const existingPost = await getPostBySlug(slug);
