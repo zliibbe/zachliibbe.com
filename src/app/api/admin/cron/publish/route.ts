@@ -26,9 +26,26 @@ function isValidCronRequest(request: NextRequest): boolean {
 
 export async function POST(request: NextRequest) {
   try {
+    // Log request details for debugging
+    const host = request.headers.get('host');
+    const userAgent = request.headers.get('user-agent');
+    const cronHeader = request.headers.get('x-vercel-cron');
+    
+    console.log('Cron request details:', {
+      host,
+      userAgent,
+      cronHeader,
+      url: request.url,
+      timestamp: new Date().toISOString()
+    });
+
     // Validate this is a legitimate cron request
     if (!isValidCronRequest(request)) {
-      console.warn('Unauthorized cron request attempt');
+      console.warn('Unauthorized cron request attempt', {
+        host,
+        cronHeader,
+        hasSecret: !!process.env.CRON_SECRET
+      });
       return NextResponse.json(
         { error: 'Unauthorized cron request' },
         { status: 401 }
