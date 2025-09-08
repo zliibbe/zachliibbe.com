@@ -30,13 +30,13 @@ export async function POST(request: NextRequest) {
     const host = request.headers.get('host');
     const userAgent = request.headers.get('user-agent');
     const cronHeader = request.headers.get('x-vercel-cron');
-    
+
     console.log('Cron request details:', {
       host,
       userAgent,
       cronHeader,
       url: request.url,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
 
     // Validate this is a legitimate cron request
@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
       console.warn('Unauthorized cron request attempt', {
         host,
         cronHeader,
-        hasSecret: !!process.env.CRON_SECRET
+        hasSecret: !!process.env.CRON_SECRET,
       });
       return NextResponse.json(
         { error: 'Unauthorized cron request' },
