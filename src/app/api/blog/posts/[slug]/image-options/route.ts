@@ -121,8 +121,11 @@ export async function POST(
       return NextResponse.json({ error: 'Post not found' }, { status: 404 });
     }
 
-    // Check if post already has a featured image
-    if (post.featuredImage) {
+    // Check for force replace flag in the request body
+    const forceReplace = body.forceReplace === true;
+    
+    // Check if post already has a featured image (only block if not forcing replacement)
+    if (post.featuredImage && !forceReplace) {
       return NextResponse.json(
         {
           error: 'Post already has a featured image',
@@ -169,7 +172,9 @@ export async function POST(
       await updateBlogPost(slug, { featuredImage });
 
       return NextResponse.json({
-        message: 'Featured image added successfully',
+        message: forceReplace 
+          ? 'Featured image replaced successfully' 
+          : 'Featured image added successfully',
         featuredImage,
       });
     } catch (unsplashError) {
