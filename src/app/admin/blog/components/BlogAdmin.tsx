@@ -225,7 +225,9 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
   const handleSelectFromImageOptions = async (post: BlogPost) => {
     try {
       // Show loading state
-      alert(`🔍 Searching for ${post.featuredImage ? 'replacement ' : ''}image options...`);
+      alert(
+        `🔍 Searching for ${post.featuredImage ? 'replacement ' : ''}image options...`
+      );
 
       // Get image options
       const response = await fetch(
@@ -685,7 +687,7 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
                                   Publish Now
                                 </button>
                               )}
-                              
+
                               {/* Image options for all post types */}
                               {!post.featuredImage ? (
                                 <>
@@ -732,7 +734,9 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
                                 !post.mediumUrl && (
                                   <button
                                     className={styles.actionButton}
-                                    onClick={() => handleCrossPostToMedium(post)}
+                                    onClick={() =>
+                                      handleCrossPostToMedium(post)
+                                    }
                                   >
                                     Cross-post to Medium
                                   </button>

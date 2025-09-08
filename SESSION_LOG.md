@@ -103,6 +103,7 @@
 - **Backward Compatibility**: Maintained existing `getPhotoForBlogPost()` function
 
 **Files Modified:**
+
 - `src/app/admin/blog/components/BlogAdmin.tsx` - Added image selection modal and workflow
 - `src/lib/unsplash.ts` - Enhanced to support multiple photo results
 - `src/app/api/blog/posts/[slug]/image-options/` - New API route (untracked)
