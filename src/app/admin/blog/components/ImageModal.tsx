@@ -83,7 +83,10 @@ export default function ImageModal({
                     Perfect!
                   </button>
                   {onRetry && (
-                    <button className={styles.secondaryButton} onClick={onRetry}>
+                    <button
+                      className={styles.secondaryButton}
+                      onClick={onRetry}
+                    >
                       Try Different Image
                     </button>
                   )}
@@ -111,7 +114,9 @@ export default function ImageModal({
                     </div>
                     <div className={styles.imageInfo}>
                       <p className={styles.imageTitle}>Option {index + 1}</p>
-                      <p className={styles.imageAttribution}>{img.attribution.text}</p>
+                      <p className={styles.imageAttribution}>
+                        {img.attribution.text}
+                      </p>
                       <button
                         className={styles.selectButton}
                         onClick={() => onSelectImage?.(img)}
@@ -125,7 +130,9 @@ export default function ImageModal({
             ) : (
               <div className={styles.noResults}>
                 <div className={styles.noResultsIcon}>🖼️</div>
-                <p className={styles.noResultsText}>No suitable images found for this post.</p>
+                <p className={styles.noResultsText}>
+                  No suitable images found for this post.
+                </p>
                 <p className={styles.noResultsSubtext}>
                   You can try different tags or add an image manually later.
                 </p>
@@ -151,7 +158,8 @@ export default function ImageModal({
                   />
                 </div>
                 <p className={styles.successDetails}>
-                  📸 {image.alt}<br />
+                  📸 {image.alt}
+                  <br />
                   📷 Photo by {image.attribution.text}
                 </p>
               </>

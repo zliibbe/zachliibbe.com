@@ -59,11 +59,7 @@ export default function Modal({
   };
 
   return (
-    <div
-      className={styles.overlay}
-      ref={modalRef}
-      onClick={handleOverlayClick}
-    >
+    <div className={styles.overlay} ref={modalRef} onClick={handleOverlayClick}>
       <div className={`${styles.modal} ${styles[size]}`}>
         {(title || showCloseButton) && (
           <div className={styles.header}>
@@ -79,9 +75,7 @@ export default function Modal({
             )}
           </div>
         )}
-        <div className={styles.content}>
-          {children}
-        </div>
+        <div className={styles.content}>{children}</div>
       </div>
     </div>
   );

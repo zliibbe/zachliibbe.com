@@ -35,6 +35,7 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
     image?: ImageOption;
     images?: ImageOption[];
     currentPost?: BlogPost;
+    forceReplace?: boolean;
   }>({
     isOpen: false,
     type: 'loading',
@@ -238,7 +239,7 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
     }
   };
 
-  const handleGenerateImage = async (post: BlogPost) => {
+  const handleGenerateImage = async (post: BlogPost, forceReplace = false) => {
     try {
       // Show loading modal
       setImageModal({
@@ -257,6 +258,7 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
           headers: {
             'Content-Type': 'application/json',
           },
+          body: JSON.stringify({ forceReplace }),
         }
       );
 
@@ -267,13 +269,17 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
           const imageOption: ImageOption = {
             id: result.featuredImage.id || 'generated',
             url: result.featuredImage.url,
-            thumbnailUrl: result.featuredImage.thumbnailUrl || result.featuredImage.url,
+            thumbnailUrl:
+              result.featuredImage.thumbnailUrl || result.featuredImage.url,
             alt: result.featuredImage.alt,
             attribution: result.featuredImage.attribution,
             width: result.featuredImage.width,
             height: result.featuredImage.height,
           };
 
+          // Refresh posts data to show updated image
+          await loadPosts();
+          
           // Show success modal
           setImageModal({
             isOpen: true,
@@ -282,8 +288,6 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
             message: 'The image is now available for Medium cross-posting.',
             image: imageOption,
           });
-
-          await loadPosts(); // Refresh to show the new image
         } else {
           // Show no results
           setImageModal({
@@ -313,15 +317,19 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
     }
   };
 
-  const handleSelectFromImageOptions = async (post: BlogPost) => {
+  const handleSelectFromImageOptions = async (post: BlogPost, forceReplace = false) => {
     try {
+      // Determine if this is a replacement operation
+      const isReplacement = forceReplace || !!post.featuredImage;
+      
       // Show loading modal
       setImageModal({
         isOpen: true,
         type: 'loading',
-        title: `${post.featuredImage ? 'Replace' : 'Choose'} Image for "${post.title}"`,
-        message: `🔍 Searching for ${post.featuredImage ? 'replacement ' : ''}image options...`,
+        title: `${isReplacement ? 'Replace' : 'Choose'} Image for "${post.title}"`,
+        message: `🔍 Searching for ${isReplacement ? 'replacement ' : ''}image options...`,
         currentPost: post,
+        forceReplace: isReplacement,
       });
 
       // Get image options
@@ -357,9 +365,10 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
       setImageModal({
         isOpen: true,
         type: 'selection',
-        title: `${post.featuredImage ? 'Replace' : 'Choose'} Image for "${post.title}"`,
+        title: `${isReplacement ? 'Replace' : 'Choose'} Image for "${post.title}"`,
         images: imageOptions,
         currentPost: post,
+        forceReplace: isReplacement,
       });
     } catch (error) {
       console.error('Error getting image options:', error);
@@ -394,24 +403,32 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ selectedImageId: image.id }),
+          body: JSON.stringify({ 
+            selectedImageId: image.id,
+            forceReplace: imageModal.forceReplace || false
+          }),
         }
       );
 
       if (selectResponse.ok) {
         const selectResult = await selectResponse.json();
-        
+
         // Convert response to ImageOption format
         const resultImage: ImageOption = {
           id: selectResult.featuredImage.id || image.id,
           url: selectResult.featuredImage.url,
-          thumbnailUrl: selectResult.featuredImage.thumbnailUrl || selectResult.featuredImage.url,
+          thumbnailUrl:
+            selectResult.featuredImage.thumbnailUrl ||
+            selectResult.featuredImage.url,
           alt: selectResult.featuredImage.alt,
           attribution: selectResult.featuredImage.attribution,
           width: selectResult.featuredImage.width,
           height: selectResult.featuredImage.height,
         };
 
+        // Refresh posts data to show updated image
+        await loadPosts();
+        
         // Show success modal
         setImageModal({
           isOpen: true,
@@ -420,8 +437,6 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
           message: 'The image is now available for Medium cross-posting.',
           image: resultImage,
         });
-
-        await loadPosts(); // Refresh to show the new image
       } else {
         const error = await selectResponse.json();
         setImageModal({
@@ -468,7 +483,6 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
   };
 
   const performMediumCrossPost = async (post: BlogPost) => {
-
     try {
       // Convert HTML content to Medium-optimized format
       const htmlToMediumFormat = (html: string): string => {
@@ -829,7 +843,7 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
                                   <button
                                     className={styles.actionButton}
                                     onClick={() =>
-                                      handleSelectFromImageOptions(post)
+                                      handleSelectFromImageOptions(post, true)
                                     }
                                     title="Replace current image with different option"
                                   >
@@ -902,12 +916,23 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
       >
         <div style={{ padding: '20px', textAlign: 'center' }}>
           <div style={{ fontSize: '3rem', marginBottom: '16px' }}>
-            {generalModal.type === 'success' ? '✅' : generalModal.type === 'error' ? '❌' : '⚠️'}
+            {generalModal.type === 'success'
+              ? '✅'
+              : generalModal.type === 'error'
+                ? '❌'
+                : '⚠️'}
           </div>
-          <p style={{ margin: '0 0 24px 0', color: 'var(--text-primary, #1f2937)' }}>
+          <p
+            style={{
+              margin: '0 0 24px 0',
+              color: 'var(--text-primary, #1f2937)',
+            }}
+          >
             {generalModal.message}
           </p>
-          <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
+          <div
+            style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}
+          >
             <button
               onClick={closeGeneralModal}
               style={{
@@ -920,27 +945,34 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
                 fontWeight: '500',
               }}
             >
-              {(generalModal.type === 'confirm' || generalModal.type === 'confirmation') ? 'Cancel' : 'Close'}
+              {generalModal.type === 'confirm' ||
+              generalModal.type === 'confirmation'
+                ? 'Cancel'
+                : 'Close'}
             </button>
-            {(generalModal.type === 'confirm' || generalModal.type === 'confirmation') && generalModal.onConfirm && (
-              <button
-                onClick={() => {
-                  generalModal.onConfirm?.();
-                  closeGeneralModal();
-                }}
-                style={{
-                  background: '#dc2626',
-                  color: 'white',
-                  border: 'none',
-                  padding: '10px 20px',
-                  borderRadius: '6px',
-                  cursor: 'pointer',
-                  fontWeight: '500',
-                }}
-              >
-                {generalModal.type === 'confirmation' ? 'Cross-Post to Medium' : 'Confirm'}
-              </button>
-            )}
+            {(generalModal.type === 'confirm' ||
+              generalModal.type === 'confirmation') &&
+              generalModal.onConfirm && (
+                <button
+                  onClick={() => {
+                    generalModal.onConfirm?.();
+                    closeGeneralModal();
+                  }}
+                  style={{
+                    background: '#dc2626',
+                    color: 'white',
+                    border: 'none',
+                    padding: '10px 20px',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    fontWeight: '500',
+                  }}
+                >
+                  {generalModal.type === 'confirmation'
+                    ? 'Cross-Post to Medium'
+                    : 'Confirm'}
+                </button>
+              )}
           </div>
         </div>
       </Modal>
