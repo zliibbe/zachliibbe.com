@@ -73,7 +73,7 @@ export default function LinkedInPostModal({
 
     const blogUrl = `${window.location.origin}/blog/${post.slug}`;
     const categoryHook = getCategoryHook(post.categories[0] || '');
-    
+
     return `${categoryHook}
 
 ${post.title}
@@ -82,15 +82,18 @@ ${post.excerpt}
 
 Read the full post here: ${blogUrl}
 
-${post.tags.slice(0, 5).map(tag => `#${tag.replace(/\s+/g, '')}`).join(' ')}`;
+${post.tags
+  .slice(0, 5)
+  .map(tag => `#${tag.replace(/\s+/g, '')}`)
+  .join(' ')}`;
   };
 
   const getCategoryHook = (category: string): string => {
     const hooks = {
-      'Development': '💻 Just published a new development insight!',
-      'Personal': '🌱 Sharing some personal reflections:',
-      'Learning': '📚 Here\'s what I\'ve been learning lately:',
-      'Projects': '🚀 Excited to share my latest project work:',
+      Development: '💻 Just published a new development insight!',
+      Personal: '🌱 Sharing some personal reflections:',
+      Learning: "📚 Here's what I've been learning lately:",
+      Projects: '🚀 Excited to share my latest project work:',
     };
     return hooks[category as keyof typeof hooks] || '✨ New blog post is live!';
   };
@@ -106,7 +109,11 @@ ${post.tags.slice(0, 5).map(tag => `#${tag.replace(/\s+/g, '')}`).join(' ')}`;
   };
 
   const openLinkedIn = () => {
-    window.open('https://www.linkedin.com/feed/', '_blank', 'noopener,noreferrer');
+    window.open(
+      'https://www.linkedin.com/feed/',
+      '_blank',
+      'noopener,noreferrer'
+    );
   };
 
   const handlePostAndRedirect = async () => {
@@ -118,7 +125,12 @@ ${post.tags.slice(0, 5).map(tag => `#${tag.replace(/\s+/g, '')}`).join(' ')}`;
   if (!post) return null;
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Create LinkedIn Post" size="large">
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title="Create LinkedIn Post"
+      size="large"
+    >
       <div className={styles.container}>
         {isGenerating ? (
           <div className={styles.generating}>
@@ -131,18 +143,22 @@ ${post.tags.slice(0, 5).map(tag => `#${tag.replace(/\s+/g, '')}`).join(' ')}`;
               <div className={styles.previewHeader}>
                 <h3>Post Preview</h3>
                 <div className={styles.characterCount}>
-                  <span className={characterCount > maxCharacters ? styles.overLimit : ''}>
+                  <span
+                    className={
+                      characterCount > maxCharacters ? styles.overLimit : ''
+                    }
+                  >
                     {characterCount}/{maxCharacters}
                   </span>
                 </div>
               </div>
-              
+
               <div className={styles.toggleSection}>
                 <label className={styles.toggleLabel}>
                   <input
                     type="checkbox"
                     checked={useCustom}
-                    onChange={(e) => setUseCustom(e.target.checked)}
+                    onChange={e => setUseCustom(e.target.checked)}
                   />
                   Use custom post content
                 </label>
@@ -152,7 +168,7 @@ ${post.tags.slice(0, 5).map(tag => `#${tag.replace(/\s+/g, '')}`).join(' ')}`;
                 <textarea
                   className={styles.customTextarea}
                   value={customPost}
-                  onChange={(e) => setCustomPost(e.target.value)}
+                  onChange={e => setCustomPost(e.target.value)}
                   placeholder="Write your custom LinkedIn post..."
                   rows={12}
                 />
@@ -171,7 +187,7 @@ ${post.tags.slice(0, 5).map(tag => `#${tag.replace(/\s+/g, '')}`).join(' ')}`;
               >
                 🔄 Regenerate Post
               </button>
-              
+
               <button
                 className={styles.hookButton}
                 onClick={generateLinkedInPost}
@@ -180,7 +196,7 @@ ${post.tags.slice(0, 5).map(tag => `#${tag.replace(/\s+/g, '')}`).join(' ')}`;
               >
                 ✨ New Hook
               </button>
-              
+
               <div className={styles.primaryActions}>
                 <button
                   className={styles.copyButton}
@@ -189,7 +205,7 @@ ${post.tags.slice(0, 5).map(tag => `#${tag.replace(/\s+/g, '')}`).join(' ')}`;
                 >
                   📋 Copy to Clipboard
                 </button>
-                
+
                 <button
                   className={styles.postButton}
                   onClick={handlePostAndRedirect}
@@ -202,8 +218,9 @@ ${post.tags.slice(0, 5).map(tag => `#${tag.replace(/\s+/g, '')}`).join(' ')}`;
 
             <div className={styles.instructions}>
               <p>
-                <strong>Instructions:</strong> Click "Copy & Open LinkedIn" to copy the post content 
-                and open LinkedIn in a new tab. Then paste and publish your post!
+                <strong>Instructions:</strong> Click "Copy & Open LinkedIn" to
+                copy the post content and open LinkedIn in a new tab. Then paste
+                and publish your post!
               </p>
             </div>
           </>

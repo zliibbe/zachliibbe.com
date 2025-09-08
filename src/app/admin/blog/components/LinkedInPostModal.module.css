@@ -25,8 +25,12 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Post Preview */
@@ -82,7 +86,7 @@
   font-size: 0.875rem;
 }
 
-.toggleLabel input[type="checkbox"] {
+.toggleLabel input[type='checkbox'] {
   accent-color: var(--linkedInColor);
 }
 
@@ -229,32 +233,32 @@
   .container {
     gap: 1rem;
   }
-  
+
   .postPreview {
     padding: 1rem;
   }
-  
+
   .previewHeader {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
   }
-  
+
   .actions {
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .regenerateButton,
   .hookButton {
     margin-bottom: 0.5rem;
   }
-  
+
   .primaryActions {
     width: 100%;
     justify-content: stretch;
   }
-  
+
   .copyButton,
   .postButton {
     flex: 1;
