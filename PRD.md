@@ -14,7 +14,7 @@ Transform zachliibbe.com into an interactive personal website featuring:
 
 - [ ] **RAG-powered AI chat** for visitors to learn about Zach through natural conversation
 - [x] **Blog system with scheduling** for content creation and automated publishing
-- [x] **Authentication system** for secure content management  
+- [x] **Authentication system** for secure content management
 - [x] **LinkedIn cross-posting integration** for professional content distribution
 
 **Key Constraint:** Minimize costs while maintaining professional quality and performance.
