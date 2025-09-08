@@ -172,6 +172,15 @@ ${post.tags.slice(0, 5).map(tag => `#${tag.replace(/\s+/g, '')}`).join(' ')}`;
                 🔄 Regenerate Post
               </button>
               
+              <button
+                className={styles.hookButton}
+                onClick={generateLinkedInPost}
+                disabled={isGenerating}
+                title="Generate a new hook while keeping the same content structure"
+              >
+                ✨ New Hook
+              </button>
+              
               <div className={styles.primaryActions}>
                 <button
                   className={styles.copyButton}
