@@ -34,7 +34,7 @@ export async function POST(
     // Parse request body to check if this is a replacement operation
     const body = await req.json();
     const forceReplace = body.forceReplace === true;
-    
+
     // Check if post already has a featured image (only block if not forcing replacement)
     if (post.featuredImage && !forceReplace) {
       return NextResponse.json(
@@ -80,8 +80,8 @@ export async function POST(
       await updateBlogPost(slug, { featuredImage });
 
       return NextResponse.json({
-        message: forceReplace 
-          ? 'Featured image replaced successfully' 
+        message: forceReplace
+          ? 'Featured image replaced successfully'
           : 'Featured image added successfully',
         featuredImage,
       });

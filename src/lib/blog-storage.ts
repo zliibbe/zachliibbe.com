@@ -240,8 +240,8 @@ export async function updateBlogPost(
   }
 
   // Create updated post with updated timestamp
-  const updatedData = { 
-    ...existingPost, 
+  const updatedData = {
+    ...existingPost,
     ...updates,
     updatedAt: new Date().toISOString(),
   };

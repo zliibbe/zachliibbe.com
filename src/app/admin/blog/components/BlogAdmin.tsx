@@ -286,7 +286,7 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
 
           // Refresh posts data to show updated image
           await loadPosts();
-          
+
           // Show success modal
           setImageModal({
             isOpen: true,
@@ -324,11 +324,14 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
     }
   };
 
-  const handleSelectFromImageOptions = async (post: BlogPost, forceReplace = false) => {
+  const handleSelectFromImageOptions = async (
+    post: BlogPost,
+    forceReplace = false
+  ) => {
     try {
       // Determine if this is a replacement operation
       const isReplacement = forceReplace || !!post.featuredImage;
-      
+
       // Show loading modal
       setImageModal({
         isOpen: true,
@@ -410,9 +413,9 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ 
+          body: JSON.stringify({
             selectedImageId: image.id,
-            forceReplace: imageModal.forceReplace || false
+            forceReplace: imageModal.forceReplace || false,
           }),
         }
       );
@@ -435,7 +438,7 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
 
         // Refresh posts data to show updated image
         await loadPosts();
-        
+
         // Show success modal
         setImageModal({
           isOpen: true,
@@ -748,7 +751,7 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
                                 {post.status.toUpperCase()}
                               </span>
                               {post.featuredImage && post.featuredImage.url && (
-                                <span 
+                                <span
                                   className={styles.imageIndicator}
                                   title="Has featured image"
                                 >
@@ -825,7 +828,8 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
                               )}
 
                               {/* Image options for all post types */}
-                              {!post.featuredImage || !post.featuredImage.url ? (
+                              {!post.featuredImage ||
+                              !post.featuredImage.url ? (
                                 <button
                                   className={styles.actionButton}
                                   onClick={() =>

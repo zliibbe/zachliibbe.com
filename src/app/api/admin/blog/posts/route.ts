@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
 
     // Get all posts directly from storage (includes stored featuredImage data)
     const posts = await getAllPosts();
-    
+
     // Sort by creation/update date (most recent first)
     const sortedPosts = posts.sort((a, b) => {
       // Use publishedAt if available, otherwise use updatedAt, otherwise use id
