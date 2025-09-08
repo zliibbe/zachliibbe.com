@@ -914,7 +914,7 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
                               )}
                               {post.status === 'published' && (
                                 <button
-                                  className={styles.actionButtonPrimary}
+                                  className={styles.actionButton}
                                   onClick={() => handleCreateLinkedInPost(post)}
                                   title="Generate LinkedIn post from this blog post"
                                 >
