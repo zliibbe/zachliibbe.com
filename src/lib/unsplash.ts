@@ -91,7 +91,7 @@ function incrementRequestCount() {
 
 export async function searchPhotos(
   query: string,
-  perPage: number = 1
+  perPage: number = 5
 ): Promise<UnsplashPhoto[]> {
   if (!ACCESS_KEY) {
     console.warn('Unsplash API key not configured, returning empty results');
@@ -162,11 +162,12 @@ export async function searchPhotos(
   }
 }
 
-export async function getPhotoForBlogPost(
+export async function getPhotosForBlogPost(
   categories: string[],
   tags: string[],
-  title: string
-): Promise<UnsplashPhoto | null> {
+  title: string,
+  count: number = 5
+): Promise<UnsplashPhoto[]> {
   // Map technical terms to more visual search terms
   const visualTerms: { [key: string]: string[] } = {
     rss: ['data stream', 'network'],
@@ -211,23 +212,38 @@ export async function getPhotoForBlogPost(
     'abstract minimal',
   ].filter(Boolean);
 
-  // Try each query until we get a result
+  // Try each query until we get enough results
   console.log(`Searching for images with queries: ${searchQueries.join(', ')}`);
 
+  const allPhotos: UnsplashPhoto[] = [];
+
   for (const query of searchQueries) {
-    if (query) {
+    if (query && allPhotos.length < count) {
       console.log(`Trying Unsplash search: "${query}"`);
-      const photos = await searchPhotos(query as string, 1);
+      const photos = await searchPhotos(
+        query as string,
+        count - allPhotos.length
+      );
       if (photos.length > 0) {
         console.log(`Found ${photos.length} photos for query: "${query}"`);
-        return photos[0];
+        allPhotos.push(...photos);
       }
     }
   }
 
-  console.log('No photos found for any search queries');
+  console.log(`Total photos found: ${allPhotos.length}`);
 
-  return null;
+  return allPhotos;
+}
+
+// Backward compatibility function - returns first photo or null
+export async function getPhotoForBlogPost(
+  categories: string[],
+  tags: string[],
+  title: string
+): Promise<UnsplashPhoto | null> {
+  const photos = await getPhotosForBlogPost(categories, tags, title, 1);
+  return photos.length > 0 ? photos[0] : null;
 }
 
 // Helper function to trigger download tracking (required by Unsplash API)
