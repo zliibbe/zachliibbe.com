@@ -12,5 +12,18 @@
     "src/app/api/blog/**": {
       "maxDuration": 15
     }
-  }
+  },
+  "redirects": [
+    {
+      "source": "/api/admin/cron/(.*)",
+      "has": [
+        {
+          "type": "header",
+          "key": "x-vercel-cron"
+        }
+      ],
+      "destination": "/api/admin/cron/$1",
+      "permanent": false
+    }
+  ]
 }
