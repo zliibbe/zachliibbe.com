@@ -60,7 +60,14 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
   const loadPosts = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/admin/blog/posts');
+      // Add cache busting to ensure fresh data
+      const timestamp = new Date().getTime();
+      const response = await fetch(`/api/admin/blog/posts?t=${timestamp}`, {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache',
+        },
+      });
       if (response.ok) {
         const data = await response.json();
         setPosts(data.posts || []);

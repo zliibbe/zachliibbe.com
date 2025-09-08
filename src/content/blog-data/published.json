@@ -70,14 +70,14 @@
     "status": "published",
     "series": "Blog System Development",
     "featuredImage": {
-      "url": "https://images.unsplash.com/photo-1632910121591-29e2484c0259?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3OTcwNTF8MHwxfHNlYXJjaHwzfHxEZXZlbG9wbWVudCUyMHRlc3Rpbmd8ZW58MHwwfHx8MTc1NzM0ODczOHww&ixlib=rb-4.1.0&q=80&w=1080",
-      "alt": "two men working on computers in an office",
+      "url": "https://images.unsplash.com/photo-1630442923896-244dd3717b35?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3OTcwNTF8MHwxfHNlYXJjaHwyfHxEZXZlbG9wbWVudCUyMHRlc3Rpbmd8ZW58MHwwfHx8MTc1NzM0ODczOHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "alt": "black and white hp laptop computer",
       "width": 6000,
-      "height": 3376,
+      "height": 4000,
       "attribution": {
-        "text": "Photo by Shamin Haky on Unsplash",
-        "photographerUrl": "https://unsplash.com/@haky",
-        "unsplashUrl": "https://unsplash.com/photos/two-men-working-on-computers-in-an-office-RIk-i9rXPao"
+        "text": "Photo by Fahim Muntashir on Unsplash",
+        "photographerUrl": "https://unsplash.com/@f12r",
+        "unsplashUrl": "https://unsplash.com/photos/black-and-white-hp-laptop-computer-pAgCpLoYXdQ"
       }
     }
   }
