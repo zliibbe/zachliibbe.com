@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { getPostBySlug, updateBlogPost } from '@/lib/blog-storage';
+import { clearImageCache } from '@/lib/blog-with-images';
 import {
   getPhotoForBlogPost,
   getPhotoAttribution,
@@ -78,6 +79,9 @@ export async function POST(
 
       // Update the post with the featured image
       await updateBlogPost(slug, { featuredImage });
+
+      // Clear the image cache for this post to ensure fresh data
+      clearImageCache(slug);
 
       return NextResponse.json({
         message: forceReplace

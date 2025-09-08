@@ -20,6 +20,16 @@ import {
 // Cache for images to avoid repeated API calls
 const imageCache = new Map<string, FeaturedImage | undefined>();
 
+// Clear cache for a specific post slug
+export function clearImageCache(slug: string) {
+  imageCache.delete(slug);
+}
+
+// Clear all image cache
+export function clearAllImageCache() {
+  imageCache.clear();
+}
+
 async function getFeaturedImage(
   post: Omit<BlogPost, 'featuredImage'>
 ): Promise<FeaturedImage | undefined> {
