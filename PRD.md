@@ -147,13 +147,14 @@ readTime: "8 min read" # Auto-calculated
 - [x] Scheduling interface with date/time picker
 - [x] Reading time auto-calculation
 - [ ] SEO preview (title, description, social cards)
+- [x] Multiple image selection options (choose from gallery)
 
 #### Content Management
 
 - [x] Draft → Review → Schedule → Publish workflow
 - [ ] Bulk operations (publish multiple, reschedule)
 - [ ] Post analytics integration
-- [ ] Simple file upload for images
+- [x] Image selection with multiple options (Unsplash integration)
 
 ### 2.3 Publishing System
 
