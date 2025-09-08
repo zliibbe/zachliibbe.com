@@ -1,0 +1,248 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 100%;
+}
+
+/* Generating State */
+.generating {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border-color);
+  border-top: 3px solid var(--linkedInColor);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Post Preview */
+.postPreview {
+  background: var(--background-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+}
+
+.previewHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.previewHeader h3 {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.characterCount {
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.25rem 0.75rem;
+  background: var(--background-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+}
+
+.overLimit {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+  border-color: #ef4444;
+}
+
+/* Toggle Section */
+.toggleSection {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.toggleLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.toggleLabel input[type="checkbox"] {
+  accent-color: var(--linkedInColor);
+}
+
+/* Content Areas */
+.generatedPost {
+  background: var(--background-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem;
+  min-height: 200px;
+}
+
+.postContent {
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  line-height: 1.6;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.9rem;
+}
+
+.customTextarea {
+  width: 100%;
+  min-height: 200px;
+  padding: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--background-primary);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.customTextarea:focus {
+  border-color: var(--linkedInColor);
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.primaryActions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+/* Buttons */
+.regenerateButton,
+.copyButton,
+.postButton {
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid;
+}
+
+.regenerateButton {
+  background: var(--background-primary);
+  color: var(--text-secondary);
+  border-color: var(--border-color);
+}
+
+.regenerateButton:hover:not(:disabled) {
+  background: var(--background-secondary);
+  color: var(--text-primary);
+  border-color: var(--linkedInColor);
+}
+
+.copyButton {
+  background: var(--background-primary);
+  color: var(--linkedInColor);
+  border-color: var(--linkedInColor);
+}
+
+.copyButton:hover:not(:disabled) {
+  background: rgba(14, 118, 168, 0.1);
+  transform: translateY(-1px);
+}
+
+.postButton {
+  background: var(--linkedInColor);
+  color: white;
+  border-color: var(--linkedInColor);
+  box-shadow: 0 2px 4px rgba(14, 118, 168, 0.3);
+}
+
+.postButton:hover:not(:disabled) {
+  background: #0a5a8a;
+  border-color: #0a5a8a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(14, 118, 168, 0.4);
+}
+
+.regenerateButton:disabled,
+.copyButton:disabled,
+.postButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Instructions */
+.instructions {
+  background: rgba(14, 118, 168, 0.1);
+  border: 1px solid rgba(14, 118, 168, 0.3);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.instructions p {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    gap: 1rem;
+  }
+  
+  .postPreview {
+    padding: 1rem;
+  }
+  
+  .previewHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .primaryActions {
+    width: 100%;
+    justify-content: stretch;
+  }
+  
+  .copyButton,
+  .postButton {
+    flex: 1;
+  }
+}
