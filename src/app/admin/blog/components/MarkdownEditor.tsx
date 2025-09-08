@@ -4,6 +4,7 @@ import React, { useState, useRef, useCallback } from 'react';
 import matter from 'gray-matter';
 import { markdownToHtml } from '@/lib/markdown';
 import styles from './MarkdownEditor.module.css';
+import Modal from './Modal';
 
 interface BlogPost {
   title: string;
@@ -55,6 +56,25 @@ export default function MarkdownEditor({
   const [previewMode, setPreviewMode] = useState(false);
   const [newTag, setNewTag] = useState('');
   const contentRef = useRef<HTMLTextAreaElement>(null);
+
+  // Modal state for replacing alerts
+  const [errorModal, setErrorModal] = useState<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+  }>({
+    isOpen: false,
+    title: '',
+    message: '',
+  });
+
+  const showError = (title: string, message: string) => {
+    setErrorModal({ isOpen: true, title, message });
+  };
+
+  const closeErrorModal = () => {
+    setErrorModal({ isOpen: false, title: '', message: '' });
+  };
 
   // Calculate reading time (rough estimate: 200 words per minute)
   const calculateReadingTime = useCallback((content: string) => {
@@ -217,7 +237,8 @@ export default function MarkdownEditor({
     console.log('Scheduling post with date:', post.scheduledFor);
     // Validate scheduling requirements
     if (post.status === 'scheduled' && !post.scheduledFor) {
-      alert(
+      showError(
+        'Scheduling Required',
         'Please set a scheduled date and time before scheduling this post.'
       );
       return;
@@ -227,7 +248,7 @@ export default function MarkdownEditor({
     if (post.status === 'scheduled' && post.scheduledFor) {
       const scheduledDate = new Date(post.scheduledFor);
       if (scheduledDate <= new Date()) {
-        alert('Scheduled date must be in the future.');
+        showError('Invalid Date', 'Scheduled date must be in the future.');
         return;
       }
     }
@@ -531,6 +552,40 @@ Use Ctrl/Cmd + S to save, Ctrl/Cmd + P to toggle preview.
           </span>
         </div>
       </div>
+
+      {/* Error Modal */}
+      <Modal
+        isOpen={errorModal.isOpen}
+        onClose={closeErrorModal}
+        title={errorModal.title}
+        size="small"
+      >
+        <div style={{ padding: '20px', textAlign: 'center' }}>
+          <div style={{ fontSize: '3rem', marginBottom: '16px' }}>❌</div>
+          <p
+            style={{
+              margin: '0 0 24px 0',
+              color: 'var(--text-primary, #1f2937)',
+            }}
+          >
+            {errorModal.message}
+          </p>
+          <button
+            onClick={closeErrorModal}
+            style={{
+              background: '#3b82f6',
+              color: 'white',
+              border: 'none',
+              padding: '10px 20px',
+              borderRadius: '6px',
+              cursor: 'pointer',
+              fontWeight: '500',
+            }}
+          >
+            OK
+          </button>
+        </div>
+      </Modal>
     </div>
   );
 }
