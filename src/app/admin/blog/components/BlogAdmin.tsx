@@ -711,15 +711,26 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
                                           </button>
                                         </>
                                       ) : (
-                                        <button
-                                          className={styles.actionButton}
-                                          onClick={() =>
-                                            handleSelectFromImageOptions(post)
-                                          }
-                                          title="Replace current image with different option"
-                                        >
-                                          🔄 Replace Image
-                                        </button>
+                                        <>
+                                          <button
+                                            className={styles.actionButton}
+                                            onClick={() =>
+                                              handleSelectFromImageOptions(post)
+                                            }
+                                            title="Choose from fresh image options"
+                                          >
+                                            🖼️ Choose Image
+                                          </button>
+                                          <button
+                                            className={styles.actionButton}
+                                            onClick={() =>
+                                              handleSelectFromImageOptions(post)
+                                            }
+                                            title="Replace current image with different option"
+                                          >
+                                            🔄 Replace Image
+                                          </button>
+                                        </>
                                       )}
                                     </>
                                     <button
