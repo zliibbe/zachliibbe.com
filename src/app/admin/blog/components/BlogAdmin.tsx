@@ -222,6 +222,128 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
     }
   };
 
+  const handleSelectFromImageOptions = async (post: BlogPost) => {
+    try {
+      // Show loading state
+      alert('🔍 Searching for image options...');
+
+      // Get image options
+      const response = await fetch(
+        `/api/blog/posts/${post.slug}/image-options`
+      );
+
+      if (!response.ok) {
+        const error = await response.json();
+        alert(
+          `❌ Error getting image options: ${error.error || 'Unknown error'}`
+        );
+        return;
+      }
+
+      const result = await response.json();
+
+      if (result.options.length === 0) {
+        alert(
+          'ℹ️ No suitable images found for this post. You can try the quick image generation or different tags.'
+        );
+        return;
+      }
+
+      // Create a modal-like selection interface
+      const imageOptionsHtml = result.options
+        .map(
+          (option: any, index: number) =>
+            `<div style="margin: 10px 0; padding: 10px; border: 1px solid #ccc; border-radius: 8px;">
+          <img src="${option.thumbnailUrl}" alt="${option.alt}" style="width: 200px; height: 120px; object-fit: cover; border-radius: 4px;" />
+          <div style="margin-top: 8px;">
+            <strong>Option ${index + 1}</strong><br/>
+            <small>${option.attribution.text}</small><br/>
+            <button onclick="selectImage('${option.id}')" style="margin-top: 8px; padding: 4px 8px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Select This Image</button>
+          </div>
+        </div>`
+        )
+        .join('');
+
+      // Create a temporary overlay for image selection
+      const overlay = document.createElement('div');
+      overlay.style.cssText = `
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+        background: rgba(0,0,0,0.8); z-index: 10000; overflow-y: auto;
+        display: flex; justify-content: center; align-items: flex-start; padding: 20px;
+      `;
+
+      const modal = document.createElement('div');
+      modal.style.cssText = `
+        background: white; border-radius: 12px; padding: 20px; max-width: 800px; width: 100%; 
+        max-height: 80vh; overflow-y: auto; position: relative;
+      `;
+
+      modal.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+          <h2 style="margin: 0; color: #333;">Choose an Image for "${post.title}"</h2>
+          <button onclick="closeModal()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #666;">&times;</button>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+          ${imageOptionsHtml}
+        </div>
+      `;
+
+      overlay.appendChild(modal);
+      document.body.appendChild(overlay);
+
+      // Add global functions for modal interaction
+      (window as any).selectImage = async (imageId: string) => {
+        try {
+          document.body.removeChild(overlay);
+
+          alert('📸 Setting selected image...');
+
+          const selectResponse = await fetch(
+            `/api/blog/posts/${post.slug}/image-options`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ selectedImageId: imageId }),
+            }
+          );
+
+          if (selectResponse.ok) {
+            const selectResult = await selectResponse.json();
+            alert(
+              `✅ Featured image added successfully!\n\n` +
+                `📸 Image: ${selectResult.featuredImage.alt}\n` +
+                `📷 Photo by: ${selectResult.featuredImage.attribution.text}\n\n` +
+                `The image is now available for Medium cross-posting.`
+            );
+            await loadPosts(); // Refresh to show the new image
+          } else {
+            const error = await selectResponse.json();
+            alert(`❌ Error setting image: ${error.error || 'Unknown error'}`);
+          }
+        } catch (error) {
+          console.error('Error selecting image:', error);
+          alert('❌ Error selecting image. Please try again.');
+        }
+      };
+
+      (window as any).closeModal = () => {
+        document.body.removeChild(overlay);
+      };
+
+      // Close modal when clicking outside
+      overlay.addEventListener('click', e => {
+        if (e.target === overlay) {
+          document.body.removeChild(overlay);
+        }
+      });
+    } catch (error) {
+      console.error('Error getting image options:', error);
+      alert('❌ Error getting image options. Please try again.');
+    }
+  };
+
   const handleCrossPostToMedium = async (post: BlogPost) => {
     // Phase 1: Manual cross-posting workflow with improved Medium formatting
     const confirmed = confirm(
@@ -567,15 +689,26 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
                                 !post.mediumUrl && (
                                   <>
                                     {!post.featuredImage && (
-                                      <button
-                                        className={styles.actionButton}
-                                        onClick={() =>
-                                          handleGenerateImage(post)
-                                        }
-                                        title="Generate featured image from Unsplash"
-                                      >
-                                        🖼️ Add Image
-                                      </button>
+                                      <>
+                                        <button
+                                          className={styles.actionButton}
+                                          onClick={() =>
+                                            handleGenerateImage(post)
+                                          }
+                                          title="Generate featured image from Unsplash (quick)"
+                                        >
+                                          🎯 Quick Image
+                                        </button>
+                                        <button
+                                          className={styles.actionButton}
+                                          onClick={() =>
+                                            handleSelectFromImageOptions(post)
+                                          }
+                                          title="Choose from multiple image options"
+                                        >
+                                          🖼️ Choose Image
+                                        </button>
+                                      </>
                                     )}
                                     <button
                                       className={styles.actionButton}
