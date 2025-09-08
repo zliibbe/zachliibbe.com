@@ -24,14 +24,16 @@
 }
 
 .modal {
-  background: var(--card-background, white);
-  border-radius: 12px;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  background: var(--background-primary);
+  border-radius: var(--border-radius);
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
   max-height: 90vh;
   overflow-y: auto;
   position: relative;
   animation: slideIn 0.3s ease-out;
-  border: 1px solid var(--border-color, #e2e8f0);
+  border: 1px solid var(--border-color);
 }
 
 @keyframes slideIn {
@@ -65,16 +67,16 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px 24px 0;
-  border-bottom: 1px solid var(--border-color, #e2e8f0);
+  border-bottom: 1px solid var(--border-color);
   margin-bottom: 20px;
   padding-bottom: 16px;
 }
 
 .title {
   margin: 0;
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--text-primary, #1f2937);
+  font-size: var(--fs-600);
+  font-weight: var(--fw-semi-bold);
+  color: var(--text-primary);
 }
 
 .closeButton {
@@ -82,32 +84,24 @@
   border: none;
   font-size: 24px;
   cursor: pointer;
-  color: var(--text-secondary, #6b7280);
+  color: var(--text-secondary);
   width: 32px;
   height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 6px;
-  transition: background-color 0.2s ease;
+  border-radius: calc(var(--border-radius) / 2);
+  transition: all 0.2s ease;
 }
 
 .closeButton:hover {
-  background-color: var(--hover-background, #f3f4f6);
-  color: var(--text-primary, #1f2937);
+  background-color: var(--background-secondary);
+  color: var(--text-primary);
+  transform: scale(1.1);
 }
 
 .content {
   padding: 0 24px 24px;
 }
 
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  .modal {
-    --card-background: #1f2937;
-    --border-color: #374151;
-    --text-primary: #f9fafb;
-    --text-secondary: #9ca3af;
-    --hover-background: #374151;
-  }
-}
+/* Dark mode support is now handled by CSS variables automatically */

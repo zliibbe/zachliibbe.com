@@ -9,20 +9,24 @@
 .spinner {
   width: 40px;
   height: 40px;
-  border: 3px solid #f3f4f6;
-  border-top: 3px solid #3b82f6;
+  border: 3px solid var(--border-color);
+  border-top: 3px solid var(--accentPrimary);
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 16px;
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .loadingText {
-  color: var(--text-secondary, #6b7280);
+  color: var(--text-secondary);
   text-align: center;
   margin: 0;
 }
@@ -34,13 +38,13 @@
 
 .imageContainer {
   margin-bottom: 16px;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   overflow: hidden;
   display: inline-block;
 }
 
 .resultImage {
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
@@ -49,19 +53,19 @@
 }
 
 .imageAlt {
-  font-weight: 500;
-  color: var(--text-primary, #1f2937);
+  font-weight: var(--fw-semi-bold);
+  color: var(--text-primary);
   margin: 0 0 8px 0;
 }
 
 .attribution {
-  color: var(--text-secondary, #6b7280);
-  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-size: var(--fs-300);
   margin: 0;
 }
 
 .attributionLink {
-  color: #3b82f6;
+  color: var(--theme-color);
   text-decoration: none;
 }
 
@@ -88,19 +92,22 @@
 }
 
 .imageOption {
-  border: 1px solid var(--border-color, #e2e8f0);
-  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
   padding: 16px;
-  transition: box-shadow 0.2s ease;
+  background: var(--background-secondary);
+  transition: all 0.2s ease;
 }
 
 .imageOption:hover {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border-color: var(--accentPrimary);
+  transform: translateY(-1px);
 }
 
 .imageWrapper {
   margin-bottom: 12px;
-  border-radius: 6px;
+  border-radius: calc(var(--border-radius) / 2);
   overflow: hidden;
 }
 
@@ -115,31 +122,34 @@
 }
 
 .imageTitle {
-  font-weight: 600;
-  color: var(--text-primary, #1f2937);
+  font-weight: var(--fw-semi-bold);
+  color: var(--text-primary);
   margin: 0 0 6px 0;
 }
 
 .imageAttribution {
-  color: var(--text-secondary, #6b7280);
-  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-size: var(--fs-300);
   margin: 0 0 12px 0;
 }
 
 .selectButton {
-  background: #3b82f6;
-  color: white;
-  border: none;
+  background: var(--accentPrimary);
+  color: var(--black);
+  border: 1px solid var(--accentPrimary);
   padding: 8px 16px;
-  border-radius: 6px;
+  border-radius: calc(var(--border-radius) / 2);
   cursor: pointer;
-  font-size: 0.875rem;
-  font-weight: 500;
-  transition: background-color 0.2s ease;
+  font-size: var(--fs-300);
+  font-weight: var(--fw-semi-bold);
+  transition: all 0.2s ease;
 }
 
 .selectButton:hover {
-  background: #2563eb;
+  background: #e6c200;
+  border-color: #e6c200;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(255, 215, 0, 0.3);
 }
 
 /* No Results */
@@ -154,13 +164,13 @@
 }
 
 .noResultsText {
-  font-weight: 500;
-  color: var(--text-primary, #1f2937);
+  font-weight: var(--fw-semi-bold);
+  color: var(--text-primary);
   margin: 0 0 8px 0;
 }
 
 .noResultsSubtext {
-  color: var(--text-secondary, #6b7280);
+  color: var(--text-secondary);
   margin: 0;
 }
 
@@ -176,25 +186,25 @@
 }
 
 .successText {
-  font-weight: 500;
-  color: var(--text-primary, #1f2937);
+  font-weight: var(--fw-semi-bold);
+  color: var(--text-primary);
   margin: 0 0 20px 0;
 }
 
 .successImageContainer {
   margin-bottom: 16px;
   display: inline-block;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   overflow: hidden;
 }
 
 .successImage {
-  border-radius: 8px;
+  border-radius: var(--border-radius);
 }
 
 .successDetails {
-  color: var(--text-secondary, #6b7280);
-  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-size: var(--fs-300);
   margin: 0 0 24px 0;
   line-height: 1.5;
 }
@@ -211,7 +221,7 @@
 }
 
 .errorText {
-  color: var(--text-primary, #1f2937);
+  color: var(--text-primary);
   margin: 0 0 24px 0;
 }
 
@@ -223,67 +233,39 @@
 
 /* Button Styles */
 .primaryButton {
-  background: #3b82f6;
-  color: white;
-  border: none;
+  background: var(--accentPrimary);
+  color: var(--black);
+  border: 1px solid var(--accentPrimary);
   padding: 10px 20px;
-  border-radius: 6px;
+  border-radius: calc(var(--border-radius) / 2);
   cursor: pointer;
-  font-weight: 500;
-  transition: background-color 0.2s ease;
+  font-weight: var(--fw-semi-bold);
+  transition: all 0.2s ease;
 }
 
 .primaryButton:hover {
-  background: #2563eb;
+  background: #e6c200;
+  border-color: #e6c200;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(255, 215, 0, 0.4);
 }
 
 .secondaryButton {
   background: transparent;
-  color: var(--text-secondary, #6b7280);
-  border: 1px solid var(--border-color, #e2e8f0);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
   padding: 10px 20px;
-  border-radius: 6px;
+  border-radius: calc(var(--border-radius) / 2);
   cursor: pointer;
-  font-weight: 500;
+  font-weight: var(--fw-semi-bold);
   transition: all 0.2s ease;
 }
 
 .secondaryButton:hover {
-  background: var(--hover-background, #f3f4f6);
-  color: var(--text-primary, #1f2937);
+  background: var(--background-secondary);
+  color: var(--text-primary);
+  border-color: var(--accentPrimary);
+  transform: translateY(-1px);
 }
 
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  .spinner {
-    border-color: #374151;
-    border-top-color: #60a5fa;
-  }
-  
-  .imageOption {
-    --border-color: #374151;
-  }
-  
-  .selectButton {
-    background: #2563eb;
-  }
-  
-  .selectButton:hover {
-    background: #1d4ed8;
-  }
-  
-  .primaryButton {
-    background: #2563eb;
-  }
-  
-  .primaryButton:hover {
-    background: #1d4ed8;
-  }
-  
-  .secondaryButton {
-    --border-color: #374151;
-    --text-secondary: #9ca3af;
-    --hover-background: #374151;
-    --text-primary: #f9fafb;
-  }
-}
+/* Dark mode support is now handled by CSS variables automatically */
