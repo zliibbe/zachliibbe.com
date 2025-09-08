@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { BlogPost } from '@/types/blog';
 import Modal from './Modal';
 import styles from './LinkedInPostModal.module.css';
@@ -22,18 +22,27 @@ export default function LinkedInPostModal({
 
   const maxCharacters = 2800; // LinkedIn character limit with safety buffer
 
-  useEffect(() => {
-    if (isOpen && post) {
-      generateLinkedInPost();
-    }
-  }, [isOpen, post]);
+  const createBasicLinkedInPost = useCallback(() => {
+    if (!post) return '';
 
-  useEffect(() => {
-    const content = useCustom ? customPost : generatedPost;
-    setCharacterCount(content.length);
-  }, [generatedPost, customPost, useCustom]);
+    const blogUrl = `${window.location.origin}/blog/${post.slug}`;
+    const categoryHook = getCategoryHook(post.categories[0] || '');
 
-  const generateLinkedInPost = async () => {
+    return `${categoryHook}
+
+${post.title}
+
+${post.excerpt}
+
+Read the full post here: ${blogUrl}
+
+${post.tags
+  .slice(0, 5)
+  .map(tag => `#${tag.replace(/\s+/g, '')}`)
+  .join(' ')}`;
+  }, [post]);
+
+  const generateLinkedInPost = useCallback(async () => {
     if (!post) return;
 
     setIsGenerating(true);
@@ -66,27 +75,18 @@ export default function LinkedInPostModal({
     } finally {
       setIsGenerating(false);
     }
-  };
+  }, [post, createBasicLinkedInPost]);
 
-  const createBasicLinkedInPost = () => {
-    if (!post) return '';
+  useEffect(() => {
+    if (isOpen && post) {
+      generateLinkedInPost();
+    }
+  }, [isOpen, post, generateLinkedInPost]);
 
-    const blogUrl = `${window.location.origin}/blog/${post.slug}`;
-    const categoryHook = getCategoryHook(post.categories[0] || '');
-
-    return `${categoryHook}
-
-${post.title}
-
-${post.excerpt}
-
-Read the full post here: ${blogUrl}
-
-${post.tags
-  .slice(0, 5)
-  .map(tag => `#${tag.replace(/\s+/g, '')}`)
-  .join(' ')}`;
-  };
+  useEffect(() => {
+    const content = useCustom ? customPost : generatedPost;
+    setCharacterCount(content.length);
+  }, [generatedPost, customPost, useCustom]);
 
   const getCategoryHook = (category: string): string => {
     const hooks = {
@@ -218,9 +218,9 @@ ${post.tags
 
             <div className={styles.instructions}>
               <p>
-                <strong>Instructions:</strong> Click "Copy & Open LinkedIn" to
-                copy the post content and open LinkedIn in a new tab. Then paste
-                and publish your post!
+                <strong>Instructions:</strong> Click &quot;Copy &amp; Open
+                LinkedIn&quot; to copy the post content and open LinkedIn in a
+                new tab. Then paste and publish your post!
               </p>
             </div>
           </>
