@@ -740,6 +740,14 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
                               >
                                 {post.status.toUpperCase()}
                               </span>
+                              {post.featuredImage && post.featuredImage.url && (
+                                <span 
+                                  className={styles.imageIndicator}
+                                  title="Has featured image"
+                                >
+                                  📸
+                                </span>
+                              )}
                               <span className={styles.postDate}>
                                 {post.status === 'scheduled' &&
                                 post.scheduledFor
@@ -810,46 +818,26 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
                               )}
 
                               {/* Image options for all post types */}
-                              {!post.featuredImage ? (
-                                <>
-                                  <button
-                                    className={styles.actionButton}
-                                    onClick={() => handleGenerateImage(post)}
-                                    title="Generate featured image from Unsplash (quick)"
-                                  >
-                                    🎯 Quick Image
-                                  </button>
-                                  <button
-                                    className={styles.actionButton}
-                                    onClick={() =>
-                                      handleSelectFromImageOptions(post)
-                                    }
-                                    title="Choose from multiple image options"
-                                  >
-                                    🖼️ Choose Image
-                                  </button>
-                                </>
+                              {!post.featuredImage || !post.featuredImage.url ? (
+                                <button
+                                  className={styles.actionButton}
+                                  onClick={() =>
+                                    handleSelectFromImageOptions(post)
+                                  }
+                                  title="Choose a featured image for this post"
+                                >
+                                  🖼️ Choose Image
+                                </button>
                               ) : (
-                                <>
-                                  <button
-                                    className={styles.actionButton}
-                                    onClick={() =>
-                                      handleSelectFromImageOptions(post)
-                                    }
-                                    title="Choose from fresh image options"
-                                  >
-                                    🖼️ Choose Image
-                                  </button>
-                                  <button
-                                    className={styles.actionButton}
-                                    onClick={() =>
-                                      handleSelectFromImageOptions(post, true)
-                                    }
-                                    title="Replace current image with different option"
-                                  >
-                                    🔄 Replace Image
-                                  </button>
-                                </>
+                                <button
+                                  className={styles.actionButton}
+                                  onClick={() =>
+                                    handleSelectFromImageOptions(post, true)
+                                  }
+                                  title="Replace current featured image"
+                                >
+                                  🔄 Replace Image
+                                </button>
                               )}
                               {post.status === 'published' &&
                                 !post.mediumUrl && (
