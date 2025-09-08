@@ -25,7 +25,7 @@
 
 ### Blog Content Expansion (Session Highlights)
 
-**Batch 1: Core Development Challenges (4 articles)**
+\*_Batch 1: Core Development Challenges (4 articles)_
 
 - Multi-layered caching strategy with Redis fallbacks
 - OAuth security implementation and admin route protection
