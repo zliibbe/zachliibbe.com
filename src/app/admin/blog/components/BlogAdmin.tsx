@@ -8,6 +8,7 @@ import { MdOpenInNew, MdCreate, MdHourglassEmpty } from 'react-icons/md';
 import { BlogPost, FeaturedImage } from '@/types/blog';
 import MarkdownEditor from './MarkdownEditor';
 import ImageModal, { ImageOption } from './ImageModal';
+import LinkedInPostModal from './LinkedInPostModal';
 import Modal from './Modal';
 import styles from './BlogAdmin.module.css';
 
@@ -50,6 +51,14 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
   }>({
     isOpen: false,
     type: 'success',
+  });
+
+  const [linkedInModal, setLinkedInModal] = useState<{
+    isOpen: boolean;
+    post: BlogPost | null;
+  }>({
+    isOpen: false,
+    post: null,
   });
 
   // Load posts on component mount
@@ -623,6 +632,20 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
     }
   };
 
+  const handleCreateLinkedInPost = (post: BlogPost) => {
+    setLinkedInModal({
+      isOpen: true,
+      post: post,
+    });
+  };
+
+  const handleCloseLinkedInModal = () => {
+    setLinkedInModal({
+      isOpen: false,
+      post: null,
+    });
+  };
+
   if (showEditor) {
     return (
       <MarkdownEditor
@@ -743,7 +766,20 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
                         )}
                         <div className={styles.postContent}>
                           <div className={styles.postHeader}>
-                            <h3 className={styles.postTitle}>{post.title}</h3>
+                            <h3 className={styles.postTitle}>
+                              {post.status === 'published' ? (
+                                <a
+                                  href={`/blog/${post.slug}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className={styles.postTitleLink}
+                                >
+                                  {post.title}
+                                </a>
+                              ) : (
+                                post.title
+                              )}
+                            </h3>
                             <div className={styles.postMeta}>
                               <span
                                 className={`${styles.postStatus} ${styles[`status${post.status.charAt(0).toUpperCase() + post.status.slice(1)}`]}`}
@@ -876,6 +912,15 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
                                   Medium
                                 </button>
                               )}
+                              {post.status === 'published' && (
+                                <button
+                                  className={styles.actionButton}
+                                  onClick={() => handleCreateLinkedInPost(post)}
+                                  title="Generate LinkedIn post from this blog post"
+                                >
+                                  💼 Create LinkedIn Post
+                                </button>
+                              )}
                               <button
                                 className={styles.actionButtonDanger}
                                 onClick={() => handleDeletePost(post)}
@@ -905,6 +950,13 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
         image={imageModal.image}
         images={imageModal.images}
         onSelectImage={handleImageSelect}
+      />
+
+      {/* LinkedIn Post Modal */}
+      <LinkedInPostModal
+        isOpen={linkedInModal.isOpen}
+        onClose={handleCloseLinkedInModal}
+        post={linkedInModal.post}
       />
 
       {/* General Purpose Modal */}
