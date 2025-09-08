@@ -143,6 +143,11 @@ export async function searchPhotos(
 
     const data: UnsplashSearchResponse = await response.json();
 
+    // Log search results for debugging
+    console.log(
+      `Unsplash search for "${query}": found ${data.results.length} results (total: ${data.total})`
+    );
+
     // Log current usage for demo mode monitoring
     if (mode === 'demo') {
       console.log(
@@ -162,14 +167,41 @@ export async function getPhotoForBlogPost(
   tags: string[],
   title: string
 ): Promise<UnsplashPhoto | null> {
+  // Map technical terms to more visual search terms
+  const visualTerms: { [key: string]: string[] } = {
+    rss: ['data stream', 'network'],
+    lambda: ['cloud computing', 'server'],
+    serverless: ['cloud technology', 'server'],
+    api: ['technology network', 'data'],
+    oauth: ['security lock', 'authentication'],
+    nextjs: ['web development', 'programming'],
+    typescript: ['programming code', 'development'],
+    markdown: ['writing document', 'text'],
+    blog: ['writing laptop', 'content'],
+    goodreads: ['books reading', 'library'],
+    strava: ['fitness running', 'activity'],
+    xml: ['data structure', 'coding'],
+    netlify: ['cloud hosting', 'web'],
+  };
+
   // Create search queries from most to least specific
   const searchQueries = [
-    // Try primary category + main tag
-    categories[0] && tags[0] ? `${categories[0]} ${tags[0]}` : null,
+    // Try primary category + visual version of main tag
+    categories[0] && tags[0] && visualTerms[tags[0]]
+      ? `${categories[0]} ${visualTerms[tags[0]][0]}`
+      : categories[0] && tags[0]
+        ? `${categories[0]} ${tags[0]}`
+        : null,
+    // Try visual version of main tag
+    tags[0] && visualTerms[tags[0]] ? visualTerms[tags[0]][0] : null,
     // Try primary category
     categories[0] || null,
-    // Try main tag
+    // Try original main tag
     tags[0] || null,
+    // Try secondary visual terms for main tag
+    tags[0] && visualTerms[tags[0]] && visualTerms[tags[0]][1]
+      ? visualTerms[tags[0]][1]
+      : null,
     // Fallback to generic terms based on category
     categories.includes('Development') ? 'programming code' : null,
     categories.includes('Personal') ? 'lifestyle personal' : null,
@@ -180,14 +212,20 @@ export async function getPhotoForBlogPost(
   ].filter(Boolean);
 
   // Try each query until we get a result
+  console.log(`Searching for images with queries: ${searchQueries.join(', ')}`);
+
   for (const query of searchQueries) {
     if (query) {
+      console.log(`Trying Unsplash search: "${query}"`);
       const photos = await searchPhotos(query as string, 1);
       if (photos.length > 0) {
+        console.log(`Found ${photos.length} photos for query: "${query}"`);
         return photos[0];
       }
     }
   }
+
+  console.log('No photos found for any search queries');
 
   return null;
 }
