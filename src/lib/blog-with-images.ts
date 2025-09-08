@@ -77,7 +77,9 @@ export async function getAllPublishedPostsWithImages(): Promise<
   // Fetch images for all posts in parallel
   const postsWithImages = await Promise.all(
     publishedPosts.map(async post => {
-      const featuredImage = await getFeaturedImage(post);
+      // Use stored featuredImage if it exists, otherwise fetch from Unsplash
+      const featuredImage =
+        post.featuredImage || (await getFeaturedImage(post));
       return {
         id: post.id,
         slug: post.slug,
@@ -103,7 +105,8 @@ export async function getPostBySlugWithImage(
   const post = await getPostBySlug(slug);
   if (!post || post.status !== 'published') return null;
 
-  const featuredImage = await getFeaturedImage(post);
+  // Use stored featuredImage if it exists, otherwise fetch from Unsplash
+  const featuredImage = post.featuredImage || (await getFeaturedImage(post));
 
   return {
     ...post,
