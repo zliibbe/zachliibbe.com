@@ -9,7 +9,7 @@
 
 .contentWrapper {
   flex: 1;
-  max-width: 600px;
+  max-width: var(--max-width);
   margin: 0 auto;
   padding: 0;
   width: 100%;
@@ -92,7 +92,7 @@
   position: relative;
   z-index: 3;
   padding: 2rem;
-  max-width: 600px;
+  max-width: var(--max-width);
   margin: 0 auto;
   width: 100%;
   color: white;
@@ -133,21 +133,23 @@
 
 .category {
   display: inline-block;
-  padding: 0.25rem 0.5rem;
+  padding: 0.25rem 0.75rem;
   font-size: 0.75rem;
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: var(--text-primary);
-  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 20px;
   text-decoration: none;
   transition: all 0.2s ease;
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(8px);
+  font-weight: 500;
 }
 
 .category:hover {
-  background: var(--theme-color);
+  background: rgba(255, 255, 255, 0.25);
   color: white;
-  border-color: var(--theme-color);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-1px);
 }
 
 .title {
@@ -188,13 +190,13 @@
   display: inline-block;
   padding: 0.25rem 0.5rem;
   font-size: 0.75rem;
-  background: rgba(255, 255, 255, 0.9);
-  color: var(--theme-color);
+  background: var(--theme-color);
+  color: white;
   border-radius: 4px;
   text-decoration: none;
   transition: all 0.2s ease;
   backdrop-filter: blur(4px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid var(--theme-color);
 }
 
 .tag:hover {
@@ -212,7 +214,7 @@
   border-radius: 0.5rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   margin: 0 auto;
-  max-width: 600px;
+  max-width: var(--max-width);
 }
 
 /* Typography styles for blog content */
@@ -330,7 +332,7 @@
   background: var(--background-primary);
   border-radius: 0.5rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  max-width: 600px;
+  max-width: var(--max-width);
   margin: 3rem auto 0;
 }
 
