@@ -225,7 +225,7 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
   const handleSelectFromImageOptions = async (post: BlogPost) => {
     try {
       // Show loading state
-      alert('🔍 Searching for image options...');
+      alert(`🔍 Searching for ${post.featuredImage ? 'replacement ' : ''}image options...`);
 
       // Get image options
       const response = await fetch(
@@ -280,7 +280,7 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
 
       modal.innerHTML = `
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
-          <h2 style="margin: 0; color: #333;">Choose an Image for "${post.title}"</h2>
+          <h2 style="margin: 0; color: #333;">${post.featuredImage ? 'Replace' : 'Choose'} Image for "${post.title}"</h2>
           <button onclick="closeModal()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #666;">&times;</button>
         </div>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
@@ -312,7 +312,7 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
           if (selectResponse.ok) {
             const selectResult = await selectResponse.json();
             alert(
-              `✅ Featured image added successfully!\n\n` +
+              `✅ Featured image ${post.featuredImage ? 'replaced' : 'added'} successfully!\n\n` +
                 `📸 Image: ${selectResult.featuredImage.alt}\n` +
                 `📷 Photo by: ${selectResult.featuredImage.attribution.text}\n\n` +
                 `The image is now available for Medium cross-posting.`
@@ -688,28 +688,40 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
                               {post.status === 'published' &&
                                 !post.mediumUrl && (
                                   <>
-                                    {!post.featuredImage && (
-                                      <>
-                                        <button
-                                          className={styles.actionButton}
-                                          onClick={() =>
-                                            handleGenerateImage(post)
-                                          }
-                                          title="Generate featured image from Unsplash (quick)"
-                                        >
-                                          🎯 Quick Image
-                                        </button>
+                                    <>
+                                      {!post.featuredImage ? (
+                                        <>
+                                          <button
+                                            className={styles.actionButton}
+                                            onClick={() =>
+                                              handleGenerateImage(post)
+                                            }
+                                            title="Generate featured image from Unsplash (quick)"
+                                          >
+                                            🎯 Quick Image
+                                          </button>
+                                          <button
+                                            className={styles.actionButton}
+                                            onClick={() =>
+                                              handleSelectFromImageOptions(post)
+                                            }
+                                            title="Choose from multiple image options"
+                                          >
+                                            🖼️ Choose Image
+                                          </button>
+                                        </>
+                                      ) : (
                                         <button
                                           className={styles.actionButton}
                                           onClick={() =>
                                             handleSelectFromImageOptions(post)
                                           }
-                                          title="Choose from multiple image options"
+                                          title="Replace current image with different option"
                                         >
-                                          🖼️ Choose Image
+                                          🔄 Replace Image
                                         </button>
-                                      </>
-                                    )}
+                                      )}
+                                    </>
                                     <button
                                       className={styles.actionButton}
                                       onClick={() =>
