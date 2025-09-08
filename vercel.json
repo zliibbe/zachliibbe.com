@@ -1,7 +1,7 @@
 {
   "crons": [
     {
-      "path": "https://www.zachliibbe.com/api/admin/cron/publish",
+      "path": "/api/admin/cron/publish",
       "schedule": "0 9 * * *"
     }
   ],
