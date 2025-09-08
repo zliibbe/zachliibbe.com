@@ -146,8 +146,8 @@
 }
 
 .selectButton:hover {
-  background: #e6c200;
-  border-color: #e6c200;
+  background: var(--clr-accent-300);
+  border-color: var(--clr-accent-300);
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(255, 215, 0, 0.3);
 }
@@ -244,8 +244,8 @@
 }
 
 .primaryButton:hover {
-  background: #e6c200;
-  border-color: #e6c200;
+  background: var(--clr-accent-300);
+  border-color: var(--clr-accent-300);
   transform: translateY(-1px);
   box-shadow: 0 4px 8px rgba(255, 215, 0, 0.4);
 }
