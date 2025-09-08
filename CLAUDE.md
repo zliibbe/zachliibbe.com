@@ -19,6 +19,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Format fix**: `npm run format:fix` - Auto-fixes formatting issues
 - **Testing**: `npm test` - Run Jest test suite
 
+### Development Guidelines
+
+- **Development server**: Usually already running on localhost:3000 - check there before starting
+- **Color system**: Always use CSS variables from globals.css rather than hard-coded colors
+- **Accessibility**: Ensure all text maintains sufficient contrast in both light and dark modes
+
 ## Coding Principles
 
 Follow the coding commandments located at `~/.claude/commandments.md` for all development work. Key principles include:
@@ -122,4 +128,5 @@ Refer to `PRD.md` for detailed specifications of upcoming features:
 - Knowledge base from `/src/data/knowledge/` markdown files
 - Floating chat widget (bottom-right corner)
 
-- don't ask to run npm dev, it's usually running already
+- Don't ask to run npm dev, it's usually running already (usually on localhost:3000) so check there.
+- Always use variables from globals.css, rather than hard-coded colors. Ensure all text is readable, with high enought contract, in both light-mode and dark mode.
