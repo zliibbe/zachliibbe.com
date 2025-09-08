@@ -23,7 +23,18 @@
     "categories": ["Development"],
     "tags": ["nextjs", "typescript", "architecture", "blog"],
     "readTime": "5 min read",
-    "status": "published"
+    "status": "published",
+    "featuredImage": {
+      "url": "https://images.unsplash.com/photo-1637937459053-c788742455be?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3OTcwNTF8MHwxfHNlYXJjaHw3fHxEZXZlbG9wbWVudCUyMHdlYiUyMGRldmVsb3BtZW50fGVufDB8MHx8fDE3NTczNDc4OTJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "alt": "a computer screen with a bunch of code on it",
+      "width": 3698,
+      "height": 2675,
+      "attribution": {
+        "text": "Photo by Jaffer Nizami on Unsplash",
+        "photographerUrl": "https://unsplash.com/@sonofara",
+        "unsplashUrl": "https://unsplash.com/photos/a-computer-screen-with-a-bunch-of-code-on-it-ytZ2SJvNAxs"
+      }
+    }
   },
   {
     "id": "hello-world-2025",
@@ -37,6 +48,17 @@
     "tags": ["testing", "blog-system", "nextjs"],
     "readTime": "2 min read",
     "status": "published",
-    "series": "Blog System Development"
+    "series": "Blog System Development",
+    "featuredImage": {
+      "url": "https://images.unsplash.com/photo-1630442923896-244dd3717b35?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3OTcwNTF8MHwxfHNlYXJjaHwyfHxEZXZlbG9wbWVudCUyMHRlc3Rpbmd8ZW58MHwwfHx8MTc1NzM0ODczOHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "alt": "black and white hp laptop computer",
+      "width": 6000,
+      "height": 4000,
+      "attribution": {
+        "text": "Photo by Fahim Muntashir on Unsplash",
+        "photographerUrl": "https://unsplash.com/@f12r",
+        "unsplashUrl": "https://unsplash.com/photos/black-and-white-hp-laptop-computer-pAgCpLoYXdQ"
+      }
+    }
   }
 ]

@@ -1,20 +1,5 @@
 [
   {
-    "id": "scheduled-post-2025",
-    "slug": "upcoming-features",
-    "title": "Upcoming Features and Roadmap",
-    "author": "Zach Liibbe",
-    "publishedAt": "",
-    "scheduledFor": "2025-09-02T21:30:00.000Z",
-    "excerpt": "A look ahead at what's coming next in the blog system development, including the RAG-powered chat feature.",
-    "content": "<h2>What's Coming Next?</h2>\n\n<p><p><p><p><p><p><p>Now that we have a working blog system, here's what's on the roadmap:</p></p></p></p></p></p></p>\n\n<h3>Phase 3: RAG-Powered Chat</h3>\n\n<ul>\n<ul><ul><ul><ul><ul><ul><li><strong>Pinecone integration</strong>: Vector database for knowledge storage</li>\n<li><strong>Claude API</strong>: AI-powered responses about my work and experience</li>\n<li><strong>Knowledge base</strong>: Professional info, projects, and personal details</li>\n<li><strong>Floating chat widget</strong>: Bottom-right corner interface</li>\n</ul>\n\n<h3>Additional Improvements</h3>\n\n<ul>\n<li>RSS feed generation</li>\n<li>Search functionality</li>\n<li>Social sharing buttons</li>\n<li>Reading progress indicator</li>\n<li>Comment system (future consideration)</li>\n</ul>\n\n<blockquote>\n<p>This post is scheduled to publish on August 30th at 9 AM UTC.</p>\n</blockquote>\n\n<h3>Cost Optimization</h3>\n\n<p><p><p><p><p><p><p>We're keeping costs low by:</p></p></p></p></p></p></p>\n\n<ul>\n<li>Using file-based storage instead of a database</li>\n<li>Implementing conversation limits for the chat system</li>\n<li>Caching embeddings to avoid re-computation</li></ul></ul></ul></ul></ul></ul>\n</ul>\n\n<p><p><p><p><p><p><p>Excited to continue building in public! 🚀</p></p></p></p></p></p></p>",
-    "categories": ["Development", "Projects"],
-    "tags": ["roadmap", "rag", "chat", "planning"],
-    "readTime": "1 min read",
-    "status": "scheduled",
-    "series": ""
-  },
-  {
     "id": "mf31sg2zm5etlo1f9cg",
     "slug": "building-a-multi-source-rss-aggregator-goodreads-serverless-lambda",
     "title": "Building a Multi-Source RSS Aggregator: Goodreads + Serverless Lambda",
@@ -34,6 +19,45 @@
     "readTime": "5 min read",
     "status": "scheduled",
     "scheduledFor": "2025-09-03T15:00:00.000Z",
-    "series": "Building in Public"
+    "series": "Building in Public",
+    "featuredImage": {
+      "url": "https://images.unsplash.com/photo-1649451844931-57e22fc82de3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3OTcwNTF8MHwxfHNlYXJjaHwyfHxEZXZlbG9wbWVudCUyMGRhdGElMjBzdHJlYW18ZW58MHwwfHx8MTc1NzM1MTExMnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "alt": "a computer screen with a bunch of lines on it",
+      "width": 6240,
+      "height": 4160,
+      "attribution": {
+        "text": "Photo by Bernd 📷 Dittrich on Unsplash",
+        "photographerUrl": "https://unsplash.com/@hdbernd",
+        "unsplashUrl": "https://unsplash.com/photos/a-computer-screen-with-a-bunch-of-lines-on-it-aYosQyFcC8k"
+      }
+    },
+    "updatedAt": "2025-09-08T17:05:14.220Z"
+  },
+  {
+    "id": "scheduled-post-2025",
+    "slug": "upcoming-features",
+    "title": "Upcoming Features and Roadmap",
+    "author": "Zach Liibbe",
+    "publishedAt": "",
+    "scheduledFor": "2025-09-08T21:30:00.000Z",
+    "excerpt": "A look ahead at what's coming next in the blog system development, including the RAG-powered chat feature.",
+    "content": "<h2>What's Coming Next?</h2>\n\n<p><p><p><p><p><p><p><p>Now that we have a working blog system, here's what's on the roadmap:</p></p></p></p></p></p></p></p>\n\n<h3>Phase 3: RAG-Powered Chat</h3>\n\n<ul>\n<ul><ul><ul><ul><ul><ul><ul><li><strong>Pinecone integration</strong>: Vector database for knowledge storage</li>\n<li><strong>Claude API</strong>: AI-powered responses about my work and experience</li>\n<li><strong>Knowledge base</strong>: Professional info, projects, and personal details</li>\n<li><strong>Floating chat widget</strong>: Bottom-right corner interface</li>\n</ul>\n\n<h3>Additional Improvements</h3>\n\n<ul>\n<li>RSS feed generation</li>\n<li>Search functionality</li>\n<li>Social sharing buttons</li>\n<li>Reading progress indicator</li>\n<li>Comment system (future consideration)</li>\n</ul>\n\n<blockquote>\n<p>This post is scheduled to publish on August 30th at 9 AM UTC.</p>\n</blockquote>\n\n<h3>Cost Optimization</h3>\n\n<p><p><p><p><p><p><p><p>We're keeping costs low by:</p></p></p></p></p></p></p></p>\n\n<ul>\n<li>Using file-based storage instead of a database</li>\n<li>Implementing conversation limits for the chat system</li>\n<li>Caching embeddings to avoid re-computation</li></ul></ul></ul></ul></ul></ul></ul>\n</ul>\n\n<p><p><p><p><p><p><p><p>Excited to continue building in public! 🚀</p></p></p></p></p></p></p></p>",
+    "categories": ["Development", "Projects"],
+    "tags": ["roadmap", "rag", "chat", "planning"],
+    "readTime": "1 min read",
+    "status": "scheduled",
+    "series": "",
+    "featuredImage": {
+      "url": "https://images.unsplash.com/photo-1729397124922-8a7c2ea30b46?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3OTcwNTF8MHwxfHNlYXJjaHwyfHxEZXZlbG9wbWVudCUyMHJvYWRtYXB8ZW58MHwwfHx8MTc1NzM0NzM4Mnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "alt": "A view of a highway from a car's windshield",
+      "width": 6000,
+      "height": 4000,
+      "attribution": {
+        "text": "Photo by Patrick Shaun on Unsplash",
+        "photographerUrl": "https://unsplash.com/@xiexianghua",
+        "unsplashUrl": "https://unsplash.com/photos/a-view-of-a-highway-from-a-cars-windshield-qrFPsb0SuN0"
+      }
+    },
+    "updatedAt": "2025-09-08T17:43:46.021Z"
   }
 ]
