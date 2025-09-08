@@ -73,12 +73,7 @@ export async function POST(
       };
 
       // Update the post with the featured image
-      const updatedPost = {
-        ...post,
-        featuredImage,
-      };
-
-      await updateBlogPost(slug, updatedPost);
+      await updateBlogPost(slug, { featuredImage });
 
       return NextResponse.json({
         message: 'Featured image added successfully',
