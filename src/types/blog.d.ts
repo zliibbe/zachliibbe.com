@@ -15,6 +15,7 @@ export interface BlogPost {
   series?: string;
   featuredImage?: FeaturedImage;
   mediumUrl?: string;
+  updatedAt?: string;
 }
 
 export interface FeaturedImage {
