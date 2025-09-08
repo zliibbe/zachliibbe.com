@@ -685,63 +685,57 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
                                   Publish Now
                                 </button>
                               )}
+                              
+                              {/* Image options for all post types */}
+                              {!post.featuredImage ? (
+                                <>
+                                  <button
+                                    className={styles.actionButton}
+                                    onClick={() => handleGenerateImage(post)}
+                                    title="Generate featured image from Unsplash (quick)"
+                                  >
+                                    🎯 Quick Image
+                                  </button>
+                                  <button
+                                    className={styles.actionButton}
+                                    onClick={() =>
+                                      handleSelectFromImageOptions(post)
+                                    }
+                                    title="Choose from multiple image options"
+                                  >
+                                    🖼️ Choose Image
+                                  </button>
+                                </>
+                              ) : (
+                                <>
+                                  <button
+                                    className={styles.actionButton}
+                                    onClick={() =>
+                                      handleSelectFromImageOptions(post)
+                                    }
+                                    title="Choose from fresh image options"
+                                  >
+                                    🖼️ Choose Image
+                                  </button>
+                                  <button
+                                    className={styles.actionButton}
+                                    onClick={() =>
+                                      handleSelectFromImageOptions(post)
+                                    }
+                                    title="Replace current image with different option"
+                                  >
+                                    🔄 Replace Image
+                                  </button>
+                                </>
+                              )}
                               {post.status === 'published' &&
                                 !post.mediumUrl && (
-                                  <>
-                                    <>
-                                      {!post.featuredImage ? (
-                                        <>
-                                          <button
-                                            className={styles.actionButton}
-                                            onClick={() =>
-                                              handleGenerateImage(post)
-                                            }
-                                            title="Generate featured image from Unsplash (quick)"
-                                          >
-                                            🎯 Quick Image
-                                          </button>
-                                          <button
-                                            className={styles.actionButton}
-                                            onClick={() =>
-                                              handleSelectFromImageOptions(post)
-                                            }
-                                            title="Choose from multiple image options"
-                                          >
-                                            🖼️ Choose Image
-                                          </button>
-                                        </>
-                                      ) : (
-                                        <>
-                                          <button
-                                            className={styles.actionButton}
-                                            onClick={() =>
-                                              handleSelectFromImageOptions(post)
-                                            }
-                                            title="Choose from fresh image options"
-                                          >
-                                            🖼️ Choose Image
-                                          </button>
-                                          <button
-                                            className={styles.actionButton}
-                                            onClick={() =>
-                                              handleSelectFromImageOptions(post)
-                                            }
-                                            title="Replace current image with different option"
-                                          >
-                                            🔄 Replace Image
-                                          </button>
-                                        </>
-                                      )}
-                                    </>
-                                    <button
-                                      className={styles.actionButton}
-                                      onClick={() =>
-                                        handleCrossPostToMedium(post)
-                                      }
-                                    >
-                                      Cross-post to Medium
-                                    </button>
-                                  </>
+                                  <button
+                                    className={styles.actionButton}
+                                    onClick={() => handleCrossPostToMedium(post)}
+                                  >
+                                    Cross-post to Medium
+                                  </button>
                                 )}
                               {post.mediumUrl && (
                                 <button
