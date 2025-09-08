@@ -83,43 +83,98 @@ function generateLinkedInPost({
 
 function getCategoryHook(category: string): string {
   const hooks = {
-    'Development': '💻 Just shipped some thoughts on development...',
-    'Personal': '🌱 Sharing some personal insights:',
-    'Learning': '📚 Recently learned something worth sharing:',
-    'Projects': '🚀 Exciting project update:',
+    'Development': [
+      'Most developers make this mistake. I did too.',
+      'After 5 years of coding, here\'s what I wish I knew earlier:',
+      '95% of developers struggle with this. Here\'s the solution:',
+      'This coding practice changed everything for me.',
+      'I used to hate debugging. Then I learned this:',
+      'Every developer should know this (but most don\'t):',
+      'The one thing that made me a better developer overnight:'
+    ],
+    'Personal': [
+      'I was ready to quit... until this happened:',
+      'This personal realization changed my entire approach:',
+      'I wish someone had told me this 5 years ago:',
+      'The uncomfortable truth about personal growth:',
+      'This mindset shift transformed my career:',
+      'I used to believe this myth. I was wrong:',
+      'The moment everything clicked for me:'
+    ],
+    'Learning': [
+      'I spent 100 hours learning this. Here\'s what matters:',
+      'Most people learn this wrong. Here\'s the right way:',
+      'This learning method 10x\'d my progress:',
+      'I wish I knew these 3 things before starting:',
+      'Everyone talks about this, but misses the key point:',
+      'The fastest way to master this skill:',
+      'I failed at this 5 times. Here\'s what finally worked:'
+    ],
+    'Projects': [
+      'This project taught me more than any course:',
+      'I thought this project would be easy. I was wrong:',
+      '6 months of work. Here\'s what I learned:',
+      'This side project became my biggest breakthrough:',
+      'The project that changed my perspective:',
+      'Building this taught me 3 crucial lessons:',
+      'I almost gave up on this project. Here\'s why I\'m glad I didn\'t:'
+    ],
   };
   
-  return hooks[category as keyof typeof hooks] || '✨ New thoughts from the blog:';
+  const categoryHooks = hooks[category as keyof typeof hooks] || [
+    'This insight changed everything for me:',
+    'I wish I knew this earlier:',
+    'The one thing that made all the difference:',
+    'This realization hit me hard:',
+    'Here\'s what everyone gets wrong about this:'
+  ];
+  
+  // Return a random hook from the category
+  return categoryHooks[Math.floor(Math.random() * categoryHooks.length)];
 }
 
 function generateOpening(category: string, title: string): string {
   const templates = {
     'Development': [
-      `Working on ${title.toLowerCase()} got me thinking...`,
-      `Here's what I discovered about ${title.toLowerCase()}:`,
-      `Key insights from my work with ${title.toLowerCase()}:`,
+      `The truth about ${title.toLowerCase()} that no one talks about:`,
+      `I made every mistake possible with ${title.toLowerCase()}. Here's what I learned:`,
+      `${title} isn't what you think it is. Here's why:`,
+      `Everyone does ${title.toLowerCase()} wrong. Here's the right approach:`,
+      `This approach to ${title.toLowerCase()} changed everything:`,
+      `The ${title.toLowerCase()} breakthrough that took me 3 months to figure out:`
     ],
     'Personal': [
-      `Reflecting on ${title.toLowerCase()}...`,
-      `Some thoughts on ${title.toLowerCase()}:`,
-      `Personal take on ${title.toLowerCase()}:`,
+      `The hard truth about ${title.toLowerCase()} that changed my perspective:`,
+      `I used to struggle with ${title.toLowerCase()}. Then I realized this:`,
+      `${title} taught me something I never expected:`,
+      `The uncomfortable reality of ${title.toLowerCase()}:`,
+      `My biggest mistake with ${title.toLowerCase()} (and how to avoid it):`,
+      `Why everything I thought about ${title.toLowerCase()} was wrong:`
     ],
     'Learning': [
-      `Deep dive into ${title.toLowerCase()}:`,
-      `What I learned about ${title.toLowerCase()}:`,
-      `Breaking down ${title.toLowerCase()}:`,
+      `I spent months trying to understand ${title.toLowerCase()}. Here's the shortcut:`,
+      `The ${title.toLowerCase()} mistake that costs everyone time:`,
+      `Why most people fail at ${title.toLowerCase()} (and how to succeed):`,
+      `The ${title.toLowerCase()} strategy that actually works:`,
+      `I wish someone had explained ${title.toLowerCase()} like this:`,
+      `The counterintuitive truth about ${title.toLowerCase()}:`
     ],
     'Projects': [
-      `Latest project work: ${title}`,
-      `Building ${title.toLowerCase()} - here's what I learned:`,
-      `Project update: ${title}`,
+      `${title} almost broke me. Here's what saved the project:`,
+      `The ${title.toLowerCase()} decision that changed everything:`,
+      `What ${title.toLowerCase()} taught me about building products:`,
+      `I thought ${title.toLowerCase()} would be simple. I was so wrong:`,
+      `The ${title.toLowerCase()} challenge that made me a better developer:`,
+      `Behind the scenes of ${title.toLowerCase()}: What really happened:`
     ],
   };
   
   const categoryTemplates = templates[category as keyof typeof templates] || [
-    `New post: ${title}`,
-    `Thoughts on ${title.toLowerCase()}:`,
-    `Exploring ${title.toLowerCase()}:`,
+    `The surprising truth about ${title.toLowerCase()}:`,
+    `What ${title.toLowerCase()} taught me:`,
+    `The ${title.toLowerCase()} insight that changed my approach:`,
+    `Why ${title.toLowerCase()} matters more than you think:`,
+    `The hidden complexity of ${title.toLowerCase()}:`
   ];
   
   // Pick a random template for variety

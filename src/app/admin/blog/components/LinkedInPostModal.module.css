@@ -143,6 +143,7 @@
 
 /* Buttons */
 .regenerateButton,
+.hookButton,
 .copyButton,
 .postButton {
   padding: 0.75rem 1.25rem;
@@ -160,10 +161,17 @@
   border-color: var(--border-color);
 }
 
-.regenerateButton:hover:not(:disabled) {
+.regenerateButton:hover:not(:disabled),
+.hookButton:hover:not(:disabled) {
   background: var(--background-secondary);
   color: var(--text-primary);
   border-color: var(--linkedInColor);
+}
+
+.hookButton {
+  background: var(--background-primary);
+  color: var(--accentPrimary);
+  border-color: var(--accentPrimary);
 }
 
 .copyButton {
@@ -192,6 +200,7 @@
 }
 
 .regenerateButton:disabled,
+.hookButton:disabled,
 .copyButton:disabled,
 .postButton:disabled {
   opacity: 0.5;
@@ -234,6 +243,11 @@
   .actions {
     flex-direction: column;
     align-items: stretch;
+  }
+  
+  .regenerateButton,
+  .hookButton {
+    margin-bottom: 0.5rem;
   }
   
   .primaryActions {
