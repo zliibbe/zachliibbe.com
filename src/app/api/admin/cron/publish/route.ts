@@ -24,20 +24,48 @@ function isValidCronRequest(request: NextRequest): boolean {
   return true;
 }
 
+function isValidDomain(host: string | null): boolean {
+  if (!host) return false;
+
+  // Accept both zachliibbe.com and www.zachliibbe.com
+  const allowedDomains = [
+    'zachliibbe.com',
+    'www.zachliibbe.com',
+    'localhost:3000', // for local development
+  ];
+
+  return allowedDomains.includes(host);
+}
+
 export async function POST(request: NextRequest) {
   try {
     // Log request details for debugging
     const host = request.headers.get('host');
     const userAgent = request.headers.get('user-agent');
     const cronHeader = request.headers.get('x-vercel-cron');
+    const forwarded = request.headers.get('x-forwarded-for');
+    const realIP = request.headers.get('x-real-ip');
+    const cronSecret = request.headers.get('x-cron-secret');
 
     console.log('Cron request details:', {
       host,
       userAgent,
       cronHeader,
+      forwarded,
+      realIP,
       url: request.url,
+      hasCronSecret: !!cronSecret,
+      allHeaders: Object.fromEntries(request.headers.entries()),
       timestamp: new Date().toISOString(),
     });
+
+    // Validate domain (accept both zachliibbe.com and www.zachliibbe.com)
+    if (!isValidDomain(host)) {
+      console.warn('Invalid domain for cron request', {
+        host,
+        expectedDomains: ['zachliibbe.com', 'www.zachliibbe.com'],
+      });
+    }
 
     // Validate this is a legitimate cron request
     if (!isValidCronRequest(request)) {
@@ -45,6 +73,7 @@ export async function POST(request: NextRequest) {
         host,
         cronHeader,
         hasSecret: !!process.env.CRON_SECRET,
+        providedSecret: !!cronSecret,
       });
       return NextResponse.json(
         { error: 'Unauthorized cron request' },
