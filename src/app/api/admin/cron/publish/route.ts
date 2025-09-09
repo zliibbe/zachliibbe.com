@@ -6,22 +6,24 @@ import { revalidatePath } from 'next/cache';
 const VERCEL_CRON_IPS = ['76.76.19.0/24', '76.223.126.0/24'];
 
 function isValidCronRequest(request: NextRequest): boolean {
-  // Check for Vercel cron header
+  // Check for Vercel cron header (automatic cron jobs)
   const cronHeader = request.headers.get('x-vercel-cron');
-  if (!cronHeader) {
-    return false;
+  if (cronHeader) {
+    // This is a legitimate Vercel cron job - no additional auth needed
+    return true;
   }
 
-  // Optional: Check for custom cron secret
+  // For manual cron triggers, require the secret
   const cronSecret = process.env.CRON_SECRET;
   if (cronSecret) {
     const providedSecret = request.headers.get('x-cron-secret');
-    if (providedSecret !== cronSecret) {
-      return false;
+    if (providedSecret === cronSecret) {
+      return true;
     }
   }
 
-  return true;
+  // Neither automatic cron header nor valid secret found
+  return false;
 }
 
 function isValidDomain(host: string | null): boolean {
@@ -47,6 +49,9 @@ export async function POST(request: NextRequest) {
     const realIP = request.headers.get('x-real-ip');
     const cronSecret = request.headers.get('x-cron-secret');
 
+    const isAutomaticCron = !!cronHeader;
+    const isManualTrigger = !!cronSecret;
+
     console.log('Cron request details:', {
       host,
       userAgent,
@@ -54,8 +59,12 @@ export async function POST(request: NextRequest) {
       forwarded,
       realIP,
       url: request.url,
+      requestType: isAutomaticCron
+        ? 'AUTOMATIC_VERCEL_CRON'
+        : isManualTrigger
+          ? 'MANUAL_TRIGGER'
+          : 'UNKNOWN',
       hasCronSecret: !!cronSecret,
-      allHeaders: Object.fromEntries(request.headers.entries()),
       timestamp: new Date().toISOString(),
     });
 
@@ -71,9 +80,12 @@ export async function POST(request: NextRequest) {
     if (!isValidCronRequest(request)) {
       console.warn('Unauthorized cron request attempt', {
         host,
-        cronHeader,
+        cronHeader: !!cronHeader,
         hasSecret: !!process.env.CRON_SECRET,
         providedSecret: !!cronSecret,
+        requestType: isAutomaticCron
+          ? 'AUTOMATIC_VERCEL_CRON'
+          : 'MANUAL_OR_UNAUTHORIZED',
       });
       return NextResponse.json(
         { error: 'Unauthorized cron request' },
