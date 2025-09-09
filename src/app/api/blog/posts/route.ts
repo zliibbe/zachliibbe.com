@@ -105,6 +105,8 @@ export async function POST(request: NextRequest) {
       series: body.series,
       status: body.status || 'draft',
       scheduledFor: body.scheduledFor,
+      publishedAt: body.publishedAt,
+      author: body.author,
     });
 
     return NextResponse.json(
