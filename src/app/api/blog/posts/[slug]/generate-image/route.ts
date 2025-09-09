@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { getPostBySlug, updateBlogPost } from '@/lib/blog-storage';
@@ -82,6 +83,10 @@ export async function POST(
 
       // Clear the image cache for this post to ensure fresh data
       clearImageCache(slug);
+
+      // Revalidate blog pages so the new image appears immediately
+      revalidatePath(`/blog/${slug}`);
+      revalidatePath('/blog');
 
       return NextResponse.json({
         message: forceReplace

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { getPostBySlug } from '@/lib/blog-storage';
@@ -8,6 +9,7 @@ import {
   trackPhotoDownload,
 } from '@/lib/unsplash';
 import { FeaturedImage } from '@/types/blog';
+import { clearImageCache } from '@/lib/blog-with-images';
 
 export async function GET(
   req: NextRequest,
@@ -170,6 +172,11 @@ export async function POST(
       // Update the post with the featured image (imported from generate-image route)
       const { updateBlogPost } = await import('@/lib/blog-storage');
       await updateBlogPost(slug, { featuredImage });
+
+      // Clear any in-memory image cache and revalidate relevant pages
+      clearImageCache(slug);
+      revalidatePath(`/blog/${slug}`);
+      revalidatePath('/blog');
 
       return NextResponse.json({
         message: forceReplace
