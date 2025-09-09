@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import { getAllDrafts, getAllScheduledPosts, getAllPublishedPosts } from '@/lib/blog-storage';
+import {
+  getAllDrafts,
+  getAllScheduledPosts,
+  getAllPublishedPosts,
+} from '@/lib/blog-storage';
 import fs from 'fs';
 import path from 'path';
 
@@ -43,7 +47,8 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(
       {
         error: 'Failed to export blog data',
-        details: process.env.NODE_ENV === 'development' ? String(error) : undefined,
+        details:
+          process.env.NODE_ENV === 'development' ? String(error) : undefined,
       },
       { status: 500 }
     );
@@ -73,7 +78,7 @@ export async function POST(request: NextRequest) {
 
     // Write to local JSON files
     const blogDataDir = path.join(process.cwd(), 'src', 'content', 'blog-data');
-    
+
     // Ensure directory exists
     if (!fs.existsSync(blogDataDir)) {
       fs.mkdirSync(blogDataDir, { recursive: true });

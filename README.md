@@ -279,51 +279,51 @@ This project uses conventional commits with emojis for clear, semantic version h
 
 ### Core Commit Types
 
-| Emoji | Type | Description | Example |
-|-------|------|-------------|---------|
-| ✨ | `feat` | New features | `✨ feat(auth): add JWT token validation middleware` |
-| 🐛 | `fix` | Bug fixes | `🐛 fix(api): resolve race condition in user lookup` |
-| 📝 | `docs` | Documentation changes | `📝 docs: update README with installation steps` |
-| 💄 | `style` | Code style/formatting | `💄 style(css): improve button hover animations` |
-| ♻️ | `refactor` | Code restructuring | `♻️ refactor(utils): simplify error handling logic` |
-| ⚡️ | `perf` | Performance improvements | `⚡️ perf(api): optimize database query caching` |
-| ✅ | `test` | Adding/fixing tests | `✅ test(auth): add unit tests for login validation` |
-| 🔧 | `chore` | Tooling/configuration | `🔧 chore: update ESLint configuration` |
+| Emoji | Type       | Description              | Example                                              |
+| ----- | ---------- | ------------------------ | ---------------------------------------------------- |
+| ✨    | `feat`     | New features             | `✨ feat(auth): add JWT token validation middleware` |
+| 🐛    | `fix`      | Bug fixes                | `🐛 fix(api): resolve race condition in user lookup` |
+| 📝    | `docs`     | Documentation changes    | `📝 docs: update README with installation steps`     |
+| 💄    | `style`    | Code style/formatting    | `💄 style(css): improve button hover animations`     |
+| ♻️    | `refactor` | Code restructuring       | `♻️ refactor(utils): simplify error handling logic`  |
+| ⚡️   | `perf`     | Performance improvements | `⚡️ perf(api): optimize database query caching`     |
+| ✅    | `test`     | Adding/fixing tests      | `✅ test(auth): add unit tests for login validation` |
+| 🔧    | `chore`    | Tooling/configuration    | `🔧 chore: update ESLint configuration`              |
 
 ### Specialized Types
 
-| Emoji | Type | Description |
-|-------|------|-------------|
-| 🚀 | `ci` | CI/CD improvements |
-| 🔒️ | `fix` | Security fixes |
-| 🚑️ | `fix` | Critical hotfixes |
-| 🚚 | `refactor` | Move/rename resources |
-| 🏗️ | `refactor` | Architectural changes |
-| 📦️ | `chore` | Dependencies/packages |
-| 🧑‍💻 | `chore` | Developer experience |
-| 🔍️ | `feat` | SEO improvements |
-| 🏷️ | `feat` | Type definitions |
-| 📱 | `feat` | Responsive design |
-| 🚸 | `feat` | UX/usability improvements |
-| 🩹 | `fix` | Non-critical fixes |
-| 🥅 | `fix` | Error handling |
-| 🔥 | `fix` | Remove code/files |
-| 🎨 | `style` | Code structure |
-| 🚧 | `wip` | Work in progress |
-| 💚 | `fix` | Fix CI builds |
-| 📌 | `chore` | Pin dependencies |
-| 👷 | `ci` | Build system updates |
-| 📈 | `feat` | Analytics/tracking |
-| ✏️ | `fix` | Typo fixes |
-| ⏪️ | `revert` | Revert changes |
-| 💥 | `feat` | Breaking changes |
-| 🍱 | `assets` | Asset updates |
-| ♿️ | `feat` | Accessibility |
-| 💡 | `docs` | Source comments |
-| 🔊 | `feat` | Add logs |
-| 🔇 | `fix` | Remove logs |
-| 🙈 | `chore` | .gitignore updates |
-| 🦺 | `feat` | Validation logic |
+| Emoji | Type       | Description               |
+| ----- | ---------- | ------------------------- |
+| 🚀    | `ci`       | CI/CD improvements        |
+| 🔒️   | `fix`      | Security fixes            |
+| 🚑️   | `fix`      | Critical hotfixes         |
+| 🚚    | `refactor` | Move/rename resources     |
+| 🏗️    | `refactor` | Architectural changes     |
+| 📦️   | `chore`    | Dependencies/packages     |
+| 🧑‍💻    | `chore`    | Developer experience      |
+| 🔍️   | `feat`     | SEO improvements          |
+| 🏷️    | `feat`     | Type definitions          |
+| 📱    | `feat`     | Responsive design         |
+| 🚸    | `feat`     | UX/usability improvements |
+| 🩹    | `fix`      | Non-critical fixes        |
+| 🥅    | `fix`      | Error handling            |
+| 🔥    | `fix`      | Remove code/files         |
+| 🎨    | `style`    | Code structure            |
+| 🚧    | `wip`      | Work in progress          |
+| 💚    | `fix`      | Fix CI builds             |
+| 📌    | `chore`    | Pin dependencies          |
+| 👷    | `ci`       | Build system updates      |
+| 📈    | `feat`     | Analytics/tracking        |
+| ✏️    | `fix`      | Typo fixes                |
+| ⏪️   | `revert`   | Revert changes            |
+| 💥    | `feat`     | Breaking changes          |
+| 🍱    | `assets`   | Asset updates             |
+| ♿️    | `feat`     | Accessibility             |
+| 💡    | `docs`     | Source comments           |
+| 🔊    | `feat`     | Add logs                  |
+| 🔇    | `fix`      | Remove logs               |
+| 🙈    | `chore`    | .gitignore updates        |
+| 🦺    | `feat`     | Validation logic          |
 
 ### Scope Examples
 
