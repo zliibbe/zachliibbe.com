@@ -117,6 +117,7 @@ export async function PUT(request: NextRequest, context: RouteContext) {
       series: body.series,
       status: body.status,
       scheduledFor: body.scheduledFor,
+      publishedAt: body.publishedAt,
     });
 
     if (!updatedPost) {

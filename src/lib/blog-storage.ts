@@ -154,6 +154,8 @@ export async function createBlogPost(postData: {
   series?: string;
   status?: 'draft' | 'scheduled' | 'published';
   scheduledFor?: string;
+  publishedAt?: string;
+  author?: string;
 }): Promise<BlogPost> {
   const id = generateId();
   const slug = generateSlug(postData.title);
@@ -164,15 +166,20 @@ export async function createBlogPost(postData: {
   // Generate excerpt if not provided
   const excerpt = postData.excerpt || generateExcerpt(htmlContent);
 
+  const author = postData.author || 'Zach Liibbe';
+  const computedPublishedAt =
+    postData.publishedAt !== undefined
+      ? postData.publishedAt
+      : postData.status === 'published'
+        ? new Date().toISOString().split('T')[0]
+        : '';
+
   const newPost: BlogPost = {
     id,
     slug,
     title: postData.title,
-    author: 'Zach Liibbe',
-    publishedAt:
-      postData.status === 'published'
-        ? new Date().toISOString().split('T')[0]
-        : '',
+    author,
+    publishedAt: computedPublishedAt,
     excerpt,
     content: htmlContent,
     categories: postData.categories || [],
@@ -215,6 +222,7 @@ export async function updateBlogPost(
     scheduledFor?: string;
     publishedAt?: string;
     featuredImage?: FeaturedImage;
+    author?: string;
   }>
 ): Promise<BlogPost | null> {
   const existingPost = await getPostBySlug(slug);
@@ -263,7 +271,9 @@ export async function updateBlogPost(
     (existingPost.status === 'draft' || existingPost.status === 'scheduled')
   ) {
     updatedData.publishedAt =
-      updates.publishedAt || new Date().toISOString().split('T')[0];
+      updates.publishedAt !== undefined
+        ? updates.publishedAt
+        : new Date().toISOString().split('T')[0];
   } else if (updates.publishedAt) {
     updatedData.publishedAt = updates.publishedAt;
   }
