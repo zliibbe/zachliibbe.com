@@ -10,6 +10,9 @@ import {
 import Footer from '@/app/components/Footer';
 import styles from './page.module.css';
 
+// Revalidate this page periodically as a fallback in case on-demand revalidation wasn't triggered
+export const revalidate = 60; // seconds
+
 interface BlogPostPageProps {
   params: Promise<{
     slug: string;
