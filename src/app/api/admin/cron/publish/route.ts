@@ -20,6 +20,15 @@ function isValidCronRequest(request: NextRequest): boolean {
     if (providedSecret === cronSecret) {
       return true;
     }
+
+    // Also support Authorization: Bearer <CRON_SECRET>
+    const authHeader = request.headers.get('authorization');
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      const token = authHeader.substring('Bearer '.length).trim();
+      if (token === cronSecret) {
+        return true;
+      }
+    }
   }
 
   // Neither automatic cron header nor valid secret found
@@ -93,44 +102,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.log('Starting automated blog post publishing check...');
-
-    // Process all scheduled publications
-    const result = await processScheduledPublications();
-
-    // Clear caches for updated blog content
-    if (result.published.length > 0) {
-      // Revalidate blog pages
-      revalidatePath('/blog');
-      revalidatePath('/api/feed/rss');
-
-      // Revalidate individual post pages
-      for (const post of result.published) {
-        revalidatePath(`/blog/${post.slug}`);
-      }
-
-      console.log(`Successfully published ${result.published.length} posts`);
-    }
-
-    // Log any errors
-    if (result.errors.length > 0) {
-      console.error('Publishing errors:', result.errors);
-    }
-
-    const response = {
-      success: true,
-      publishedCount: result.published.length,
-      published: result.published.map(post => ({
-        slug: post.slug,
-        title: post.title,
-        publishedAt: post.publishedAt,
-      })),
-      errors: result.errors,
-      timestamp: new Date().toISOString(),
-    };
-
-    console.log('Automated publishing complete:', response);
-
+    const response = await runPublishingWorkflow();
     return NextResponse.json(response);
   } catch (error) {
     console.error('Error in automated publishing:', error);
@@ -148,7 +120,13 @@ export async function POST(request: NextRequest) {
 // Health check endpoint
 export async function GET(request: NextRequest) {
   try {
-    // Basic health check - just verify the endpoint is working
+    // If authorized (e.g., from Vercel Cron via GET), run the publishing workflow
+    if (isValidCronRequest(request)) {
+      const response = await runPublishingWorkflow();
+      return NextResponse.json(response);
+    }
+
+    // Otherwise, basic health check
     return NextResponse.json({
       status: 'healthy',
       message: 'Automated publishing cron endpoint is operational',
@@ -164,4 +142,46 @@ export async function GET(request: NextRequest) {
       { status: 500 }
     );
   }
+}
+
+async function runPublishingWorkflow() {
+  console.log('Starting automated blog post publishing check...');
+
+  // Process all scheduled publications
+  const result = await processScheduledPublications();
+
+  // Clear caches for updated blog content
+  if (result.published.length > 0) {
+    // Revalidate blog pages
+    revalidatePath('/blog');
+    revalidatePath('/api/feed/rss');
+
+    // Revalidate individual post pages
+    for (const post of result.published) {
+      revalidatePath(`/blog/${post.slug}`);
+    }
+
+    console.log(`Successfully published ${result.published.length} posts`);
+  }
+
+  // Log any errors
+  if (result.errors.length > 0) {
+    console.error('Publishing errors:', result.errors);
+  }
+
+  const response = {
+    success: true,
+    publishedCount: result.published.length,
+    published: result.published.map(post => ({
+      slug: post.slug,
+      title: post.title,
+      publishedAt: post.publishedAt,
+    })),
+    errors: result.errors,
+    timestamp: new Date().toISOString(),
+  };
+
+  console.log('Automated publishing complete:', response);
+
+  return response;
 }
