@@ -107,17 +107,46 @@ export default function MarkdownEditor({
             handleContentChange(bodyContent);
 
             // Update the post metadata from frontmatter
-            setPost(prev => ({
-              ...prev,
-              title: frontmatter.title || prev.title,
-              categories: frontmatter.categories || prev.categories,
-              tags: frontmatter.tags || prev.tags,
-              series: frontmatter.series || prev.series,
-              excerpt: frontmatter.excerpt || prev.excerpt,
-              status: frontmatter.status || prev.status,
-              scheduledFor: frontmatter.scheduledFor || prev.scheduledFor,
-              mediumUrl: frontmatter.mediumUrl || prev.mediumUrl,
-            }));
+            setPost(prev => {
+              const toStringArray = (
+                value: unknown,
+                fallback: string[]
+              ): string[] => {
+                if (Array.isArray(value)) {
+                  return value.map(v => String(v).trim()).filter(Boolean);
+                }
+                if (typeof value === 'string') {
+                  return value
+                    .split(/[,\n]/)
+                    .map(v => v.trim())
+                    .filter(Boolean);
+                }
+                return fallback;
+              };
+
+              const normalizedCategories = toStringArray(
+                (frontmatter as any).categories,
+                prev.categories
+              );
+              const normalizedTags = toStringArray(
+                (frontmatter as any).tags,
+                prev.tags
+              );
+
+              return {
+                ...prev,
+                title: frontmatter.title || prev.title,
+                author: frontmatter.author || prev.author,
+                publishedAt: frontmatter.publishedAt || prev.publishedAt,
+                categories: normalizedCategories,
+                tags: normalizedTags,
+                series: frontmatter.series || prev.series,
+                excerpt: frontmatter.excerpt || prev.excerpt,
+                status: frontmatter.status || prev.status,
+                scheduledFor: frontmatter.scheduledFor || prev.scheduledFor,
+                mediumUrl: frontmatter.mediumUrl || prev.mediumUrl,
+              };
+            });
           } catch (error) {
             console.error('Error parsing frontmatter:', error);
             // Fallback to importing raw content
