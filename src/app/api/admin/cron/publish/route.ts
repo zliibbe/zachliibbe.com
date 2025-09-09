@@ -2,99 +2,59 @@ import { NextRequest, NextResponse } from 'next/server';
 import { processScheduledPublications } from '@/lib/blog-storage';
 import { revalidatePath } from 'next/cache';
 
-// Vercel's IP ranges for cron jobs (for security)
-const VERCEL_CRON_IPS = ['76.76.19.0/24', '76.223.126.0/24'];
+// No IP allowlist: Vercel IPs can change. Use secret-based auth only.
 
 function isValidCronRequest(request: NextRequest): boolean {
-  // Check for Vercel cron header (automatic cron jobs)
-  const cronHeader = request.headers.get('x-vercel-cron');
-  if (cronHeader) {
-    // This is a legitimate Vercel cron job - no additional auth needed
+  // Require CRON_SECRET via either header form
+  const cronSecret = process.env.CRON_SECRET;
+  if (!cronSecret) return false;
+
+  const providedSecret = request.headers.get('x-cron-secret');
+  if (providedSecret === cronSecret) {
     return true;
   }
 
-  // For manual cron triggers, require the secret
-  const cronSecret = process.env.CRON_SECRET;
-  if (cronSecret) {
-    const providedSecret = request.headers.get('x-cron-secret');
-    if (providedSecret === cronSecret) {
+  const authHeader = request.headers.get('authorization');
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    const token = authHeader.substring('Bearer '.length).trim();
+    if (token === cronSecret) {
       return true;
-    }
-
-    // Also support Authorization: Bearer <CRON_SECRET>
-    const authHeader = request.headers.get('authorization');
-    if (authHeader && authHeader.startsWith('Bearer ')) {
-      const token = authHeader.substring('Bearer '.length).trim();
-      if (token === cronSecret) {
-        return true;
-      }
     }
   }
 
-  // Neither automatic cron header nor valid secret found
   return false;
 }
 
-function isValidDomain(host: string | null): boolean {
-  if (!host) return false;
-
-  // Accept both zachliibbe.com and www.zachliibbe.com
-  const allowedDomains = [
-    'zachliibbe.com',
-    'www.zachliibbe.com',
-    'localhost:3000', // for local development
-  ];
-
-  return allowedDomains.includes(host);
-}
+// No domain validation: rely on secret-based auth only.
 
 export async function POST(request: NextRequest) {
   try {
     // Log request details for debugging
     const host = request.headers.get('host');
     const userAgent = request.headers.get('user-agent');
-    const cronHeader = request.headers.get('x-vercel-cron');
     const forwarded = request.headers.get('x-forwarded-for');
     const realIP = request.headers.get('x-real-ip');
-    const cronSecret = request.headers.get('x-cron-secret');
-
-    const isAutomaticCron = !!cronHeader;
-    const isManualTrigger = !!cronSecret;
+    const hasAuthHeader = !!request.headers.get('authorization');
+    const hasCronSecretHeader = !!request.headers.get('x-cron-secret');
 
     console.log('Cron request details:', {
       host,
       userAgent,
-      cronHeader,
       forwarded,
       realIP,
       url: request.url,
-      requestType: isAutomaticCron
-        ? 'AUTOMATIC_VERCEL_CRON'
-        : isManualTrigger
-          ? 'MANUAL_TRIGGER'
-          : 'UNKNOWN',
-      hasCronSecret: !!cronSecret,
+      hasAuthHeader,
+      hasCronSecretHeader,
       timestamp: new Date().toISOString(),
     });
-
-    // Validate domain (accept both zachliibbe.com and www.zachliibbe.com)
-    if (!isValidDomain(host)) {
-      console.warn('Invalid domain for cron request', {
-        host,
-        expectedDomains: ['zachliibbe.com', 'www.zachliibbe.com'],
-      });
-    }
 
     // Validate this is a legitimate cron request
     if (!isValidCronRequest(request)) {
       console.warn('Unauthorized cron request attempt', {
         host,
-        cronHeader: !!cronHeader,
         hasSecret: !!process.env.CRON_SECRET,
-        providedSecret: !!cronSecret,
-        requestType: isAutomaticCron
-          ? 'AUTOMATIC_VERCEL_CRON'
-          : 'MANUAL_OR_UNAUTHORIZED',
+        hasAuthHeader,
+        hasCronSecretHeader,
       });
       return NextResponse.json(
         { error: 'Unauthorized cron request' },
