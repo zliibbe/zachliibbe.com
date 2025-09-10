@@ -16,9 +16,14 @@ export function markdownToHtml(markdown: string): string {
 
   // Code blocks MUST be processed first to avoid interference with other patterns
   html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, language, code) => {
-    const escapedCode = escapeHtml(code.trim());
+    // Only escape < and > in code blocks to prevent HTML injection, but preserve quotes
+    const safeCode = code
+      .trim()
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
     const lang = language ? ` class="language-${language.toLowerCase()}"` : '';
-    return `<pre><code${lang}>${escapedCode}</code></pre>`;
+    return `<pre><code${lang}>${safeCode}</code></pre>`;
   });
 
   // Inline code (process after code blocks)
