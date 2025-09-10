@@ -112,7 +112,7 @@ export default function FloatingChatWidget({
     const container = chatContainerRef.current;
     const rect = container.getBoundingClientRect();
     const direction = resizeDirection.current;
-    
+
     let newWidth = chatDimensions.width;
     let newHeight = chatDimensions.height;
 
@@ -124,10 +124,16 @@ export default function FloatingChatWidget({
       newWidth = Math.max(300, Math.min(800, rect.right - e.clientX + 20));
     }
     if (direction.includes('s')) {
-      newHeight = Math.max(400, Math.min(window.innerHeight - 100, e.clientY - rect.top + 20));
+      newHeight = Math.max(
+        400,
+        Math.min(window.innerHeight - 100, e.clientY - rect.top + 20)
+      );
     }
     if (direction.includes('n')) {
-      newHeight = Math.max(400, Math.min(window.innerHeight - 100, rect.bottom - e.clientY + 20));
+      newHeight = Math.max(
+        400,
+        Math.min(window.innerHeight - 100, rect.bottom - e.clientY + 20)
+      );
     }
 
     setChatDimensions({ width: newWidth, height: newHeight });
@@ -144,7 +150,7 @@ export default function FloatingChatWidget({
     if (isOpen) {
       document.addEventListener('mousemove', handleResizeMove);
       document.addEventListener('mouseup', handleResizeEnd);
-      
+
       return () => {
         document.removeEventListener('mousemove', handleResizeMove);
         document.removeEventListener('mouseup', handleResizeEnd);
@@ -250,7 +256,7 @@ export default function FloatingChatWidget({
   return (
     <div className={styles.chatWidget}>
       {isOpen && (
-        <div 
+        <div
           ref={chatContainerRef}
           className={styles.chatContainer}
           style={{
@@ -335,37 +341,37 @@ export default function FloatingChatWidget({
               </button>
             </div>
           </form>
-          
+
           {/* Resize handles */}
-          <div 
+          <div
             className={`${styles.resizeHandle} ${styles.resizeHandleNW}`}
             onMouseDown={handleResizeStart('nw')}
           />
-          <div 
+          <div
             className={`${styles.resizeHandle} ${styles.resizeHandleN}`}
             onMouseDown={handleResizeStart('n')}
           />
-          <div 
+          <div
             className={`${styles.resizeHandle} ${styles.resizeHandleNE}`}
             onMouseDown={handleResizeStart('ne')}
           />
-          <div 
+          <div
             className={`${styles.resizeHandle} ${styles.resizeHandleW}`}
             onMouseDown={handleResizeStart('w')}
           />
-          <div 
+          <div
             className={`${styles.resizeHandle} ${styles.resizeHandleE}`}
             onMouseDown={handleResizeStart('e')}
           />
-          <div 
+          <div
             className={`${styles.resizeHandle} ${styles.resizeHandleSW}`}
             onMouseDown={handleResizeStart('sw')}
           />
-          <div 
+          <div
             className={`${styles.resizeHandle} ${styles.resizeHandleS}`}
             onMouseDown={handleResizeStart('s')}
           />
-          <div 
+          <div
             className={`${styles.resizeHandle} ${styles.resizeHandleSE}`}
             onMouseDown={handleResizeStart('se')}
           />
