@@ -7,7 +7,7 @@ import { Jobs } from '../components/Jobs';
 export default function Work() {
   return (
     <>
-      <main>
+      <main data-page="work">
         <div className="universal-gradient-container">
           <div className="universal-gradient-background"></div>
           <div className={styles.container}>

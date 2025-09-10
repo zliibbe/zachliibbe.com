@@ -6,203 +6,200 @@ _This file contains information about Zach's personal interests, philosophy, wor
 
 ### Core Values & Beliefs
 
-**[Core Value #1]:** [e.g., "Continuous Learning"]
+**Continuous Learning:**
 
-- **What it means:** [How you define this value]
-- **How it shows up:** [Specific examples of this value in your work/life]
-- **Why it matters:** [The impact this has on your approach to development]
+- **What it means:** Always seeking to improve and expand my knowledge, both technically and personally
+- **How it shows up:** I regularly take on new technologies, read technical books, and experiment with side projects
+- **Why it matters:** This keeps me current with industry trends and helps me solve problems more effectively
 
-**[Core Value #2]:** [e.g., "Simple, Effective Solutions"]
+**Simple, Effective Solutions:**
 
-- **Approach:** [Your philosophy on problem-solving]
-- **Examples:** [How this value influences your technical decisions]
+- **Approach:** I believe in finding the most straightforward solution that solves the problem without unnecessary complexity
+- **Examples:** I prefer well-structured, readable code over clever but obscure implementations
 
-**[Core Value #3]:** [e.g., "Collaboration & Communication"]
+**Collaboration & Communication:**
 
-- **Belief:** [What you believe about working with others]
-- **Practice:** [How you implement this in team settings]
+- **Belief:** The best software is built by teams working together with clear communication
+- **Practice:** I actively participate in code reviews, documentation, and knowledge sharing with team members
 
 ### Development Philosophy
 
-**Code Quality:** [Your approach to writing maintainable, clean code]
+**Code Quality:** I prioritize maintainable, clean code that future developers (including myself) can easily understand and modify
 
-- **Principles:** [SOLID, DRY, specific methodologies you follow]
-- **Tools & Practices:** [Testing, code review, documentation standards]
+- **Principles:** SOLID principles, DRY, clear naming conventions, and consistent patterns
+- **Tools & Practices:** Comprehensive testing, thorough code reviews, and detailed documentation
 
-**Problem-Solving Approach:** [How you tackle complex technical challenges]
+**Problem-Solving Approach:** I break down complex challenges into smaller, manageable pieces
 
-- **Research & Analysis:** [How you break down and understand problems]
-- **Solution Design:** [Your process for architecting solutions]
-- **Implementation Strategy:** [How you approach building and iterating]
+- **Research & Analysis:** I start by understanding the problem fully, researching existing solutions, and identifying constraints
+- **Solution Design:** I create clear architecture diagrams and consider scalability, maintainability, and performance
+- **Implementation Strategy:** I build iteratively, testing frequently and gathering feedback early
 
-**Technology Adoption:** [Your philosophy on choosing and learning new technologies]
+**Technology Adoption:** I balance innovation with stability, choosing proven technologies for production systems
 
-- **Early Adopter vs. Proven Tech:** [Your balance between cutting-edge and stable]
-- **Learning Strategy:** [How you evaluate and learn new technologies]
+- **Early Adopter vs. Proven Tech:** I experiment with new technologies in side projects but prefer stable, well-supported tools for production
+- **Learning Strategy:** I learn through hands-on projects, documentation, and community resources
 
 ## Personal Interests
 
 ### Technology & Development
 
-**Current Tech Interests:** [Areas of technology you're passionate about]
+**Current Tech Interests:** Full-stack development, system architecture, and developer productivity tools
 
-- **[Interest Area]:** [Why this excites you, what you're exploring]
-- **[Another Area]:** [Personal projects or learning in this space]
+- **React/Next.js Ecosystem:** I'm passionate about building performant, user-friendly web applications
+- **System Architecture:** I enjoy designing scalable systems and understanding how different components work together
+- **Developer Tools:** I'm interested in tools that improve developer experience and productivity
 
-**Side Projects:** [Personal development projects you work on]
+**Side Projects:** I maintain several personal projects that showcase different aspects of my skills
 
-- **[Project Name]:** [Brief description and why you built it]
-- **[Another Project]:** [Technologies used and learning goals]
+- **Personal Website (zachliibbe.com):** A full-stack Next.js application with blog, portfolio, and various integrations
+- **Goodreads Integration:** A Lambda function that syncs reading data and displays it on my website
+- **Strava Integration:** Real-time activity tracking and visualization on my personal siten using Strava's public API
 
-**Open Source Involvement:** [Your participation in the open source community]
+**Open Source Involvement:** I believe in contributing back to the community
 
-- **Contributions:** [Projects you've contributed to]
-- **Maintainership:** [Any projects you maintain]
-- **Philosophy:** [What open source means to you]
+- **Contributions:** I contribute to various React and Next.js related projects
+- **Maintainership:** I maintain my own projects, but am interesting in contributing to open source.
+- **Philosophy:** Open source software drives innovation and I want to be part of that ecosystem
 
 ### Hobbies & Interests Outside Tech
 
-**[Hobby/Interest #1]:** [e.g., "Reading"]
+**Reading:**
 
-- **What you enjoy:** [Genres, authors, recent favorites]
-- **Connection to work:** [How this hobby influences your professional development]
+- **What you enjoy:** Technical books, biographies, science fiction, historical fiction, history, and business/startup books
+- **Connection to work:** Reading helps me stay current with industry trends and provides new perspectives on problem-solving
 
-**[Hobby/Interest #2]:** [e.g., "Fitness/Sports"]
+**Fitness & Outdoor Activities:**
 
-- **Activities:** [Specific sports, fitness routines, outdoor activities]
-- **Benefits:** [How this contributes to your work-life balance]
-
-**[Hobby/Interest #3]:** [e.g., "Travel/Photography/Music"]
-
-- **Passion:** [What you love about this interest]
-- **Learning:** [Skills developed through this hobby]
+- **Activities:** Running, hiking, cycling, weight lifting, and general fitness training, check my strava integration to find out mor
+- **Benefits:** Physical activity helps me maintain focus and energy for development work
 
 ### Curiosity & Learning
 
-**Current Learning Projects:** [Non-work related learning you're pursuing]
-**Podcasts/Content:** [Favorite podcasts, YouTube channels, or learning resources]
-**Books:** [Recent reads that have influenced your thinking]
+**Current Learning Projects:** Exploring AI/ML applications in web development, studying system design patterns
+**Podcasts/Content:** Syntax.fm
+**Books:** Recently read "Clean Architecture" by Robert Martin and "Atomic Habits" by James Clear
 
 ## Working Style & Personality
 
 ### How I Work Best
 
-**Environment:** [Preferred work environment - quiet, collaborative, remote, etc.]
-**Schedule:** [Peak productivity hours, preferred work rhythm]
-**Focus:** [How you maintain concentration and manage deep work]
+**Environment:** I work well in both quiet, focused environments and collaborative team settings
+**Schedule:** I'm most productive in the morning (9 AM - 12 PM) and prefer a consistent daily routine
+**Focus:** I use time-blocking techniques and minimize distractions during deep work sessions
 
-**Communication Style:** [How you prefer to communicate with teammates]
+**Communication Style:** I prefer clear, direct communication with regular check-ins
 
-- **Meetings:** [Your approach to meetings and when they're most effective]
-- **Async Communication:** [How you handle Slack, email, documentation]
-- **Feedback:** [How you give and receive feedback]
+- **Meetings:** I believe in focused, agenda-driven meetings with clear outcomes
+- **Async Communication:** I'm responsive to Slack/email and maintain detailed documentation
+- **Feedback:** I give constructive feedback and appreciate honest, actionable input. I think it's best to have conflict early so that people can address their true feelings. I seek to understand and this makes relationships stronger. Feedback can often be uncomfortable, but that doesn't mean it's not worth pursuing.
 
 ### Collaboration Approach
 
-**Team Dynamics:** [What you contribute to team culture]
-**Mentorship:** [Your approach to helping junior developers]
-**Leadership Style:** [If applicable, how you lead projects or teams]
+**Team Dynamics:** I contribute by asking thoughtful questions, sharing knowledge, and helping solve complex problems
+**Mentorship:** I enjoy helping junior developers grow through code reviews, pair programming, and knowledge sharing
+**Leadership Style:** I lead by example, focusing on clear communication and empowering team members
 
-**Conflict Resolution:** [How you handle disagreements or challenges]
-**Decision Making:** [Your process for making technical decisions in a team]
+**Conflict Resolution:** I address issues directly but respectfully, focusing on solutions rather than blame
+**Decision Making:** I gather input from the team, consider multiple options, and make decisions based on data and team consensus
 
 ### Strengths & Growth Areas
 
-**Key Strengths:** [What you're particularly good at]
+**Key Strengths:** Problem-solving, system thinking, and knowledge sharing
 
-- **[Strength]:** [Specific examples and context]
-- **[Another Strength]:** [How this benefits teams/projects]
+- **Technical Problem Solving:** I excel at breaking down complex problems and finding elegant solutions
+- **System Architecture:** I have a strong ability to design scalable, maintainable systems
+- **Knowledge Sharing:** I enjoy teaching and helping others grow their technical skills
 
-**Areas for Growth:** [What you're actively working to improve]
+**Areas for Growth:** Advanced AI/ML applications and distributed systems
 
-- **[Growth Area]:** [Steps you're taking to develop this skill]
-- **[Another Area]:** [Learning approach or resources you're using]
+- **AI/ML Integration:** I'm learning how to effectively integrate AI tools into web applications
+- **Distributed Systems:** I'm studying microservices architecture and cloud-native patterns
 
 ## Motivations & Goals
 
 ### What Drives You
 
-**Professional Motivation:** [What gets you excited about development work]
+**Professional Motivation:** Building software that makes a real difference in people's lives
 
-- **Problem Solving:** [Types of challenges that energize you]
-- **Impact:** [The kind of difference you want to make through your work]
-- **Learning:** [How continuous growth motivates you]
+- **Problem Solving:** I'm energized by complex technical challenges that require creative solutions
+- **Impact:** I want to create software that improves efficiency, accessibility, and user experience
+- **Learning:** Continuous growth and staying current with technology trends motivates me daily
 
-**Project Preferences:** [Types of work that align with your interests]
+**Project Preferences:** Full-stack applications with interesting technical challenges
 
-- **Technical Challenges:** [Complexity levels and problem types you enjoy]
-- **Domain Areas:** [Industries or problem spaces that interest you]
-- **Team Dynamics:** [Collaborative environments where you thrive]
+- **Technical Challenges:** I enjoy projects that require system design, performance optimization, and integration work
+- **Domain Areas:** I'm interested in productivity tools, developer tools, and applications that solve real-world problems
+- **Team Dynamics:** I thrive in collaborative environments where I can both learn from and teach others
 
 ### Long-term Vision
 
-**Career Aspirations:** [Where you see yourself heading professionally]
-**Impact Goals:** [The broader impact you want to have in tech]
-**Personal Development:** [Areas where you want to grow as a person]
+**Career Aspirations:** I see myself growing into a technical leadership role, potentially as a Principal Engineer or Engineering Manager, although my next goal is working toward Senior Developer at a company that I work for long term
+**Impact Goals:** I want to help build more inclusive, accessible, and efficient software that benefits everyone
+**Personal Development:** I'm working on improving my public speaking and technical writing skills
 
 ## Unique Perspective & Background
 
 ### What Makes You Different
 
-**Background:** [Unique aspects of your journey into tech]
-**Perspective:** [Viewpoints you bring that might be different from others]
-**Experience:** [Diverse experiences that inform your approach]
+**Background:** I have a diverse background that includes both technical and creative pursuits
+**Perspective:** I bring a user-focused approach to development, always considering the end-user experience
+**Experience:** My experience with various industries gives me a broad perspective on different problem domains
 
 ### Cross-Disciplinary Interests
 
-**[Other Field/Interest]:** [How knowledge from other areas informs your development work]
-**Problem-Solving Transfer:** [How skills from other domains apply to coding]
+**Problem-Solving Transfer:** Skills from other areas help me approach technical problems from different angles
 
 ## Fun Facts & Personal Touch
 
 ### Interesting Tidbits
 
-- **[Fun Fact]:** [Something unexpected or interesting about you]
-- **[Another Fact]:** [Personal story or unique experience]
-- **[Quirk or Preference]:** [Something that makes you memorable]
+- **Coffee Enthusiast:** I'm passionate about good coffee and often use coffee shop visits as a way to explore new cities
+- **Outdoor Lover:** I try to spend time outdoors every day, whether it's running, hiking, or just walking
+- **Book Collector:** I have a growing collection of technical books and enjoy reading physical copies, although I've recently found a new love for my kindle e-reader
 
 ### Conversation Starters
 
-**Topics I Love Discussing:** [Technical and non-technical subjects you're passionate about]
-**Recent Discoveries:** [New tools, concepts, or ideas you've encountered recently]
-**Pet Peeves:** [Technical or professional things that bother you - with humor]
+**Topics I Love Discussing:** New JavaScript features, system architecture patterns, productivity tools, and outdoor adventures
+**Recent Discoveries:** I've been exploring AI-powered development tools and their impact on coding workflows
+**Pet Peeves:** Poorly documented APIs and inconsistent code formatting (though I try to help rather than complain)
 
 ### Personal Projects & Experiments
 
-**Current Experiments:** [Technical or personal experiments you're running]
-**Creative Outlets:** [Ways you express creativity outside of work]
-**Learning Challenges:** [Personal challenges you've set for yourself]
+**Current Experiments:** Building AI-powered features into my personal website and exploring edge computing
+**Creative Outlets:** Playing guitar and singing, writing technical blog posts, and designing user interfaces
+"Learning Challenges: I'm writing one technical blog post per month to share knowledge and improve my technical communication skills"
 
 ## Values in Practice
 
 ### Work-Life Integration
 
-**Balance Philosophy:** [How you think about work-life balance]
-**Boundaries:** [How you maintain healthy boundaries]
-**Sustainability:** [Your approach to avoiding burnout]
+**Balance Philosophy:** I believe in working hard but maintaining healthy boundaries and taking time for personal interests
+**Boundaries:** I protect my personal time and make sure to disconnect from work during evenings and weekends
+**Sustainability:** I focus on sustainable work practices and avoid burnout by maintaining a consistent schedule
 
 ### Giving Back
 
-**Community Involvement:** [Ways you contribute to the developer community]
-**Knowledge Sharing:** [How you share what you've learned]
-**Helping Others:** [Your approach to mentoring and supporting other developers]
+**Community Involvement:** I contribute to open source projects and participate in local developer meetups
+**Knowledge Sharing:** I write blog posts, give talks, and mentor other developers
+**Helping Others:** I believe in lifting others up and sharing knowledge freely
 
 ## Communication & Personality Notes
 
 ### How to Read My Communication
 
-**When I'm Excited:** [How enthusiasm shows up in your communication]
-**When I'm Thinking:** [How you process ideas and what that looks like]
-**When I Disagree:** [How you handle professional disagreements]
+**When I'm Excited:** I ask lots of questions and share detailed technical explanations
+**When I'm Thinking:** I might pause to consider options before responding
+**When I Disagree:** I'll present alternative viewpoints respectfully and focus on finding the best solution
 
 ### Working Relationship Tips
 
-**How to Get the Best from Me:** [What brings out your best work]
-**How I Handle Stress:** [Your stress indicators and preferred support]
-**Feedback Preferences:** [How you like to receive input and guidance]
+**How to Get the Best from Me:** Give me clear goals, autonomy to solve problems, and regular feedback
+**How I Handle Stress:** I step back, break problems into smaller pieces, and communicate early about challenges
+**Feedback Preferences:** I appreciate direct, constructive feedback with specific examples
 
 ---
 
-_Last Updated: [Current date]_
+_Last Updated: August 2025_
 
 _Note: This information helps visitors understand Zach's personality, working style, and what drives him as a developer. It's designed to give a fuller picture of who he is beyond just technical skills and experience._
