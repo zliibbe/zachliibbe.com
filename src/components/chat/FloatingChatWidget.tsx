@@ -245,25 +245,28 @@ export default function FloatingChatWidget({
         </div>
       )}
 
-      {!isOpen && showGreeting && mounted && createPortal(
-        <div className={styles.greetingBubbleOverlay}>
-          <div className={styles.greetingBubble}>
-            <div className={styles.greetingText}>
-              Hi friend! I hope I didn't startle you. Want to chat with me to
-              learn about Zach?
+      {!isOpen &&
+        showGreeting &&
+        mounted &&
+        createPortal(
+          <div className={styles.greetingBubbleOverlay}>
+            <div className={styles.greetingBubble}>
+              <div className={styles.greetingText}>
+                Hi friend! I hope I didn't startle you. Want to chat with me to
+                learn about Zach?
+              </div>
+              <button
+                className={styles.greetingClose}
+                onClick={() => setShowGreeting(false)}
+                aria-label="Close greeting"
+              >
+                <HiXMark />
+              </button>
+              <div className={styles.greetingArrow}></div>
             </div>
-            <button
-              className={styles.greetingClose}
-              onClick={() => setShowGreeting(false)}
-              aria-label="Close greeting"
-            >
-              <HiXMark />
-            </button>
-            <div className={styles.greetingArrow}></div>
-          </div>
-        </div>,
-        document.body
-      )}
+          </div>,
+          document.body
+        )}
     </div>
   );
 }
