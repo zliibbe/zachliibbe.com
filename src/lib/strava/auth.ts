@@ -70,7 +70,7 @@ export async function refreshStravaToken(): Promise<string> {
 
     return data.access_token;
   } catch (error) {
-    console.error('Error refreshing Strava token:', error);
+    console.error(`Error refreshing Strava token: ${error}`);
     throw new Error(
       `Failed to refresh Strava token: ${error instanceof Error ? error.message : String(error)}`
     );

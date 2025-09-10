@@ -19,7 +19,7 @@ export async function getActivities(limit = 200, after?: number) {
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error(`Strava API error: ${response.status}`, errorText);
+      console.error(`Strava API error: ${response.status} - ${errorText}`);
       throw new Error(`Strava API returned ${response.status}: ${errorText}`);
     }
 
