@@ -650,13 +650,16 @@
   position: absolute;
   top: 50vh;
   right: 1.5rem;
-  background: var(--theme-color);
-  border: 2px solid var(--gradientOne);
+  background: rgba(var(--theme-color-rgb, 26, 107, 138), 0.15);
+  backdrop-filter: blur(1rem);
+  -webkit-backdrop-filter: blur(1rem);
+  border: 2px solid rgba(var(--clr-neutral-400-rgb, 102, 102, 102), 0.4);
   border-radius: 1rem;
   padding: 1.25rem 1.5rem;
   box-shadow:
-    0 0.5rem 1.5rem rgba(0, 0, 0, 0.2),
-    0 0 1.25rem color-mix(in srgb, var(--gradientOne) 30%, transparent);
+    0 0.5rem 1.5rem rgba(0, 0, 0, 0.1),
+    0 0 1.25rem rgba(var(--theme-color-rgb, 26, 107, 138), 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
   max-width: 20rem;
   transform-origin: center right;
   overflow: hidden;
@@ -668,8 +671,10 @@
 .greetingText {
   font-size: var(--fs-600);
   font-weight: var(--fw-semi-bold);
-  color: var(--color-background);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  color: var(--theme-color);
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.3),
+    0 0 4px rgba(255, 255, 255, 0.5);
   line-height: 1.4;
   margin: 0;
   padding-right: 1.5rem;
@@ -681,9 +686,9 @@
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(var(--clr-neutral-700-rgb, 25, 25, 25), 0.3);
   border: none;
-  color: var(--color-background);
+  color: var(--text-primary);
   cursor: pointer;
   padding: 0.25rem;
   border-radius: 50%;
@@ -697,7 +702,7 @@
 }
 
 .greetingClose:hover {
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(var(--clr-neutral-600-rgb, 51, 51, 51), 0.5);
   transform: scale(1.1);
 }
 
@@ -755,13 +760,15 @@
   0%,
   100% {
     box-shadow:
-      0 0.5rem 1.5rem rgba(0, 0, 0, 0.2),
-      0 0 1.25rem color-mix(in srgb, var(--gradientOne) 30%, transparent);
+      0 0.5rem 1.5rem rgba(0, 0, 0, 0.1),
+      0 0 1.25rem rgba(var(--theme-color-rgb, 26, 107, 138), 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
   50% {
     box-shadow:
-      0 0.5rem 1.5rem rgba(0, 0, 0, 0.2),
-      0 0 1.875rem color-mix(in srgb, var(--gradientOne) 60%, transparent);
+      0 0.5rem 1.5rem rgba(0, 0, 0, 0.1),
+      0 0 1.875rem rgba(var(--theme-color-rgb, 26, 107, 138), 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
   }
 }
 
