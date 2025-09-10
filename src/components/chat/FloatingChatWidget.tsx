@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import {
   HiChevronUp,
@@ -157,8 +157,8 @@ export default function FloatingChatWidget({
             {messages.length === 0 && (
               <div className={styles.welcomeMessage}>
                 <p>
-                  Hi! I'm here to help answer questions about Zach's work,
-                  experience, and projects. What would you like to know?
+                  Hi! I&apos;m here to help answer questions about Zach&apos;s
+                  work, experience, and projects. What would you like to know?
                 </p>
               </div>
             )}
@@ -252,8 +252,8 @@ export default function FloatingChatWidget({
           <div className={styles.greetingBubbleOverlay}>
             <div className={styles.greetingBubble}>
               <div className={styles.greetingText}>
-                Hi friend! I hope I didn't startle you. Want to chat with me to
-                learn about Zach?
+                Hi friend! I hope I didn&apos;t startle you. Want to chat with
+                me to learn about Zach?
               </div>
               <button
                 className={styles.greetingClose}
