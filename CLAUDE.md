@@ -140,3 +140,4 @@ Refer to `PRD.md` for detailed specifications of upcoming features:
 
 - Don't ask to run npm dev, it's usually running already (usually on localhost:3000) so check there.
 - Always use variables from globals.css, rather than hard-coded colors. Ensure all text is readable, with high enought contract, in both light-mode and dark mode.
+- Ensure semVer in package.json is updated as code is added or modified.
