@@ -14,7 +14,10 @@ export const pinecone = new Pinecone({
 
 export async function getPineconeIndex() {
   try {
-    const index = pinecone.index(PINECONE_INDEX_NAME);
+    const indexHost = process.env.PINECONE_INDEX_HOST;
+    const index = indexHost 
+      ? pinecone.index(PINECONE_INDEX_NAME, indexHost)
+      : pinecone.index(PINECONE_INDEX_NAME);
     return index;
   } catch (error) {
     console.error('Error getting Pinecone index:', error);
