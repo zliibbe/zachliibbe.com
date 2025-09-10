@@ -14,6 +14,7 @@ export interface ChatMessage {
   content: string;
   role: 'user' | 'assistant';
   timestamp: Date;
+  isStreaming?: boolean;
 }
 
 interface FloatingChatWidgetProps {
@@ -27,6 +28,7 @@ export default function FloatingChatWidget({
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [streamingMessageId, setStreamingMessageId] = useState<string | null>(null);
   const [showPrompt, setShowPrompt] = useState(true);
   const [showGreeting, setShowGreeting] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -50,6 +52,17 @@ export default function FloatingChatWidget({
       inputRef.current.focus();
     }
   }, [isOpen]);
+
+  // Auto-resize textarea based on content
+  useEffect(() => {
+    if (inputRef.current) {
+      const textarea = inputRef.current;
+      textarea.style.height = 'auto';
+      const scrollHeight = textarea.scrollHeight;
+      const maxHeight = 120; // Max height in pixels (about 6 lines)
+      textarea.style.height = `${Math.min(scrollHeight, maxHeight)}px`;
+    }
+  }, [inputValue]);
 
   // Hide prompt after 10 seconds
   useEffect(() => {
@@ -91,30 +104,54 @@ export default function FloatingChatWidget({
     setInputValue('');
     setIsLoading(true);
 
+    // Immediately show loading indicator
+    const assistantMessageId = (Date.now() + 1).toString();
+    const loadingMessage: ChatMessage = {
+      id: assistantMessageId,
+      content: '',
+      role: 'assistant',
+      timestamp: new Date(),
+      isStreaming: true,
+    };
+    
+    setMessages(prev => [...prev, loadingMessage]);
+    setStreamingMessageId(assistantMessageId);
+
     try {
       const response = onSendMessage
         ? await onSendMessage(userMessage.content)
         : 'Thanks for your message! This is a demo response.';
 
-      const assistantMessage: ChatMessage = {
-        id: (Date.now() + 1).toString(),
-        content: response,
-        role: 'assistant',
-        timestamp: new Date(),
-      };
-
-      setMessages(prev => [...prev, assistantMessage]);
+      // Start streaming animation
+      await streamTextResponse(assistantMessageId, response);
     } catch (error) {
       console.error('Error sending message:', error);
-      const errorMessage: ChatMessage = {
-        id: (Date.now() + 1).toString(),
-        content: 'Sorry, I encountered an error. Please try again later.',
-        role: 'assistant',
-        timestamp: new Date(),
-      };
-      setMessages(prev => [...prev, errorMessage]);
+      await streamTextResponse(assistantMessageId, 'Sorry, I encountered an error. Please try again later.');
     } finally {
       setIsLoading(false);
+      setStreamingMessageId(null);
+    }
+  };
+
+  const streamTextResponse = async (messageId: string, text: string) => {
+    const words = text.split(' ');
+    let currentText = '';
+    
+    for (let i = 0; i < words.length; i++) {
+      currentText += (i > 0 ? ' ' : '') + words[i];
+      
+      setMessages(prev => 
+        prev.map(msg => 
+          msg.id === messageId 
+            ? { ...msg, content: currentText, isStreaming: i < words.length - 1 }
+            : msg
+        )
+      );
+      
+      // Add delay between words for streaming effect
+      if (i < words.length - 1) {
+        await new Promise(resolve => setTimeout(resolve, 50 + Math.random() * 30));
+      }
     }
   };
 
@@ -171,7 +208,18 @@ export default function FloatingChatWidget({
                     : styles.assistantMessage
                 }`}
               >
-                <div className={styles.messageContent}>{message.content}</div>
+                <div className={styles.messageContent}>
+                  {message.content || (message.role === 'assistant' && message.isStreaming && (
+                    <div className={styles.loadingDots}>
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                  ))}
+                  {message.isStreaming && message.content && (
+                    <span className={styles.typingCursor}>|</span>
+                  )}
+                </div>
                 <div className={styles.messageTime}>
                   {message.timestamp.toLocaleTimeString([], {
                     hour: '2-digit',
@@ -181,19 +229,6 @@ export default function FloatingChatWidget({
               </div>
             ))}
 
-            {isLoading && (
-              <div
-                className={`${styles.message} ${styles.assistantMessage} ${styles.loadingMessage}`}
-              >
-                <div className={styles.messageContent}>
-                  <div className={styles.loadingDots}>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                </div>
-              </div>
-            )}
 
             <div ref={messagesEndRef} />
           </div>

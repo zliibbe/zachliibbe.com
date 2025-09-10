@@ -233,9 +233,10 @@
   line-height: 1.4;
   resize: none;
   min-height: 20px;
-  max-height: 80px;
+  max-height: 120px;
   overflow-y: auto;
   font-family: var(--font-family-sans);
+  transition: height 0.2s ease;
 }
 
 .messageInput::placeholder {
@@ -685,5 +686,22 @@
   }
   100% {
     left: 100%;
+  }
+}
+
+/* Typing cursor animation */
+.typingCursor {
+  color: var(--color-primary);
+  font-weight: bold;
+  animation: typingBlink 1s infinite;
+  margin-left: 2px;
+}
+
+@keyframes typingBlink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
   }
 }
