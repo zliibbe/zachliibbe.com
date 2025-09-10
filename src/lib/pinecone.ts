@@ -15,7 +15,7 @@ export const pinecone = new Pinecone({
 export async function getPineconeIndex() {
   try {
     const indexHost = process.env.PINECONE_INDEX_HOST;
-    const index = indexHost 
+    const index = indexHost
       ? pinecone.index(PINECONE_INDEX_NAME, indexHost)
       : pinecone.index(PINECONE_INDEX_NAME);
     return index;
