@@ -20,6 +20,9 @@
   width: 21.875rem;
   max-width: calc(100vw - 3rem);
   height: 31.25rem;
+  min-width: 18.75rem;
+  min-height: 25rem;
+  max-height: calc(100vh - 8rem);
   background: var(--background-primary);
   border: 3px solid var(--theme-color);
   border-radius: var(--border-radius);
@@ -28,6 +31,88 @@
   flex-direction: column;
   animation: slideInUp 0.2s ease-out;
   opacity: 1;
+  resize: none;
+}
+
+/* Resize handles */
+.resizeHandle {
+  position: absolute;
+  background: transparent;
+  z-index: 10;
+}
+
+.resizeHandle:hover {
+  background: rgba(var(--theme-color-rgb, 26, 107, 138), 0.1);
+}
+
+/* Corner resize handles */
+.resizeHandleNW {
+  top: 0;
+  left: 0;
+  width: 1rem;
+  height: 1rem;
+  cursor: nw-resize;
+  border-radius: var(--border-radius) 0 0 0;
+}
+
+.resizeHandleNE {
+  top: 0;
+  right: 0;
+  width: 1rem;
+  height: 1rem;
+  cursor: ne-resize;
+  border-radius: 0 var(--border-radius) 0 0;
+}
+
+.resizeHandleSW {
+  bottom: 0;
+  left: 0;
+  width: 1rem;
+  height: 1rem;
+  cursor: sw-resize;
+  border-radius: 0 0 0 var(--border-radius);
+}
+
+.resizeHandleSE {
+  bottom: 0;
+  right: 0;
+  width: 1rem;
+  height: 1rem;
+  cursor: se-resize;
+  border-radius: 0 0 var(--border-radius) 0;
+}
+
+/* Edge resize handles */
+.resizeHandleN {
+  top: 0;
+  left: 1rem;
+  right: 1rem;
+  height: 0.5rem;
+  cursor: n-resize;
+}
+
+.resizeHandleS {
+  bottom: 0;
+  left: 1rem;
+  right: 1rem;
+  height: 0.5rem;
+  cursor: s-resize;
+}
+
+.resizeHandleW {
+  left: 0;
+  top: 1rem;
+  bottom: 1rem;
+  width: 0.5rem;
+  cursor: w-resize;
+}
+
+.resizeHandleE {
+  right: 0;
+  top: 1rem;
+  bottom: 1rem;
+  width: 0.5rem;
+  cursor: e-resize;
 }
 
 @keyframes slideInUp {
