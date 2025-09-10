@@ -72,7 +72,7 @@ export async function queryVectors(
 export async function deleteVectors(ids: string[]) {
   try {
     const index = await getPineconeIndex();
-    await index.deleteOne(ids);
+    await index.deleteMany(ids);
     console.log(`Successfully deleted ${ids.length} vectors from Pinecone`);
   } catch (error) {
     console.error('Error deleting vectors from Pinecone:', error);

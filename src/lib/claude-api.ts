@@ -39,7 +39,7 @@ export async function generateChatResponse(
     const sources = relevantChunks
       .filter(chunk => chunk.score && chunk.score > 0.4)
       .map(chunk => chunk.metadata?.source)
-      .filter(Boolean)
+      .filter((source): source is string => typeof source === 'string')
       .slice(0, 3);
 
     // Build conversation messages for Claude
