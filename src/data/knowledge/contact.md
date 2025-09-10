@@ -6,29 +6,29 @@ _This file contains information about how to reach Zach, communication preferenc
 
 ### Primary Communication
 
-**Email:** [Your primary email address]
+**Email:** zliibbe@gmail.com
 
-- **Response Time:** [Typical response timeframe, e.g., "within 24-48 hours"]
+- **Response Time:** within 24-48 hours
 - **Best For:** [Professional inquiries, collaboration requests, detailed discussions]
 
 ### Professional Platforms
 
-**LinkedIn:** [Your LinkedIn profile URL]
+**LinkedIn:** https://www.linkedin.com/in/zach-liibbe/
 
-- **Response Time:** [How often you check LinkedIn messages]
+- **Response Time:** within 24-48 hours
 - **Best For:** [Professional networking, career opportunities]
 
-**GitHub:** [Your GitHub profile URL]
+**GitHub:** https://github.com/zliibbe
 
 - **Best For:** [Technical discussions, code collaboration, open source inquiries]
 
+**Strava:** https://www.strava.com/athletes/2161990
+
+- **Best For:** [viewing activity data ]
+
 ### Other Contact Methods
 
-**Twitter/X:** [Handle if you use it professionally]
-
-- **Usage:** [How you use this platform - sharing, networking, etc.]
-
-**Website Contact Form:** [If you have one]
+**Website Contact Form:** https://www.zachliibbe.com/contact
 
 - **Best For:** [Quick questions, initial contact]
 
@@ -38,9 +38,9 @@ _This file contains information about how to reach Zach, communication preferenc
 
 **Job Opportunities:**
 
-- **Preferred Method:** [Email/LinkedIn/etc.]
-- **Information to Include:** [Role details, company info, timeline, compensation range]
-- **Response Commitment:** [How quickly you'll respond to opportunities]
+- **Preferred Method:** [Email]
+- **Information to Include:** [Role details, company info, timeline, compensation range, clearance required]
+- **Response Commitment:** within 24-48 hours
 
 **Consulting/Freelance Inquiries:**
 
