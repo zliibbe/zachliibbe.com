@@ -134,7 +134,7 @@ Refer to `PRD.md` for detailed specifications of upcoming features:
 ### Phase 3: RAG-Powered Chat ✅ (COMPLETED)
 
 - Pinecone vector database integration ✅
-- Anthropic Claude API for responses ✅  
+- Anthropic Claude API for responses ✅
 - Knowledge base from `/src/data/knowledge/` markdown files ✅
 - Floating chat widget (bottom-right corner) ✅
 

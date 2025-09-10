@@ -3,17 +3,13 @@
     "ref-tools": {
       "type": "stdio",
       "command": "npx",
-      "args": [
-        "ref-tools-mcp"
-      ],
+      "args": ["ref-tools-mcp"],
       "env": {}
     },
     "semgrep": {
       "type": "stdio",
       "command": "uvx",
-      "args": [
-        "semgrep-mcp"
-      ],
+      "args": ["semgrep-mcp"],
       "env": {}
     },
     "exa": {
@@ -29,9 +25,7 @@
     "playwright": {
       "type": "stdio",
       "command": "npx",
-      "args": [
-        "@playwright/mcp"
-      ],
+      "args": ["@playwright/mcp"],
       "env": {}
     }
   }
