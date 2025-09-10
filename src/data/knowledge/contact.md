@@ -9,28 +9,28 @@ _This file contains information about how to reach Zach, communication preferenc
 **Email:** zliibbe@gmail.com
 
 - **Response Time:** within 24-48 hours
-- **Best For:** [Professional inquiries, collaboration requests, detailed discussions]
+- **Best For:** Professional inquiries, collaboration requests, detailed discussions
 
 ### Professional Platforms
 
 **LinkedIn:** https://www.linkedin.com/in/zach-liibbe/
 
 - **Response Time:** within 24-48 hours
-- **Best For:** [Professional networking, career opportunities]
+- **Best For:** Professional networking, career opportunities
 
 **GitHub:** https://github.com/zliibbe
 
-- **Best For:** [Technical discussions, code collaboration, open source inquiries]
+- **Best For:** Technical discussions, code collaboration, open source inquiries
 
 **Strava:** https://www.strava.com/athletes/2161990
 
-- **Best For:** [viewing activity data ]
+- **Best For:** Viewing activity data and fitness tracking
 
 ### Other Contact Methods
 
 **Website Contact Form:** https://www.zachliibbe.com/contact
 
-- **Best For:** [Quick questions, initial contact]
+- **Best For:** Quick questions, initial contact
 
 ## Communication Preferences
 
@@ -38,147 +38,147 @@ _This file contains information about how to reach Zach, communication preferenc
 
 **Job Opportunities:**
 
-- **Preferred Method:** [Email]
-- **Information to Include:** [Role details, company info, timeline, compensation range, clearance required]
+- **Preferred Method:** Email
+- **Information to Include:** Role details, company info, timeline, compensation range, clearance requirements
 - **Response Commitment:** within 24-48 hours
 
 **Consulting/Freelance Inquiries:**
 
-- **Preferred Method:** [Your preference]
-- **Project Information Needed:** [Scope, timeline, budget, tech stack]
-- **Initial Response:** [What happens after first contact]
+- **Preferred Method:** Email or LinkedIn
+- **Project Information Needed:** Scope, timeline, budget, tech stack preferences
+- **Initial Response:** I'll review the project details and respond with questions or next steps
 
 **Technical Questions/Mentorship:**
 
-- **Preferred Method:** [Email, LinkedIn, etc.]
-- **Response Policy:** [How you handle mentorship requests]
-- **Topics You Enjoy Discussing:** [Areas where you're happy to help]
+- **Preferred Method:** Email or LinkedIn
+- **Response Policy:** I'm happy to help with technical questions and provide guidance when time allows
+- **Topics You Enjoy Discussing:** Full-stack development, React/Next.js, system architecture, career growth
 
 **Collaboration/Partnership:**
 
-- **Preferred Method:** [Best way to reach you for partnerships]
-- **Types of Collaboration:** [Open source, side projects, speaking, etc.]
+- **Preferred Method:** Email for initial contact
+- **Types of Collaboration:** Open source projects, side projects, speaking opportunities, technical writing
 
 ### Communication Style
 
-**Response Style:** [Professional but friendly/Direct and concise/etc.]
-**Meeting Preferences:** [Video calls, phone, in-person if local]
-**Time Zone:** [Your time zone and preferred meeting hours]
+**Response Style:** Professional but friendly, direct and helpful
+**Meeting Preferences:** Video calls preferred, phone calls work too
+**Time Zone:** Mountain Time (MT) - preferred meeting hours 9 AM - 4 PM MT
 
 ## Current Availability
 
 ### Job Opportunities
 
-**Status:** [Actively looking/Open to opportunities/Not currently seeking/etc.]
+**Status:** Actively looking, Open to opportunities
 
 **Opportunity Types:**
 
-- **Full-time Roles:** [Yes/No and preferences]
-- **Contract Work:** [Available/timeline/duration preferences]
-- **Consulting:** [Available/preferred project types]
-- **Part-time/Freelance:** [Interest level and capacity]
+- **Full-time Roles:** Yes, particularly interested in mid-level developer positions in mission driven organizations
+- **Contract Work:** I prefer full-time employment
+- **Consulting:** Available for technical architecture and development consulting
+- **Part-time/Freelance:** Limited capacity, but open to interesting projects
 
-**Timeline:** [How soon you could start something new]
-**Location:** [Remote/hybrid/on-site preferences and geographic constraints]
+**Timeline:** Available to start within 2-4 weeks
+**Location:** Remote preferred, open to hybrid arrangements in Colorado Springs area or surrounding communities. Open to Hybrid in Denver for certain special opportunities
 
 ### Consulting & Freelance
 
-**Current Capacity:** [How much freelance work you can take on]
-**Preferred Project Types:** [Web development, technical consulting, etc.]
-**Project Duration:** [Preferred length of engagements]
-**Availability Hours:** [Hours per week available for consulting]
+**Current Capacity:** 0-10 hours per week available for consulting
+**Preferred Project Types:** Full-stack web development, technical architecture, React/Next.js projects
+**Project Duration:** 1-6 month engagements preferred
+**Availability Hours:** Evenings and weekends, some weekday flexibility
 
-**Rate Information:** [How you handle rate discussions - "rates available upon request," etc.]
+**Rate Information:** Rates available upon request, varies by project scope and timeline
 
 ### Speaking & Community
 
-**Conference Speaking:** [Available for conferences/meetups/podcasts]
-**Topics:** [Areas you're comfortable speaking about]
-**Travel:** [Willing to travel for speaking engagements]
+**Conference Speaking:** Available for conferences, meetups, and podcasts
+**Topics:** Full-stack development, React/Next.js, system architecture, developer productivity
+**Travel:** Willing to travel for speaking engagements, especially in the western US
 
-**Mentorship:** [Availability for mentoring developers]
-**Capacity:** [How many mentees you can work with]
+**Mentorship:** Available for mentoring developers
+**Capacity:** Can work with 1-2 mentees at a time
 
 ## Response Expectations
 
 ### General Response Times
 
-- **Job Inquiries:** [Timeline for responding to opportunities]
-- **Technical Questions:** [How quickly you respond to tech help requests]
-- **Collaboration Requests:** [Response time for project discussions]
-- **General Networking:** [Timeline for networking conversations]
+- **Job Inquiries:** 24-48 hours for initial response
+- **Technical Questions:** 24-72 hours depending on complexity
+- **Collaboration Requests:** 48-72 hours for project discussions
+- **General Networking:** 24-48 hours for networking conversations
 
 ### What to Expect When You Reach Out
 
-**Initial Response:** [What happens when someone first contacts you]
-**Follow-up Process:** [How you handle ongoing conversations]
-**Meeting Scheduling:** [Your process for setting up calls or meetings]
+**Initial Response:** I'll acknowledge your message and provide a timeline for a detailed response
+**Follow-up Process:** I'll maintain clear communication about next steps and timelines
+**Meeting Scheduling:** I prefer scheduling through email or calendar links
 
 ### When I Might Not Respond
 
-_[Be transparent about scenarios where you might not respond or delays might occur]_
+I aim to respond to all professional inquiries, but delays may occur during:
 
-- [High volume periods]
-- [Types of inquiries you don't typically respond to]
-- [Vacation/unavailable periods]
+- High-volume periods or busy project deadlines
+- Vacation or personal time off
+- Spam or clearly irrelevant inquiries
 
 ## Location & Time Zone
 
-**Location:** [Your current city/region]
-**Time Zone:** [Your time zone]
-**Work Hours:** [Preferred hours for meetings/calls]
-**Meeting Availability:** [Days/times you're typically available for calls]
+**Location:** Denver, Colorado area
+**Time Zone:** Mountain Time (MT)
+**Work Hours:** 9 AM - 5 PM MT preferred for meetings
+**Meeting Availability:** Monday-Friday, with some evening flexibility
 
 ## Professional Services
 
 ### Available Services
 
-**Web Development:** [Types of web development work you take on]
+**Web Development:** Full-stack web application development
 
-- **Specialties:** [Frontend, backend, full-stack focus areas]
-- **Technologies:** [Preferred tech stacks for client work]
-- **Project Types:** [Small business sites, web apps, e-commerce, etc.]
+- **Specialties:** Frontend (React/Next.js), backend (Node.js/Python), full-stack architecture
+- **Technologies:** React, Next.js, TypeScript, Node.js, Python, PostgreSQL, AWS
+- **Project Types:** Web applications, APIs, e-commerce sites, content management systems
 
-**Technical Consulting:** [Areas where you provide consulting]
+**Technical Consulting:** Architecture and development guidance
 
-- **Architecture Review:** [System design consultation]
-- **Code Review:** [Code quality and best practices]
-- **Technology Selection:** [Helping choose tech stacks]
+- **Architecture Review:** System design consultation and technical planning
+- **Code Review:** Code quality assessment and best practices guidance
+- **Technology Selection:** Helping choose appropriate tech stacks and tools
 
-**Training & Education:** [Teaching or training services]
+**Training & Education:** Technical training and mentorship
 
-- **Workshop Topics:** [Areas you can teach]
-- **Team Training:** [Internal team skill development]
+- **Workshop Topics:** React/Next.js development, system architecture, developer productivity
+- **Team Training:** Internal team skill development and best practices
 
 ### Project Requirements
 
-**Minimum Project Size:** [Smallest projects you'll take on]
-**Preferred Timeline:** [Ideal project duration]
-**Communication During Projects:** [How you handle client communication]
+**Minimum Project Size:** 2-3 week minimum engagement
+**Preferred Timeline:** 1-6 month projects
+**Communication During Projects:** Weekly check-ins, Slack/email communication, detailed progress reports
 
 ## Current Projects & Commitments
 
-**Current Load:** [Brief overview of your current work situation]
-**Upcoming Commitments:** [Any known busy periods or commitments]
-**Capacity for New Work:** [Realistic assessment of bandwidth]
+**Current Load:** Working on personal projects and available for new opportunities
+**Upcoming Commitments:** Flexible schedule with some speaking engagements
+**Capacity for New Work:** 20-30 hours per week available for new projects
 
 ## Working Relationships
 
 ### Collaboration Style
 
-**Team Integration:** [How you work with existing teams]
-**Communication Frequency:** [Preferred update/check-in schedules]
-**Documentation:** [Your approach to project documentation]
+**Team Integration:** I work well with existing teams, adapting to established processes while contributing fresh perspectives
+**Communication Frequency:** Prefer weekly check-ins with daily async communication as needed
+**Documentation:** I believe in comprehensive documentation and clear communication throughout projects
 
 ### Client Relationships
 
-**Project Management:** [Your approach to managing client projects]
-**Feedback Process:** [How you handle revisions and feedback]
-**Long-term Relationships:** [Interest in ongoing vs. one-off projects]
+**Project Management:** I use agile methodologies with clear milestones and regular progress updates
+**Feedback Process:** I encourage regular feedback and iterative improvements throughout the development process
+**Long-term Relationships:** I value ongoing relationships and often work with clients on multiple projects
 
 ---
 
-_Last Updated: [Current date]_
+_Last Updated: August 2025_
 
 ## Contact Form Template
 
