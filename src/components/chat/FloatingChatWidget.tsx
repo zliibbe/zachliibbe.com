@@ -28,7 +28,9 @@ export default function FloatingChatWidget({
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [streamingMessageId, setStreamingMessageId] = useState<string | null>(null);
+  const [streamingMessageId, setStreamingMessageId] = useState<string | null>(
+    null
+  );
   const [showPrompt, setShowPrompt] = useState(true);
   const [showGreeting, setShowGreeting] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -113,7 +115,7 @@ export default function FloatingChatWidget({
       timestamp: new Date(),
       isStreaming: true,
     };
-    
+
     setMessages(prev => [...prev, loadingMessage]);
     setStreamingMessageId(assistantMessageId);
 
@@ -126,7 +128,10 @@ export default function FloatingChatWidget({
       await streamTextResponse(assistantMessageId, response);
     } catch (error) {
       console.error('Error sending message:', error);
-      await streamTextResponse(assistantMessageId, 'Sorry, I encountered an error. Please try again later.');
+      await streamTextResponse(
+        assistantMessageId,
+        'Sorry, I encountered an error. Please try again later.'
+      );
     } finally {
       setIsLoading(false);
       setStreamingMessageId(null);
@@ -136,21 +141,27 @@ export default function FloatingChatWidget({
   const streamTextResponse = async (messageId: string, text: string) => {
     const words = text.split(' ');
     let currentText = '';
-    
+
     for (let i = 0; i < words.length; i++) {
       currentText += (i > 0 ? ' ' : '') + words[i];
-      
-      setMessages(prev => 
-        prev.map(msg => 
-          msg.id === messageId 
-            ? { ...msg, content: currentText, isStreaming: i < words.length - 1 }
+
+      setMessages(prev =>
+        prev.map(msg =>
+          msg.id === messageId
+            ? {
+                ...msg,
+                content: currentText,
+                isStreaming: i < words.length - 1,
+              }
             : msg
         )
       );
-      
+
       // Add delay between words for streaming effect
       if (i < words.length - 1) {
-        await new Promise(resolve => setTimeout(resolve, 50 + Math.random() * 30));
+        await new Promise(resolve =>
+          setTimeout(resolve, 50 + Math.random() * 30)
+        );
       }
     }
   };
@@ -209,13 +220,14 @@ export default function FloatingChatWidget({
                 }`}
               >
                 <div className={styles.messageContent}>
-                  {message.content || (message.role === 'assistant' && message.isStreaming && (
-                    <div className={styles.loadingDots}>
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                    </div>
-                  ))}
+                  {message.content ||
+                    (message.role === 'assistant' && message.isStreaming && (
+                      <div className={styles.loadingDots}>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
+                    ))}
                   {message.isStreaming && message.content && (
                     <span className={styles.typingCursor}>|</span>
                   )}
@@ -228,7 +240,6 @@ export default function FloatingChatWidget({
                 </div>
               </div>
             ))}
-
 
             <div ref={messagesEndRef} />
           </div>
