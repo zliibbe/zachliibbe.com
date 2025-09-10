@@ -30,14 +30,14 @@ export async function generateChatResponse(
 
     // Extract context from search results
     const context = relevantChunks
-      .filter(chunk => chunk.score && chunk.score > 0.7) // Only use high-confidence matches
+      .filter(chunk => chunk.score && chunk.score > 0.4) // Use moderate-confidence matches
       .map(chunk => chunk.metadata?.content)
       .filter(Boolean)
       .slice(0, 3) // Limit to top 3 most relevant chunks
       .join('\n\n');
 
     const sources = relevantChunks
-      .filter(chunk => chunk.score && chunk.score > 0.7)
+      .filter(chunk => chunk.score && chunk.score > 0.4)
       .map(chunk => chunk.metadata?.source)
       .filter(Boolean)
       .slice(0, 3);
