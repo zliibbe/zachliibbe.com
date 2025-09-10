@@ -7,6 +7,7 @@ import { Metadata } from 'next';
 import Script from 'next/script';
 import Analytics from './components/Analytics';
 import AuthProvider from '@/lib/auth-provider';
+import ChatProvider from '@/components/chat/ChatProvider';
 
 const robotoMono = Roboto_Mono({
   subsets: ['latin'],
@@ -108,6 +109,7 @@ export default function RootLayout({
               <Header />
               {children}
             </div>
+            <ChatProvider />
           </ThemeProvider>
         </AuthProvider>
       </body>
