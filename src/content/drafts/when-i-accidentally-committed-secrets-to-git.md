@@ -1,12 +1,12 @@
 # When I Accidentally Committed Secrets to Git (And How I Fixed It)
 
-*Published: TBD*  
-*Tags: security, git, devops, lessons-learned*  
-*Category: Development*
+_Published: TBD_  
+_Tags: security, git, devops, lessons-learned_  
+_Category: Development_
 
 ## The Realization That Made My Stomach Drop
 
-Picture this: You're deep in a feature branch, making solid progress on a security review. You run a comprehensive scan of your codebase and suddenly see it in the output—your Strava Client Secret and Vercel OIDC Token, sitting there in plain text in a `.env.temp` file. 
+Picture this: You're deep in a feature branch, making solid progress on a security review. You run a comprehensive scan of your codebase and suddenly see it in the output—your Strava Client Secret and Vercel OIDC Token, sitting there in plain text in a `.env.temp` file.
 
 But here's the kicker—you realize this file has been committed to your repository. Your **public** repository. On GitHub. For who knows how long.
 
@@ -21,6 +21,7 @@ As a mid-level developer, I thought I knew better. I had my `.gitignore` set up,
 3. **The batch commit**: During a productive coding session, I used `git add .` without carefully reviewing what was staged
 
 The result? A commit containing:
+
 - Strava Client Secret: `4d29ad162dc1c5c5cbfacb835b34b76a49696161`
 - Full Vercel OIDC Token with JWT payload
 - Other potentially sensitive configuration values
@@ -50,6 +51,7 @@ git filter-repo --invert-paths --path .env.temp --force
 ```
 
 `git filter-repo` is:
+
 - **Faster**: 10-50x performance improvement over `filter-branch`
 - **Safer**: Better handling of edge cases and references
 - **More thorough**: Properly handles tags, remotes, and complex histories
@@ -79,6 +81,7 @@ git filter-repo --invert-paths --path .env.temp --force
 ### What Actually Happened
 
 The tool worked flawlessly:
+
 - **733 commits processed** in under 2 seconds
 - **Origin remote automatically removed** (safety feature)
 - **Complete file elimination** from all history
@@ -115,6 +118,7 @@ git push -f origin security-review
 ```
 
 **Post-cleanup security measures:**
+
 1. **Rotated all exposed credentials** immediately
 2. **Enhanced .gitignore** with comprehensive patterns:
    ```
@@ -129,7 +133,9 @@ git push -f origin security-review
 ## Lessons Learned: Prevention is Better Than Cure
 
 ### 1. Better .gitignore Patterns
+
 Instead of just `.env`, use:
+
 ```
 # Environment variables
 .env*
@@ -139,7 +145,9 @@ Instead of just `.env`, use:
 ```
 
 ### 2. Pre-commit Secret Scanning
+
 Tools like `detect-secrets` or `git-secrets` can catch this before it becomes a problem:
+
 ```bash
 # Install detect-secrets
 pip install detect-secrets
@@ -152,12 +160,15 @@ detect-secrets-hook --baseline .secrets.baseline
 ```
 
 ### 3. Never Use "Temp" Files for Secrets
+
 If you need temporary environment files:
+
 - Use `.env.example` with placeholder values
 - Use local environment variable export
 - Use secure note-taking applications
 
 ### 4. Regular Security Audits
+
 Had I been running regular security scans (like with Semgrep), this would have been caught much earlier.
 
 ## The Silver Lining
@@ -165,7 +176,7 @@ Had I been running regular security scans (like with Semgrep), this would have b
 This mistake led to several positive outcomes:
 
 1. **Comprehensive security review** of my entire codebase
-2. **Implementation of proper security headers** and best practices  
+2. **Implementation of proper security headers** and best practices
 3. **Better understanding of git internals** and history management
 4. **Improved development workflow** with better tooling
 5. **A valuable lesson** that cost nothing but time and stress
@@ -181,6 +192,7 @@ This mistake led to several positive outcomes:
 ## Final Thoughts
 
 As developers, we make mistakes. The difference between junior and mid-level (and beyond) isn't that we stop making mistakes—it's that we get better at:
+
 - Catching them sooner
 - Fixing them properly
 - Learning from them systematically
@@ -192,4 +204,4 @@ Remember: the goal isn't perfection—it's resilience, rapid response, and conti
 
 ---
 
-*Have you ever had to rewrite git history for security reasons? Share your experience in the comments below.*
+_Have you ever had to rewrite git history for security reasons? Share your experience in the comments below._

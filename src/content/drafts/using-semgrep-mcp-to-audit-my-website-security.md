@@ -1,8 +1,8 @@
 # Using Semgrep MCP to Audit My Website's Security (And What I Found)
 
-*Published: TBD*  
-*Tags: security, semgrep, mcp, static-analysis, web-development*  
-*Category: Development*
+_Published: TBD_  
+_Tags: security, semgrep, mcp, static-analysis, web-development_  
+_Category: Development_
 
 ## Why I Decided to Audit My Own Website
 
@@ -15,6 +15,7 @@ That changed when I discovered the Semgrep Model Context Protocol (MCP) server. 
 Before diving into my audit, let me explain what made this approach special. Semgrep is a powerful static analysis tool that finds bugs and security vulnerabilities by pattern matching in your code. The Model Context Protocol (MCP) integration allows AI tools like Claude to run Semgrep scans and intelligently analyze the results.
 
 This means instead of just getting a list of findings, I could:
+
 - Get contextual explanations of each vulnerability
 - Receive prioritized recommendations
 - Understand the business impact of each issue
@@ -42,13 +43,15 @@ The beauty of the MCP approach is that it integrated directly with my developmen
 When I ran the comprehensive security scan, here's what Semgrep found:
 
 ### Summary of Vulnerabilities
+
 - **ERROR (Critical): 2 findings**
-- **WARNING (Medium): 2 findings**  
+- **WARNING (Medium): 2 findings**
 - **INFO (Low): 20 findings**
 
 ### The Critical Issues That Made Me Sweat
 
 **1. Hardcoded Secrets in `.env.temp`**
+
 ```
 Location: .env.temp:23,27
 Issue: STRAVA_CLIENT_SECRET="4d29ad162dc1c5c5cbfacb835b34b76a49696161"
@@ -60,6 +63,7 @@ CWE: CWE-798 (Use of Hard-coded Credentials)
 This was the big one. I had created a "temporary" environment file during development and completely forgotten it existed. Not only was it in my working directory, but it had been committed to git and pushed to my public GitHub repository.
 
 **The specific impact:**
+
 - Anyone could access my Strava account data
 - Vercel deployment tokens were exposed
 - This had been public for an unknown period of time
@@ -109,6 +113,7 @@ git filter-repo --invert-paths --path .env.temp --force
 ```
 
 This operation:
+
 - Processed 733 commits in under 2 seconds
 - Completely removed the file from all history
 - Required a force push to GitHub
@@ -122,18 +127,21 @@ I systematically updated all console logging statements to use template literals
 // Before (vulnerable)
 console.error(`[${requestId}] API error: ${response.status}`, errorText);
 
-// After (secure)  
+// After (secure)
 console.error(`[${requestId}] API error: ${response.status} - ${errorText}`);
 
 // For complex objects, use JSON.stringify
-console.error(`[${requestId}] Error details: ${JSON.stringify({
-  message: error instanceof Error ? error.message : String(error),
-  stack: error instanceof Error ? error.stack : undefined,
-  name: error instanceof Error ? error.name : undefined,
-})}`);
+console.error(
+  `[${requestId}] Error details: ${JSON.stringify({
+    message: error instanceof Error ? error.message : String(error),
+    stack: error instanceof Error ? error.stack : undefined,
+    name: error instanceof Error ? error.name : undefined,
+  })}`
+);
 ```
 
 This pattern was applied across:
+
 - `src/app/api/strava/activities/route.ts` (7 fixes)
 - `src/app/api/strava/latest/route.ts` (6 fixes)
 - `src/app/api/feed/books/route.ts` (1 fix)
@@ -157,7 +165,7 @@ async headers() {
           value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://cdn.vercel-insights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https: blob:; connect-src 'self' https://api.strava.com; frame-ancestors 'none';"
         },
         {
-          key: 'X-XSS-Protection', 
+          key: 'X-XSS-Protection',
           value: '1; mode=block'
         },
         {
@@ -175,8 +183,9 @@ async headers() {
 ```
 
 These headers provide defense-in-depth against:
+
 - Cross-site scripting (XSS) attacks
-- Clickjacking attempts  
+- Clickjacking attempts
 - Unnecessary browser feature access
 - Man-in-the-middle attacks
 
@@ -185,6 +194,7 @@ These headers provide defense-in-depth against:
 What made this audit particularly valuable wasn't just finding the vulnerabilities—it was the intelligent analysis provided by the MCP integration. Instead of raw Semgrep output, I received:
 
 ### Contextual Risk Assessment
+
 ```
 Risk Level: Critical
 CWE: CWE-798 (Use of Hard-coded Credentials), CWE-321 (Use of Hard-coded Cryptographic Key)
@@ -194,29 +204,33 @@ Impact: These hardcoded secrets could allow unauthorized access to your Strava a
 ```
 
 ### Prioritized Action Items
+
 The AI correctly identified that:
+
 1. Secret exposure required immediate attention (CRITICAL)
-2. Format string issues needed systematic fixing (MEDIUM)  
+2. Format string issues needed systematic fixing (MEDIUM)
 3. Security headers should be implemented (HIGH PRIORITY)
 4. XSS vulnerabilities could be addressed later (MEDIUM, admin-only)
 
 ### Implementation Guidance
+
 Rather than just "fix the vulnerability," I received specific code patterns and configuration examples tailored to my Next.js setup.
 
 ## Metrics: Before and After the Security Review
 
-| Vulnerability Type | Before | After | Status |
-|-------------------|--------|-------|--------|
-| **Critical** | 2 | 0 | ✅ Eliminated |
-| **Medium** | 2 | 2 | ⚠️ Deferred (XSS in admin) |
-| **Low** | 20 | 0 | ✅ Eliminated |
-| **Dependencies** | 0 | 0 | ✅ Clean |
+| Vulnerability Type | Before | After | Status                     |
+| ------------------ | ------ | ----- | -------------------------- |
+| **Critical**       | 2      | 0     | ✅ Eliminated              |
+| **Medium**         | 2      | 2     | ⚠️ Deferred (XSS in admin) |
+| **Low**            | 20     | 0     | ✅ Eliminated              |
+| **Dependencies**   | 0      | 0     | ✅ Clean                   |
 
 **Total security score improvement: 92% reduction in findings**
 
 ## Lessons Learned and Recommendations
 
 ### 1. Automated Security Scanning Should Be Continuous
+
 This audit revealed issues that had existed for months. Integrating Semgrep into CI/CD would have caught them immediately:
 
 ```yaml
@@ -237,6 +251,7 @@ jobs:
 ```
 
 ### 2. The .gitignore Isn't Enough
+
 My `.gitignore` had `.env` but not `.env.*` patterns. The comprehensive pattern should be:
 
 ```gitignore
@@ -249,24 +264,29 @@ My `.gitignore` had `.env` but not `.env.*` patterns. The comprehensive pattern 
 ```
 
 ### 3. Security Headers Are Low-Effort, High-Impact
+
 Adding comprehensive security headers took 15 minutes but significantly improved the security posture against entire classes of attacks.
 
 ### 4. Static Analysis + AI = Game Changer
+
 Traditional security scanning gives you findings. AI-enhanced scanning gives you:
+
 - Risk prioritization
-- Business impact analysis  
+- Business impact analysis
 - Implementation roadmaps
 - Educational context
 
 ## The ROI of This Security Audit
 
 **Time invested:** ~4 hours total
+
 - Setup and scanning: 30 minutes
 - Analysis and planning: 1 hour
 - Implementation: 2 hours
 - Documentation: 30 minutes
 
 **Value delivered:**
+
 - Eliminated critical secret exposure
 - Fixed 20 potential log injection points
 - Implemented comprehensive security headers
@@ -303,9 +323,10 @@ If you haven't audited your own projects recently, I highly recommend it. You mi
 
 ---
 
-*Want to try this on your own codebase? The Semgrep MCP server is free to use and integrates with Claude Code. Start with a basic scan and see what secrets might be hiding in your repository.*
+_Want to try this on your own codebase? The Semgrep MCP server is free to use and integrates with Claude Code. Start with a basic scan and see what secrets might be hiding in your repository._
 
 **Resources:**
+
 - [Semgrep MCP Documentation](https://github.com/semgrep/mcp)
 - [git filter-repo Guide](https://github.com/newren/git-filter-repo/)
 - [OWASP Security Headers](https://owasp.org/www-project-secure-headers/)

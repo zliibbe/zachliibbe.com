@@ -92,11 +92,13 @@ export async function GET(request: Request) {
     }
   } catch (error) {
     console.error(`[${requestId}] Error fetching Strava activities: ${error}`);
-    console.error(`[${requestId}] Error details: ${JSON.stringify({
-      message: error instanceof Error ? error.message : String(error),
-      stack: error instanceof Error ? error.stack : undefined,
-      name: error instanceof Error ? error.name : undefined,
-    })}`);
+    console.error(
+      `[${requestId}] Error details: ${JSON.stringify({
+        message: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined,
+        name: error instanceof Error ? error.name : undefined,
+      })}`
+    );
 
     return NextResponse.json(
       {
