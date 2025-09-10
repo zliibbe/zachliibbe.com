@@ -5,7 +5,7 @@
   margin-top: -4rem;
   padding-top: 4rem;
   overflow: visible;
-  z-index: 0;
+  z-index: -2;
 }
 
 .gradientBackground {
@@ -23,12 +23,7 @@
   );
   background-size: 400% 400%;
   z-index: -1;
-  -webkit-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  -webkit-perspective: 1000;
-  perspective: 1000;
+  will-change: background-position;
   animation: bg-animation var(--gradientTiming) ease infinite;
   -webkit-animation: bg-animation var(--gradientTiming) ease infinite;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
@@ -67,7 +62,7 @@
   border-radius: 0.5rem;
   padding: 2rem;
   margin-bottom: 2rem;
-  z-index: 1;
+  z-index: -1;
 }
 
 .contentWrapper {
