@@ -671,7 +671,7 @@
 .greetingText {
   font-size: var(--fs-600);
   font-weight: var(--fw-semi-bold);
-  color: var(--theme-color);
+  color: var(--text-primary);
   text-shadow:
     0 1px 2px rgba(0, 0, 0, 0.3),
     0 0 4px rgba(255, 255, 255, 0.5);
@@ -760,15 +760,13 @@
   0%,
   100% {
     box-shadow:
-      0 0.5rem 1.5rem rgba(0, 0, 0, 0.1),
-      0 0 1.25rem rgba(var(--theme-color-rgb, 26, 107, 138), 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      0 0.5rem 1.5rem rgba(0, 0, 0, 0.2),
+      0 0 1.25rem color-mix(in srgb, var(--gradientOne) 30%, transparent);
   }
   50% {
     box-shadow:
-      0 0.5rem 1.5rem rgba(0, 0, 0, 0.1),
-      0 0 1.875rem rgba(var(--theme-color-rgb, 26, 107, 138), 0.4),
-      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      0 0.5rem 1.5rem rgba(0, 0, 0, 0.2),
+      0 0 1.875rem color-mix(in srgb, var(--gradientOne) 60%, transparent);
   }
 }
 
