@@ -3,7 +3,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import {
-  HiChevronUp,
   HiXMark,
   HiPaperAirplane,
   HiChatBubbleLeftRight,
@@ -224,17 +223,15 @@ export default function FloatingChatWidget({
         </div>
       )}
 
-      <button
-        onClick={toggleChat}
-        className={`${styles.chatToggle} ${isOpen ? styles.chatToggleOpen : ''}`}
-        aria-label={isOpen ? 'Close chat' : 'Open chat'}
-      >
-        {isOpen ? (
-          <HiChevronUp className={styles.toggleIcon} />
-        ) : (
+      {!isOpen && (
+        <button
+          onClick={toggleChat}
+          className={styles.chatToggle}
+          aria-label="Open chat"
+        >
           <HiChatBubbleLeftRight className={styles.chatIcon} />
-        )}
-      </button>
+        </button>
+      )}
 
       {!isOpen && showPrompt && (
         <div className={styles.chatPrompt}>
