@@ -71,7 +71,15 @@ export async function generateChatResponse(
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      console.error('Claude API error:', response.status, errorData);
+      console.error('Claude API detailed error:', {
+        status: response.status,
+        statusText: response.statusText,
+        error: errorData,
+        headers: Object.fromEntries(response.headers.entries()),
+        url: CLAUDE_API_URL,
+        hasApiKey: !!CLAUDE_API_KEY,
+        apiKeyPrefix: CLAUDE_API_KEY?.substring(0, 8) + '...',
+      });
 
       return {
         message:
