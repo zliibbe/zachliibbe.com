@@ -11,13 +11,14 @@ const openai = new OpenAI({
 });
 
 export const EMBEDDING_MODEL = 'text-embedding-3-small';
-export const EMBEDDING_DIMENSIONS = 1536;
+export const EMBEDDING_DIMENSIONS = 512;
 
 export async function generateEmbedding(text: string): Promise<number[]> {
   try {
     const response = await openai.embeddings.create({
       model: EMBEDDING_MODEL,
       input: text.replace(/\n/g, ' ').trim(),
+      dimensions: EMBEDDING_DIMENSIONS,
     });
 
     if (!response.data || response.data.length === 0) {
@@ -36,6 +37,7 @@ export async function generateEmbeddings(texts: string[]): Promise<number[][]> {
     const response = await openai.embeddings.create({
       model: EMBEDDING_MODEL,
       input: texts.map(text => text.replace(/\n/g, ' ').trim()),
+      dimensions: EMBEDDING_DIMENSIONS,
     });
 
     if (!response.data || response.data.length !== texts.length) {
