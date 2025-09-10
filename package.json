@@ -1,6 +1,6 @@
 {
   "name": "portfolio",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@next-auth/upstash-redis-adapter": "^3.0.4",
+    "@pinecone-database/pinecone": "^6.1.2",
     "@types/aws-lambda": "^8.10.147",
     "@types/node": "^20.19.1",
     "@types/react": "^19.0.0",
@@ -30,6 +31,7 @@
     "next": "15.5",
     "next-auth": "^4.24.11",
     "node-fetch": "^3.3.2",
+    "openai": "^5.20.0",
     "react": "^19.1.0",
     "react-calendar-heatmap": "^1.10.0",
     "react-dom": "^19.1.0",

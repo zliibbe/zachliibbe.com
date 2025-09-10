@@ -1,0 +1,654 @@
+.chatWidget {
+  position: fixed;
+  bottom: 3rem;
+  right: 3rem;
+  z-index: 1000;
+  font-family: var(
+    --ff-primary,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    sans-serif
+  );
+}
+
+.chatContainer {
+  position: absolute;
+  bottom: 80px;
+  right: 0;
+  width: 350px;
+  max-width: calc(100vw - 48px);
+  height: 500px;
+  background: var(--background-primary);
+  border: 3px solid var(--theme-color);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  animation: slideInUp 0.2s ease-out;
+  opacity: 1;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chatHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background: var(--color-primary);
+  color: var(--color-background);
+  border-radius: 12px 12px 0 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.chatHeader h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: var(--color-background);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+}
+
+.closeButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.closeIcon {
+  width: 18px;
+  height: 18px;
+}
+
+.messagesContainer {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.messagesContainer::-webkit-scrollbar {
+  width: 6px;
+}
+
+.messagesContainer::-webkit-scrollbar-track {
+  background: var(--color-background);
+}
+
+.messagesContainer::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+
+.messagesContainer::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-secondary);
+}
+
+.welcomeMessage {
+  padding: 12px;
+  background: var(--color-background-secondary);
+  border-radius: 8px;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  line-height: 1.4;
+  text-align: center;
+  border: 1px solid var(--color-border);
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  max-width: 85%;
+}
+
+.userMessage {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.assistantMessage {
+  align-self: flex-start;
+  align-items: flex-start;
+}
+
+.messageContent {
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.4;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.userMessage .messageContent {
+  background: var(--color-primary);
+  color: var(--color-background);
+  border-bottom-right-radius: 4px;
+}
+
+.assistantMessage .messageContent {
+  background: var(--color-background-secondary);
+  color: var(--color-text);
+  border-bottom-left-radius: 4px;
+  border: 1px solid var(--color-border);
+}
+
+.messageTime {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  margin-top: 4px;
+  opacity: 0.7;
+}
+
+.loadingMessage .messageContent {
+  padding: 16px 12px;
+}
+
+.loadingDots {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.loadingDots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-text-secondary);
+  animation: loadingBounce 1.4s infinite both;
+}
+
+.loadingDots span:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.loadingDots span:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes loadingBounce {
+  0%,
+  80%,
+  100% {
+    transform: scale(0.7);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.inputForm {
+  padding: 16px;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-background);
+  border-radius: 0 0 12px 12px;
+}
+
+.inputContainer {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  background: var(--color-background-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 8px;
+  transition: border-color 0.2s ease;
+}
+
+.inputContainer:focus-within {
+  border-color: var(--color-primary);
+}
+
+.messageInput {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--color-text);
+  font-size: 14px;
+  line-height: 1.4;
+  resize: none;
+  min-height: 20px;
+  max-height: 80px;
+  overflow-y: auto;
+  font-family: var(--font-family-sans);
+}
+
+.messageInput::placeholder {
+  color: var(--color-text-secondary);
+}
+
+.sendButton {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.sendButton:hover:not(:disabled) {
+  background-color: rgba(var(--color-primary-rgb), 0.1);
+  transform: scale(1.05);
+}
+
+.sendButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.sendIcon {
+  width: 32px;
+  height: 32px;
+}
+
+.chatToggle {
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+  background: var(--theme-color);
+  color: var(--background-primary);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  font-size: 24px;
+  position: relative;
+  overflow: hidden;
+  animation:
+    chatBounce 2s infinite ease-in-out,
+    chatWave 4s infinite ease-in-out;
+}
+
+.chatToggle:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.chatToggle:active {
+  transform: scale(0.95);
+}
+
+.chatToggleOpen {
+  background: var(--color-text-secondary);
+}
+
+.toggleIcon {
+  color: var(--text-primary);
+  width: 24px;
+  height: 24px;
+  transition: transform 0.2s ease;
+}
+
+.chatBubble {
+  transition: transform 0.2s ease;
+}
+
+.chatToggle:hover .toggleIcon,
+.chatToggle:hover .chatIcon {
+  transform: scale(1.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .chatWidget {
+    bottom: 16px;
+    right: 16px;
+  }
+
+  .chatContainer {
+    width: calc(100vw - 32px);
+    height: 80vh;
+    max-height: 500px;
+    bottom: 70px;
+    right: 0;
+  }
+
+  .chatToggle {
+    width: 56px;
+    height: 56px;
+    font-size: 20px;
+  }
+
+  .toggleIcon,
+  .chatIcon {
+    width: 3rem;
+    height: 3rem;
+  }
+}
+
+/* Chat bubble animations */
+@keyframes chatBounce {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-3px) scale(1.02);
+  }
+}
+
+@keyframes chatShine {
+  0% {
+    background-position: -100px;
+  }
+  100% {
+    background-position: calc(64px + 100px);
+  }
+}
+
+.chatIcon {
+  width: 48px;
+  height: 48px;
+  color: var(--text-primary);
+  animation: chatIconPulse 3s infinite ease-in-out;
+}
+
+@keyframes chatIconPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.chatToggle::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 150px;
+  height: 100%;
+  background: var(--color-background);
+}
+
+/* Chat prompt styles */
+.chatPrompt {
+  position: absolute;
+  bottom: 150px;
+  right: 0;
+  background: var(--background-primary);
+  border: 1px solid var(--theme-color);
+  border-radius: 12px;
+  padding: 12px 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+  animation:
+    promptFadeIn 0.3s ease-out,
+    promptBounce 2s infinite ease-in-out;
+  animation-delay: 0s, 1s;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  max-width: 250px;
+  z-index: 1001;
+}
+
+.promptText {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.promptArrow {
+  position: absolute;
+  bottom: -6px;
+  right: 20px;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid var(--color-border);
+}
+
+.promptArrow::before {
+  content: '';
+  position: absolute;
+  bottom: 1px;
+  left: -5px;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid var(--color-background);
+}
+
+/* Waving animation for the chat button */
+@keyframes chatWave {
+  0%,
+  10%,
+  20%,
+  30%,
+  90%,
+  100% {
+    transform: rotate(0deg);
+  }
+  5% {
+    transform: rotate(-10deg);
+  }
+  15% {
+    transform: rotate(10deg);
+  }
+  25% {
+    transform: rotate(-10deg);
+  }
+}
+
+@keyframes promptFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes promptBounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+/* Greeting bubble overlay - creates a new stacking context */
+.greetingBubbleOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  pointer-events: none;
+  /* Create new stacking context */
+  isolation: isolate;
+}
+
+/* Greeting bubble styles */
+.greetingBubble {
+  position: absolute;
+  bottom: 200px;
+  right: 24px;
+  background: var(--theme-color);
+  border: 2px solid var(--gradientOne);
+  border-radius: 16px;
+  padding: 16px 20px;
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.2),
+    0 0 20px color-mix(in srgb, var(--gradientOne) 30%, transparent);
+  max-width: 280px;
+  animation:
+    greetingSlideIn 0.5s ease-out,
+    greetingBounce 3s infinite ease-in-out,
+    greetingGlow 2s infinite ease-in-out;
+  animation-delay: 0s, 1s, 2s;
+  transform-origin: bottom right;
+  overflow: hidden;
+  pointer-events: auto;
+  /* Ensure fully opaque background */
+  opacity: 1;
+}
+
+.greetingText {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-background);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  line-height: 1.4;
+  margin: 0;
+  padding-right: 24px;
+  z-index: 2;
+  position: relative;
+}
+
+.greetingClose {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: var(--color-background);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  width: 20px;
+  height: 20px;
+  z-index: 3;
+}
+
+.greetingClose:hover {
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(1.1);
+}
+
+.greetingClose svg {
+  width: 12px;
+  height: 12px;
+}
+
+.greetingArrow {
+  position: absolute;
+  bottom: -8px;
+  right: 30px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid var(--gradientOne);
+  transform: translateY(0);
+}
+
+.greetingArrow::before {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: -6px;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid var(--gradientOne);
+}
+
+@keyframes greetingSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(100%) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes greetingBounce {
+  0%,
+  100% {
+    transform: translateX(0) scale(1);
+  }
+  50% {
+    transform: translateX(-5px) scale(1.02);
+  }
+}
+
+@keyframes greetingGlow {
+  0%,
+  100% {
+    box-shadow:
+      0 8px 24px rgba(0, 0, 0, 0.2),
+      0 0 20px color-mix(in srgb, var(--gradientOne) 30%, transparent);
+  }
+  50% {
+    box-shadow:
+      0 8px 24px rgba(0, 0, 0, 0.2),
+      0 0 30px color-mix(in srgb, var(--gradientOne) 60%, transparent);
+  }
+}
+
+/* Add shimmer effect inside the bubble */
+.greetingBubble::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  animation: greetingShimmer 3s infinite ease-in-out;
+  animation-delay: 3s;
+}
+
+@keyframes greetingShimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
