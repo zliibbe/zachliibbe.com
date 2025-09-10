@@ -301,22 +301,10 @@
   transform: scale(0.95);
 }
 
-.chatToggleOpen {
-  background: var(--color-text-secondary);
-}
-
-.toggleIcon {
-  color: var(--text-primary);
-  width: 24px;
-  height: 24px;
-  transition: transform 0.2s ease;
-}
-
 .chatBubble {
   transition: transform 0.2s ease;
 }
 
-.chatToggle:hover .toggleIcon,
 .chatToggle:hover .chatIcon {
   transform: scale(1.3);
 }
