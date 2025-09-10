@@ -18,7 +18,7 @@ export async function GET(request: Request) {
         return NextResponse.json(cachedData);
       }
     } catch (kvError) {
-      console.warn(`[${requestId}] KV cache error:`, kvError);
+      console.warn(`[${requestId}] KV cache error: ${kvError}`);
       // Continue execution even if KV fails
     }
 
@@ -54,8 +54,7 @@ export async function GET(request: Request) {
       if (!response.ok) {
         const errorText = await response.text();
         console.error(
-          `[${requestId}] Strava API error: ${response.status}`,
-          errorText
+          `[${requestId}] Strava API error: ${response.status} - ${errorText}`
         );
         throw new Error(`Strava API returned ${response.status}: ${errorText}`);
       }
@@ -66,7 +65,7 @@ export async function GET(request: Request) {
       try {
         await kv.set(CACHE_KEY, activities, { ex: CACHE_DURATION });
       } catch (kvSetError) {
-        console.warn(`[${requestId}] KV set error:`, kvSetError);
+        console.warn(`[${requestId}] KV set error: ${kvSetError}`);
         // Continue even if caching fails
       }
 
@@ -76,7 +75,7 @@ export async function GET(request: Request) {
         },
       });
     } catch (innerError) {
-      console.error(`[${requestId}] Inner error:`, innerError);
+      console.error(`[${requestId}] Inner error: ${innerError}`);
 
       // Try to get stale data as fallback
       try {
@@ -85,19 +84,19 @@ export async function GET(request: Request) {
           return NextResponse.json(staleData);
         }
       } catch (staleError) {
-        console.warn(`[${requestId}] Stale cache error:`, staleError);
+        console.warn(`[${requestId}] Stale cache error: ${staleError}`);
       }
 
       // Re-throw the error to be caught by the outer catch
       throw innerError;
     }
   } catch (error) {
-    console.error(`[${requestId}] Error fetching Strava activities:`, error);
-    console.error(`[${requestId}] Error details:`, {
+    console.error(`[${requestId}] Error fetching Strava activities: ${error}`);
+    console.error(`[${requestId}] Error details: ${JSON.stringify({
       message: error instanceof Error ? error.message : String(error),
       stack: error instanceof Error ? error.stack : undefined,
       name: error instanceof Error ? error.name : undefined,
-    });
+    })}`);
 
     return NextResponse.json(
       {

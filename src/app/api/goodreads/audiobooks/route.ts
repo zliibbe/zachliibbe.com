@@ -110,7 +110,7 @@ export async function GET(request: Request) {
       throw fetchError;
     }
   } catch (error) {
-    console.error('Error fetching audiobooks:', error);
+    console.error(`Error fetching audiobooks: ${error}`);
 
     // Try to get stale data from cache as fallback
     try {

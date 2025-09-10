@@ -1,0 +1,38 @@
+{
+  "mcpServers": {
+    "ref-tools": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "ref-tools-mcp"
+      ],
+      "env": {}
+    },
+    "semgrep": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "semgrep-mcp"
+      ],
+      "env": {}
+    },
+    "exa": {
+      "type": "stdio",
+      "command": "exa-mcp-server",
+      "args": [],
+      "env": {}
+    },
+    "pieces": {
+      "type": "sse",
+      "url": "http://localhost:39300/model_context_protocol/2024-11-05/sse"
+    },
+    "playwright": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "@playwright/mcp"
+      ],
+      "env": {}
+    }
+  }
+}

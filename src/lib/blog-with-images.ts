@@ -66,7 +66,7 @@ async function getFeaturedImage(
       return featuredImage;
     }
   } catch (error) {
-    console.error(`Error fetching image for post ${post.slug}:`, error);
+    console.error(`Error fetching image for post ${post.slug}: ${error}`);
   }
 
   imageCache.set(cacheKey, undefined);

@@ -126,7 +126,7 @@ async function fetchGoodreadsShelf(shelf: string) {
       ? fallbackBooks.audiobooks
       : fallbackBooks.read;
   } catch (error) {
-    console.error(`Error fetching from Goodreads (${shelf}):`, error);
+    console.error(`Error fetching from Goodreads (${shelf}): ${error}`);
     // Return fallback data based on the shelf
     return shelf === 'audiobooks'
       ? fallbackBooks.audiobooks
