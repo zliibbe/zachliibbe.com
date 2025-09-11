@@ -145,25 +145,26 @@ export default function CurrentlyReading() {
   return (
     <>
       Currently reading{' '}
-      {currentBook.link ? (
+      {currentBook?.link ? (
         <a
           href={currentBook.link}
           target="_blank"
           rel="noopener noreferrer"
           className={styles.bookTitle}
         >
-          <strong>{currentBook.title}</strong>
+          <strong>{currentBook?.title}</strong>
         </a>
       ) : (
-        <strong className={styles.bookTitle}>{currentBook.title}</strong>
+        <strong className={styles.bookTitle}>{currentBook?.title}</strong>
       )}
-      {currentBook.author && <span> by {currentBook.author}</span>}
-      {currentBook.currentPage && currentBook.totalPages && (
+      {currentBook?.author && <span> by {currentBook.author}</span>}
+      {currentBook?.currentPage && currentBook?.totalPages && (
         <span className={styles.readingProgress}>
-          {currentBook.isPercentage
-            ? ` (${currentBook.currentPage}% complete`
-            : ` (on page ${currentBook.currentPage}/${currentBook.totalPages}`}
-          {currentBook.lastUpdated && ` ${getTimeAgo(currentBook.lastUpdated)}`}
+          {currentBook?.isPercentage
+            ? ` (${currentBook?.currentPage}% complete`
+            : ` (on page ${currentBook?.currentPage}/${currentBook?.totalPages}`}
+          {currentBook?.lastUpdated &&
+            ` ${getTimeAgo(currentBook.lastUpdated)}`}
           {')'}
         </span>
       )}
