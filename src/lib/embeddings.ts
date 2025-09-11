@@ -25,7 +25,7 @@ export async function generateEmbedding(text: string): Promise<number[]> {
       throw new Error('No embedding data returned from OpenAI');
     }
 
-    return response.data[0].embedding;
+    return response.data[0]!.embedding;
   } catch (error) {
     console.error('Error generating embedding:', error);
     throw error;

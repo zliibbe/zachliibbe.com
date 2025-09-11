@@ -21,7 +21,7 @@ const SafeCalendarHeatmap = React.forwardRef<
 
       // Check all attributes
       for (let i = 0; i < element.attributes.length; i++) {
-        const attr = element.attributes[i];
+        const attr = element.attributes[i]!;
         const name = attr.name;
 
         // Remove React internal props and styled-components props

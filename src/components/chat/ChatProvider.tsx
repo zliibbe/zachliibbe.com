@@ -4,6 +4,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { usePathname } from 'next/navigation';
 import FloatingChatWidget, { ChatMessage } from './FloatingChatWidget';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 
 interface ChatResponse {
   success: boolean;
@@ -101,7 +102,28 @@ export default function ChatProvider() {
   if (!mounted || !shouldShowChat) return null;
 
   return createPortal(
-    <FloatingChatWidget onSendMessage={handleSendMessage} />,
+    <ErrorBoundary
+      fallback={
+        <div
+          style={{
+            position: 'fixed',
+            bottom: '20px',
+            right: '20px',
+            padding: '12px 16px',
+            backgroundColor: '#ff6b6b',
+            color: 'white',
+            borderRadius: '8px',
+            fontSize: '14px',
+            maxWidth: '300px',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+          }}
+        >
+          Chat widget encountered an error. Please refresh the page.
+        </div>
+      }
+    >
+      <FloatingChatWidget onSendMessage={handleSendMessage} />
+    </ErrorBoundary>,
     document.body
   );
 }

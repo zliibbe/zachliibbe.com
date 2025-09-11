@@ -130,7 +130,7 @@ function getCategoryHook(category: string): string {
   ];
 
   // Return a random hook from the category
-  return categoryHooks[Math.floor(Math.random() * categoryHooks.length)];
+  return categoryHooks[Math.floor(Math.random() * categoryHooks.length)]!;
 }
 
 function generateOpening(category: string, title: string): string {
@@ -180,7 +180,7 @@ function generateOpening(category: string, title: string): string {
   // Pick a random template for variety
   return categoryTemplates[
     Math.floor(Math.random() * categoryTemplates.length)
-  ];
+  ]!;
 }
 
 function generateValueStatement(excerpt: string, category: string): string {
@@ -204,7 +204,7 @@ function generateValueStatement(excerpt: string, category: string): string {
   // If excerpt is too long, truncate it smartly
   if (statement.length > 200) {
     const sentences = statement.split('. ');
-    statement = sentences[0];
+    statement = sentences[0]!;
     if (statement.length > 150) {
       statement = statement.substring(0, 147) + '...';
     } else {

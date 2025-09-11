@@ -132,7 +132,7 @@ export default function RecentBooks({ onLoadingChange }: RecentBooksProps) {
                         updatedBooks[bookIndex] = {
                           ...updatedBooks[bookIndex],
                           coverImg: null,
-                        };
+                        } as Book;
                         setBooks(updatedBooks);
                       }
                     }}
@@ -190,7 +190,7 @@ export default function RecentBooks({ onLoadingChange }: RecentBooksProps) {
                     updatedBooks[bookIndex] = {
                       ...updatedBooks[bookIndex],
                       coverImg: null,
-                    };
+                    } as Book;
                     setBooks(updatedBooks);
                   }
                 }}

@@ -189,19 +189,19 @@ export async function getPhotosForBlogPost(
   const searchQueries = [
     // Try primary category + visual version of main tag
     categories[0] && tags[0] && visualTerms[tags[0]]
-      ? `${categories[0]} ${visualTerms[tags[0]][0]}`
+      ? `${categories[0]} ${visualTerms[tags[0]]![0]}`
       : categories[0] && tags[0]
         ? `${categories[0]} ${tags[0]}`
         : null,
     // Try visual version of main tag
-    tags[0] && visualTerms[tags[0]] ? visualTerms[tags[0]][0] : null,
+    tags[0] && visualTerms[tags[0]] ? visualTerms[tags[0]]![0] : null,
     // Try primary category
     categories[0] || null,
     // Try original main tag
     tags[0] || null,
     // Try secondary visual terms for main tag
-    tags[0] && visualTerms[tags[0]] && visualTerms[tags[0]][1]
-      ? visualTerms[tags[0]][1]
+    tags[0] && visualTerms[tags[0]] && visualTerms[tags[0]]![1]
+      ? visualTerms[tags[0]]![1]
       : null,
     // Fallback to generic terms based on category
     categories.includes('Development') ? 'programming code' : null,
@@ -243,7 +243,7 @@ export async function getPhotoForBlogPost(
   title: string
 ): Promise<UnsplashPhoto | null> {
   const photos = await getPhotosForBlogPost(categories, tags, title, 1);
-  return photos.length > 0 ? photos[0] : null;
+  return photos.length > 0 ? photos[0]! : null;
 }
 
 // Helper function to trigger download tracking (required by Unsplash API)

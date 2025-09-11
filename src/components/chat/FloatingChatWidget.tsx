@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import {
   HiXMark,
@@ -8,14 +8,16 @@ import {
   HiChatBubbleLeftRight,
 } from 'react-icons/hi2';
 import styles from './FloatingChatWidget.module.css';
+import {
+  useChatMessages,
+  useChatInput,
+  useChatResize,
+  useChatVisibility,
+  useChatScroll,
+  ChatMessage,
+} from './hooks';
 
-export interface ChatMessage {
-  id: string;
-  content: string;
-  role: 'user' | 'assistant';
-  timestamp: Date;
-  isStreaming?: boolean;
-}
+export type { ChatMessage };
 
 interface FloatingChatWidgetProps {
   onSendMessage?: (message: string) => Promise<string>;
@@ -24,234 +26,45 @@ interface FloatingChatWidgetProps {
 export default function FloatingChatWidget({
   onSendMessage,
 }: FloatingChatWidgetProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [inputValue, setInputValue] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [streamingMessageId, setStreamingMessageId] = useState<string | null>(
-    null
+  // Custom hooks for separated concerns
+  const { messages, isLoading, sendMessage } = useChatMessages(
+    onSendMessage ? { onSendMessage } : {}
   );
-  const [showPrompt, setShowPrompt] = useState(true);
-  const [showGreeting, setShowGreeting] = useState(false);
-  const [mounted, setMounted] = useState(false);
-  const [chatDimensions, setChatDimensions] = useState({
-    width: 350,
-    height: 500,
+  const { messagesEndRef } = useChatScroll(messages);
+  const {
+    isOpen,
+    showPrompt,
+    showGreeting,
+    mounted,
+    toggleChat,
+    closeChat,
+    dismissGreeting,
+  } = useChatVisibility();
+
+  const { chatDimensions, chatContainerRef, handleResizeStart } = useChatResize(
+    {
+      isOpen,
+    }
+  );
+
+  const {
+    inputValue,
+    setInputValue,
+    inputRef,
+    handleSubmit,
+    handleKeyDown,
+    focusInput,
+  } = useChatInput({
+    onSendMessage: sendMessage,
+    disabled: isLoading,
   });
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLTextAreaElement>(null);
-  const chatContainerRef = useRef<HTMLDivElement>(null);
-  const isResizing = useRef(false);
-  const resizeDirection = useRef<string>('');
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
-  useEffect(() => {
-    if (isOpen && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [isOpen]);
-
-  // Auto-resize textarea based on content
-  useEffect(() => {
-    if (inputRef.current) {
-      const textarea = inputRef.current;
-      textarea.style.height = 'auto';
-      const scrollHeight = textarea.scrollHeight;
-      const maxHeight = 120; // Max height in pixels (about 6 lines)
-      textarea.style.height = `${Math.min(scrollHeight, maxHeight)}px`;
-    }
-  }, [inputValue]);
-
-  // Hide prompt after 10 seconds
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowPrompt(false);
-    }, 10000);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  // Show greeting after 5 seconds
-  useEffect(() => {
-    const greetingTimer = setTimeout(() => {
-      if (!isOpen) {
-        setShowGreeting(true);
-        // Hide greeting after 8 seconds
-        setTimeout(() => {
-          setShowGreeting(false);
-        }, 8000);
-      }
-    }, 5000);
-
-    return () => clearTimeout(greetingTimer);
-  }, [isOpen]);
-
-  // Resize functionality
-  const handleResizeStart = (direction: string) => (e: React.MouseEvent) => {
-    e.preventDefault();
-    isResizing.current = true;
-    resizeDirection.current = direction;
-    document.body.style.cursor = getComputedStyle(e.target as Element).cursor;
-    document.body.style.userSelect = 'none';
-  };
-
-  const handleResizeMove = (e: MouseEvent) => {
-    if (!isResizing.current || !chatContainerRef.current) return;
-
-    const container = chatContainerRef.current;
-    const rect = container.getBoundingClientRect();
-    const direction = resizeDirection.current;
-
-    let newWidth = chatDimensions.width;
-    let newHeight = chatDimensions.height;
-
-    // Calculate new dimensions based on direction
-    if (direction.includes('e')) {
-      newWidth = Math.max(300, Math.min(800, e.clientX - rect.left + 20));
-    }
-    if (direction.includes('w')) {
-      newWidth = Math.max(300, Math.min(800, rect.right - e.clientX + 20));
-    }
-    if (direction.includes('s')) {
-      newHeight = Math.max(
-        400,
-        Math.min(window.innerHeight - 100, e.clientY - rect.top + 20)
-      );
-    }
-    if (direction.includes('n')) {
-      newHeight = Math.max(
-        400,
-        Math.min(window.innerHeight - 100, rect.bottom - e.clientY + 20)
-      );
-    }
-
-    setChatDimensions({ width: newWidth, height: newHeight });
-  };
-
-  const handleResizeEnd = () => {
-    isResizing.current = false;
-    resizeDirection.current = '';
-    document.body.style.cursor = '';
-    document.body.style.userSelect = '';
-  };
-
+  // Focus input when chat opens
   useEffect(() => {
     if (isOpen) {
-      document.addEventListener('mousemove', handleResizeMove);
-      document.addEventListener('mouseup', handleResizeEnd);
-
-      return () => {
-        document.removeEventListener('mousemove', handleResizeMove);
-        document.removeEventListener('mouseup', handleResizeEnd);
-      };
+      focusInput();
     }
-  }, [isOpen, chatDimensions]);
-
-  const handleSendMessage = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!inputValue.trim() || isLoading) return;
-
-    const userMessage: ChatMessage = {
-      id: Date.now().toString(),
-      content: inputValue.trim(),
-      role: 'user',
-      timestamp: new Date(),
-    };
-
-    setMessages(prev => [...prev, userMessage]);
-    setInputValue('');
-    setIsLoading(true);
-
-    // Immediately show loading indicator
-    const assistantMessageId = (Date.now() + 1).toString();
-    const loadingMessage: ChatMessage = {
-      id: assistantMessageId,
-      content: '',
-      role: 'assistant',
-      timestamp: new Date(),
-      isStreaming: true,
-    };
-
-    setMessages(prev => [...prev, loadingMessage]);
-    setStreamingMessageId(assistantMessageId);
-
-    try {
-      const response = onSendMessage
-        ? await onSendMessage(userMessage.content)
-        : 'Thanks for your message! This is a demo response.';
-
-      // Start streaming animation
-      await streamTextResponse(assistantMessageId, response);
-    } catch (error) {
-      console.error('Error sending message:', error);
-      await streamTextResponse(
-        assistantMessageId,
-        'Sorry, I encountered an error. Please try again later.'
-      );
-    } finally {
-      setIsLoading(false);
-      setStreamingMessageId(null);
-    }
-  };
-
-  const streamTextResponse = async (messageId: string, text: string) => {
-    const words = text.split(' ');
-    let currentText = '';
-
-    for (let i = 0; i < words.length; i++) {
-      currentText += (i > 0 ? ' ' : '') + words[i];
-
-      setMessages(prev =>
-        prev.map(msg =>
-          msg.id === messageId
-            ? {
-                ...msg,
-                content: currentText,
-                isStreaming: i < words.length - 1,
-              }
-            : msg
-        )
-      );
-
-      // Add delay between words for streaming effect
-      if (i < words.length - 1) {
-        await new Promise(resolve =>
-          setTimeout(resolve, 50 + Math.random() * 30)
-        );
-      }
-    }
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSendMessage(e);
-    }
-  };
-
-  const toggleChat = () => {
-    setIsOpen(!isOpen);
-    if (!isOpen) {
-      setShowPrompt(false);
-      setShowGreeting(false);
-    }
-  };
-
-  const closeChat = () => {
-    setIsOpen(false);
-  };
+  }, [isOpen, focusInput]);
 
   return (
     <div className={styles.chatWidget}>
@@ -319,7 +132,7 @@ export default function FloatingChatWidget({
             <div ref={messagesEndRef} />
           </div>
 
-          <form onSubmit={handleSendMessage} className={styles.inputForm}>
+          <form onSubmit={handleSubmit} className={styles.inputForm}>
             <div className={styles.inputContainer}>
               <textarea
                 ref={inputRef}
@@ -409,7 +222,7 @@ export default function FloatingChatWidget({
               </div>
               <button
                 className={styles.greetingClose}
-                onClick={() => setShowGreeting(false)}
+                onClick={dismissGreeting}
                 aria-label="Close greeting"
               >
                 <HiXMark />
