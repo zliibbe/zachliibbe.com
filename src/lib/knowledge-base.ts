@@ -33,8 +33,8 @@ export async function loadKnowledgeFiles(): Promise<KnowledgeFile[]> {
       let title = filename.replace('.md', '');
       let actualContent = content;
 
-      if (lines[0].startsWith('# ')) {
-        title = lines[0].replace('# ', '').trim();
+      if (lines[0]?.startsWith('# ')) {
+        title = lines[0]!.replace('# ', '').trim();
         actualContent = lines.slice(1).join('\n').trim();
       }
 
@@ -96,11 +96,11 @@ export async function processKnowledgeBase(): Promise<void> {
       for (let i = 0; i < chunks.length; i++) {
         const vector: KnowledgeVector = {
           id: `${file.filename}_chunk_${i}`,
-          values: embeddings[i],
+          values: embeddings[i]!,
           metadata: {
             source: file.filename,
             title: file.title,
-            content: chunks[i],
+            content: chunks[i]!,
             category: file.category,
             chunk: i,
           },
