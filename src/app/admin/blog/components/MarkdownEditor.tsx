@@ -42,7 +42,7 @@ export default function MarkdownEditor({
     title: initialPost?.title || '',
     author: 'Zach Liibbe',
     publishedAt:
-      initialPost?.publishedAt || new Date().toISOString().split('T')[0],
+      initialPost?.publishedAt || new Date().toISOString().split('T')[0]!,
     scheduledFor: initialPost?.scheduledFor || '',
     status: initialPost?.status || 'draft',
     categories: initialPost?.categories || [],
@@ -195,15 +195,15 @@ export default function MarkdownEditor({
   const utcToMst = (utcString: string) => {
     // Parse the UTC datetime string and manually adjust for MST (-7 hours)
     const [date, time] = utcString.replace('Z', '').split('T');
-    const [hours, minutes] = time.split(':').map(Number);
+    const [hours, minutes] = time!.split(':').map(Number);
 
-    let mstHours = hours - 7;
+    let mstHours = hours! - 7;
     let mstDate = date;
 
     // Handle day rollover
     if (mstHours < 0) {
       mstHours += 24;
-      const dateObj = new Date(date);
+      const dateObj = new Date(date!);
       dateObj.setDate(dateObj.getDate() - 1);
       mstDate = dateObj.toISOString().split('T')[0];
     }
@@ -214,15 +214,15 @@ export default function MarkdownEditor({
   const mstToUtc = (datetimeLocal: string) => {
     // Parse the datetime-local value and manually adjust for UTC (+7 hours)
     const [date, time] = datetimeLocal.split('T');
-    const [hours, minutes] = time.split(':').map(Number);
+    const [hours, minutes] = time!.split(':').map(Number);
 
-    let utcHours = hours + 7;
+    let utcHours = hours! + 7;
     let utcDate = date;
 
     // Handle day rollover
     if (utcHours >= 24) {
       utcHours -= 24;
-      const dateObj = new Date(date);
+      const dateObj = new Date(date!);
       dateObj.setDate(dateObj.getDate() + 1);
       utcDate = dateObj.toISOString().split('T')[0];
     }

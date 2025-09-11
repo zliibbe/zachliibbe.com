@@ -90,28 +90,28 @@ export default function ActivityGrid({ activities }: ActivityGridProps) {
 
   const getClassForValue = (value: any): string => {
     if (!value || !value.type) {
-      return styles.colorEmpty;
+      return styles.colorEmpty!;
     }
 
     const type = value.type.toLowerCase();
 
     switch (type) {
       case 'run':
-        return styles.colorRun;
+        return styles.colorRun!;
       case 'ride':
-        return styles.colorRide;
+        return styles.colorRide!;
       case 'swim':
-        return styles.colorSwim;
+        return styles.colorSwim!;
       case 'alpineski':
-        return styles.colorAlpineski;
+        return styles.colorAlpineski!;
       case 'hike':
-        return styles.colorHike;
+        return styles.colorHike!;
       case 'walk':
-        return styles.colorWalk;
+        return styles.colorWalk!;
       case 'weighttraining':
-        return styles.colorWeighttraining;
+        return styles.colorWeighttraining!;
       default:
-        return styles.colorEmpty;
+        return styles.colorEmpty!;
     }
   };
 
