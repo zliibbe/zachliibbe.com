@@ -6,6 +6,8 @@ import {
   HiXMark,
   HiPaperAirplane,
   HiChatBubbleLeftRight,
+  HiClipboard,
+  HiCheck,
 } from 'react-icons/hi2';
 import styles from './FloatingChatWidget.module.css';
 import {
@@ -26,6 +28,11 @@ interface FloatingChatWidgetProps {
 export default function FloatingChatWidget({
   onSendMessage,
 }: FloatingChatWidgetProps) {
+  // State for copy functionality
+  const [copiedMessageId, setCopiedMessageId] = React.useState<string | null>(
+    null
+  );
+
   // Custom hooks for separated concerns
   const { messages, isLoading, sendMessage } = useChatMessages(
     onSendMessage ? { onSendMessage } : {}
@@ -66,6 +73,17 @@ export default function FloatingChatWidget({
     }
   }, [isOpen, focusInput]);
 
+  // Copy message functionality
+  const copyMessage = async (messageId: string, content: string) => {
+    try {
+      await navigator.clipboard.writeText(content);
+      setCopiedMessageId(messageId);
+      setTimeout(() => setCopiedMessageId(null), 2000);
+    } catch (err) {
+      console.error('Failed to copy message:', err);
+    }
+  };
+
   return (
     <div className={styles.chatWidget}>
       {isOpen && (
@@ -78,7 +96,7 @@ export default function FloatingChatWidget({
           }}
         >
           <div className={styles.chatHeader}>
-            <h3>Ask me anything</h3>
+            <h3>Ask AI about Zach</h3>
             <button
               onClick={closeChat}
               className={styles.closeButton}
@@ -120,11 +138,29 @@ export default function FloatingChatWidget({
                     <span className={styles.typingCursor}>|</span>
                   )}
                 </div>
-                <div className={styles.messageTime}>
-                  {message.timestamp.toLocaleTimeString([], {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })}
+                <div className={styles.messageFooter}>
+                  <div className={styles.messageTime}>
+                    {message.timestamp.toLocaleTimeString([], {
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })}
+                  </div>
+                  {message.role === 'assistant' &&
+                    message.content &&
+                    !message.isStreaming && (
+                      <button
+                        onClick={() => copyMessage(message.id, message.content)}
+                        className={styles.copyButton}
+                        aria-label="Copy message"
+                        title="Copy to clipboard"
+                      >
+                        {copiedMessageId === message.id ? (
+                          <HiCheck className={styles.copyIcon} />
+                        ) : (
+                          <HiClipboard className={styles.copyIcon} />
+                        )}
+                      </button>
+                    )}
                 </div>
               </div>
             ))}
@@ -203,9 +239,7 @@ export default function FloatingChatWidget({
 
       {!isOpen && showPrompt && (
         <div className={styles.chatPrompt}>
-          <div className={styles.promptText}>
-            Chat with AI and learn about Zach
-          </div>
+          <div className={styles.promptText}>Ask me (AI) about Zach</div>
           <div className={styles.promptArrow}></div>
         </div>
       )}

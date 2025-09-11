@@ -143,6 +143,17 @@ export async function getFilteredPostsWithImages(
     );
   }
 
+  if (filters.search) {
+    const searchTerm = filters.search.toLowerCase();
+    filtered = filtered.filter(
+      post =>
+        post.title.toLowerCase().includes(searchTerm) ||
+        post.excerpt.toLowerCase().includes(searchTerm) ||
+        post.categories.some(cat => cat.toLowerCase().includes(searchTerm)) ||
+        post.tags.some(tag => tag.toLowerCase().includes(searchTerm))
+    );
+  }
+
   return filtered;
 }
 
@@ -271,6 +282,17 @@ export async function getFilteredPosts(
   if (filters.tag) {
     filtered = filtered.filter(post =>
       post.tags.some(tag => tag.toLowerCase() === filters.tag?.toLowerCase())
+    );
+  }
+
+  if (filters.search) {
+    const searchTerm = filters.search.toLowerCase();
+    filtered = filtered.filter(
+      post =>
+        post.title.toLowerCase().includes(searchTerm) ||
+        post.excerpt.toLowerCase().includes(searchTerm) ||
+        post.categories.some(cat => cat.toLowerCase().includes(searchTerm)) ||
+        post.tags.some(tag => tag.toLowerCase().includes(searchTerm))
     );
   }
 

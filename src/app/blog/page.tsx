@@ -15,6 +15,7 @@ interface BlogPageProps {
     category?: string;
     tag?: string;
     page?: string;
+    search?: string;
   }>;
 }
 
@@ -24,6 +25,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
   const filters = {
     category: params.category,
     tag: params.tag,
+    search: params.search,
   };
 
   const {
@@ -48,7 +50,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
     return new URLSearchParams(definedParams).toString();
   };
 
-  const hasFilters = filters.category || filters.tag;
+  const hasFilters = filters.category || filters.tag || filters.search;
 
   return (
     <>
@@ -66,6 +68,43 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
                     the journey of being a developer.
                   </p>
                 </header>
+
+                {/* Search */}
+                <div className={styles.searchContainer}>
+                  <form
+                    method="GET"
+                    action="/blog"
+                    className={styles.searchForm}
+                  >
+                    <input
+                      type="text"
+                      name="search"
+                      placeholder="Search posts..."
+                      defaultValue={filters.search || ''}
+                      className={styles.searchInput}
+                    />
+                    {/* Preserve existing filters when searching */}
+                    {filters.category && (
+                      <input
+                        type="hidden"
+                        name="category"
+                        value={filters.category}
+                      />
+                    )}
+                    {filters.tag && (
+                      <input type="hidden" name="tag" value={filters.tag} />
+                    )}
+                    <button type="submit" className={styles.searchButton}>
+                      Search
+                    </button>
+                  </form>
+                  {filters.search && (
+                    <div className={styles.searchResults}>
+                      Showing results for:{' '}
+                      <strong>&ldquo;{filters.search}&rdquo;</strong>
+                    </div>
+                  )}
+                </div>
 
                 {/* Filters */}
                 <div className={styles.filters}>

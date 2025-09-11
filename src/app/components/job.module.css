@@ -15,11 +15,12 @@
 }
 
 .companyLogo {
-  border-radius: var(--border-radius);
+  border-radius: 8px; /* More pronounced rounded corners */
   object-fit: contain;
   width: 100%;
   height: auto;
   margin: 0.5rem 2rem 0 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Add subtle shadow for depth */
 }
 
 .jobTitle {

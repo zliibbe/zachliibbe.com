@@ -10,7 +10,7 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  z-index: 1000;
+  z-index: 1005; /* Higher than chat widget (1003) */
   padding: 1rem;
   animation: fadeIn 0.2s ease-out;
   min-height: 100vh;

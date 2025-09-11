@@ -1,5 +1,6 @@
 import React from 'react';
 import { useEffect, useRef, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import styles from './Modal.module.css';
 
 interface ModalProps {
@@ -37,11 +38,12 @@ export function Modal({ isOpen, onClose, children }: ModalProps) {
 
   if (!isOpen) return null;
 
-  return (
+  return createPortal(
     <div className={styles.overlay}>
       <div ref={modalRef} className={styles.modal}>
         {children}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
