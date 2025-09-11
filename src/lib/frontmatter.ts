@@ -15,7 +15,7 @@ export function parseFrontmatter(content: string): ParsedFrontmatter {
   const metadata: Record<string, any> = {};
 
   // Simple YAML parser for your specific format
-  frontmatter.split('\n').forEach(line => {
+  frontmatter!.split('\n').forEach(line => {
     const colonIndex = line.indexOf(':');
     if (colonIndex === -1) return;
 
@@ -53,7 +53,7 @@ export function parseFrontmatter(content: string): ParsedFrontmatter {
     }
   });
 
-  return { metadata, content: bodyContent.trim() };
+  return { metadata, content: bodyContent!.trim() };
 }
 
 export function stripFrontmatter(content: string): string {
