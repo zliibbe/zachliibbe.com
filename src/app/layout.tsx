@@ -130,20 +130,20 @@ export default function RootLayout({
                   The page encountered an error. Please try refreshing or go
                   back to the homepage.
                 </p>
-                <button
-                  onClick={() => (window.location.href = '/')}
+                <a
+                  href="/"
                   style={{
+                    display: 'inline-block',
                     padding: '10px 20px',
                     backgroundColor: 'var(--accent-primary)',
                     color: 'white',
-                    border: 'none',
+                    textDecoration: 'none',
                     borderRadius: '6px',
-                    cursor: 'pointer',
                     fontSize: 'inherit',
                   }}
                 >
                   Go Home
-                </button>
+                </a>
               </div>
             }
           >
