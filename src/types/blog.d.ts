@@ -55,4 +55,5 @@ export interface BlogFilterParams {
   category?: string;
   tag?: string;
   page?: number;
+  search?: string;
 }
