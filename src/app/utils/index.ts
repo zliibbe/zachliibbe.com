@@ -74,13 +74,13 @@ export function numberToWords(num: number): string {
     'ninety',
   ];
 
-  if (num < 10) return ones[num];
-  if (num < 20) return teens[num - 10];
+  if (num < 10) return ones[num]!;
+  if (num < 20) return teens[num - 10]!;
 
   const ten = Math.floor(num / 10);
   const one = num % 10;
 
-  return one ? `${tens[ten]}-${ones[one]}` : tens[ten];
+  return one ? `${tens[ten]!}-${ones[one]!}` : tens[ten]!;
 }
 
 /**
