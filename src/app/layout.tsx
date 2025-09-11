@@ -2,6 +2,7 @@ import { Lexend, Roboto_Mono } from 'next/font/google';
 import './globals.css';
 import Header from './components/Header';
 import React from 'react';
+import Link from 'next/link';
 import { ThemeProvider } from './context/ThemeContext';
 import { Metadata } from 'next';
 import Script from 'next/script';
@@ -130,7 +131,7 @@ export default function RootLayout({
                   The page encountered an error. Please try refreshing or go
                   back to the homepage.
                 </p>
-                <a
+                <Link
                   href="/"
                   style={{
                     display: 'inline-block',
@@ -143,7 +144,7 @@ export default function RootLayout({
                   }}
                 >
                   Go Home
-                </a>
+                </Link>
               </div>
             }
           >
