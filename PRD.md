@@ -85,7 +85,7 @@ Transform zachliibbe.com into an interactive personal website featuring:
 ### 1.3 Cost Optimization Strategy
 
 - [x] Cache embeddings in Vercel KV to avoid re-computation (7-day TTL)
-- [x] Implement conversation limits (10 messages per session initially)  
+- [x] Implement conversation limits (10 messages per session initially)
 - [x] Use Claude Haiku for simple queries, Sonnet for complex ones
 - [x] Improved context specificity with higher confidence thresholds
 - [ ] Batch embed knowledge base updates
