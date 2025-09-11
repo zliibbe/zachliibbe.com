@@ -8,6 +8,7 @@ import Script from 'next/script';
 import Analytics from './components/Analytics';
 import AuthProvider from '@/lib/auth-provider';
 import ChatProvider from '@/components/chat/ChatProvider';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 
 const robotoMono = Roboto_Mono({
   subsets: ['latin'],
@@ -103,14 +104,60 @@ export default function RootLayout({
         )}
 
         <AuthProvider>
-          <ThemeProvider>
-            <Analytics />
-            <div className="root-container theme-transition">
-              <Header />
-              {children}
-            </div>
-            <ChatProvider />
-          </ThemeProvider>
+          <ErrorBoundary
+            resetOnPropsChange={true}
+            resetKeys={[
+              typeof window !== 'undefined' ? window.location.pathname : '',
+            ]}
+            fallback={
+              <div
+                style={{
+                  padding: '40px 20px',
+                  textAlign: 'center',
+                  color: 'var(--text-primary)',
+                  fontFamily: 'inherit',
+                }}
+              >
+                <h1 style={{ marginBottom: '16px' }}>
+                  Oops! Something went wrong
+                </h1>
+                <p
+                  style={{
+                    marginBottom: '20px',
+                    color: 'var(--text-secondary)',
+                  }}
+                >
+                  The page encountered an error. Please try refreshing or go
+                  back to the homepage.
+                </p>
+                <button
+                  onClick={() => (window.location.href = '/')}
+                  style={{
+                    padding: '10px 20px',
+                    backgroundColor: 'var(--accent-primary)',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    fontSize: 'inherit',
+                  }}
+                >
+                  Go Home
+                </button>
+              </div>
+            }
+          >
+            <ThemeProvider>
+              <Analytics />
+              <div className="root-container theme-transition">
+                <Header />
+                <ErrorBoundary resetOnPropsChange={true}>
+                  {children}
+                </ErrorBoundary>
+              </div>
+              <ChatProvider />
+            </ThemeProvider>
+          </ErrorBoundary>
         </AuthProvider>
       </body>
     </html>
