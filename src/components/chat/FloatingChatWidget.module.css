@@ -133,7 +133,8 @@
   padding: 1rem;
   background: var(--theme-color);
   color: var(--background-primary);
-  border-radius: calc(var(--border-radius) - 3px) calc(var(--border-radius) - 3px) 0 0;
+  border-radius: calc(var(--border-radius) - 3px)
+    calc(var(--border-radius) - 3px) 0 0;
   border-bottom: 1px solid var(--border-color);
   margin: -3px -3px 0 -3px; /* Account for container border */
   padding-top: calc(1rem + 3px); /* Add back the padding */
