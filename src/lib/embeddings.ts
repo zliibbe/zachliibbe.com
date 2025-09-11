@@ -70,7 +70,9 @@ export async function generateEmbeddings(texts: string[]): Promise<number[][]> {
 
   // Check cache for each text
   for (let i = 0; i < texts.length; i++) {
-    const normalizedText = texts[i].replace(/\n/g, ' ').trim();
+    const text = texts[i];
+    if (!text) continue;
+    const normalizedText = text.replace(/\n/g, ' ').trim();
     const cacheKey = createEmbeddingKey(normalizedText);
 
     try {
@@ -101,8 +103,11 @@ export async function generateEmbeddings(texts: string[]): Promise<number[][]> {
 
       // Store results and cache them
       for (let i = 0; i < uncachedTexts.length; i++) {
-        const embedding = response.data[i].embedding;
-        const { text, index } = uncachedTexts[i];
+        const embeddingData = response.data[i];
+        const uncachedText = uncachedTexts[i];
+        if (!embeddingData || !uncachedText) continue;
+        const embedding = embeddingData.embedding;
+        const { text, index } = uncachedText;
         results[index] = embedding;
 
         // Cache the result
