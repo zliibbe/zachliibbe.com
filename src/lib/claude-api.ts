@@ -22,25 +22,62 @@ export async function generateChatResponse(
   }> = []
 ): Promise<ChatResponse> {
   try {
+    // Enforce conversation limits for cost control
+    const MAX_CONVERSATION_LENGTH = 10;
+    if (conversationHistory.length >= MAX_CONVERSATION_LENGTH) {
+      return {
+        message:
+          "I've reached the conversation limit to help manage costs. Feel free to start a new conversation to continue chatting about Zach!",
+        error: 'Conversation limit reached',
+      };
+    }
     // Generate embedding for user message to search knowledge base
     const queryEmbedding = await generateEmbedding(userMessage);
 
     // Search for relevant context from knowledge base
     const relevantChunks = await queryVectors(queryEmbedding, 5);
 
-    // Extract context from search results
-    const context = relevantChunks
-      .filter(chunk => chunk.score && chunk.score > 0.4) // Use moderate-confidence matches
+    // Improved context extraction with higher confidence threshold for specificity
+    const highConfidenceChunks = relevantChunks.filter(
+      chunk => chunk.score && chunk.score > 0.7
+    );
+    const mediumConfidenceChunks = relevantChunks.filter(
+      chunk => chunk.score && chunk.score > 0.4 && chunk.score <= 0.7
+    );
+
+    // Prioritize high-confidence matches, fall back to medium confidence if needed
+    const selectedChunks =
+      highConfidenceChunks.length >= 2
+        ? highConfidenceChunks.slice(0, 3)
+        : [...highConfidenceChunks, ...mediumConfidenceChunks].slice(0, 3);
+
+    const context = selectedChunks
       .map(chunk => chunk.metadata?.content)
       .filter(Boolean)
-      .slice(0, 3) // Limit to top 3 most relevant chunks
       .join('\n\n');
 
-    const sources = relevantChunks
-      .filter(chunk => chunk.score && chunk.score > 0.4)
+    const sources = selectedChunks
       .map(chunk => chunk.metadata?.source)
-      .filter((source): source is string => typeof source === 'string')
-      .slice(0, 3);
+      .filter((source): source is string => typeof source === 'string');
+
+    // Determine model complexity based on query characteristics
+    const isComplexQuery =
+      userMessage.length > 100 ||
+      userMessage.includes('explain') ||
+      userMessage.includes('detailed') ||
+      userMessage.includes('how') ||
+      userMessage.includes('why') ||
+      conversationHistory.length > 3;
+
+    const model = isComplexQuery
+      ? 'claude-3-sonnet-20241022'
+      : 'claude-3-haiku-20240307';
+    const maxTokens = isComplexQuery ? 1500 : 800;
+
+    // Log model selection for cost monitoring
+    console.log(
+      `RAG Query - Model: ${model}, Chunks: ${selectedChunks.length}, Complex: ${isComplexQuery}`
+    );
 
     // Build conversation messages for Claude
     const messages = [
@@ -50,11 +87,11 @@ export async function generateChatResponse(
       })),
       {
         role: 'user' as const,
-        content: buildPrompt(userMessage, context),
+        content: buildPrompt(userMessage, context, selectedChunks.length),
       },
     ];
 
-    // Call Claude API
+    // Call Claude API with adaptive model selection
     const response = await fetch(CLAUDE_API_URL, {
       method: 'POST',
       headers: {
@@ -63,8 +100,8 @@ export async function generateChatResponse(
         'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
-        model: 'claude-3-haiku-20240307',
-        max_tokens: 1000,
+        model,
+        max_tokens: maxTokens,
         messages,
       }),
     });
@@ -107,8 +144,27 @@ export async function generateChatResponse(
   }
 }
 
-function buildPrompt(userMessage: string, context: string): string {
-  const systemPrompt = `You are Zach Liibbe's AI assistant, helping visitors learn about his background, experience, and projects. You have access to information about his professional experience, personal interests, projects, and contact information.
+function buildPrompt(
+  userMessage: string,
+  context: string,
+  contextChunks: number = 0
+): string {
+  const confidenceNote =
+    contextChunks >= 2
+      ? 'I have high-confidence information to answer this question.'
+      : contextChunks === 1
+        ? 'I have some relevant information, but may need to be general in my response.'
+        : "I have limited specific information, so I'll provide what I can and suggest contacting Zach directly for details.";
+
+  const systemPrompt = `You are Zach Liibbe's AI assistant, specifically designed to help visitors understand his unique professional background, technical expertise, and career journey. ${confidenceNote}
+
+IMPORTANT: Be highly specific about Zach's experience. Don't give generic software development answers - focus on HIS specific:
+- Technologies he's actually used (Next.js, React, TypeScript, Node.js, Python, etc.)
+- Companies he's worked for and roles he's held
+- Specific projects he's built (like this RAG-powered website, blog systems, API integrations)
+- His transition from mechanical engineering to software development
+- His current focus areas and interests
+- His working style and approach to development
 
 Key guidelines:
 - Be friendly, professional, and helpful
@@ -117,12 +173,20 @@ Key guidelines:
 - Keep responses concise but informative
 - Focus on being helpful to potential employers, collaborators, or people interested in his work
 
-Context information about Zach:
-${context}
+Response guidelines:
+- Always reference specific details from Zach's background when available
+- If the context doesn't contain specific information, acknowledge this explicitly
+- For technical questions, relate answers to technologies Zach has actually used
+- For career questions, reference his actual career progression and experiences
+- Keep responses conversational but professionally informative
+- If you lack specific details, encourage direct contact with Zach
+
+Available context about Zach's background:
+${context || 'No specific context available for this query.'}
 
 User question: ${userMessage}
 
-Please provide a helpful response based on the available information.`;
+Provide a response that's specific to Zach's actual experience and background:`;
 
   return systemPrompt;
 }
