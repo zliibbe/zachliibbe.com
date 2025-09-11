@@ -179,7 +179,7 @@ export async function createBlogPost(postData: {
     slug,
     title: postData.title,
     author,
-    publishedAt: computedPublishedAt,
+    publishedAt: computedPublishedAt!,
     excerpt,
     content: htmlContent,
     categories: postData.categories || [],
@@ -270,12 +270,12 @@ export async function updateBlogPost(
     updates.status === 'published' &&
     (existingPost.status === 'draft' || existingPost.status === 'scheduled')
   ) {
-    updatedData.publishedAt =
+    (updatedData as any).publishedAt =
       updates.publishedAt !== undefined
-        ? updates.publishedAt
+        ? updates.publishedAt!
         : new Date().toISOString().split('T')[0];
   } else if (updates.publishedAt) {
-    updatedData.publishedAt = updates.publishedAt;
+    (updatedData as any).publishedAt = updates.publishedAt!;
   }
 
   // Save to new location
