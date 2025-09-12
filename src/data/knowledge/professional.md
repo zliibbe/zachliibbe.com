@@ -1,115 +1,120 @@
 # Professional Information
 
-_This file contains information about Zach's professional background, skills, and career progression. Include specific details about roles, technologies, achievements, and career philosophy._
+## Current Employment Status
 
-## Current Role & Status
+Zach Liibbe is currently unemployed and actively seeking new opportunities as of September 2025.
 
-**Current Position:** Unemployed and looking for work
-
-- **Company:** 3D Systems is a leading provider of 3D printing solutions and services
-- **Role Start Date:** March 2025
-- **Key Responsibilities:** Developing software for 3D printing systems, implementing TDD practices, and establishing documentation standards
-- **Notable Achievements:** Implemented comprehensive test suites and CI/CD pipelines, created internal technical documentation, and optimized engineering workflows
-
-**Professional Status:** Currently unemployed, open to new opportunities
-
-- **Availability:** Available for new opportunities with 2-4 weeks notice
-- **Preferred Work Type:** Full-time, Contract, or Consulting roles
-- **Location Preferences:** Remote preferred, open to hybrid arrangements in Colorado Spring area. Open to Hybrid arrangements in Denver area for the right company
+**Availability:** Available for new positions with 2-4 weeks notice  
+**Work Types:** Full-time, contract, or consulting roles  
+**Location:** Remote preferred, hybrid in Colorado Springs or Denver acceptable  
+**Experience Level:** Mid-level to senior software engineer  
+**Years of Experience:** 3+ years in software development, 7+ years in healthcare
 
 ## Work Experience
 
-### 3D Systems, Inc. - Software Engineer (March 2025 - June 2025)
+### 3D Systems Software Engineer (March 2025 - June 2025)
 
-**Company Context:** Leading provider of 3D printing solutions and services, established company in the additive manufacturing industry
-**Role Overview:** Developed software for 3D printing systems while establishing robust software quality assurance infrastructure and documentation standards
+**Company:** 3D Systems, Inc. - Leading 3D printing solutions provider  
+**Duration:** 3 months  
+**Employment Type:** Full-time
 
-**Key Responsibilities:**
-
-- Developing and maintaining software for 3D printing systems, including firmware and user interfaces
-- Establishing robust software quality assurance infrastructure by implementing Test-Driven Development (TDD) practices across multiple repositories
-- Spearheading documentation initiatives by creating internal technical documentation and establishing Git templates
-
-**Technologies Used:** C/C++, Python, Git, CI/CD pipelines, Test frameworks
-**Notable Projects:**
-
-- TDD Implementation: Established comprehensive test suites for untested codebases across multiple repositories
-- Documentation System: Created internal technical documentation and Git templates fostering a culture of documentation
-
-**Achievements:**
-
-- Implemented CI/CD pipelines that enhanced code reliability and consistency
-- Significantly improved knowledge transfer and development efficiency through documentation initiatives
-- Optimized engineering workflows by reorganizing physical project components, increasing cross-functional team productivity
-
-### B.E.A.T. - Web Developer (January 2024 - February 2025)
-
-**Company Context:** Contract position developing genomics software solutions
-**Role Overview:** Developed intuitive UI for genomics software using modern web technologies, significantly improving user engagement and satisfaction
+**Primary Technologies:** C/C++, Python, Git, CI/CD pipelines, test frameworks
 
 **Key Responsibilities:**
 
-- Developed intuitive UI for genomics software using React, Redux, and PostgreSQL
-- Designed and implemented live search feature with Trie data structure for real-time results
-- Collaborated with UX teams to revamp interface designs
+- Developed and maintained software for 3D printing systems including firmware and user interfaces
+- Established Test-Driven Development (TDD) practices across multiple repositories
+- Created internal technical documentation and Git templates
 
-**Technologies Used:** React, Redux, PostgreSQL, JavaScript, Trie data structures
+**Major Achievements:**
+
+- Implemented CI/CD pipelines enhancing code reliability and consistency
+- Improved knowledge transfer and development efficiency through documentation initiatives
+- Optimized engineering workflows, increasing cross-functional team productivity
+
 **Notable Projects:**
 
-- Live Search Feature: Implemented real-time search with Trie data structure for 500,000+ entries
-- UI Revamp: Collaborated on interface redesign that increased user satisfaction
+- TDD Implementation: Built comprehensive test suites for previously untested codebases
+- Documentation System: Established Git templates fostering documentation culture
 
-**Achievements:**
+### B.E.A.T. Web Developer (January 2024 - February 2025)
 
-- Boosted user engagement by 40% through improved UI design
-- Achieved millisecond-level response times for search functionality
-- Increased user satisfaction by 60% through UX collaboration
+**Company:** B.E.A.T. - Genomics software solutions  
+**Duration:** 13 months  
+**Employment Type:** Contract
 
-### Quantum Research International - Software Engineer (May 2023 - September 2023)
-
-**Company Context:** Contract position working on single-page applications for research and development
-**Role Overview:** Built and optimized SPAs with React, Vue, and C#/.Net, focusing on performance improvements and CI/CD implementation
+**Primary Technologies:** React, Redux, PostgreSQL, JavaScript, Trie data structures
 
 **Key Responsibilities:**
 
-- Built and optimized single-page applications (SPAs) with React, Vue, and C#/.Net
-- Developed CI/CD pipelines and implemented automated linting, testing, and deployment
-- Partnered with Component Owners and Project Managers to translate mockups into functional user interfaces
+- Developed intuitive UI for genomics software using React and Redux
+- Designed and implemented live search feature with Trie data structure
+- Collaborated with UX teams on interface redesign projects
 
-**Technologies Used:** React, Vue.js, C#/.Net, CI/CD, JavaScript, TypeScript
-**Notable Projects:**
+**Quantified Results:**
 
-- SPA Optimization: Reduced page load times by 15% and boosted app performance by 20%
-- CI/CD Implementation: Developed automated pipelines for linting, testing, and deployment
+- 40% increase in user engagement through improved UI design
+- 60% increase in user satisfaction through UX collaboration
+- Millisecond-level response times for search functionality
+- Real-time search across 500,000+ database entries
 
-**Achievements:**
+**Technical Achievements:**
 
-- Reduced page load times by 15% through optimization techniques
-- Implemented dynamic routing and state management systems, boosting app performance by 20%
-- Achieved 95% adherence rate to design specifications through close collaboration
+- Live Search Implementation: Built Trie data structure for efficient prefix matching
+- UI Performance Optimization: Achieved sub-second response times for large datasets
+- Cross-team Collaboration: Led frontend development while coordinating with backend and UX teams
 
-### Bluestaq - Software Engineer (July 2022 - February 2023)
+### Quantum Research International Software Engineer (May 2023 - September 2023)
 
-**Company Context:** Contract position working on Angular-based applications with focus on modernization and performance
-**Role Overview:** Modernized Angular-based components and optimized frontend performance while supporting backend functionality
+**Company:** Quantum Research International - R&D applications  
+**Duration:** 5 months  
+**Employment Type:** Contract
+
+**Primary Technologies:** React, Vue.js, C#/.NET, JavaScript, TypeScript, CI/CD
 
 **Key Responsibilities:**
 
-- Modernized Angular-based components, introducing modular TypeScript patterns
-- Optimized frontend performance by leveraging lazy loading and code-splitting
-- Wrote and reviewed code in Java to support backend functionality and security
+- Built and optimized single-page applications (SPAs) with React and Vue
+- Developed automated CI/CD pipelines for linting, testing, and deployment
+- Translated design mockups into functional user interfaces
 
-**Technologies Used:** Angular, TypeScript, Java, JavaScript, Performance optimization techniques
-**Notable Projects:**
+**Performance Results:**
 
-- Component Modernization: Introduced modular TypeScript patterns for easier maintenance
-- Performance Optimization: Implemented lazy loading and code-splitting strategies
+- 15% reduction in page load times through optimization techniques
+- 20% improvement in app performance via dynamic routing and state management
+- 95% adherence rate to design specifications
 
-**Achievements:**
+**Technical Contributions:**
 
-- Decreased initial page load times by 20% through performance optimization
-- Improved code maintainability and collaboration through modular patterns
-- Delivered apps per customer specifications in an agile manner through cross-functional collaboration
+- SPA Architecture: Implemented modern routing and state management patterns
+- DevOps Setup: Built automated pipelines reducing manual deployment errors
+- Cross-platform Development: Worked with both React and Vue.js ecosystems
+
+### Bluestaq Software Engineer (July 2022 - February 2023)
+
+**Company:** Bluestaq - Angular application modernization  
+**Duration:** 8 months  
+**Employment Type:** Contract
+
+**Primary Technologies:** Angular, TypeScript, Java, JavaScript, lazy loading, code-splitting
+
+**Key Responsibilities:**
+
+- Modernized Angular-based components with modular TypeScript patterns
+- Optimized frontend performance using lazy loading and code-splitting
+- Wrote and reviewed Java code for backend functionality and security
+
+**Performance Improvements:**
+
+- 20% decrease in initial page load times through optimization
+- Improved code maintainability through modular architecture patterns
+- Enhanced collaboration through standardized development practices
+
+**Technical Modernization:**
+
+- Legacy Code Refactoring: Updated Angular components to modern patterns
+- Performance Engineering: Implemented advanced optimization techniques
+- Full-stack Contributions: Worked across frontend Angular and backend Java
 
 ### Centura Health - Clinical RN Manager (June 2021 - November 2021)
 
@@ -142,92 +147,223 @@ _This file contains information about Zach's professional background, skills, an
 
 **CNA & Patient Transporter (2014 - July 2016):** Delivered compassionate frontline care, mastered safe patient mobility across 350+ bed hospital, identified subtle changes in patient condition preventing complications
 
-## Technical Skills
+## Education & Training
+
+### Turing School of Software & Design (November 2021 - June 2022)
+
+**Program:** Front End Engineering Program - 7-month intensive software development program  
+**Location:** Denver, Colorado (Remote)  
+**Accreditation:** Federally accredited, 501(c)(3) non-profit institution  
+**Status:** Program completed successfully (school has since closed)
+
+**Curriculum Structure:**
+- Module-based learning: 4 six-week modules plus preparatory Module 0
+- Project-based learning approach with hands-on application development
+- Module 4: Full-stack collaboration project combining front-end and back-end students
+
+**Technologies & Skills Learned:**
+- **Core Frontend:** HTML5, CSS3, JavaScript (ES6+), responsive design
+- **Frameworks & Libraries:** React, Redux, Node.js for full-stack applications  
+- **Development Tools:** Git/GitHub, testing frameworks, CI/CD practices
+- **Professional Development:** Technical interview preparation, portfolio development, career coaching
+
+**Key Projects & Achievements:**
+- Built multiple responsive web applications using React and vanilla JavaScript
+- Collaborated on full-stack applications with backend engineering students
+- Developed strong problem-solving methodology through structured curriculum
+- Completed intensive technical interview and job search preparation program
+
+**Program Impact:**
+- Transitioned from healthcare to software engineering through rigorous technical training
+- Developed foundational skills that enabled successful career pivot
+- Gained collaborative development experience working with diverse technical teams
+- Built technical communication and code review skills essential for professional development
+
+## Technical Skills Summary
 
 ### Programming Languages
 
-**Expert Level:** JavaScript, TypeScript, Python
+**JavaScript** - Expert level, 4+ years
 
-- **JavaScript:** 4+ years of experience, used in React, Node.js, and full-stack applications
-- **TypeScript:** 3+ years of experience, used for type-safe development in React and Angular projects
-- **Python:** 2+ years of experience, used for backend development, data processing, and automation
+- Full-stack applications, React, Node.js
+- Modern ES6+ features, async/await, promises
 
-**Proficient Level:** Java, Python, SQL
+**TypeScript** - Expert level, 3+ years
 
-- **Java:** 1+ year of experience, used for backend development and enterprise applications
-- **C/C++:** 1+ year of experience, used for firmware development and system programming
-- **SQL:** 3+ years of experience, used with PostgreSQL, MySQL, and database optimization
-- **JavaScipt/Typescript:** 4+ years of experience, used for frontend and backend development
+- Type-safe development in React and Angular projects
+- Advanced typing patterns, generics, interfaces
 
-**Learning/Familiar:** Go
+**Python** - Proficient, 2+ years
 
-### Frameworks & Technologies
+- Backend development, data processing, automation
+- Used for Lambda functions, API development
 
-**Web Development:**
+**Java** - Proficient, 1+ year
 
-- **Frontend:** React (Expert), Vue.js (Proficient), Angular (Proficient), Next.js (Expert)
-- **Backend:** Node.js (Expert), Express.js (Proficient), C#/.Net (Proficient)
-- **Database:** PostgreSQL (Expert), MySQL (Proficient), MongoDB (Familiar)
-- **Cloud Platforms:** AWS (Proficient), Vercel (Expert), Azure (Familiar)
+- Backend development, enterprise applications
+- Spring framework, object-oriented programming
 
-**Development Tools:**
+**C/C++** - Proficient, 1+ year
 
-- **Version Control:** Git (Expert), GitHub (Expert), GitLab (Proficient)
-- **CI/CD:** GitHub Actions (Proficient), Jenkins (Familiar), automated testing and deployment
-- **Testing:** Jest (Proficient), React Testing Library (Proficient), TDD methodologies
-- **Monitoring:** Application performance monitoring, logging, and observability tools
+- Firmware development, system programming
+- Used at 3D Systems for embedded software
 
-### Specialized Skills
+**SQL** - Proficient, 3+ years
 
-- **System Architecture:** Designing scalable, maintainable systems with focus on performance and reliability
-- **Performance Optimization:** Frontend and backend optimization techniques, including lazy loading, code-splitting, and database optimization
-- **Data Structures & Algorithms:** Strong foundation in computer science fundamentals, including Trie data structures and search algorithms
+- PostgreSQL, MySQL, database optimization
+- Query optimization, schema design
 
-## Career Philosophy & Approach
+### Frontend Technologies
 
-### Working Style
+**React** - Expert level, 4+ years
 
-I prefer collaborative, iterative development with a focus on clean, maintainable code and continuous improvement
+- Hooks, context, state management
+- Performance optimization, component design
 
-- **Problem-Solving Approach:** I break down complex challenges into smaller, manageable pieces, research existing solutions, and design scalable architectures
-- **Collaboration Style:** I work well in cross-functional teams, enjoy mentoring junior developers, and believe in knowledge sharing
-- **Learning Methodology:** I stay current through hands-on projects, technical books, podcasts, and community involvement
+**Next.js** - Expert level, 2+ years
 
-### Professional Values
+- App Router, server components, SSR/SSG
+- API routes, middleware, deployment
 
-- **Quality & Reliability:** I prioritize writing clean, tested code that future developers can easily understand and maintain
-- **Continuous Learning:** I actively seek new technologies and methodologies to improve my skills and stay current with industry trends
-- **User-Focused Development:** I always consider the end-user experience and build software that solves real problems
+**Vue.js** - Proficient, 1+ year
 
-### Career Goals
+- Composition API, Vuex state management
+- Single-page application development
 
-**Short-term (1-2 years):** Develop expertise in AI/ML integration, advance to senior/lead developer role, contribute more to open source
-**Long-term (5+ years):** Technical leadership role, potentially as Principal Engineer or Engineering Manager, with focus on building inclusive and accessible software
+**Angular** - Proficient, 8 months
 
-## Industry Involvement
+- TypeScript integration, component architecture
+- Legacy code modernization
 
-### Continuous Learning
+### Backend & Database
 
-- **Current Learning Focus:** AI/ML applications in web development, distributed systems, and advanced React patterns
-- **Recent Courses/Certifications:** Self-directed learning in system design and cloud architecture
-- **Learning Resources:** Technical books, Syntax.fm podcast, React documentation, and various tech communities, I use YouTube frequently
+**Node.js** - Expert level, 3+ years
 
-### Community Participation
+- Express.js, API development
+- Serverless functions, Lambda
 
-- **Open Source:** Contributing to React and Next.js related projects, maintaining personal utility libraries
-- **Speaking/Writing:** Available for conference talks and meetups, writing technical blog posts
-- **Mentorship:** Mentoring junior developers through code reviews, pair programming, and knowledge sharing
+**PostgreSQL** - Expert level, 3+ years
 
-## Notable Projects
+- Complex queries, performance optimization
+- Schema design, indexing strategies
 
-### Personal Website (zachliibbe.com) - Full Stack Developer (2022 - Present)
+**AWS** - Proficient
 
-**Project Overview:** A comprehensive personal website showcasing portfolio, blog, and various integrations including Goodreads and Strava data
-**Technical Challenge:** Building a performant, SEO-optimized site with real-time data integrations and AI-powered chat functionality
-**Your Contribution:** Full-stack development, system architecture, and integration of multiple APIs
-**Technologies:** Next.js, React, TypeScript, PostgreSQL, AWS, Vercel, Pinecone, OpenAI
-**Impact:** Demonstrates full-stack capabilities, serves as a portfolio piece, and provides real-time personal data visualization
-**Key Learnings:** Advanced Next.js patterns, AI integration, vector databases, and performance optimization
+- Lambda, S3, CloudFront
+- Serverless architecture
+
+**Vercel** - Expert level
+
+- KV storage, edge functions
+- CI/CD, deployment optimization
+
+### Development Tools & Practices
+
+**Git/GitHub** - Expert level
+
+- Advanced workflows, branching strategies
+- Code review processes, collaboration
+
+**CI/CD Pipelines** - Proficient
+
+- GitHub Actions, automated testing
+- Deployment automation, quality gates
+
+**Testing** - Proficient
+
+- Jest, React Testing Library
+- Test-Driven Development (TDD)
+- Unit, integration, and performance testing
+
+### Specialized Expertise
+
+**Performance Optimization**
+
+- Frontend: Lazy loading, code-splitting, bundle optimization
+- Backend: Caching strategies, database optimization
+- Achieved 15-20% performance improvements across projects
+
+**Data Structures & Algorithms**
+
+- Trie implementation for 500,000+ entry search
+- Efficient algorithms for real-time applications
+- Computer science fundamentals
+
+**System Architecture**
+
+- Scalable, maintainable system design
+- Microservices, serverless architecture
+- Performance and reliability focus
+
+## Professional Approach & Values
+
+### Working Philosophy
+
+- Collaborative, iterative development focused on clean, maintainable code
+- Break down complex challenges into manageable pieces
+- Research existing solutions and design scalable architectures
+- Strong believer in knowledge sharing and mentoring
+
+### Core Professional Values
+
+- **Code Quality:** Prioritizes clean, tested code that future developers can maintain
+- **Continuous Learning:** Actively seeks new technologies and methodologies
+- **User-Focused:** Always considers end-user experience and real problem solving
+
+### Career Objectives
+
+**Short-term Goals (1-2 years):**
+
+- Develop expertise in AI/ML integration with web applications
+- Advance to senior or lead developer role
+- Increase open source contributions
+
+**Long-term Vision (5+ years):**
+
+- Technical leadership role (Principal Engineer or Engineering Manager)
+- Focus on building inclusive and accessible software
+- Mentor and develop other engineers
+
+## Current Learning & Development
+
+### Active Learning Areas
+
+- AI/ML applications in web development
+- Distributed systems architecture
+- Advanced React patterns and performance optimization
+- System design and cloud architecture
+
+### Learning Resources
+
+- Technical books and documentation
+- Syntax.fm podcast for web development insights
+- React and Next.js documentation
+- YouTube technical content and tutorials
+- Various tech communities and forums
+
+### Community Involvement
+
+- Contributing to React and Next.js ecosystem projects
+- Maintaining personal utility libraries
+- Mentoring junior developers through code reviews and pair programming
+- Available for technical conference talks and meetups
+- Writing technical blog posts and documentation
+
+## Key Professional Projects
+
+### Personal Website (zachliibbe.com) - 2022 to Present
+
+**Role:** Full Stack Developer and Architect  
+**Technologies:** Next.js, React, TypeScript, PostgreSQL, AWS, Vercel, Pinecone, OpenAI  
+**Key Features:** Portfolio, blog, real-time data integrations, AI-powered chat  
+**Achievements:** Demonstrates full-stack capabilities, advanced Next.js patterns, AI integration
+
+### Genomics Software UI (B.E.A.T.) - 2024-2025
+
+**Role:** Frontend Lead Developer  
+**Technologies:** React, Redux, PostgreSQL, JavaScript, Trie data structures  
+**Challenge:** Real-time search across 500,000+ database entries  
+**Results:** 40% user engagement increase, 60% satisfaction increase, millisecond search response
 
 ### Genomics Software UI - Web Developer (B.E.A.T., 2024-2025)
 
@@ -245,22 +381,24 @@ I prefer collaborative, iterative development with a focus on clean, maintainabl
 **Available References:** Former managers and colleagues from 3D Systems, B.E.A.T., Quantum Research International, and Bluestaq
 **LinkedIn Recommendations:** Multiple recommendations highlighting technical skills, collaboration abilities, and problem-solving approach
 
-## Work Samples & Portfolio
+## References & Portfolio Links
 
-### Public Work
+**Professional References:** Available from former managers and colleagues at 3D Systems, B.E.A.T., Quantum Research International, and Bluestaq
 
-- **GitHub:** https://github.com/zliibbe - Personal projects, contributions, and open source work
-- **Portfolio Website:** https://www.zachliibbe.com - Comprehensive showcase of skills and projects
-- **Technical Writing:** Blog posts on development topics, system architecture, and best practices
+**Portfolio Links:**
 
-### Case Studies
+- GitHub: https://github.com/zliibbe
+- Portfolio Website: https://www.zachliibbe.com
+- Technical blog posts: https://www.zachliibbe.com/blog
 
-I do not have any prepared case studies, but the following may apply:
+**Notable Achievements Summary:**
 
-**Full-Stack Personal Website:** Detailed case study of building a modern, performant website with AI integration and real-time data
-**Genomics Software Optimization:** Case study of implementing high-performance search functionality and improving user experience
+- 3+ years software development experience with quantified performance improvements
+- Expert-level React/Next.js and TypeScript development
+- Proven track record of 15-20% performance optimizations
+- Strong collaboration skills across UX, backend, and product teams
+- Healthcare background providing unique problem-solving perspective
 
 ---
 
-_Last Updated: August 2025_
-_Note: This information is designed to help visitors understand Zach's professional background and capabilities. For specific inquiries about experience or availability, please use the contact information provided._
+_Professional information current as of September 2025. For employment inquiries, contact zliibbe@gmail.com._

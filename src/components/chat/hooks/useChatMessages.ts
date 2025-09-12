@@ -68,11 +68,11 @@ export function useChatMessages({
       setMessages(prev => [...prev, userMessage]);
       setIsLoading(true);
 
-      // Immediately show loading indicator
+      // Immediately show RAG processing indicator
       const assistantMessageId = (Date.now() + 1).toString();
       const loadingMessage: ChatMessage = {
         id: assistantMessageId,
-        content: '',
+        content: 'Searching knowledge base...',
         role: 'assistant',
         timestamp: new Date(),
         isStreaming: true,
@@ -90,10 +90,43 @@ export function useChatMessages({
         await streamTextResponse(assistantMessageId, response);
       } catch (error) {
         console.error('Error sending message:', error);
-        await streamTextResponse(
-          assistantMessageId,
-          'Sorry, I encountered an error. Please try again later.'
-        );
+
+        // Provide context-specific error messages
+        let errorMessage =
+          'Sorry, I encountered an error. Please try again later.';
+
+        if (error instanceof Error) {
+          // Network/connectivity issues
+          if (
+            error.message.includes('fetch') ||
+            error.message.includes('network')
+          ) {
+            errorMessage =
+              'Unable to connect right now. Please check your internet connection and try again.';
+          }
+          // Rate limiting
+          else if (
+            error.message.includes('rate limit') ||
+            error.message.includes('429')
+          ) {
+            errorMessage =
+              'Too many requests. Please wait a moment before sending another message.';
+          }
+          // API/service issues
+          else if (
+            error.message.includes('500') ||
+            error.message.includes('service')
+          ) {
+            errorMessage =
+              'The AI service is temporarily unavailable. Please try again in a few minutes.';
+          }
+          // Generic error with helpful guidance
+          else {
+            errorMessage = `I'm having trouble processing your request. Try asking a simpler question or contact Zach directly for specific details.`;
+          }
+        }
+
+        await streamTextResponse(assistantMessageId, errorMessage);
       } finally {
         setIsLoading(false);
         setStreamingMessageId(null);
