@@ -113,6 +113,45 @@ export default function FloatingChatWidget({
                   Hi! I&apos;m here to help answer questions about Zach&apos;s
                   work, experience, and projects. What would you like to know?
                 </p>
+                <div className={styles.suggestedQuestions}>
+                  <p className={styles.suggestedTitle}>Try asking about:</p>
+                  <button
+                    className={styles.suggestionButton}
+                    onClick={() =>
+                      setInputValue(
+                        'What technologies does Zach have experience with?'
+                      )
+                    }
+                  >
+                    What technologies does Zach have experience with?
+                  </button>
+                  <button
+                    className={styles.suggestionButton}
+                    onClick={() =>
+                      setInputValue("Tell me about Zach's recent projects")
+                    }
+                  >
+                    Tell me about Zach&apos;s recent projects
+                  </button>
+                  <button
+                    className={styles.suggestionButton}
+                    onClick={() =>
+                      setInputValue("What was Zach's role at 3D Systems?")
+                    }
+                  >
+                    What was Zach&apos;s role at 3D Systems?
+                  </button>
+                  <button
+                    className={styles.suggestionButton}
+                    onClick={() =>
+                      setInputValue(
+                        'How did Zach transition from nursing to tech?'
+                      )
+                    }
+                  >
+                    How did Zach transition from nursing to tech?
+                  </button>
+                </div>
               </div>
             )}
 
@@ -134,9 +173,22 @@ export default function FloatingChatWidget({
                         <span></span>
                       </div>
                     ))}
-                  {message.isStreaming && message.content && (
-                    <span className={styles.typingCursor}>|</span>
-                  )}
+                  {message.isStreaming &&
+                    message.content &&
+                    message.content === 'Searching knowledge base...' && (
+                      <div className={styles.thinkingIndicator}>
+                        <div className={styles.thinkingDots}>
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                        </div>
+                      </div>
+                    )}
+                  {message.isStreaming &&
+                    message.content &&
+                    message.content !== 'Searching knowledge base...' && (
+                      <span className={styles.typingCursor}>|</span>
+                    )}
                 </div>
                 <div className={styles.messageFooter}>
                   <div className={styles.messageTime}>
