@@ -1,0 +1,305 @@
+.editor {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 300px);
+  background: var(--background-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+.editorHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: var(--background-secondary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.editorTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.editorTitle h2 {
+  margin: 0;
+  font-size: var(--fs-500);
+  font-weight: var(--fw-semibold);
+  color: var(--text-primary);
+}
+
+.unsavedIndicator {
+  color: #f59e0b;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.editorControls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.controlButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--background-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: var(--fw-medium);
+}
+
+.controlButton:hover {
+  background: var(--background-secondary);
+  color: var(--text-primary);
+}
+
+.controlButton.active {
+  background: var(--theme-color);
+  color: white;
+  border-color: var(--theme-color);
+}
+
+.saveButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--theme-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: var(--fw-medium);
+}
+
+.saveButton:hover:not(:disabled) {
+  background: var(--theme-color-hover);
+}
+
+.saveButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.closeButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: var(--background-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.closeButton:hover {
+  background: #ef4444;
+  color: white;
+  border-color: #ef4444;
+}
+
+.editorContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.editorPane {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.textarea {
+  flex: 1;
+  width: 100%;
+  padding: 1.5rem;
+  border: none;
+  outline: none;
+  background: var(--background-primary);
+  color: var(--text-primary);
+  font-family:
+    'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New',
+    monospace;
+  font-size: var(--fs-300);
+  line-height: 1.6;
+  resize: none;
+  tab-size: 2;
+}
+
+.textarea::placeholder {
+  color: var(--text-secondary);
+}
+
+.editorStats {
+  display: flex;
+  gap: 1rem;
+  padding: 0.5rem 1.5rem;
+  background: var(--background-secondary);
+  border-top: 1px solid var(--border-color);
+  font-size: var(--fs-200);
+  color: var(--text-secondary);
+}
+
+.preview {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.previewContent {
+  padding: 1.5rem;
+  line-height: 1.7;
+  color: var(--text-primary);
+}
+
+.previewContent h1,
+.previewContent h2,
+.previewContent h3,
+.previewContent h4,
+.previewContent h5,
+.previewContent h6 {
+  color: var(--text-primary);
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.previewContent h1 {
+  font-size: var(--fs-700);
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 0.5rem;
+}
+
+.previewContent h2 {
+  font-size: var(--fs-600);
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.25rem;
+}
+
+.previewContent h3 {
+  font-size: var(--fs-500);
+}
+
+.previewContent p {
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+.previewContent ul,
+.previewContent ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.previewContent li {
+  margin-bottom: 0.25rem;
+  color: var(--text-primary);
+}
+
+.previewContent blockquote {
+  border-left: 4px solid var(--theme-color);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+.previewContent code {
+  background: var(--background-secondary);
+  padding: 0.125rem 0.25rem;
+  border-radius: 3px;
+  font-family:
+    'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New',
+    monospace;
+  font-size: 0.9em;
+  color: var(--text-primary);
+}
+
+.previewContent pre {
+  background: var(--background-secondary);
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.previewContent pre code {
+  background: none;
+  padding: 0;
+}
+
+.editorFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  background: var(--background-secondary);
+  border-top: 1px solid var(--border-color);
+  font-size: var(--fs-200);
+  color: var(--text-secondary);
+}
+
+.fileInfo {
+  display: flex;
+  gap: 1rem;
+}
+
+.helpText {
+  font-style: italic;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .editor {
+    height: calc(100vh - 200px);
+  }
+
+  .editorHeader {
+    padding: 1rem;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .editorTitle {
+    justify-content: center;
+  }
+
+  .editorControls {
+    justify-content: center;
+  }
+
+  .textarea {
+    padding: 1rem;
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+
+  .editorStats {
+    padding: 0.5rem 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .editorFooter {
+    padding: 0.75rem 1rem;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+
+  .fileInfo {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+}
