@@ -510,6 +510,7 @@
     font-size: var(--fs-400); /* Even smaller font size on mobile */
     line-height: 1.2;
     font-weight: 500;
+    user-select: none;
   }
 
   /* Adjust greeting bubble positioning for mobile */
@@ -619,6 +620,7 @@
   font-weight: 500;
   color: var(--text-primary);
   margin: 0;
+  user-select: none;
 }
 
 .promptArrow {
@@ -734,6 +736,7 @@
   padding-right: 1.5rem;
   z-index: 2;
   position: relative;
+  user-select: none;
 }
 
 .greetingClose {

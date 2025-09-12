@@ -80,6 +80,14 @@ export default function AdminDashboard({ session }: AdminDashboardProps) {
                   <p>Create, edit, and schedule blog posts</p>
                 </Link>
 
+                <Link href="/admin/knowledge" className={styles.card}>
+                  <div className={styles.cardIcon}>
+                    <MdChat size={32} />
+                  </div>
+                  <h3>Chat Knowledge</h3>
+                  <p>Manage AI chat knowledge base content</p>
+                </Link>
+
                 <div className={styles.card}>
                   <div className={styles.cardIcon}>
                     <MdAnalytics size={32} />
@@ -95,15 +103,6 @@ export default function AdminDashboard({ session }: AdminDashboardProps) {
                   </div>
                   <h3>Site Settings</h3>
                   <p>Configure site-wide options and preferences</p>
-                  <span className={styles.comingSoon}>Coming Soon</span>
-                </div>
-
-                <div className={styles.card}>
-                  <div className={styles.cardIcon}>
-                    <MdChat size={32} />
-                  </div>
-                  <h3>Chat Knowledge</h3>
-                  <p>Manage AI chat knowledge base content</p>
                   <span className={styles.comingSoon}>Coming Soon</span>
                 </div>
               </div>

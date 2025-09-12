@@ -252,7 +252,7 @@ export default function FloatingChatWidget({
             <div className={styles.greetingBubble}>
               <div className={styles.greetingText}>
                 Hi friend! I hope I didn&apos;t startle you. Want to chat with
-                me to learn about Zach? Click the chat below to get started.
+                AI to learn about Zach? Click the chat below to get started.
               </div>
               <button
                 className={styles.greetingClose}
