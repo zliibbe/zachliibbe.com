@@ -48,6 +48,21 @@ export async function upsertVectors(vectors: KnowledgeVector[]) {
   }
 }
 
+export async function upsertVector(
+  id: string,
+  values: number[],
+  metadata: any
+) {
+  try {
+    const index = await getPineconeIndex();
+    await index.upsert([{ id, values, metadata }]);
+    console.log(`Successfully upserted vector ${id} to Pinecone`);
+  } catch (error) {
+    console.error('Error upserting vector to Pinecone:', error);
+    throw error;
+  }
+}
+
 export async function queryVectors(
   vector: number[],
   topK: number = 5,
