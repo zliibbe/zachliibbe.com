@@ -326,22 +326,27 @@ type EmbeddingCache = {
 - [x] **Media Query Strategy:** Implemented complementary breakpoints (max-width: 769px / min-width: 770px) to prevent style conflicts
 - [x] **Mobile Layout Fixes:** Additional responsive improvements for job cards and knowledge base markdown formatting
 
-### Phase 3.10: Footer Book Cover Hover Enhancement (Planned)
+### Phase 3.10: Footer Book Cover Hover Enhancement ✅ (100% Complete)
 
-- [ ] **Pseudoelement Implementation:** Display book cover image on hover over `.bookTitle` in footer
-- [ ] **CSS-Only Solution:** Use `::before` or `::after` pseudoelement with background-image
-- [ ] **Positioning Strategy:** Absolute positioning above footer to avoid layout shifts
-- [ ] **Responsive Design:** Ensure hover works well on desktop, consider touch-friendly alternative for mobile
-- [ ] **Image Loading:** Optimize book cover image loading and caching
-- [ ] **Animation:** Smooth fade-in transition for professional polish
-- [ ] **Z-Index Management:** Proper layering to avoid conflicts with other UI elements
+- [x] **Pseudoelement Implementation:** Display book cover image on hover over `.bookTitle` in footer
+- [x] **CSS-Only Solution:** Use `::before` pseudoelement with background-image and CSS custom property `--cover-image`
+- [x] **Positioning Strategy:** Absolute positioning above footer centered over title text
+- [x] **Responsive Design:** Desktop hover (180x270px), tablet touch (160x240px), mobile touch (140x210px)
+- [x] **Mobile Touch Support:** Two-tap pattern - first tap shows cover for 3 seconds, second tap opens Goodreads link
+- [x] **Animation:** Smooth fade-in transition with 0.3s ease
+- [x] **Z-Index Management:** Proper layering (z-index: 1000) to avoid conflicts with other UI elements
+- [x] **Strava Activity Stats Card:** Hover/touch preview showing detailed metrics (distance, duration, pace, heart rate, elevation, kudos)
+- [x] **Imperial Units:** All metrics displayed in miles, feet, and min/mile pace
+- [x] **Activity Type Detection:** Dynamic emoji display based on activity type (🏃 run, 🚴 ride, 🏊 swim, 🚶 walk, 🏋️ workout)
 
-**Technical Considerations:**
+**Technical Implementation:**
 
-- Book cover image URL needs to be accessible (Goodreads API or stored asset)
-- Image size optimization for quick hover response
-- Fallback handling if image fails to load
-- Accessibility considerations for screen readers
+- Book cover URL from Goodreads API passed as CSS custom property
+- Responsive sizing via media queries with hover/pointer detection
+- Mobile touch handler with classList manipulation and setTimeout cleanup
+- ActivityStatsCard component with imperial unit conversion utilities
+- Centered positioning using left: 50%, translateX(-50%) pattern
+- Theme-aware styling supporting both light and dark modes
 
 ### Phase 3.11: Live Feed Multi-Activity Heatmap (Planned)
 
