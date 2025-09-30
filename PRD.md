@@ -147,7 +147,7 @@ readTime: "8 min read" # Auto-calculated
 - [x] Category/tag management
 - [x] Scheduling interface with date/time picker
 - [x] Reading time auto-calculation
-- [ ] SEO preview (title, description, social cards)
+- [x] SEO preview (title, description, social cards)
 - [x] Multiple image selection options (choose from gallery)
 
 #### Content Management
@@ -318,6 +318,48 @@ type EmbeddingCache = {
 - [x] **URL Parameter Support:** Search queries persist in URL for bookmarking and sharing search results
 - [x] **Theme Integration:** Search components use globals.css variables for consistent light/dark mode theming
 
+### Phase 3.9: Mobile Chat Widget Responsive Fixes ✅ (100% Complete)
+
+- [x] **Breakpoint Optimization:** Fixed CSS cascade issues causing desktop styles to override mobile at 768px width
+- [x] **Chat Positioning:** Resolved chatPrompt and chatToggle positioning to consistently appear in lower-right corner
+- [x] **Arrow Positioning:** Centered promptArrow to point at chatToggle button on tablet and mobile screens (≤768px)
+- [x] **Media Query Strategy:** Implemented complementary breakpoints (max-width: 769px / min-width: 770px) to prevent style conflicts
+- [x] **Mobile Layout Fixes:** Additional responsive improvements for job cards and knowledge base markdown formatting
+
+### Phase 3.10: Footer Book Cover Hover Enhancement (Planned)
+
+- [ ] **Pseudoelement Implementation:** Display book cover image on hover over `.bookTitle` in footer
+- [ ] **CSS-Only Solution:** Use `::before` or `::after` pseudoelement with background-image
+- [ ] **Positioning Strategy:** Absolute positioning above footer to avoid layout shifts
+- [ ] **Responsive Design:** Ensure hover works well on desktop, consider touch-friendly alternative for mobile
+- [ ] **Image Loading:** Optimize book cover image loading and caching
+- [ ] **Animation:** Smooth fade-in transition for professional polish
+- [ ] **Z-Index Management:** Proper layering to avoid conflicts with other UI elements
+
+**Technical Considerations:**
+- Book cover image URL needs to be accessible (Goodreads API or stored asset)
+- Image size optimization for quick hover response
+- Fallback handling if image fails to load
+- Accessibility considerations for screen readers
+
+### Phase 3.11: Live Feed Multi-Activity Heatmap (Planned)
+
+- [ ] **Split-Square Design:** Divide calendar squares diagonally (lower-left to upper-right) for 2+ activities per day
+- [ ] **Activity Type Colors:** Maintain existing color scheme (running red, cycling green, etc.)
+- [ ] **Interactive Hover:** Enable hover over individual activity sections within split squares
+- [ ] **Click Handling:** Support clicking individual activity sections to view details
+- [ ] **SVG Implementation:** Use SVG paths or clip-path for diagonal division
+- [ ] **Data Structure Update:** Modify activity aggregation to support multiple activities per day
+- [ ] **Tooltip Enhancement:** Show activity-specific tooltips on hover over each section
+- [ ] **Single Activity Fallback:** Keep current single-color display for days with 0-1 activities
+
+**Technical Considerations:**
+- react-calendar-heatmap customization with custom cell rendering
+- SVG diagonal clipping with proper hit detection for hover/click
+- Data aggregation logic to identify days with multiple activities
+- Responsive design ensuring split squares work on mobile
+- Performance optimization for rendering complex SVG patterns
+
 ### Phase 4: RAG Chat Foundation ✅ (100% Complete)
 
 - [x] Set up Pinecone integration
@@ -408,7 +450,7 @@ type EmbeddingCache = {
 
 ### Immediate Remaining Tasks (Current MVP Completion)
 
-- [ ] **SEO Preview:** Blog post SEO preview (title, description, social cards) in admin interface
+- [x] **SEO Preview:** Blog post SEO preview (title, description, social cards) in admin interface
 - [ ] **Reading Progress:** Blog post reading progress indicator on public blog pages
 - [ ] **Bulk Operations:** Publish multiple posts, reschedule bulk operations in admin
 - [ ] **Post Analytics:** Integration with performance metrics in admin dashboard
@@ -480,6 +522,8 @@ This PRD has guided the successful implementation of a comprehensive personal we
 6. **Performance Optimization** - Caching, adaptive AI models, cost controls
 7. **Enhanced RAG Chat UX** - Suggested questions, improved loading states, better error handling
 8. **Knowledge Base Optimization** - Restructured all files for better semantic search and RAG retrieval
+9. **SEO Preview System** - Google search result and social media card previews in blog editor
+10. **Mobile Chat Responsive Design** - Fixed positioning and breakpoint issues across all mobile devices
 
 ### 📊 **Current Performance:**
 
@@ -490,11 +534,13 @@ This PRD has guided the successful implementation of a comprehensive personal we
 
 ### 🎯 **Immediate Next Steps:**
 
-1. **SEO Enhancements:** Add preview functionality to blog editor
-2. **Analytics Integration:** Implement comprehensive performance tracking
+1. **Footer Book Cover Hover:** Display book cover image on hover over currently reading book title (Phase 3.10)
+2. **Live Feed Multi-Activity Heatmap:** Split calendar squares diagonally for days with 2+ activities (Phase 3.11)
 3. **Rate Limiting:** Complete chat system rate limiting implementation
-4. **Reading Progress:** Add progress indicators to blog posts
-5. **Bulk Operations:** Enhance admin capabilities for batch operations
+4. **Analytics Integration:** Implement comprehensive performance tracking
+5. **Reading Progress:** Add progress indicators to blog posts
+6. **Bulk Operations:** Enhance admin capabilities for batch operations
+7. **Post Analytics Dashboard:** Performance metrics for published blog posts
 
 ### 📈 **Success Metrics Achieved:**
 
