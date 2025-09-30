@@ -291,7 +291,7 @@ export default function FloatingChatWidget({
 
       {!isOpen && showPrompt && (
         <div className={styles.chatPrompt}>
-          <div className={styles.promptText}>Ask me (AI) about Zach</div>
+          <div className={styles.promptText}>Ask AI about Zach</div>
           <div className={styles.promptArrow}></div>
         </div>
       )}
