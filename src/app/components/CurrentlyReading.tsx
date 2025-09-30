@@ -142,6 +142,29 @@ export default function CurrentlyReading() {
 
   // console.log("currentBook:", currentBook);
 
+  // Create inline style for cover image if available
+  const coverImageStyle = currentBook?.coverImg
+    ? ({ '--cover-image': `url(${currentBook.coverImg})` } as React.CSSProperties)
+    : undefined;
+
+  // Handle mobile touch: first tap shows cover, second tap follows link
+  const handleTouchStart = (e: React.TouchEvent<HTMLAnchorElement>) => {
+    const target = e.currentTarget;
+    const showCoverClass = styles.showCover || 'showCover';
+    const isShowingCover = target.classList.contains(showCoverClass);
+
+    if (!isShowingCover) {
+      e.preventDefault();
+      target.classList.add(showCoverClass);
+
+      // Hide cover after 3 seconds of inactivity
+      setTimeout(() => {
+        target.classList.remove(showCoverClass);
+      }, 3000);
+    }
+    // If already showing cover, let the link work normally (second tap)
+  };
+
   return (
     <>
       Currently reading{' '}
@@ -151,11 +174,15 @@ export default function CurrentlyReading() {
           target="_blank"
           rel="noopener noreferrer"
           className={styles.bookTitle}
+          style={coverImageStyle}
+          onTouchStart={handleTouchStart}
         >
           <strong>{currentBook?.title}</strong>
         </a>
       ) : (
-        <strong className={styles.bookTitle}>{currentBook?.title}</strong>
+        <strong className={styles.bookTitle} style={coverImageStyle}>
+          {currentBook?.title}
+        </strong>
       )}
       {currentBook?.author && <span> by {currentBook.author}</span>}
       {currentBook?.currentPage && currentBook?.totalPages && (
