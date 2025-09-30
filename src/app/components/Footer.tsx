@@ -16,6 +16,7 @@ import {
 } from 'react-icons/fa6';
 import moment from 'moment';
 import CurrentlyReading from './CurrentlyReading';
+import ActivityStatsCard from './ActivityStatsCard';
 import { useTheme } from '@/app/context/ThemeContext';
 import {
   formatDistanceToMiles,
@@ -278,15 +279,39 @@ export default function Footer() {
                   >
                     <FaStrava className={styles.stravaIcon} size={30} />
                   </a>
-                  <p
-                    className={`${styles.liveFeedText} ${
-                      loading ? styles.loadingText : ''
-                    }`}
+                  <div
+                    className={styles.activityContainer}
+                    onTouchStart={e => {
+                      const container = e.currentTarget;
+                      const showStatsClass = styles.showStats || 'showStats';
+                      const isShowingStats =
+                        container.classList.contains(showStatsClass);
+
+                      if (!isShowingStats && !loading) {
+                        container.classList.add(showStatsClass);
+
+                        // Hide stats after 3 seconds of inactivity
+                        setTimeout(() => {
+                          container.classList.remove(showStatsClass);
+                        }, 3000);
+                      }
+                    }}
                   >
-                    <span className={styles.liveFeedTextContent}>
-                      {getActivityDisplay().text}
-                    </span>
-                  </p>
+                    <p
+                      className={`${styles.liveFeedText} ${
+                        loading ? styles.loadingText : ''
+                      }`}
+                    >
+                      <span className={styles.liveFeedTextContent}>
+                        {getActivityDisplay().text}
+                      </span>
+                    </p>
+                    {activity && !loading && (
+                      <div className={styles.activityStatsHover}>
+                        <ActivityStatsCard activity={activity} />
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 <div className={styles.liveFeedItem}>
