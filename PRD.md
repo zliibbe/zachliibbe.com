@@ -337,6 +337,7 @@ type EmbeddingCache = {
 - [ ] **Z-Index Management:** Proper layering to avoid conflicts with other UI elements
 
 **Technical Considerations:**
+
 - Book cover image URL needs to be accessible (Goodreads API or stored asset)
 - Image size optimization for quick hover response
 - Fallback handling if image fails to load
@@ -354,6 +355,7 @@ type EmbeddingCache = {
 - [ ] **Single Activity Fallback:** Keep current single-color display for days with 0-1 activities
 
 **Technical Considerations:**
+
 - react-calendar-heatmap customization with custom cell rendering
 - SVG diagonal clipping with proper hit detection for hover/click
 - Data aggregation logic to identify days with multiple activities

@@ -144,7 +144,9 @@ export default function CurrentlyReading() {
 
   // Create inline style for cover image if available
   const coverImageStyle = currentBook?.coverImg
-    ? ({ '--cover-image': `url(${currentBook.coverImg})` } as React.CSSProperties)
+    ? ({
+        '--cover-image': `url(${currentBook.coverImg})`,
+      } as React.CSSProperties)
     : undefined;
 
   // Handle mobile touch: first tap shows cover, second tap follows link
