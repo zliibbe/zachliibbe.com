@@ -81,6 +81,35 @@
   margin-top: 0.25rem;
 }
 
+.activityContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.activityStatsHover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 1001;
+}
+
+.activityContainer:hover .activityStatsHover {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Mobile and tablet: tap to show stats */
+@media (hover: none) and (pointer: coarse) {
+  .activityContainer.showStats .activityStatsHover {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
 .stravaLink {
   cursor: pointer;
   position: relative;
