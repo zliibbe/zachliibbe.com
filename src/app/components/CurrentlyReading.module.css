@@ -15,28 +15,55 @@
   text-decoration: underline;
 }
 
+.bookTitle:hover::before {
+  opacity: 1;
+}
+
+/* Class for showing cover on mobile touch */
+.showCover::before {
+  opacity: 1;
+}
+
 .bookTitle::before {
   content: '';
   position: absolute;
-  top: -140px;
+  bottom: 100%;
+  left: 50%;
   transform: translateX(-50%);
-  width: 90px;
-  height: 135px;
+  margin-bottom: 1rem;
+  width: 180px;
+  height: 270px;
   background-image: var(--cover-image);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
   background-color: white;
-  border-radius: 4px;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.3s ease;
   z-index: 1000;
-  isolation: isolate;
-  mix-blend-mode: normal;
-  transform-style: preserve-3d;
-  will-change: opacity;
+}
+
+/* Mobile and tablet: tap to show cover, tap again to follow link */
+@media (hover: none) and (pointer: coarse) {
+  .bookTitle::before {
+    width: 140px;
+    height: 210px;
+  }
+
+  .bookTitle.showCover::before {
+    opacity: 1;
+  }
+}
+
+/* Tablet with touch */
+@media (hover: none) and (pointer: coarse) and (min-width: 769px) {
+  .bookTitle::before {
+    width: 160px;
+    height: 240px;
+  }
 }
 
 /* Override liveFeedText styles specifically for the book cover */
