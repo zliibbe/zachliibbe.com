@@ -5,6 +5,7 @@ import matter from 'gray-matter';
 import { markdownToHtml } from '@/lib/markdown';
 import styles from './MarkdownEditor.module.css';
 import Modal from './Modal';
+import SeoPreview from './SeoPreview';
 
 interface BlogPost {
   title: string;
@@ -54,6 +55,7 @@ export default function MarkdownEditor({
   });
 
   const [previewMode, setPreviewMode] = useState(false);
+  const [showSeoPreview, setShowSeoPreview] = useState(false);
   const [newTag, setNewTag] = useState('');
   const contentRef = useRef<HTMLTextAreaElement>(null);
 
@@ -301,6 +303,9 @@ export default function MarkdownEditor({
       } else if (e.key === 'p') {
         e.preventDefault();
         setPreviewMode(!previewMode);
+      } else if (e.key === 'o') {
+        e.preventDefault();
+        setShowSeoPreview(!showSeoPreview);
       }
     }
     // Don't prevent default for other keys - let them reach the textarea
@@ -353,6 +358,14 @@ export default function MarkdownEditor({
             className={`${styles.button} ${previewMode ? styles.buttonActive : ''}`}
           >
             {previewMode ? 'Edit' : 'Preview'}
+          </button>
+          <button
+            type="button"
+            onClick={() => setShowSeoPreview(!showSeoPreview)}
+            className={`${styles.button} ${showSeoPreview ? styles.buttonActive : ''}`}
+            title="Toggle SEO preview"
+          >
+            SEO
           </button>
           <button
             type="button"
@@ -480,6 +493,12 @@ export default function MarkdownEditor({
             />
           </div>
 
+          {showSeoPreview && (
+            <div className={styles.sidebarSection}>
+              <SeoPreview post={post} />
+            </div>
+          )}
+
           {post.status === 'scheduled' && (
             <div className={styles.sidebarSection}>
               <h3>Scheduled For (MST)</h3>
@@ -549,7 +568,7 @@ console.log('Hello, world!');
 
 Horizontal rule
 
-Use Ctrl/Cmd + S to save, Ctrl/Cmd + P to toggle preview.
+Use Ctrl/Cmd + S to save, Ctrl/Cmd + P to toggle preview, Ctrl/Cmd + O for SEO preview.
 
 💡 Tips for smooth workflow:
 • Click 'Import' to import .md files
@@ -568,7 +587,8 @@ Use Ctrl/Cmd + S to save, Ctrl/Cmd + P to toggle preview.
       <div className={styles.footer}>
         <div className={styles.footerLeft}>
           <span className={styles.helpText}>
-            Ctrl/Cmd + S to save • Ctrl/Cmd + P to toggle preview
+            Ctrl/Cmd + S to save • Ctrl/Cmd + P to toggle preview • Ctrl/Cmd + O
+            for SEO preview
           </span>
         </div>
         <div className={styles.footerRight}>
