@@ -157,23 +157,27 @@ Zach Liibbe is currently unemployed and actively seeking new opportunities as of
 **Status:** Program completed successfully (school has since closed)
 
 **Curriculum Structure:**
+
 - Module-based learning: 4 six-week modules plus preparatory Module 0
 - Project-based learning approach with hands-on application development
 - Module 4: Full-stack collaboration project combining front-end and back-end students
 
 **Technologies & Skills Learned:**
+
 - **Core Frontend:** HTML5, CSS3, JavaScript (ES6+), responsive design
-- **Frameworks & Libraries:** React, Redux, Node.js for full-stack applications  
+- **Frameworks & Libraries:** React, Redux, Node.js for full-stack applications
 - **Development Tools:** Git/GitHub, testing frameworks, CI/CD practices
 - **Professional Development:** Technical interview preparation, portfolio development, career coaching
 
 **Key Projects & Achievements:**
+
 - Built multiple responsive web applications using React and vanilla JavaScript
 - Collaborated on full-stack applications with backend engineering students
 - Developed strong problem-solving methodology through structured curriculum
 - Completed intensive technical interview and job search preparation program
 
 **Program Impact:**
+
 - Transitioned from healthcare to software engineering through rigorous technical training
 - Developed foundational skills that enabled successful career pivot
 - Gained collaborative development experience working with diverse technical teams
