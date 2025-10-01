@@ -514,7 +514,7 @@ type EmbeddingCache = {
 ### Immediate Remaining Tasks (Current MVP Completion)
 
 - [x] **SEO Preview:** Blog post SEO preview (title, description, social cards) in admin interface
-- [x] **Reading Progress:** Blog post reading progress indicator on public blog pages
+- [x] **Reading Progress:** Blog post reading progress indicator with theme-adaptive accent colors on public blog pages
 - [ ] **Bulk Operations:** Publish multiple posts, reschedule bulk operations in admin
 - [ ] **Post Analytics:** Integration with performance metrics in admin dashboard
 - [x] **Rate Limiting:** Implement chat rate limiting (10 messages per session, 100 per IP per day)
