@@ -14,7 +14,7 @@ export async function GET() {
     // console.log("All keys before deletion:", keys);
 
     // Delete the cached data
-    let deletedKeys = [];
+    const deletedKeys: string[] = [];
 
     if (keys.includes('goodreads_read_books')) {
       await kv.del('goodreads_read_books');
