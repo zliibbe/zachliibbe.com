@@ -51,7 +51,11 @@ export default function ChatProvider() {
             .catch(() => ({}));
 
           if (response.status === 429) {
-            return "I'm receiving too many messages right now. Please wait a moment before trying again.";
+            // Use the detailed error message from the API if available
+            return (
+              errorData.error ||
+              'The daily rate limit has been exceeded. Please try again in 24 hours.'
+            );
           }
 
           return (

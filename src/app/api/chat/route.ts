@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { generateChatResponse, checkRateLimit } from '@/lib/claude-api';
+import {
+  generateChatResponse,
+  checkRateLimit,
+  getRateLimitStatus,
+} from '@/lib/claude-api';
 import {
   handleApiError,
   createApiError,
@@ -50,13 +54,17 @@ export async function POST(request: NextRequest) {
     // Get client IP for rate limiting
     const clientIP = getClientIP(request);
 
-    // Check rate limit
-    if (!checkRateLimit(clientIP)) {
+    // Check rate limit (now async with KV storage)
+    const rateLimitAllowed = await checkRateLimit(clientIP);
+    const rateLimitStatus = await getRateLimitStatus(clientIP);
+
+    if (!rateLimitAllowed) {
+      const resetDate = new Date(rateLimitStatus.resetTime);
       throw createApiError(
-        'Rate limit exceeded. Please wait a moment before sending another message.',
+        `Rate limit exceeded. You've reached the maximum of ${rateLimitStatus.limit} requests per day. Please try again after ${resetDate.toLocaleString()}.`,
         ApiErrorCodes.RATE_LIMIT_EXCEEDED,
         429,
-        { clientIP, rateLimited: true }
+        { clientIP, rateLimited: true, resetTime: rateLimitStatus.resetTime }
       );
     }
 
@@ -73,11 +81,22 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    return NextResponse.json({
-      success: true,
-      message: response.message,
-      sources: response.sources,
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        message: response.message,
+        sources: response.sources,
+      },
+      {
+        headers: {
+          'X-RateLimit-Limit': rateLimitStatus.limit.toString(),
+          'X-RateLimit-Remaining': rateLimitStatus.remaining.toString(),
+          'X-RateLimit-Reset': new Date(
+            rateLimitStatus.resetTime
+          ).toISOString(),
+        },
+      }
+    );
   } catch (error) {
     return handleApiError(error as Error, {
       endpoint: '/api/chat',
