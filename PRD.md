@@ -466,6 +466,144 @@ type EmbeddingCache = {
 
 ---
 
+### Phase 5: Analytics Tracking Events ✅ (100% Complete)
+
+**Status:** Complete (2025-10-01)
+
+- [x] **Google Analytics Setup:** Existing GA4 integration with script tags and utilities
+- [x] **Blog Post Tracking:** View, read completion (90% scroll), and social share events
+- [x] **Chat Widget Tracking:** Open, message send/receive, and close with session metrics
+- [x] **Search & Filter Tracking:** Blog search queries and category/tag filter selections
+- [x] **Component Architecture:** Separated client components for tracking in server-rendered pages
+
+**Technical Implementation:**
+
+- Extended `analytics.ts` utility with 9 new tracking functions
+- Created `BlogPostAnalytics` component for automatic view/completion tracking
+- Created `ShareButtons` component with integrated click tracking
+- Created `BlogSearch` and `BlogFilters` client components for user interaction tracking
+- Integrated analytics into chat hooks (`useChatVisibility`, `useChatMessages`)
+- All tracking respects analytics.isEnabled() checks
+- Performance-optimized with passive scroll listeners and useRef for timing
+
+**Analytics Events Implemented:**
+
+**Blog Events:**
+- `blog_post_view` - Post slug, title, category
+- `blog_post_complete` - Post slug, read time (tracked at 90% scroll)
+- `blog_post_share` - Post slug, platform (twitter/linkedin/email)
+
+**Chat Events:**
+- `chat_opened` - Timestamp tracking via openTimeRef
+- `chat_message_sent` - Message number in session
+- `chat_message_received` - AI response message number
+- `chat_closed` - Session duration (seconds), total message count
+
+**Search & Filter Events:**
+- `search` - Query term, result count
+- `filter_applied` - Filter type (category/tag), value, result count
+
+**Commits Created:**
+1. Extended analytics tracking functions
+2. Created BlogPostAnalytics component
+3. Created ShareButtons component with tracking
+4. Integrated analytics into blog post pages
+5. Added chat widget interaction tracking
+6. Added search and filter tracking to blog page
+
+**User Experience:**
+- Zero impact on user experience (all tracking async)
+- Privacy-respecting (GA4 consent framework)
+- Performance-optimized with passive listeners
+- Comprehensive tracking for data-driven optimization
+
+---
+
+### Phase 9: Fix Build Error - Html Import Issue ⚠️ (CRITICAL PRIORITY)
+
+**Status:** Not Started
+**Priority:** CRITICAL - Blocking production builds
+
+**Problem:**
+Production builds are failing with the following error:
+```
+Error: <Html> should not be imported outside of pages/_document.
+Read more: https://nextjs.org/docs/messages/no-document-import-in-page
+Export encountered an error on /_error: /404, /500
+```
+
+**Impact:**
+- Blocks successful production builds
+- Prevents proper error page generation
+- Recurring issue that needs permanent fix
+
+**Technical Requirements:**
+
+- [ ] **Identify Source:** Locate where `<Html>` is being imported incorrectly
+- [ ] **Fix Implementation:** Move Html usage to proper Next.js document structure
+- [ ] **Error Pages:** Ensure custom error pages (_error, 404, 500) build correctly
+- [ ] **Verify Build:** Confirm `npm run build` completes successfully
+- [ ] **Test Error Pages:** Verify error pages render correctly in production
+
+**Investigation Steps:**
+
+1. Search codebase for incorrect `import { Html }` statements
+2. Check if any components are importing Next.js document elements
+3. Review custom error page implementations
+4. Verify App Router vs Pages Router conventions
+
+**Expected Outcome:**
+- Clean production build without Html import errors
+- All static pages generate successfully
+- Error pages work in production environment
+
+---
+
+### Phase 10: ESLint Migration to CLI ⚡ (HIGH PRIORITY)
+
+**Status:** Not Started
+**Priority:** HIGH - Technical debt, deprecation warning
+
+**Problem:**
+`next lint` is deprecated and will be removed in Next.js 16:
+```
+`next lint` is deprecated and will be removed in Next.js 16.
+For existing projects, migrate to the ESLint CLI:
+npx @next/codemod@canary next-lint-to-eslint-cli .
+```
+
+**Impact:**
+- Future Next.js upgrades will break linting
+- Using deprecated tooling
+- Inconsistent with modern Next.js best practices
+
+**Technical Requirements:**
+
+- [ ] **Run Codemod:** Execute official Next.js ESLint migration codemod
+- [ ] **Update Scripts:** Update package.json lint scripts to use ESLint CLI directly
+- [ ] **Verify Config:** Ensure ESLint configuration is properly migrated
+- [ ] **Test Linting:** Confirm linting works with new setup
+- [ ] **Update CI/CD:** Update any build pipelines using `next lint`
+- [ ] **Documentation:** Update development docs with new lint command
+
+**Migration Command:**
+```bash
+npx @next/codemod@canary next-lint-to-eslint-cli .
+```
+
+**Expected Changes:**
+- `package.json` script changes from `next lint` to `eslint .`
+- ESLint configuration updated to work without Next.js wrapper
+- No more deprecation warnings
+- Consistent linting across development and CI/CD
+
+**Expected Outcome:**
+- Modern ESLint CLI integration
+- No deprecation warnings
+- Future-proof linting setup for Next.js 16+
+
+---
+
 ## 5. Success Metrics
 
 ### Chat System
