@@ -45,7 +45,8 @@ export async function GET(request: Request) {
       let page = 1;
       let hasMore = true;
 
-      while (hasMore && page <= 3) { // Limit to 3 pages (600 activities) for performance
+      while (hasMore && page <= 3) {
+        // Limit to 3 pages (600 activities) for performance
         const pageResponse = await fetch(
           `https://www.strava.com/api/v3/athlete/activities?per_page=200&page=${page}`,
           {
@@ -61,7 +62,9 @@ export async function GET(request: Request) {
           console.error(
             `[${requestId}] Strava API error: ${pageResponse.status} - ${errorText}`
           );
-          throw new Error(`Strava API returned ${pageResponse.status}: ${errorText}`);
+          throw new Error(
+            `Strava API returned ${pageResponse.status}: ${errorText}`
+          );
         }
 
         const pageActivities = await pageResponse.json();
@@ -73,7 +76,8 @@ export async function GET(request: Request) {
 
         // Check if the oldest activity in this page is before our cutoff date
         const oldestActivity = pageActivities[pageActivities.length - 1];
-        const oldestTimestamp = new Date(oldestActivity.start_date).getTime() / 1000;
+        const oldestTimestamp =
+          new Date(oldestActivity.start_date).getTime() / 1000;
 
         allActivities = allActivities.concat(pageActivities);
 
@@ -89,7 +93,8 @@ export async function GET(request: Request) {
 
       // Filter activities to only include those after the 'after' timestamp
       const activities = allActivities.filter((activity: any) => {
-        const activityTimestamp = new Date(activity.start_date).getTime() / 1000;
+        const activityTimestamp =
+          new Date(activity.start_date).getTime() / 1000;
         return activityTimestamp >= after;
       });
 
