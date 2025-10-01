@@ -3,6 +3,8 @@
   border-radius: var(--border-radius);
   padding: 2rem;
   margin-top: 1rem; /* Space for the legend */
+  min-height: 200px; /* Ensure enough height for all 7 weekday rows */
+  overflow: visible;
 }
 
 .legend {
@@ -114,6 +116,11 @@ html[data-theme='dark'] .react-calendar-heatmap .colorEmpty {
 
 .react-calendar-heatmap .colorWalk {
   fill: #ff9800 !important;
+}
+
+/* Multi-activity placeholder (split squares handled by custom renderer) */
+.react-calendar-heatmap .colorMultiple {
+  fill: none !important;
 }
 
 /* Override any default heatmap styles */
