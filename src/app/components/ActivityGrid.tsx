@@ -58,41 +58,27 @@ export default function ActivityGrid({ activities }: ActivityGridProps) {
     }
   };
 
-  if (!activities) {
-    return <div className={styles.errorState}>Loading activities...</div>;
-  }
-
-  if (!Array.isArray(activities)) {
-    console.error('Activities is not an array:', activities);
-    return (
-      <div className={styles.errorState}>Error: Invalid activity data</div>
-    );
-  }
-
-  if (!activities.length) {
-    return (
-      <div className={styles.errorState}>No recorded activities found</div>
-    );
-  }
-
-  // Aggregate activities by date
-  const activitiesByDate = activities.reduce(
-    (acc, activity) => {
-      const date = moment(activity.start_date).format('YYYY-MM-DD');
-      if (!acc[date]) {
-        acc[date] = [];
-      }
-      acc[date].push({
-        type: activity.type.toLowerCase(),
-        name: activity.name,
-        distance: activity.distance,
-        moving_time: activity.moving_time,
-        id: activity.id,
-      });
-      return acc;
-    },
-    {} as Record<string, ActivityData[]>
-  );
+  // Aggregate activities by date (do this before any returns to avoid conditional hook calls)
+  const activitiesByDate =
+    activities && Array.isArray(activities) && activities.length > 0
+      ? activities.reduce(
+          (acc, activity) => {
+            const date = moment(activity.start_date).format('YYYY-MM-DD');
+            if (!acc[date]) {
+              acc[date] = [];
+            }
+            acc[date].push({
+              type: activity.type.toLowerCase(),
+              name: activity.name,
+              distance: activity.distance,
+              moving_time: activity.moving_time,
+              id: activity.id,
+            });
+            return acc;
+          },
+          {} as Record<string, ActivityData[]>
+        )
+      : {};
 
   // Create heatmap values with multi-activity support
   const values = Object.entries(activitiesByDate).map(
@@ -215,14 +201,16 @@ export default function ActivityGrid({ activities }: ActivityGridProps) {
           const clipId2 = `clip-upper-${uniqueId}`;
 
           // Ensure defs element exists
-          let defs = gridRef.current.querySelector('defs');
-          if (!defs) {
+          let defs = gridRef.current?.querySelector('defs');
+          if (!defs && gridRef.current) {
             defs = document.createElementNS(
               'http://www.w3.org/2000/svg',
               'defs'
             );
             gridRef.current.querySelector('svg')?.prepend(defs);
           }
+
+          if (!defs) return; // Skip if defs couldn't be created
 
           // Create clip paths for diagonal split
           // Upper-left triangle for first activity: top-left, bottom-left, top-right
@@ -293,6 +281,24 @@ export default function ActivityGrid({ activities }: ActivityGridProps) {
       observer.disconnect();
     };
   }, [activities, values]);
+
+  // Conditional renders after all hooks
+  if (!activities) {
+    return <div className={styles.errorState}>Loading activities...</div>;
+  }
+
+  if (!Array.isArray(activities)) {
+    console.error('Activities is not an array:', activities);
+    return (
+      <div className={styles.errorState}>Error: Invalid activity data</div>
+    );
+  }
+
+  if (!activities.length) {
+    return (
+      <div className={styles.errorState}>No recorded activities found</div>
+    );
+  }
 
   const legendItems = [
     { type: 'Run', className: styles.legendRun },
