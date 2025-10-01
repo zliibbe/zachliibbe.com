@@ -18,7 +18,15 @@ function normalizeTitle(title: string): string {
 // Helper function to find matching progress update for a book
 function findProgressUpdate(
   bookTitle: string,
-  progressUpdates: Record<string, any>
+  progressUpdates: Record<
+    string,
+    {
+      currentPage: number;
+      totalPages: number;
+      lastUpdated: string;
+      isPercentage?: boolean;
+    }
+  >
 ) {
   const normalizedBookTitle = normalizeTitle(bookTitle);
 
