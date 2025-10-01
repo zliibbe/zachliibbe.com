@@ -4,7 +4,9 @@
   padding: 2rem;
   margin-top: 1rem; /* Space for the legend */
   min-height: 200px; /* Ensure enough height for all 7 weekday rows */
-  overflow: visible;
+  overflow-x: auto; /* Allow horizontal scrolling if needed */
+  overflow-y: visible;
+  width: 100%;
 }
 
 .legend {
@@ -132,6 +134,7 @@ html[data-theme='dark'] .react-calendar-heatmap .colorEmpty {
   font-size: var(--fs-200);
   margin: 1rem 0;
   padding: 1rem 1rem 1rem 0;
+  min-width: 800px; /* Ensure calendar has enough width to display all months */
 }
 
 .react-calendar-heatmap-week-label,
