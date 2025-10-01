@@ -20,7 +20,11 @@ export default function CurrentlyReading() {
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [debugInfo, setDebugInfo] = useState<any>(null);
+  const [debugInfo, setDebugInfo] = useState<{
+    status: number;
+    statusText: string;
+    rawResponse: string;
+  } | null>(null);
 
   useEffect(() => {
     async function fetchBooks() {
@@ -70,19 +74,21 @@ export default function CurrentlyReading() {
         }
 
         // Normalize the data to ensure consistent property names
-        const normalizedBooks = booksArray.map((book: any) => {
-          // console.log("Processing book:", book);
-          return {
-            title: book.title,
-            author: book.author,
-            coverImg: book.coverImg || book.cover_url || null,
-            link: book.link || book.url || null,
-            currentPage: book.currentPage || book.current_page || null,
-            totalPages: book.totalPages || book.total_pages || null,
-            lastUpdated: book.lastUpdated || book.last_updated || null,
-            isPercentage: book.isPercentage || false,
-          };
-        });
+        const normalizedBooks = booksArray.map(
+          (book: Record<string, unknown>) => {
+            // console.log("Processing book:", book);
+            return {
+              title: book.title,
+              author: book.author,
+              coverImg: book.coverImg || book.cover_url || null,
+              link: book.link || book.url || null,
+              currentPage: book.currentPage || book.current_page || null,
+              totalPages: book.totalPages || book.total_pages || null,
+              lastUpdated: book.lastUpdated || book.last_updated || null,
+              isPercentage: book.isPercentage || false,
+            };
+          }
+        );
 
         // console.log("normalizedBooks:", normalizedBooks);
 

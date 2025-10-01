@@ -1,6 +1,6 @@
 'use client';
 
-import React, { SVGProps, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 // import SafeCalendarHeatmap from "./CalendarHeatmapWrapper";
 import CalendarHeatmap from 'react-calendar-heatmap';
 import 'react-calendar-heatmap/dist/styles.css';
@@ -107,17 +107,21 @@ export default function ActivityGrid({ activities }: ActivityGridProps) {
     }
   );
 
-  const getClassForValue = (value: any): string => {
-    if (!value || !value.type) {
+  const getClassForValue = (
+    value: ReactCalendarHeatmapValue<string> | undefined
+  ): string => {
+    const heatmapValue = value as HeatmapValue | null | undefined;
+
+    if (!heatmapValue || !heatmapValue.type) {
       return styles.colorEmpty!;
     }
 
     // For multi-activity days, return a placeholder class
-    if (value.type === 'multiple') {
+    if (heatmapValue.type === 'multiple') {
       return styles.colorMultiple!;
     }
 
-    const type = value.type.toLowerCase();
+    const type = heatmapValue.type.toLowerCase();
 
     switch (type) {
       case 'run':
@@ -354,7 +358,7 @@ export default function ActivityGrid({ activities }: ActivityGridProps) {
           values={values}
           classForValue={getClassForValue}
           titleForValue={(
-            value: ReactCalendarHeatmapValue<any> | undefined
+            value: ReactCalendarHeatmapValue<string> | undefined
           ) => {
             if (!value) return 'No recorded activity';
             const val = value as HeatmapValue;

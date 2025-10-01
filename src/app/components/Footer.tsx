@@ -35,7 +35,14 @@ type Book = {
 export default function Footer() {
   const { isDarkMode } = useTheme();
   const { data: session } = useSession();
-  const [activity, setActivity] = useState<any>(null);
+  const [activity, setActivity] = useState<{
+    id: number;
+    type: string;
+    name: string;
+    distance: number;
+    elapsed_time: number;
+    start_date: string;
+  } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [currentlyReading, setCurrentlyReading] = useState<Book[]>([]);
@@ -133,7 +140,7 @@ export default function Footer() {
    * @param activity - The Strava activity object
    * @returns Human-readable time ago string
    */
-  const getActivityTimeAgo = (activity: any) => {
+  const getActivityTimeAgo = (activity: { start_date?: string } | null) => {
     if (!activity || !activity.start_date) {
       return 'recently';
     }
