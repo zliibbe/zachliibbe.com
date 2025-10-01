@@ -114,7 +114,9 @@ const SafeCalendarHeatmap = React.forwardRef<
         !key.includes('$styled') &&
         !key.includes('$theme')
       ) {
-        (acc as any)[key] = (props as any)[key];
+        (acc as unknown as Record<string, unknown>)[key] = (
+          props as unknown as Record<string, unknown>
+        )[key];
       }
       return acc;
     },

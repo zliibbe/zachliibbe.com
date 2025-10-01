@@ -1,5 +1,5 @@
 export interface ParsedFrontmatter {
-  metadata: Record<string, any>;
+  metadata: Record<string, unknown>;
   content: string;
 }
 
@@ -12,7 +12,7 @@ export function parseFrontmatter(content: string): ParsedFrontmatter {
   }
 
   const [, frontmatter, bodyContent] = match;
-  const metadata: Record<string, any> = {};
+  const metadata: Record<string, unknown> = {};
 
   // Simple YAML parser for your specific format
   frontmatter!.split('\n').forEach(line => {
@@ -61,7 +61,7 @@ export function stripFrontmatter(content: string): string {
   return content.replace(frontmatterRegex, '').trim();
 }
 
-export function createFrontmatter(metadata: Record<string, any>): string {
+export function createFrontmatter(metadata: Record<string, unknown>): string {
   const lines = ['---'];
 
   Object.entries(metadata).forEach(([key, value]) => {

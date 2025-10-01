@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { kv } from '@vercel/kv';
 import { getAccessToken } from '@/lib/strava/auth';
+import type { StravaActivity } from '@/lib/strava/types';
 
 export const dynamic = 'force-dynamic';
 const CACHE_KEY = 'strava_activities';
@@ -41,7 +42,7 @@ export async function GET(request: Request) {
 
       // Fetch activities with pagination to handle > 200 activities
       // Strava returns newest first by default
-      let allActivities: any[] = [];
+      let allActivities: StravaActivity[] = [];
       let page = 1;
       let hasMore = true;
 
@@ -92,7 +93,7 @@ export async function GET(request: Request) {
       clearTimeout(timeoutId);
 
       // Filter activities to only include those after the 'after' timestamp
-      const activities = allActivities.filter((activity: any) => {
+      const activities = allActivities.filter((activity: StravaActivity) => {
         const activityTimestamp =
           new Date(activity.start_date).getTime() / 1000;
         return activityTimestamp >= after;

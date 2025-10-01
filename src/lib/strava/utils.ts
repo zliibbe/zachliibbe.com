@@ -26,7 +26,7 @@ const getStorage = () => {
   ) {
     return {
       get: async (key: string) => localCache.get(key),
-      set: async (key: string, value: any, options?: { ex?: number }) => {
+      set: async (key: string, value: unknown, options?: { ex?: number }) => {
         localCache.set(key, value);
         if (options?.ex) {
           setTimeout(() => localCache.delete(key), options.ex * 1000);
@@ -128,11 +128,11 @@ export async function getStravaActivities(): Promise<StravaActivity[]> {
     });
 
     return activities;
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Storage error:', error);
 
     // If cache error, try fetching fresh data
-    if (error.message?.includes('KV')) {
+    if (error instanceof Error && error.message?.includes('KV')) {
       return await fetchStravaActivities();
     }
 

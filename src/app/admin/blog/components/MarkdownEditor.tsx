@@ -3,27 +3,17 @@
 import React, { useState, useRef, useCallback } from 'react';
 import matter from 'gray-matter';
 import { markdownToHtml } from '@/lib/markdown';
+import { BlogPost } from '@/types/blog';
 import styles from './MarkdownEditor.module.css';
 import Modal from './Modal';
 import SeoPreview from './SeoPreview';
 
-interface BlogPost {
-  title: string;
-  author: string;
-  publishedAt: string;
-  scheduledFor?: string;
-  status: 'draft' | 'scheduled' | 'published';
-  categories: string[];
-  tags: string[];
-  series?: string;
-  excerpt: string;
-  content: string;
-  mediumUrl?: string;
-}
+// Type for blog post data that's editable (excludes auto-generated fields)
+type EditableBlogPost = Omit<BlogPost, 'id' | 'slug' | 'readTime'>;
 
 interface MarkdownEditorProps {
   initialPost?: Partial<BlogPost>;
-  onSave: (post: BlogPost) => void;
+  onSave: (post: EditableBlogPost) => void;
   onCancel: () => void;
 }
 
@@ -39,7 +29,7 @@ export default function MarkdownEditor({
   onSave,
   onCancel,
 }: MarkdownEditorProps) {
-  const [post, setPost] = useState<BlogPost>({
+  const [post, setPost] = useState<EditableBlogPost>({
     title: initialPost?.title || '',
     author: 'Zach Liibbe',
     publishedAt:
@@ -127,13 +117,10 @@ export default function MarkdownEditor({
               };
 
               const normalizedCategories = toStringArray(
-                (frontmatter as any).categories,
+                frontmatter.categories,
                 prev.categories
               );
-              const normalizedTags = toStringArray(
-                (frontmatter as any).tags,
-                prev.tags
-              );
+              const normalizedTags = toStringArray(frontmatter.tags, prev.tags);
 
               return {
                 ...prev,
@@ -189,7 +176,10 @@ export default function MarkdownEditor({
     URL.revokeObjectURL(url);
   }, [post]);
 
-  const handleMetadataChange = (field: keyof BlogPost, value: any) => {
+  const handleMetadataChange = (
+    field: keyof BlogPost,
+    value: string | string[]
+  ) => {
     setPost(prev => ({ ...prev, [field]: value }));
   };
 

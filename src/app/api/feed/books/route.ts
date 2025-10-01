@@ -106,14 +106,22 @@ async function fetchGoodreadsShelf(shelf: string) {
           const data = await lambdaResponse.json();
           if (data && data.books && data.books.length > 0) {
             // Transform Lambda data to match our expected format
-            return data.books.map((book: any) => ({
-              title: book.title,
-              author: book.author,
-              coverUrl: book.coverImg,
-              link: book.link,
-              dateRead: book.lastUpdated || new Date().toISOString(),
-              rating: 5, // Default rating for currently reading books
-            }));
+            return data.books.map(
+              (book: {
+                title: string;
+                author: string;
+                coverImg: string;
+                link: string;
+                lastUpdated?: string;
+              }) => ({
+                title: book.title,
+                author: book.author,
+                coverUrl: book.coverImg,
+                link: book.link,
+                dateRead: book.lastUpdated || new Date().toISOString(),
+                rating: 5, // Default rating for currently reading books
+              })
+            );
           }
         }
       } catch (lambdaError) {

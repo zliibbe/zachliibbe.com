@@ -19,7 +19,6 @@ export function isModernBrowser(): boolean {
       'Set' in window &&
       typeof globalThis !== 'undefined' &&
       // Check for optional chaining support (ES2020)
-      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       eval('const obj = {}; obj?.test') !== undefined
     );
   } catch {

@@ -13,7 +13,7 @@ const localCache = new Map();
  * Scrolls the window to the top with smooth animation
  */
 export function scrollToTop() {
-  let isBrowser = () => typeof window !== 'undefined';
+  const isBrowser = () => typeof window !== 'undefined';
 
   if (!isBrowser()) return;
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -288,7 +288,7 @@ export const getStorage = () => {
   ) {
     return {
       get: async (key: string) => localCache.get(key),
-      set: async (key: string, value: any, options?: { ex?: number }) => {
+      set: async (key: string, value: unknown, options?: { ex?: number }) => {
         localCache.set(key, value);
         if (options?.ex) {
           setTimeout(() => localCache.delete(key), options.ex * 1000);
@@ -368,7 +368,7 @@ export async function getStravaAccessToken(): Promise<string> {
  * Fetches Strava activities directly from the API
  * @returns Promise with array of Strava activities
  */
-export async function fetchStravaActivities(): Promise<any[]> {
+export async function fetchStravaActivities(): Promise<unknown[]> {
   const accessToken = await getStravaAccessToken();
 
   // Get activities from the past year
@@ -405,7 +405,7 @@ export async function fetchStravaActivities(): Promise<any[]> {
  * Gets Strava activities with caching
  * @returns Promise with array of Strava activities
  */
-export async function getStravaActivities(): Promise<any[]> {
+export async function getStravaActivities(): Promise<unknown[]> {
   try {
     const storage = getStorage();
     const cachedData = await storage.get(ACTIVITIES_CACHE_KEY);
@@ -416,7 +416,9 @@ export async function getStravaActivities(): Promise<any[]> {
 
       // If the latest activity is newer than what's in our cache, refresh the cache
       if (
-        !cachedData.some((activity: any) => activity.id === latestActivity.id)
+        !cachedData.some(
+          (activity: { id: number }) => activity.id === latestActivity.id
+        )
       ) {
         const freshActivities = await fetchStravaActivities();
         await storage.set(ACTIVITIES_CACHE_KEY, freshActivities, {
@@ -425,7 +427,7 @@ export async function getStravaActivities(): Promise<any[]> {
         return freshActivities;
       }
 
-      return cachedData as any[];
+      return cachedData as unknown[];
     }
 
     const activities = await fetchStravaActivities();
@@ -436,11 +438,11 @@ export async function getStravaActivities(): Promise<any[]> {
     });
 
     return activities;
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Storage error:', error);
 
     // If cache error, try fetching fresh data
-    if (error.message?.includes('KV')) {
+    if (error instanceof Error && error.message?.includes('KV')) {
       return await fetchStravaActivities();
     }
 
@@ -454,7 +456,14 @@ export async function getStravaActivities(): Promise<any[]> {
  * @param signal - Optional AbortSignal for timeout handling
  * @returns Promise with the latest Strava activity
  */
-export async function fetchLatestActivity(signal?: AbortSignal): Promise<any> {
+export async function fetchLatestActivity(signal?: AbortSignal): Promise<{
+  id: number;
+  type: string;
+  name: string;
+  distance: number;
+  elapsed_time: number;
+  start_date: string;
+}> {
   // Get a fresh access token
   const accessToken = await getStravaAccessToken();
 

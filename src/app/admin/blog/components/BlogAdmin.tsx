@@ -111,7 +111,9 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
     setShowEditor(true);
   };
 
-  const handleSavePost = async (postData: any) => {
+  const handleSavePost = async (
+    postData: Omit<BlogPost, 'id' | 'slug' | 'readTime'>
+  ) => {
     try {
       // First save/update the post
       const url = editingPost
@@ -143,13 +145,23 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
 
       // If the post is scheduled, call the schedule API
       if (postData.status === 'scheduled' && postData.scheduledFor) {
+        if (!savedPost.post?.slug) {
+          setGeneralModal({
+            isOpen: true,
+            type: 'error',
+            title: 'Error Scheduling Post',
+            message: 'Post was saved but slug was not generated',
+          });
+          return;
+        }
+
         const scheduleResponse = await fetch('/api/blog/schedule', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            slug: savedPost.post?.slug || postData.slug,
+            slug: savedPost.post.slug,
             scheduledFor: postData.scheduledFor,
           }),
         });
@@ -370,15 +382,17 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
       const result = await response.json();
 
       // Convert API response to ImageOption format
-      const imageOptions: ImageOption[] = result.options.map((option: any) => ({
-        id: option.id,
-        url: option.url,
-        thumbnailUrl: option.thumbnailUrl,
-        alt: option.alt,
-        attribution: option.attribution,
-        width: option.width,
-        height: option.height,
-      }));
+      const imageOptions: ImageOption[] = result.options.map(
+        (option: ImageOption) => ({
+          id: option.id,
+          url: option.url,
+          thumbnailUrl: option.thumbnailUrl,
+          alt: option.alt,
+          attribution: option.attribution,
+          width: option.width,
+          height: option.height,
+        })
+      );
 
       // Show selection modal
       setImageModal({
