@@ -123,9 +123,9 @@ export function applyTheme(themeName: Theme['name']) {
   const theme = themes[themeName];
   const root = document.documentElement;
 
-  // Apply all theme colors as CSS custom properties
+  // Apply all theme colors as CSS custom properties (keeping camelCase)
   Object.entries(theme.colors).forEach(([key, value]) => {
-    const cssVar = `--${key.replace(/([A-Z])/g, '-$1').toLowerCase()}`;
+    const cssVar = `--${key}`;
     root.style.setProperty(cssVar, value);
   });
 }
