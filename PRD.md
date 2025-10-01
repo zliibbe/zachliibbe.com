@@ -604,6 +604,68 @@ npx @next/codemod@canary next-lint-to-eslint-cli .
 
 ---
 
+### Phase 11: Update Next.js to Latest Version 🔄 (MEDIUM PRIORITY)
+
+**Status:** Not Started
+**Priority:** MEDIUM - Version staleness, security updates
+
+**Problem:**
+Current Next.js version is outdated. Next.js frequently releases updates with:
+- Performance improvements
+- Security patches
+- Bug fixes
+- New features
+
+**Documentation:**
+https://nextjs.org/docs/messages/version-staleness
+
+**Impact:**
+- Missing performance optimizations
+- Potential security vulnerabilities
+- Outdated features and APIs
+- Compatibility issues with new packages
+
+**Technical Requirements:**
+
+- [ ] **Check Current Version:** Review current Next.js version in package.json
+- [ ] **Review Changelog:** Read Next.js release notes for breaking changes
+- [ ] **Update Dependencies:** Update Next.js and related packages
+- [ ] **Update React:** Ensure React version is compatible with new Next.js
+- [ ] **Test Build:** Verify production build succeeds
+- [ ] **Test Features:** Ensure all features work (blog, chat, auth, etc.)
+- [ ] **Update Documentation:** Update version references in docs
+
+**Update Commands:**
+```bash
+# Check current version
+npm list next
+
+# Update Next.js to latest
+npm install next@latest react@latest react-dom@latest
+
+# Update other Next.js related packages if needed
+npm install @next/bundle-analyzer@latest @next/env@latest
+```
+
+**Testing Checklist:**
+- [ ] Home page renders correctly
+- [ ] Blog system (list, post pages, search, filters)
+- [ ] Chat widget functionality
+- [ ] Admin dashboard (if authenticated)
+- [ ] API routes (blog, chat, auth, Strava, Goodreads)
+- [ ] Static generation and ISR
+- [ ] Image optimization
+- [ ] CSS Modules and styling
+- [ ] TypeScript compilation
+
+**Expected Outcome:**
+- Latest stable Next.js version
+- All features working correctly
+- Improved performance and security
+- Access to newest Next.js features
+
+---
+
 ## 5. Success Metrics
 
 ### Chat System
