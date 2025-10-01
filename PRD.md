@@ -422,7 +422,7 @@ type EmbeddingCache = {
 - [x] **Automatic Expiry:** KV entries automatically expire after 24 hours to prevent data accumulation
 - [x] **Rate Limit Headers:** Added `X-RateLimit-Limit`, `X-RateLimit-Remaining`, and `X-RateLimit-Reset` headers to API responses
 - [x] **Graceful Degradation:** Falls back to allowing requests if KV is unavailable (fail-open strategy)
-- [x] **Enhanced Error Messages:** User-friendly rate limit exceeded messages with reset time information
+- [x] **Enhanced Error Messages:** User-friendly rate limit exceeded messages showing daily limit and specific reset timestamp
 - [x] **Conversation Limits:** Maintained existing 10-message per session limit for additional cost control
 
 **Technical Implementation:**
@@ -433,6 +433,7 @@ type EmbeddingCache = {
 - Async rate limit checks integrated into chat API route
 - Standard HTTP 429 status code for rate limit exceeded responses
 - Informative headers following industry best practices (X-RateLimit-* pattern)
+- Chat widget displays detailed API error messages with reset time to users
 
 ---
 
