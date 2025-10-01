@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback, useRef } from 'react';
+import { analytics } from '@/app/utils/analytics';
 
 export interface ChatMessage {
   id: string;
@@ -68,6 +69,11 @@ export function useChatMessages({
       setMessages(prev => [...prev, userMessage]);
       setIsLoading(true);
 
+      // Track user message
+      if (analytics.isEnabled()) {
+        analytics.trackChatMessage(true, messages.length + 1);
+      }
+
       // Immediately show RAG processing indicator
       const assistantMessageId = (Date.now() + 1).toString();
       const loadingMessage: ChatMessage = {
@@ -88,6 +94,11 @@ export function useChatMessages({
 
         // Start streaming animation
         await streamTextResponse(assistantMessageId, response);
+
+        // Track assistant message
+        if (analytics.isEnabled()) {
+          analytics.trackChatMessage(false, messages.length + 2);
+        }
       } catch (error) {
         console.error('Error sending message:', error);
 
@@ -132,7 +143,7 @@ export function useChatMessages({
         setStreamingMessageId(null);
       }
     },
-    [isLoading, onSendMessage, streamTextResponse]
+    [isLoading, messages.length, onSendMessage, streamTextResponse]
   );
 
   const clearMessages = useCallback(() => {

@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { analytics } from '@/app/utils/analytics';
 
 interface UseChatVisibilityOptions {
   promptTimeout?: number;
@@ -17,6 +18,7 @@ export function useChatVisibility({
   const [showPrompt, setShowPrompt] = useState(true);
   const [showGreeting, setShowGreeting] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const openTimeRef = useRef<number | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -47,10 +49,16 @@ export function useChatVisibility({
   }, [isOpen, greetingDelay, greetingDuration]);
 
   const toggleChat = useCallback(() => {
-    setIsOpen(!isOpen);
-    if (!isOpen) {
+    const willOpen = !isOpen;
+    setIsOpen(willOpen);
+
+    if (willOpen) {
       setShowPrompt(false);
       setShowGreeting(false);
+      openTimeRef.current = Date.now();
+      if (analytics.isEnabled()) {
+        analytics.trackChatOpen();
+      }
     }
   }, [isOpen]);
 
@@ -58,10 +66,23 @@ export function useChatVisibility({
     setIsOpen(true);
     setShowPrompt(false);
     setShowGreeting(false);
+    openTimeRef.current = Date.now();
+    if (analytics.isEnabled()) {
+      analytics.trackChatOpen();
+    }
   }, []);
 
-  const closeChat = useCallback(() => {
+  const closeChat = useCallback((messageCount: number = 0) => {
+    // Track chat close with duration and message count
+    if (analytics.isEnabled() && openTimeRef.current) {
+      const durationSeconds = Math.floor(
+        (Date.now() - openTimeRef.current) / 1000
+      );
+      analytics.trackChatClose(messageCount, durationSeconds);
+    }
+
     setIsOpen(false);
+    openTimeRef.current = null;
   }, []);
 
   const dismissGreeting = useCallback(() => {
@@ -77,5 +98,6 @@ export function useChatVisibility({
     openChat,
     closeChat,
     dismissGreeting,
+    openTimeRef,
   };
 }

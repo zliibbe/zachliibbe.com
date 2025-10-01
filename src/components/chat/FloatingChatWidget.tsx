@@ -98,7 +98,7 @@ export default function FloatingChatWidget({
           <div className={styles.chatHeader}>
             <h3>Ask AI about Zach</h3>
             <button
-              onClick={closeChat}
+              onClick={() => closeChat(messages.length)}
               className={styles.closeButton}
               aria-label="Close chat"
             >

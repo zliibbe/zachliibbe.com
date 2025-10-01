@@ -2,13 +2,14 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Metadata } from 'next';
-import { FaTwitter, FaLinkedin, FaEnvelope } from 'react-icons/fa';
 import {
   getPostBySlugWithImage,
   getAllPublishedPostsWithImages,
 } from '@/lib/blog-with-images';
 import Footer from '@/app/components/Footer';
 import ReadingProgress from '@/app/components/ReadingProgress';
+import BlogPostAnalytics from '@/app/components/BlogPostAnalytics';
+import ShareButtons from '@/app/components/ShareButtons';
 import styles from './page.module.css';
 
 // Revalidate this page periodically as a fallback in case on-demand revalidation wasn't triggered
@@ -37,13 +38,16 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   };
 
   const shareUrl = `https://zachliibbe.com/blog/${post.slug}`;
-  const shareText = encodeURIComponent(
-    `Check out "${post.title}" by ${post.author}`
-  );
 
   return (
     <>
       <ReadingProgress />
+      <BlogPostAnalytics
+        slug={post.slug}
+        title={post.title}
+        category={post.categories[0] || 'Uncategorized'}
+        readTimeMinutes={parseInt(post.readTime) || 0}
+      />
       <main>
         <div className="universal-gradient-container">
           <div className="universal-gradient-background"></div>
@@ -136,33 +140,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                       Found this helpful? Share it with others:
                     </p>
 
-                    <div className={styles.shareLinks}>
-                      <a
-                        href={`https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareText}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={styles.shareIcon}
-                        aria-label="Share on Twitter"
-                      >
-                        <FaTwitter size={30} />
-                      </a>
-                      <a
-                        href={`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={styles.shareIcon}
-                        aria-label="Share on LinkedIn"
-                      >
-                        <FaLinkedin size={30} />
-                      </a>
-                      <a
-                        href={`mailto:?subject=${encodeURIComponent(post.title)}&body=${shareText}%0A%0A${shareUrl}`}
-                        className={styles.shareIcon}
-                        aria-label="Share via Email"
-                      >
-                        <FaEnvelope size={30} />
-                      </a>
-                    </div>
+                    <ShareButtons
+                      slug={post.slug}
+                      title={post.title}
+                      author={post.author}
+                      shareUrl={shareUrl}
+                      className={styles.shareLinks}
+                    />
                   </footer>
                 </article>
               </div>
