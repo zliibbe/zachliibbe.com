@@ -489,21 +489,25 @@ type EmbeddingCache = {
 **Analytics Events Implemented:**
 
 **Blog Events:**
+
 - `blog_post_view` - Post slug, title, category
 - `blog_post_complete` - Post slug, read time (tracked at 90% scroll)
 - `blog_post_share` - Post slug, platform (twitter/linkedin/email)
 
 **Chat Events:**
+
 - `chat_opened` - Timestamp tracking via openTimeRef
 - `chat_message_sent` - Message number in session
 - `chat_message_received` - AI response message number
 - `chat_closed` - Session duration (seconds), total message count
 
 **Search & Filter Events:**
+
 - `search` - Query term, result count
 - `filter_applied` - Filter type (category/tag), value, result count
 
 **Commits Created:**
+
 1. Extended analytics tracking functions
 2. Created BlogPostAnalytics component
 3. Created ShareButtons component with tracking
@@ -512,6 +516,7 @@ type EmbeddingCache = {
 6. Added search and filter tracking to blog page
 
 **User Experience:**
+
 - Zero impact on user experience (all tracking async)
 - Privacy-respecting (GA4 consent framework)
 - Performance-optimized with passive listeners
@@ -526,6 +531,7 @@ type EmbeddingCache = {
 
 **Problem:**
 Production builds are failing with the following error:
+
 ```
 Error: <Html> should not be imported outside of pages/_document.
 Read more: https://nextjs.org/docs/messages/no-document-import-in-page
@@ -533,6 +539,7 @@ Export encountered an error on /_error: /404, /500
 ```
 
 **Impact:**
+
 - Blocks successful production builds
 - Prevents proper error page generation
 - Recurring issue that needs permanent fix
@@ -541,7 +548,7 @@ Export encountered an error on /_error: /404, /500
 
 - [ ] **Identify Source:** Locate where `<Html>` is being imported incorrectly
 - [ ] **Fix Implementation:** Move Html usage to proper Next.js document structure
-- [ ] **Error Pages:** Ensure custom error pages (_error, 404, 500) build correctly
+- [ ] **Error Pages:** Ensure custom error pages (\_error, 404, 500) build correctly
 - [ ] **Verify Build:** Confirm `npm run build` completes successfully
 - [ ] **Test Error Pages:** Verify error pages render correctly in production
 
@@ -553,6 +560,7 @@ Export encountered an error on /_error: /404, /500
 4. Verify App Router vs Pages Router conventions
 
 **Expected Outcome:**
+
 - Clean production build without Html import errors
 - All static pages generate successfully
 - Error pages work in production environment
@@ -566,6 +574,7 @@ Export encountered an error on /_error: /404, /500
 
 **Problem:**
 `next lint` is deprecated and will be removed in Next.js 16:
+
 ```
 `next lint` is deprecated and will be removed in Next.js 16.
 For existing projects, migrate to the ESLint CLI:
@@ -573,6 +582,7 @@ npx @next/codemod@canary next-lint-to-eslint-cli .
 ```
 
 **Impact:**
+
 - Future Next.js upgrades will break linting
 - Using deprecated tooling
 - Inconsistent with modern Next.js best practices
@@ -587,17 +597,20 @@ npx @next/codemod@canary next-lint-to-eslint-cli .
 - [ ] **Documentation:** Update development docs with new lint command
 
 **Migration Command:**
+
 ```bash
 npx @next/codemod@canary next-lint-to-eslint-cli .
 ```
 
 **Expected Changes:**
+
 - `package.json` script changes from `next lint` to `eslint .`
 - ESLint configuration updated to work without Next.js wrapper
 - No more deprecation warnings
 - Consistent linting across development and CI/CD
 
 **Expected Outcome:**
+
 - Modern ESLint CLI integration
 - No deprecation warnings
 - Future-proof linting setup for Next.js 16+
@@ -611,6 +624,7 @@ npx @next/codemod@canary next-lint-to-eslint-cli .
 
 **Problem:**
 Current Next.js version is outdated. Next.js frequently releases updates with:
+
 - Performance improvements
 - Security patches
 - Bug fixes
@@ -620,6 +634,7 @@ Current Next.js version is outdated. Next.js frequently releases updates with:
 https://nextjs.org/docs/messages/version-staleness
 
 **Impact:**
+
 - Missing performance optimizations
 - Potential security vulnerabilities
 - Outdated features and APIs
@@ -636,6 +651,7 @@ https://nextjs.org/docs/messages/version-staleness
 - [ ] **Update Documentation:** Update version references in docs
 
 **Update Commands:**
+
 ```bash
 # Check current version
 npm list next
@@ -648,6 +664,7 @@ npm install @next/bundle-analyzer@latest @next/env@latest
 ```
 
 **Testing Checklist:**
+
 - [ ] Home page renders correctly
 - [ ] Blog system (list, post pages, search, filters)
 - [ ] Chat widget functionality
@@ -659,10 +676,59 @@ npm install @next/bundle-analyzer@latest @next/env@latest
 - [ ] TypeScript compilation
 
 **Expected Outcome:**
+
 - Latest stable Next.js version
 - All features working correctly
 - Improved performance and security
 - Access to newest Next.js features
+
+---
+
+### Phase 12: Fix Activities Display - Multiple Activities Per Day 🐛 (MEDIUM PRIORITY)
+
+**Status:** Not Started
+**Priority:** MEDIUM - Visual bug, data display issue
+
+**Problem:**
+The Activities grid on `/live-feed` page is displaying black squares instead of appropriately-colored half-squares for days with more than one activity. When a user has multiple activities on the same day (e.g., a run and weight training), the grid should show the square split with each activity's color, but currently shows black squares instead.
+
+**Visual Impact:**
+
+- Loss of activity type visibility for multi-activity days
+- Poor user experience - can't distinguish what activities were done
+- Inconsistent with single-activity day display which works correctly
+
+**Location:**
+
+- Page: `/src/app/live-feed/page.tsx` or related components
+- Component: ActivityGrid component or similar
+
+**Technical Requirements:**
+
+- [ ] **Identify Root Cause:** Investigate ActivityGrid rendering logic for multi-activity days
+- [ ] **Review CSS:** Check if CSS for split squares is missing or overridden
+- [ ] **Test Data Structure:** Verify activity data structure supports multiple activities per day
+- [ ] **Fix Rendering Logic:** Update component to properly render half-squares with correct colors
+- [ ] **Test Edge Cases:** Verify rendering for 2, 3, 4+ activities on same day
+- [ ] **Verify Color Mapping:** Ensure activity type colors match the legend
+
+**Activity Types and Colors:**
+
+- Run: Red
+- Bike Ride: Green
+- Swim: Blue
+- Ski: Yellow
+- Hike: Gray
+- Walk: Orange
+- Weight Training: Purple
+- No Recorded Activity: Gray
+
+**Expected Outcome:**
+
+- Days with multiple activities display split squares with correct colors
+- All activity types visible in the grid
+- Consistent visual representation matching the legend
+- Improved user experience for activity tracking visualization
 
 ---
 
