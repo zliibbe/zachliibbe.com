@@ -14,7 +14,7 @@
   background: linear-gradient(
     90deg,
     var(--accentPrimary, #ffd700),
-    var(--clr-accent-300, #fff3b0)
+    var(--accentSecondary, #fff3b0)
   );
   transition: width 0.1s ease-out;
   box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
