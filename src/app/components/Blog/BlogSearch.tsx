@@ -8,9 +8,9 @@ interface BlogSearchProps {
   categoryFilter?: string;
   tagFilter?: string;
   resultsCount: number;
-  className: string;
-  inputClassName: string;
-  buttonClassName: string;
+  className?: string;
+  inputClassName?: string;
+  buttonClassName?: string;
   resultsClassName?: string;
 }
 
