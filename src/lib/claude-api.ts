@@ -1,5 +1,6 @@
 import { generateEmbedding } from './embeddings';
 import { queryVectors } from './pinecone';
+import { kv } from '@vercel/kv';
 
 const CLAUDE_API_KEY = process.env.ANTHROPIC_API_KEY;
 const CLAUDE_API_URL = 'https://api.anthropic.com/v1/messages';
@@ -194,47 +195,83 @@ Provide a response that's specific to Zach's actual experience and background:`;
   return systemPrompt;
 }
 
-// Simple rate limiting for demo purposes
-const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
-const RATE_LIMIT_REQUESTS = 10;
-const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
+// Persistent rate limiting using Vercel KV
+const RATE_LIMIT_REQUESTS = 100; // 100 requests per day per IP
+const RATE_LIMIT_WINDOW = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
-export function checkRateLimit(identifier: string): boolean {
+export async function checkRateLimit(identifier: string): Promise<boolean> {
+  const rateLimitKey = `rate_limit:${identifier}`;
   const now = Date.now();
-  const userLimit = rateLimitStore.get(identifier);
 
-  if (!userLimit || now > userLimit.resetTime) {
-    rateLimitStore.set(identifier, {
-      count: 1,
-      resetTime: now + RATE_LIMIT_WINDOW,
+  try {
+    const userLimit = await kv.get<{ count: number; resetTime: number }>(
+      rateLimitKey
+    );
+
+    if (!userLimit || now > userLimit.resetTime) {
+      // Reset or initialize rate limit
+      await kv.set(
+        rateLimitKey,
+        {
+          count: 1,
+          resetTime: now + RATE_LIMIT_WINDOW,
+        },
+        {
+          ex: Math.ceil(RATE_LIMIT_WINDOW / 1000), // Expire after window duration
+        }
+      );
+      return true;
+    }
+
+    if (userLimit.count >= RATE_LIMIT_REQUESTS) {
+      return false;
+    }
+
+    // Increment count
+    userLimit.count++;
+    await kv.set(rateLimitKey, userLimit, {
+      ex: Math.ceil((userLimit.resetTime - now) / 1000), // Preserve original expiry
     });
     return true;
+  } catch (error) {
+    console.error('Rate limit check error:', error);
+    // Fail open - allow request if KV is down
+    return true;
   }
-
-  if (userLimit.count >= RATE_LIMIT_REQUESTS) {
-    return false;
-  }
-
-  userLimit.count++;
-  return true;
 }
 
-export function getRateLimitStatus(identifier: string): {
+export async function getRateLimitStatus(identifier: string): Promise<{
   remaining: number;
   resetTime: number;
-} {
-  const userLimit = rateLimitStore.get(identifier);
+  limit: number;
+}> {
+  const rateLimitKey = `rate_limit:${identifier}`;
   const now = Date.now();
 
-  if (!userLimit || now > userLimit.resetTime) {
+  try {
+    const userLimit = await kv.get<{ count: number; resetTime: number }>(
+      rateLimitKey
+    );
+
+    if (!userLimit || now > userLimit.resetTime) {
+      return {
+        remaining: RATE_LIMIT_REQUESTS,
+        resetTime: now + RATE_LIMIT_WINDOW,
+        limit: RATE_LIMIT_REQUESTS,
+      };
+    }
+
+    return {
+      remaining: Math.max(0, RATE_LIMIT_REQUESTS - userLimit.count),
+      resetTime: userLimit.resetTime,
+      limit: RATE_LIMIT_REQUESTS,
+    };
+  } catch (error) {
+    console.error('Get rate limit status error:', error);
     return {
       remaining: RATE_LIMIT_REQUESTS,
       resetTime: now + RATE_LIMIT_WINDOW,
+      limit: RATE_LIMIT_REQUESTS,
     };
   }
-
-  return {
-    remaining: Math.max(0, RATE_LIMIT_REQUESTS - userLimit.count),
-    resetTime: userLimit.resetTime,
-  };
 }
