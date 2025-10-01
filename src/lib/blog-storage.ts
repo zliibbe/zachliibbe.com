@@ -4,7 +4,10 @@ import { BlogPost, FeaturedImage } from '@/types/blog';
 import { markdownToHtml, generateExcerpt } from './markdown';
 
 // Import KV only when needed (production)
-let kv: any = null;
+let kv: {
+  get: <T = unknown>(key: string) => Promise<T | null>;
+  set: (key: string, value: unknown) => Promise<unknown>;
+} | null = null;
 async function getKV() {
   if (!kv && process.env.NODE_ENV === 'production') {
     const kvModule = await import('@vercel/kv');
@@ -54,7 +57,7 @@ async function loadPostsFromFile(filePath: string): Promise<BlogPost[]> {
       const kvStore = await getKV();
       if (kvStore) {
         const key = `blog:${path.basename(filePath, '.json')}`; // blog:drafts, blog:scheduled, blog:published
-        const data = await kvStore.get(key);
+        const data = await kvStore.get<BlogPost[]>(key);
         return data || [];
       }
     }
@@ -270,12 +273,12 @@ export async function updateBlogPost(
     updates.status === 'published' &&
     (existingPost.status === 'draft' || existingPost.status === 'scheduled')
   ) {
-    (updatedData as any).publishedAt =
+    updatedData.publishedAt =
       updates.publishedAt !== undefined
         ? updates.publishedAt!
-        : new Date().toISOString().split('T')[0];
+        : new Date().toISOString().split('T')[0]!;
   } else if (updates.publishedAt) {
-    (updatedData as any).publishedAt = updates.publishedAt!;
+    updatedData.publishedAt = updates.publishedAt!;
   }
 
   // Save to new location

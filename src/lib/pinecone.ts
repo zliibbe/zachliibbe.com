@@ -1,4 +1,4 @@
-import { Pinecone } from '@pinecone-database/pinecone';
+import { Pinecone, type RecordMetadata } from '@pinecone-database/pinecone';
 
 const PINECONE_API_KEY = process.env.PINECONE_API_KEY;
 const PINECONE_INDEX_NAME =
@@ -51,7 +51,7 @@ export async function upsertVectors(vectors: KnowledgeVector[]) {
 export async function upsertVector(
   id: string,
   values: number[],
-  metadata: any
+  metadata: RecordMetadata
 ) {
   try {
     const index = await getPineconeIndex();
@@ -66,7 +66,7 @@ export async function upsertVector(
 export async function queryVectors(
   vector: number[],
   topK: number = 5,
-  filter?: Record<string, any>
+  filter?: Record<string, unknown>
 ) {
   try {
     const index = await getPineconeIndex();
