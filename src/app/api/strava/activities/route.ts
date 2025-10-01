@@ -39,27 +39,64 @@ export async function GET(request: Request) {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
 
-      const response = await fetch(
-        `https://www.strava.com/api/v3/athlete/activities?per_page=200&after=${after}`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-          signal: controller.signal,
+      // Fetch activities with pagination to handle > 200 activities
+      // Strava returns newest first by default
+      let allActivities: any[] = [];
+      let page = 1;
+      let hasMore = true;
+
+      while (hasMore && page <= 3) {
+        // Limit to 3 pages (600 activities) for performance
+        const pageResponse = await fetch(
+          `https://www.strava.com/api/v3/athlete/activities?per_page=200&page=${page}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+            signal: controller.signal,
+          }
+        );
+
+        if (!pageResponse.ok) {
+          const errorText = await pageResponse.text();
+          console.error(
+            `[${requestId}] Strava API error: ${pageResponse.status} - ${errorText}`
+          );
+          throw new Error(
+            `Strava API returned ${pageResponse.status}: ${errorText}`
+          );
         }
-      );
+
+        const pageActivities = await pageResponse.json();
+
+        if (pageActivities.length === 0) {
+          hasMore = false;
+          break;
+        }
+
+        // Check if the oldest activity in this page is before our cutoff date
+        const oldestActivity = pageActivities[pageActivities.length - 1];
+        const oldestTimestamp =
+          new Date(oldestActivity.start_date).getTime() / 1000;
+
+        allActivities = allActivities.concat(pageActivities);
+
+        // If the oldest activity in this page is before our 'after' date, we can stop
+        if (oldestTimestamp < after) {
+          hasMore = false;
+        } else {
+          page++;
+        }
+      }
 
       clearTimeout(timeoutId);
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error(
-          `[${requestId}] Strava API error: ${response.status} - ${errorText}`
-        );
-        throw new Error(`Strava API returned ${response.status}: ${errorText}`);
-      }
-
-      const activities = await response.json();
+      // Filter activities to only include those after the 'after' timestamp
+      const activities = allActivities.filter((activity: any) => {
+        const activityTimestamp =
+          new Date(activity.start_date).getTime() / 1000;
+        return activityTimestamp >= after;
+      });
 
       // Cache the activities
       try {

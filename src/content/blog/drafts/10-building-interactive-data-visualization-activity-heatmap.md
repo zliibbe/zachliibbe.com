@@ -378,7 +378,7 @@ const formatActivityMetric = (value: HeatmapValue) => {
 
 // Enhanced tooltip content
 titleForValue={(value: ReactCalendarHeatmapValue<any> | undefined) => {
-  if (!value) return 'No activity';
+  if (!value) return 'No recorded activity';
 
   const val = value as HeatmapValue;
   const metric = formatActivityMetric(val);

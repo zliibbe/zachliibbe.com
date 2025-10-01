@@ -3,6 +3,10 @@
   border-radius: var(--border-radius);
   padding: 2rem;
   margin-top: 1rem; /* Space for the legend */
+  min-height: 200px; /* Ensure enough height for all 7 weekday rows */
+  overflow-x: auto; /* Allow horizontal scrolling if needed */
+  overflow-y: visible;
+  width: 100%;
 }
 
 .legend {
@@ -116,6 +120,11 @@ html[data-theme='dark'] .react-calendar-heatmap .colorEmpty {
   fill: #ff9800 !important;
 }
 
+/* Multi-activity placeholder (split squares handled by custom renderer) */
+.react-calendar-heatmap .colorMultiple {
+  fill: none !important;
+}
+
 /* Override any default heatmap styles */
 .react-calendar-heatmap rect[class*='color'] {
   transition: fill 0.2s ease;
@@ -125,6 +134,7 @@ html[data-theme='dark'] .react-calendar-heatmap .colorEmpty {
   font-size: var(--fs-200);
   margin: 1rem 0;
   padding: 1rem 1rem 1rem 0;
+  min-width: 800px; /* Ensure calendar has enough width to display all months */
 }
 
 .react-calendar-heatmap-week-label,
