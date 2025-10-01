@@ -54,7 +54,7 @@ export default function ActivityGrid({ activities }: ActivityGridProps) {
       case 'weighttraining':
         return '#9c27b0';
       default:
-        return '#b5b5b5'; // Light gray for no activity (71% lightness)
+        return '#b5b5b5'; // Light gray for no recorded activity (71% lightness)
     }
   };
 
@@ -70,7 +70,9 @@ export default function ActivityGrid({ activities }: ActivityGridProps) {
   }
 
   if (!activities.length) {
-    return <div className={styles.errorState}>No activities found</div>;
+    return (
+      <div className={styles.errorState}>No recorded activities found</div>
+    );
   }
 
   // Aggregate activities by date
@@ -93,29 +95,31 @@ export default function ActivityGrid({ activities }: ActivityGridProps) {
   );
 
   // Create heatmap values with multi-activity support
-  const values = Object.entries(activitiesByDate).map(([date, dayActivities]) => {
-    if (dayActivities.length === 1 && dayActivities[0]) {
-      // Single activity - use existing format
-      const activity = dayActivities[0];
-      return {
-        date,
-        count: 1,
-        type: activity.type,
-        name: activity.name,
-        distance: activity.distance,
-        moving_time: activity.moving_time,
-      };
-    } else {
-      // Multiple activities - store all activities
-      return {
-        date,
-        count: dayActivities.length,
-        type: 'multiple', // Special type for multi-activity days
-        name: `${dayActivities.length} activities`,
-        activities: dayActivities,
-      };
+  const values = Object.entries(activitiesByDate).map(
+    ([date, dayActivities]) => {
+      if (dayActivities.length === 1 && dayActivities[0]) {
+        // Single activity - use existing format
+        const activity = dayActivities[0];
+        return {
+          date,
+          count: 1,
+          type: activity.type,
+          name: activity.name,
+          distance: activity.distance,
+          moving_time: activity.moving_time,
+        };
+      } else {
+        // Multiple activities - store all activities
+        return {
+          date,
+          count: dayActivities.length,
+          type: 'multiple', // Special type for multi-activity days
+          name: `${dayActivities.length} recorded activities`,
+          activities: dayActivities,
+        };
+      }
     }
-  });
+  );
 
   const getClassForValue = (value: any): string => {
     if (!value || !value.type) {
@@ -154,7 +158,9 @@ export default function ActivityGrid({ activities }: ActivityGridProps) {
     const processSquares = () => {
       if (!gridRef.current) return;
 
-      const rects = gridRef.current.querySelectorAll('.react-calendar-heatmap rect');
+      const rects = gridRef.current.querySelectorAll(
+        '.react-calendar-heatmap rect'
+      );
 
       rects.forEach((rect, index) => {
         // Add rounded corners to all squares
@@ -163,7 +169,7 @@ export default function ActivityGrid({ activities }: ActivityGridProps) {
 
         // Check if this square represents a multi-activity day by looking at its title
         const title = (rect.querySelector('title')?.textContent || '').trim();
-        const isMultiActivity = title.includes('activities on');
+        const isMultiActivity = title.includes('recorded activities on');
 
         if (isMultiActivity && rect.parentElement) {
           // Extract the date from the title
@@ -178,7 +184,12 @@ export default function ActivityGrid({ activities }: ActivityGridProps) {
             return valDate === dateStr && v.type === 'multiple' && v.activities;
           });
 
-          if (!valueData || !valueData.activities || valueData.activities.length < 2) return;
+          if (
+            !valueData ||
+            !valueData.activities ||
+            valueData.activities.length < 2
+          )
+            return;
 
           // Skip if already processed
           if (rect.getAttribute('data-split-processed')) return;
@@ -206,24 +217,45 @@ export default function ActivityGrid({ activities }: ActivityGridProps) {
           // Ensure defs element exists
           let defs = gridRef.current.querySelector('defs');
           if (!defs) {
-            defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+            defs = document.createElementNS(
+              'http://www.w3.org/2000/svg',
+              'defs'
+            );
             gridRef.current.querySelector('svg')?.prepend(defs);
           }
 
           // Create clip paths for diagonal split
           // Upper-left triangle for first activity: top-left, bottom-left, top-right
-          const clipPath1 = document.createElementNS('http://www.w3.org/2000/svg', 'clipPath');
+          const clipPath1 = document.createElementNS(
+            'http://www.w3.org/2000/svg',
+            'clipPath'
+          );
           clipPath1.setAttribute('id', clipId1);
-          const polygon1 = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-          polygon1.setAttribute('points', `${x},${y} ${x},${y + height} ${x + width},${y}`);
+          const polygon1 = document.createElementNS(
+            'http://www.w3.org/2000/svg',
+            'polygon'
+          );
+          polygon1.setAttribute(
+            'points',
+            `${x},${y} ${x},${y + height} ${x + width},${y}`
+          );
           clipPath1.appendChild(polygon1);
           defs.appendChild(clipPath1);
 
           // Lower-right triangle for second activity: bottom-left, bottom-right, top-right
-          const clipPath2 = document.createElementNS('http://www.w3.org/2000/svg', 'clipPath');
+          const clipPath2 = document.createElementNS(
+            'http://www.w3.org/2000/svg',
+            'clipPath'
+          );
           clipPath2.setAttribute('id', clipId2);
-          const polygon2 = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-          polygon2.setAttribute('points', `${x},${y + height} ${x + width},${y + height} ${x + width},${y}`);
+          const polygon2 = document.createElementNS(
+            'http://www.w3.org/2000/svg',
+            'polygon'
+          );
+          polygon2.setAttribute(
+            'points',
+            `${x},${y + height} ${x + width},${y + height} ${x + width},${y}`
+          );
           clipPath2.appendChild(polygon2);
           defs.appendChild(clipPath2);
 
@@ -270,7 +302,7 @@ export default function ActivityGrid({ activities }: ActivityGridProps) {
     { type: 'Hike', className: styles.legendHike },
     { type: 'Walk', className: styles.legendWalk },
     { type: 'Weight Training', className: styles.legendWeighttraining },
-    { type: 'No Activity', className: styles.legendEmpty },
+    { type: 'No Recorded Activity', className: styles.legendEmpty },
   ];
 
   // Helper function to format distance/duration based on activity type
@@ -318,11 +350,15 @@ export default function ActivityGrid({ activities }: ActivityGridProps) {
           titleForValue={(
             value: ReactCalendarHeatmapValue<any> | undefined
           ) => {
-            if (!value) return 'No activity';
+            if (!value) return 'No recorded activity';
             const val = value as HeatmapValue;
 
             // Handle multi-activity days
-            if (val.type === 'multiple' && val.activities && val.activities.length > 0) {
+            if (
+              val.type === 'multiple' &&
+              val.activities &&
+              val.activities.length > 0
+            ) {
               const timeAgo = getTimeAgo(val.date);
               const activityList = val.activities
                 .map((act, i) => {
