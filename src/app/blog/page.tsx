@@ -7,6 +7,8 @@ import {
   getAllTags,
 } from '@/lib/blog-with-images';
 import PostCard from '@/app/components/Blog/PostCard';
+import BlogSearch from '@/app/components/Blog/BlogSearch';
+import BlogFilters from '@/app/components/Blog/BlogFilters';
 import Footer from '@/app/components/Footer';
 import styles from './page.module.css';
 
@@ -50,7 +52,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
     return new URLSearchParams(definedParams).toString();
   };
 
-  const hasFilters = filters.category || filters.tag || filters.search;
+  const hasFilters = !!(filters.category || filters.tag || filters.search);
 
   return (
     <>
@@ -71,81 +73,33 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
 
                 {/* Search */}
                 <div className={styles.searchContainer}>
-                  <form
-                    method="GET"
-                    action="/blog"
+                  <BlogSearch
+                    defaultValue={filters.search}
+                    categoryFilter={filters.category}
+                    tagFilter={filters.tag}
+                    resultsCount={totalPosts}
                     className={styles.searchForm}
-                  >
-                    <input
-                      type="text"
-                      name="search"
-                      placeholder="Search posts..."
-                      defaultValue={filters.search || ''}
-                      className={styles.searchInput}
-                    />
-                    {/* Preserve existing filters when searching */}
-                    {filters.category && (
-                      <input
-                        type="hidden"
-                        name="category"
-                        value={filters.category}
-                      />
-                    )}
-                    {filters.tag && (
-                      <input type="hidden" name="tag" value={filters.tag} />
-                    )}
-                    <button type="submit" className={styles.searchButton}>
-                      Search
-                    </button>
-                  </form>
-                  {filters.search && (
-                    <div className={styles.searchResults}>
-                      Showing results for:{' '}
-                      <strong>&ldquo;{filters.search}&rdquo;</strong>
-                    </div>
-                  )}
+                    inputClassName={styles.searchInput}
+                    buttonClassName={styles.searchButton}
+                    resultsClassName={styles.searchResults}
+                  />
                 </div>
 
                 {/* Filters */}
                 <div className={styles.filters}>
-                  <div className={styles.filterLabel}>Categories:</div>
-                  <div className={styles.filterLinks}>
-                    {categories.map(category => (
-                      <Link
-                        key={category}
-                        href={`/blog?category=${encodeURIComponent(category.toLowerCase())}`}
-                        className={`${styles.filterLink} ${
-                          filters.category === category.toLowerCase()
-                            ? styles.active
-                            : ''
-                        }`}
-                      >
-                        {category}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-
-                <div className={styles.filters}>
-                  <div className={styles.filterLabel}>Tags:</div>
-                  <div className={styles.filterLinks}>
-                    {tags.slice(0, 10).map(tag => (
-                      <Link
-                        key={tag}
-                        href={`/blog?tag=${encodeURIComponent(tag)}`}
-                        className={`${styles.filterLink} ${
-                          filters.tag === tag ? styles.active : ''
-                        }`}
-                      >
-                        #{tag}
-                      </Link>
-                    ))}
-                    {hasFilters && (
-                      <Link href="/blog" className={styles.clearFilters}>
-                        Clear filters
-                      </Link>
-                    )}
-                  </div>
+                  <BlogFilters
+                    categories={categories}
+                    tags={tags}
+                    activeCategory={filters.category}
+                    activeTag={filters.tag}
+                    hasFilters={hasFilters}
+                    resultsCount={totalPosts}
+                    filterLabelClassName={styles.filterLabel}
+                    filterLinksClassName={styles.filterLinks}
+                    filterLinkClassName={styles.filterLink}
+                    activeClassName={styles.active}
+                    clearFiltersClassName={styles.clearFilters}
+                  />
                 </div>
 
                 {/* Blog Posts */}

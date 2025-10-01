@@ -140,7 +140,10 @@ const trackChatMessage = (isUser: boolean, messageNumber: number): void => {
   });
 };
 
-const trackChatClose = (messageCount: number, durationSeconds: number): void => {
+const trackChatClose = (
+  messageCount: number,
+  durationSeconds: number
+): void => {
   trackEvent({
     event_name: 'chat_closed',
     event_parameters: {

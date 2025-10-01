@@ -432,7 +432,7 @@ type EmbeddingCache = {
 - Rate limit key format: `rate_limit:{ip_address}`
 - Async rate limit checks integrated into chat API route
 - Standard HTTP 429 status code for rate limit exceeded responses
-- Informative headers following industry best practices (X-RateLimit-* pattern)
+- Informative headers following industry best practices (X-RateLimit-\* pattern)
 - Chat widget displays detailed API error messages with reset time to users
 
 ---

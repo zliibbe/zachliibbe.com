@@ -143,7 +143,7 @@ export function useChatMessages({
         setStreamingMessageId(null);
       }
     },
-    [isLoading, onSendMessage, streamTextResponse]
+    [isLoading, messages.length, onSendMessage, streamTextResponse]
   );
 
   const clearMessages = useCallback(() => {

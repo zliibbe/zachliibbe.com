@@ -72,21 +72,18 @@ export function useChatVisibility({
     }
   }, []);
 
-  const closeChat = useCallback(
-    (messageCount: number = 0) => {
-      // Track chat close with duration and message count
-      if (analytics.isEnabled() && openTimeRef.current) {
-        const durationSeconds = Math.floor(
-          (Date.now() - openTimeRef.current) / 1000
-        );
-        analytics.trackChatClose(messageCount, durationSeconds);
-      }
+  const closeChat = useCallback((messageCount: number = 0) => {
+    // Track chat close with duration and message count
+    if (analytics.isEnabled() && openTimeRef.current) {
+      const durationSeconds = Math.floor(
+        (Date.now() - openTimeRef.current) / 1000
+      );
+      analytics.trackChatClose(messageCount, durationSeconds);
+    }
 
-      setIsOpen(false);
-      openTimeRef.current = null;
-    },
-    []
-  );
+    setIsOpen(false);
+    openTimeRef.current = null;
+  }, []);
 
   const dismissGreeting = useCallback(() => {
     setShowGreeting(false);
