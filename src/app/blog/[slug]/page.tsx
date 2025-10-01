@@ -8,6 +8,7 @@ import {
   getAllPublishedPostsWithImages,
 } from '@/lib/blog-with-images';
 import Footer from '@/app/components/Footer';
+import ReadingProgress from '@/app/components/ReadingProgress';
 import styles from './page.module.css';
 
 // Revalidate this page periodically as a fallback in case on-demand revalidation wasn't triggered
@@ -42,6 +43,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <>
+      <ReadingProgress />
       <main>
         <div className="universal-gradient-container">
           <div className="universal-gradient-background"></div>
