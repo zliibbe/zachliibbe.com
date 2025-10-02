@@ -10,6 +10,7 @@ import Analytics from './components/Analytics';
 import AuthProvider from '@/lib/auth-provider';
 import ChatProvider from '@/components/chat/ChatProvider';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const robotoMono = Roboto_Mono({
   subsets: ['latin'],
@@ -154,6 +155,7 @@ export default function RootLayout({
                 <Header />
                 <ErrorBoundary resetOnPropsChange={true}>
                   {children}
+                  <SpeedInsights />
                 </ErrorBoundary>
               </div>
               <ChatProvider />

@@ -159,7 +159,7 @@ export default function ActivityGrid({ activities }: ActivityGridProps) {
 
         // Check if this square represents a multi-activity day by looking at its title
         const title = (rect.querySelector('title')?.textContent || '').trim();
-        const isMultiActivity = title.includes('recorded activities on');
+        const isMultiActivity = title.includes('activities on');
 
         if (isMultiActivity && rect.parentElement) {
           // Extract the date from the title

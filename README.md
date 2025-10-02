@@ -1,8 +1,30 @@
 # Zach Liibbe's Personal Website
 
-A modern [Next.js](https://nextjs.org/) 15 portfolio website with integrated blog system, activity tracking, and admin dashboard. Built with the App Router and deployed on Vercel at [zachliibbe.com](https://www.zachliibbe.com/).
+A modern [Next.js](https://nextjs.org/) 15 portfolio website with RAG-powered AI chat, integrated blog system, activity tracking, and comprehensive admin dashboard. Built with the App Router and deployed on Vercel at [zachliibbe.com](https://www.zachliibbe.com/).
 
 ## Features
+
+### 🤖 **RAG-Powered AI Chat System**
+
+- **Intelligent Conversational AI** - Claude-powered chat widget for visitor engagement
+- **Semantic Search** - Pinecone vector database with 81 knowledge vectors
+- **Context-Aware Responses** - RAG (Retrieval Augmented Generation) for accurate information
+- **Cost-Optimized** - Adaptive model selection (Haiku/Sonnet) based on query complexity
+- **Rate Limiting** - 100 requests per IP per day with persistent tracking via Vercel KV
+- **Knowledge Base Management** - Admin interface for real-time knowledge updates and testing
+- **Session Management** - 10-message limit per session for cost control
+
+### 📝 **Blog Management System**
+
+- **Full Blog CMS** - Create, edit, and manage blog posts with markdown editor
+- **Post Scheduling** - Schedule posts for future publication with automated publishing via cron jobs
+- **Draft Management** - Save drafts with auto-save functionality
+- **Rich Content** - Support for categories, tags, series, and featured images from Unsplash
+- **SEO Preview** - Google search result and social media card previews
+- **Reading Progress** - Sticky progress bar tracking scroll position
+- **Blog Search** - Full-text search across titles, excerpts, categories, and tags
+- **LinkedIn Cross-posting** - One-click LinkedIn post generation with 28 engagement templates
+- **RSS Feed** - Automatically generated RSS feed for blog content
 
 ### 🎨 **Customizable Theme System**
 
@@ -11,35 +33,43 @@ A modern [Next.js](https://nextjs.org/) 15 portfolio website with integrated blo
 - **Animation Controls** - Enable/disable gradient animations based on user preference
 - **Persistent Settings** - All preferences saved to localStorage for consistent experience
 
-### 📝 **Blog Management System**
-
-- **Full Blog CMS** - Create, edit, and manage blog posts with markdown editor
-- **Post Scheduling** - Schedule posts for future publication with automated publishing via cron jobs
-- **Draft Management** - Save drafts with auto-save functionality
-- **Rich Content** - Support for categories, tags, series, and featured images from Unsplash
-- **RSS Feed** - Automatically generated RSS feed for blog content
-
 ### 🔐 **Admin Dashboard**
 
 - **Google OAuth Authentication** - Secure admin access with NextAuth.js
 - **Protected Routes** - Session-based route protection for admin functionality
-- **Blog Administration** - Complete interface for content management
+- **Blog Administration** - Complete interface for content management with live preview
+- **Knowledge Base Editor** - Real-time markdown editing with change detection
+- **Performance Monitoring** - Cache statistics and embedding status dashboard
+- **RAG Testing Interface** - Query testing with context visualization and relevance scoring
 - **Unsplash Integration Management** - Monitor API usage and status
 
 ### 📊 **Activity & Data Integration**
 
 - **Strava Integration** - Display latest fitness activities with OAuth token management
-- **Goodreads Integration** - Show currently reading books and reading progress
+- **Multi-Activity Heatmap** - Calendar visualization with diagonal split squares for multi-activity days
+- **Activity Stats Cards** - Hover/touch preview with detailed metrics (distance, pace, elevation)
+- **Goodreads Integration** - Show currently reading books with progress tracking
+- **Book Cover Previews** - Hover/touch to display book covers in footer
 - **Automated Caching** - Intelligent caching with Vercel KV for optimal performance
 - **Real-time Updates** - Live data feeds with configurable refresh intervals
 
+### 📈 **Analytics & Performance**
+
+- **Google Analytics 4** - Comprehensive event tracking across all interactions
+- **Blog Post Tracking** - View counts, read completion (90% scroll), and social shares
+- **Chat Analytics** - Open/close events, message counts, and session duration
+- **Search & Filter Tracking** - User search queries and filter selections
+- **Vercel Speed Insights** - Real-time Core Web Vitals monitoring (LCP, FID, CLS)
+- **Performance Optimization** - Persistent rate limiting and adaptive caching strategies
+
 ### 🚀 **Performance & Infrastructure**
 
-- **Next.js 15 App Router** - Modern React architecture with server-side rendering
-- **Vercel KV Storage** - Edge-compatible caching and data persistence
+- **Next.js 15.5.4** - Latest React framework with App Router and RSC
+- **React 19** - Latest React with improved performance and features
+- **Vercel KV Storage** - Edge-compatible Redis for caching and data persistence
 - **Image Optimization** - Next.js Image component with multiple CDN sources
-- **TypeScript** - Full type safety with strict configuration
-- **Responsive Design** - Mobile-first design with CSS Modules
+- **TypeScript** - Full type safety with strict configuration and ESLint CLI
+- **Responsive Design** - Mobile-first design with CSS Modules and custom properties
 
 ## 🚀 Getting Started
 
