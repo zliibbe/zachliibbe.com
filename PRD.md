@@ -524,46 +524,41 @@ type EmbeddingCache = {
 
 ---
 
-### Phase 9: Fix Build Error - Html Import Issue ⚠️ (CRITICAL PRIORITY)
+### Phase 9: Fix Build Error - Html Import Issue ✅ (100% Complete - Recurring Issue)
 
-**Status:** Not Started
+**Status:** Complete (2025-10-01) - Documented solution for recurring issue
 **Priority:** CRITICAL - Blocking production builds
 
 **Problem:**
-Production builds are failing with the following error:
+Production builds fail with:
 
 ```
 Error: <Html> should not be imported outside of pages/_document.
-Read more: https://nextjs.org/docs/messages/no-document-import-in-page
 Export encountered an error on /_error: /404, /500
 ```
 
-**Impact:**
+**Root Cause:**
+NODE_ENV is manually set to 'development' in the shell environment, causing Next.js 15 to incorrectly attempt Pages Router error handling during App Router production builds.
 
-- Blocks successful production builds
-- Prevents proper error page generation
-- Recurring issue that needs permanent fix
+**Solution:**
+Unset NODE_ENV before building:
+```bash
+unset NODE_ENV && npm run build
+```
 
-**Technical Requirements:**
+**Why This Happens:**
+- Next.js automatically manages NODE_ENV (sets to 'production' during build, 'development' during dev)
+- Manually setting NODE_ENV overrides this and confuses the build process
+- When NODE_ENV is 'development' during a production build, Next.js tries to use Pages Router error handling
+- This causes it to look for `<Html>` component from 'next/document', which doesn't exist in App Router
 
-- [ ] **Identify Source:** Locate where `<Html>` is being imported incorrectly
-- [ ] **Fix Implementation:** Move Html usage to proper Next.js document structure
-- [ ] **Error Pages:** Ensure custom error pages (\_error, 404, 500) build correctly
-- [ ] **Verify Build:** Confirm `npm run build` completes successfully
-- [ ] **Test Error Pages:** Verify error pages render correctly in production
+**Prevention:**
+- Never set NODE_ENV manually in shell configuration files
+- Let Next.js manage NODE_ENV automatically
+- If NODE_ENV is set in current terminal session, open a new terminal or run `unset NODE_ENV`
 
-**Investigation Steps:**
-
-1. Search codebase for incorrect `import { Html }` statements
-2. Check if any components are importing Next.js document elements
-3. Review custom error page implementations
-4. Verify App Router vs Pages Router conventions
-
-**Expected Outcome:**
-
-- Clean production build without Html import errors
-- All static pages generate successfully
-- Error pages work in production environment
+**Error Boundary:**
+The `src/app/error.tsx` file provides proper App Router error handling (created in previous fix, commit 0a166b1)
 
 ---
 
