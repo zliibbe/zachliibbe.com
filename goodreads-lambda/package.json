@@ -2,10 +2,10 @@
   "name": "goodreads-scraper",
   "version": "1.0.0",
   "dependencies": {
-    "@playwright/test": "^1.51.0",
+    "@playwright/test": "^1.57.0",
     "aws-lambda": "^1.0.7",
     "fast-xml-parser": "^4.5.3",
-    "playwright": "^1.51.0",
+    "playwright": "^1.57.0",
     "playwright-core": "^1.51.0"
   },
   "devDependencies": {
