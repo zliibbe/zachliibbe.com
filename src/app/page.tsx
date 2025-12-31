@@ -1,6 +1,5 @@
 import React from 'react';
 import Image from 'next/image';
-import zachPic from '../../public/just-zach.png';
 import styles from './page.module.css';
 import Footer from './components/Footer';
 import HomeContent from './components/HomeContent';
@@ -38,20 +37,15 @@ export default function Home() {
             <div>
               <div className={styles.archBlur}>
                 <Image
-                  src={zachPic}
+                  src="/just-zach.png"
                   alt="Photo of Zach"
-                  width={0}
-                  height={0}
-                  sizes="(min-width: 1024px) 600px,
-                  (min-width: 768px) 450px,
-                  350px"
+                  width={423}
+                  height={590}
                   style={{
                     width: 'auto',
                     height: '100%',
                   }}
-                  placeholder="empty"
-                  priority={true}
-                  className={styles.customImage}
+                  priority
                 />
               </div>
             </div>
