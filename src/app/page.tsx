@@ -40,14 +40,15 @@ export default function Home() {
                 <Image
                   src={zachPic}
                   alt="Photo of Zach"
-                  width={0}
-                  height={0}
+                  width={zachPic.width || 423}
+                  height={zachPic.height || 590}
                   sizes="(min-width: 1024px) 600px,
                   (min-width: 768px) 450px,
                   350px"
                   style={{
                     width: 'auto',
                     height: '100%',
+                    maxWidth: '100%',
                   }}
                   placeholder="empty"
                   priority={true}
