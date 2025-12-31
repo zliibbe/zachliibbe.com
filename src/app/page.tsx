@@ -40,8 +40,8 @@ export default function Home() {
                 <Image
                   src={zachPic}
                   alt="Photo of Zach"
-                  width={zachPic.width || 423}
-                  height={zachPic.height || 590}
+                  width={423}
+                  height={590}
                   sizes="(min-width: 1024px) 600px,
                   (min-width: 768px) 450px,
                   350px"
@@ -50,7 +50,6 @@ export default function Home() {
                     height: '100%',
                     maxWidth: '100%',
                   }}
-                  placeholder="empty"
                   priority={true}
                   className={styles.customImage}
                 />
