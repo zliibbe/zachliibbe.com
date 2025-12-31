@@ -40,18 +40,11 @@ export default function Home() {
                 <Image
                   src={zachPic}
                   alt="Photo of Zach"
-                  width={423}
-                  height={590}
-                  sizes="(min-width: 1024px) 600px,
-                  (min-width: 768px) 450px,
-                  350px"
                   style={{
                     width: 'auto',
                     height: '100%',
-                    maxWidth: '100%',
                   }}
-                  priority={true}
-                  className={styles.customImage}
+                  priority
                 />
               </div>
             </div>
