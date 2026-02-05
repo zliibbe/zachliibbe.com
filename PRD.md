@@ -544,7 +544,7 @@ NODE_ENV is manually set to 'development' in the shell environment, causing Next
 Unset NODE_ENV before building:
 
 ```bash
-unset NODE_ENV && npm run build
+unset NODE_ENV && bun run build
 ```
 
 **Why This Happens:**
@@ -652,13 +652,13 @@ https://nextjs.org/docs/messages/version-staleness
 
 ```bash
 # Check current version
-npm list next
+bun pm ls
 
 # Update Next.js to latest
-npm install next@latest react@latest react-dom@latest
+bun add next@latest react@latest react-dom@latest
 
 # Update other Next.js related packages if needed
-npm install @next/bundle-analyzer@latest @next/env@latest
+bun add @next/bundle-analyzer@latest @next/env@latest
 ```
 
 **Testing Checklist:**
