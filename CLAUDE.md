@@ -12,12 +12,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Development Commands
 
-- **Development server**: `npm run dev` - Starts Next.js development server on localhost:3000
-- **Build**: `npm run build` - Creates production build
-- **Linting**: `npm run lint` - Runs ESLint with Next.js config
-- **Formatting**: `npm run format` - Checks code formatting with Prettier
-- **Format fix**: `npm run format:fix` - Auto-fixes formatting issues
-- **Testing**: `npm test` - Run Jest test suite
+- **Development server**: `bun run dev` - Starts Next.js development server on localhost:3000
+- **Build**: `bun run build` - Creates production build
+- **Linting**: `bun run lint` - Runs ESLint with Next.js config
+- **Formatting**: `bun run format` - Checks code formatting with Prettier
+- **Format fix**: `bun run format:fix` - Auto-fixes formatting issues
+- **Testing**: `bun run test` - Run Jest test suite
 
 ### Development Guidelines
 
@@ -47,7 +47,7 @@ Follow the coding commandments located at `~/.claude/commandments.md` for all de
 - **Jest & React Testing Library**: Unit and integration testing
 - **Vercel**: Deployment platform with automatic CI/CD
 
-Run `npm run format:fix` after making changes to ensure Prettier and ESLint rules are follwed.
+Run `bun run format:fix` after making changes to ensure Prettier and ESLint rules are follwed.
 
 ## Architecture Overview
 
@@ -138,6 +138,6 @@ Refer to `PRD.md` for detailed specifications of upcoming features:
 - Knowledge base from `/src/data/knowledge/` markdown files ✅
 - Floating chat widget (bottom-right corner) ✅
 
-- Don't ask to run npm dev, it's usually running already (usually on localhost:3000) so check there.
+- Don't ask to run bun dev, it's usually running already (usually on localhost:3000) so check there.
 - Always use variables from globals.css, rather than hard-coded colors. Ensure all text is readable, with high enought contract, in both light-mode and dark mode.
 - Ensure semVer in package.json is updated as code is added or modified.

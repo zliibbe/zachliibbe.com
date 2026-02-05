@@ -395,11 +395,11 @@ All admin endpoints require valid NextAuth.js session with `zliibbe@gmail.com` e
 ### Local Development
 
 ```bash
-npm run dev        # Start development server
-npm run lint       # Run ESLint checks
-npm run format     # Check Prettier formatting
-npm run format:fix # Auto-fix formatting issues
-npm run build      # Production build
+bun run dev        # Start development server
+bun run lint       # Run ESLint checks
+bun run format     # Check Prettier formatting
+bun run format:fix # Auto-fix formatting issues
+bun run build      # Production build
 ```
 
 ### Environment Variables
@@ -417,7 +417,7 @@ Required for full functionality:
 
 - **Platform**: Vercel with automatic deployments
 - **Branch**: `main` for production
-- **Build Command**: `npm run build`
+- **Build Command**: `bun run build`
 - **Framework**: Next.js 15 with App Router
 
 ---

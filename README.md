@@ -75,8 +75,7 @@ A modern [Next.js](https://nextjs.org/) 15 portfolio website with RAG-powered AI
 
 ### Prerequisites
 
-- Node.js 18.0.0 or higher
-- npm or yarn package manager
+- [Bun](https://bun.sh/) 1.0.0 or higher
 - Git
 
 ### Installation
@@ -91,7 +90,7 @@ A modern [Next.js](https://nextjs.org/) 15 portfolio website with RAG-powered AI
 2. **Install dependencies:**
 
    ```sh
-   npm install
+   bun install
    ```
 
 3. **Environment Configuration:**
@@ -132,22 +131,22 @@ A modern [Next.js](https://nextjs.org/) 15 portfolio website with RAG-powered AI
 4. **Start the development server:**
 
    ```sh
-   npm run dev
+   bun run dev
    ```
 
 5. **Open [http://localhost:3000](http://localhost:3000) in your browser.**
 
 ### Available Scripts
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint
-- `npm run test` - Run Jest tests
-- `npm run test:watch` - Run tests in watch mode
-- `npm run test:coverage` - Generate test coverage report
-- `npm run format` - Check code formatting
-- `npm run format:fix` - Fix code formatting
+- `bun run dev` - Start development server
+- `bun run build` - Build for production
+- `bun run start` - Start production server
+- `bun run lint` - Run ESLint
+- `bun run test` - Run Jest tests
+- `bun run test:watch` - Run tests in watch mode
+- `bun run test:coverage` - Generate test coverage report
+- `bun run format` - Check code formatting
+- `bun run format:fix` - Fix code formatting
 
 ### Development Tools
 
@@ -316,7 +315,7 @@ This project uses conventional commits with emojis for clear, semantic version h
 | 📝    | `docs`     | Documentation changes    | `📝 docs: update README with installation steps`     |
 | 💄    | `style`    | Code style/formatting    | `💄 style(css): improve button hover animations`     |
 | ♻️    | `refactor` | Code restructuring       | `♻️ refactor(utils): simplify error handling logic`  |
-| ⚡️   | `perf`     | Performance improvements | `⚡️ perf(api): optimize database query caching`     |
+| ⚡️    | `perf`     | Performance improvements | `⚡️ perf(api): optimize database query caching`      |
 | ✅    | `test`     | Adding/fixing tests      | `✅ test(auth): add unit tests for login validation` |
 | 🔧    | `chore`    | Tooling/configuration    | `🔧 chore: update ESLint configuration`              |
 
@@ -325,13 +324,13 @@ This project uses conventional commits with emojis for clear, semantic version h
 | Emoji | Type       | Description               |
 | ----- | ---------- | ------------------------- |
 | 🚀    | `ci`       | CI/CD improvements        |
-| 🔒️   | `fix`      | Security fixes            |
-| 🚑️   | `fix`      | Critical hotfixes         |
+| 🔒️    | `fix`      | Security fixes            |
+| 🚑️    | `fix`      | Critical hotfixes         |
 | 🚚    | `refactor` | Move/rename resources     |
 | 🏗️    | `refactor` | Architectural changes     |
-| 📦️   | `chore`    | Dependencies/packages     |
+| 📦️    | `chore`    | Dependencies/packages     |
 | 🧑‍💻    | `chore`    | Developer experience      |
-| 🔍️   | `feat`     | SEO improvements          |
+| 🔍️    | `feat`     | SEO improvements          |
 | 🏷️    | `feat`     | Type definitions          |
 | 📱    | `feat`     | Responsive design         |
 | 🚸    | `feat`     | UX/usability improvements |
@@ -345,7 +344,7 @@ This project uses conventional commits with emojis for clear, semantic version h
 | 👷    | `ci`       | Build system updates      |
 | 📈    | `feat`     | Analytics/tracking        |
 | ✏️    | `fix`      | Typo fixes                |
-| ⏪️   | `revert`   | Revert changes            |
+| ⏪️    | `revert`   | Revert changes            |
 | 💥    | `feat`     | Breaking changes          |
 | 🍱    | `assets`   | Asset updates             |
 | ♿️    | `feat`     | Accessibility             |
