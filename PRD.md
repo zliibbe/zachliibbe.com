@@ -542,17 +542,20 @@ NODE_ENV is manually set to 'development' in the shell environment, causing Next
 
 **Solution:**
 Unset NODE_ENV before building:
+
 ```bash
 unset NODE_ENV && npm run build
 ```
 
 **Why This Happens:**
+
 - Next.js automatically manages NODE_ENV (sets to 'production' during build, 'development' during dev)
 - Manually setting NODE_ENV overrides this and confuses the build process
 - When NODE_ENV is 'development' during a production build, Next.js tries to use Pages Router error handling
 - This causes it to look for `<Html>` component from 'next/document', which doesn't exist in App Router
 
 **Prevention:**
+
 - Never set NODE_ENV manually in shell configuration files
 - Let Next.js manage NODE_ENV automatically
 - If NODE_ENV is set in current terminal session, open a new terminal or run `unset NODE_ENV`
