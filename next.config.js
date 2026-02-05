@@ -146,7 +146,6 @@ const nextConfig = {
     NEXT_PUBLIC_USE_LOCAL_LAMBDA: 'true',
     VERCEL_ENV: process.env.VERCEL_ENV,
   },
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/' : '',
 };
 
 module.exports = nextConfig;
