@@ -16,30 +16,16 @@ export default function Work() {
                 <div className={styles.overviewSection}>
                   <h2 className={styles.overviewTitle}>Overview</h2>
                   <p className={styles.overviewText}>
-                    I&apos;m an experienced Full-stack Software Engineer and
-                    Frontend-focused Web Developer with a passion for simple,
-                    clean design that delivers clear messages and intuitive user
-                    experiences.
+                    Full-stack Software Engineer with a frontend focus and a
+                    background in cardiac nursing. I build clean, intuitive
+                    interfaces and thrive on collaborative teams where diverse
+                    perspectives drive better solutions.
                   </p>
                   <p className={styles.overviewText}>
-                    I love being part of a collaborative team where I can
-                    contribute meaningful work and grow. In my experience, the
-                    best tech solutions come from diverse perspectives and
-                    strong teamwork.
-                  </p>
-                  <p className={styles.overviewText}>
-                    Before transitioning to tech, I was a cardiac nurse manager.
-                    I started my career transporting patients, then worked my
-                    way up to CNA, RN, and eventually Nurse Manager. Along the
-                    way, I discovered web development while creating tools to
-                    support my cardiac team, which inspired me to pursue it
-                    full-time.
-                  </p>
-                  <p className={styles.overviewText}>
-                    With a background in Philosophy and English, I bring strong
-                    analytical, pattern recognition, and communication skills to
-                    software engineering, helping me build clear,
-                    well-structured systems.
+                    My path from patient transporter to nurse manager to
+                    developer taught me pattern recognition, clear
+                    communication, and the value of building tools that
+                    genuinely help people.
                   </p>
                 </div>
                 <br />
