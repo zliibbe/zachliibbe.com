@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Image, { StaticImageData } from 'next/image';
 import styles from './job.module.css';
 import { analytics } from '../utils/analytics';
+import { useInView } from '../hooks/useInView';
 
 interface JobProps {
   title: string;
@@ -17,6 +18,8 @@ interface JobProps {
   timeframe: string;
   contractStatus?: string;
   id: number;
+  index: number;
+  isFirst: boolean;
 }
 
 const Job: React.FC<JobProps> = ({
@@ -31,106 +34,120 @@ const Job: React.FC<JobProps> = ({
   timeframe,
   contractStatus,
   id,
+  index,
+  isFirst,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [ref, isInView] = useInView(0.1);
 
   const isHealthcareJob = companyName === 'Centura Health';
 
-  return (
-    <div className={`${styles.jobContainer} job${id}`}>
-      <div className={styles.jobImage}>
-        {typeof logo === 'string' ? (
-          <Image
-            src={logo}
-            alt={`${companyName} logo`}
-            width={40}
-            height={40}
-            className={styles.companyLogo}
-          />
-        ) : (
-          <Image
-            src={logo}
-            alt={`${companyName} logo`}
-            width={40}
-            height={40}
-            className={styles.companyLogo}
-          />
-        )}
-      </div>
-      <div className={styles.jobTitle}>
-        <div className={styles.jobTitleAndCompany}>
-          {isHealthcareJob ? (
-            <button
-              onClick={() => setIsExpanded(!isExpanded)}
-              className={styles.expandButton}
-              aria-expanded={isExpanded}
-              aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${role} details`}
-            >
-              <span
-                className={isExpanded ? styles.caretDown : styles.caretRight}
-              ></span>
-              <h3 style={{ display: 'inline-block', marginLeft: '8px' }}>
-                {role}
-              </h3>
-            </button>
-          ) : (
-            <h3>{role}</h3>
-          )}
-          <a
-            href={companyLink}
-            className={styles.companyLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() =>
-              analytics.trackExternalLink(
-                companyLink,
-                `${companyName} Company Link`
-              )
-            }
-          >
-            {companyName}
-            {companySubName && (
-              <span className={styles.companySubName}>{companySubName}</span>
-            )}
-          </a>
-        </div>
-        <div className={styles.jobTimeContainer}>
-          <div className={styles.jobTimeframe}>{timeframe}</div>
-          {contractStatus && (
-            <div className={styles.contractStatus}>{contractStatus}</div>
-          )}
-        </div>
-      </div>
+  const containerClasses = [
+    styles.jobContainer,
+    `job${id}`,
+    isInView ? styles.visible : styles.hidden,
+    isFirst ? styles.firstJob : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
 
-      {(!isHealthcareJob || isExpanded) && (
-        <div className={styles.jobDetails}>
-          <p>{description}</p>
-          <ul>
-            {taskList.map((task, index) =>
-              typeof task === 'string' ? (
-                <li key={index} className={styles.jobListItem}>
-                  {task}
-                </li>
-              ) : (
-                <li key={index} className={styles.jobListItem}>
-                  <div className={styles.taskTitle}>{task.title}</div>
-                  <ul className={styles.subTaskList}>
-                    {task.subtasks.map((subtask, subIndex) => (
-                      <li
-                        key={`${index}-${subIndex}`}
-                        className={styles.subTaskItem}
-                      >
-                        {subtask}
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-              )
-            )}
-          </ul>
+  return (
+    <div
+      ref={ref}
+      className={containerClasses}
+      style={{ '--index': index } as React.CSSProperties}
+    >
+      <div className={styles.timelineNode}>
+        <div className={`${styles.node} ${isFirst ? styles.nodePulse : ''}`} />
+      </div>
+      <div className={styles.jobContent}>
+        <div className={styles.jobImage}>
+          <Image
+            src={logo}
+            alt={`${companyName} logo`}
+            width={40}
+            height={40}
+            className={styles.companyLogo}
+          />
         </div>
-      )}
-      <div className={styles.jobDivider}></div>
+        <div className={styles.jobTitle}>
+          <div className={styles.jobTitleAndCompany}>
+            {isFirst && (
+              <span className={styles.mostRecentLabel}>Most Recent</span>
+            )}
+            {isHealthcareJob ? (
+              <button
+                onClick={() => setIsExpanded(!isExpanded)}
+                className={styles.expandButton}
+                aria-expanded={isExpanded}
+                aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${role} details`}
+              >
+                <span
+                  className={isExpanded ? styles.caretDown : styles.caretRight}
+                ></span>
+                <h3 style={{ display: 'inline-block', marginLeft: '8px' }}>
+                  {role}
+                </h3>
+              </button>
+            ) : (
+              <h3>{role}</h3>
+            )}
+            <a
+              href={companyLink}
+              className={styles.companyLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() =>
+                analytics.trackExternalLink(
+                  companyLink,
+                  `${companyName} Company Link`
+                )
+              }
+            >
+              {companyName}
+              {companySubName && (
+                <span className={styles.companySubName}>{companySubName}</span>
+              )}
+            </a>
+          </div>
+          <div className={styles.jobTimeContainer}>
+            <div className={styles.jobTimeframe}>{timeframe}</div>
+            {contractStatus && (
+              <div className={styles.contractBadge}>{contractStatus}</div>
+            )}
+          </div>
+        </div>
+
+        {(!isHealthcareJob || isExpanded) && (
+          <div className={styles.jobDetails}>
+            <p>{description}</p>
+            <ul>
+              {taskList.map((task, taskIndex) =>
+                typeof task === 'string' ? (
+                  <li key={taskIndex} className={styles.jobListItem}>
+                    {task}
+                  </li>
+                ) : (
+                  <li key={taskIndex} className={styles.jobListItem}>
+                    <div className={styles.taskTitle}>{task.title}</div>
+                    <ul className={styles.subTaskList}>
+                      {task.subtasks.map((subtask, subIndex) => (
+                        <li
+                          key={`${taskIndex}-${subIndex}`}
+                          className={styles.subTaskItem}
+                        >
+                          {subtask}
+                        </li>
+                      ))}
+                    </ul>
+                  </li>
+                )
+              )}
+            </ul>
+          </div>
+        )}
+        <div className={styles.jobDivider}></div>
+      </div>
     </div>
   );
 };

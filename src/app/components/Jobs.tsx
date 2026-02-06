@@ -1,5 +1,6 @@
 import React from 'react';
 import Job from './Job';
+import styles from './job.module.css';
 import beatLogo from '../../../public/beat-logo.png';
 import quantumLogo from '../../../public/quantum-logo.jpeg';
 import bluestaqLogo from '../../../public/bluestaq-logo.jpeg';
@@ -118,9 +119,11 @@ export const Jobs = () => {
       id: 4,
     },
   ];
-  const jobCards = jobs.map(job => <Job key={job.id} {...job} />);
+  const jobCards = jobs.map((job, index) => (
+    <Job key={job.id} {...job} index={index} isFirst={index === 0} />
+  ));
 
-  return <div className="jobs-container">{jobCards}</div>;
+  return <div className={styles.timelineContainer}>{jobCards}</div>;
 };
 
 export default Jobs;
