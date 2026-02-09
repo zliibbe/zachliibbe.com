@@ -4,7 +4,7 @@
   padding-left: 2rem;
 }
 
-/* Vertical timeline line */
+/* Vertical timeline line — fades out toward the bottom */
 .timelineContainer::before {
   content: '';
   position: absolute;
@@ -14,6 +14,8 @@
   width: 2px;
   background: var(--theme-color);
   opacity: 0.2;
+  mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
 }
 
 /* Timeline node */
