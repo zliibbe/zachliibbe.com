@@ -1,5 +1,172 @@
 # Development Session Log
 
+## Session 2026-02-05 (Evening)
+
+**Date**: 2026-02-05
+**Time**: Evening Session
+**Branch**: main (via enhance/work-page-polish)
+**Session Focus**: Work Page Polish — Version 3 "Progressive Reveal"
+
+### Session Context
+
+- **Previous State**: Main branch clean after npm-to-bun migration and broken images fix
+- **User Request**: Implement Work Page Polish plan (Version 3: "Progressive Reveal")
+- **Branch Strategy**: `enhance/work-page-polish` → PR #111 → main
+- **Version Bump**: 2.8.3 → 2.9.0
+
+### Key Accomplishments
+
+#### 💫 Work Page "Progressive Reveal" Implementation (PR #111)
+
+1. **Scroll-triggered entrance animations** via custom `useInView` Intersection Observer hook
+   - Cards fade in (`fadeInUp` keyframe) only when entering the viewport
+   - Staggered delays via `--index` CSS custom property
+   - Respects `prefers-reduced-motion`
+
+2. **Vertical timeline** connecting job cards
+   - 2px theme-colored line with 20% opacity
+   - 8px circle nodes at each job, first node pulses
+   - Line fades to transparent at bottom via CSS `mask-image`
+   - Hidden on mobile
+
+3. **"Most Recent" label** on first job card with theme-colored top border
+
+4. **Contract status badges** — pill-shaped with checkmark, using `color-mix()` for semi-transparent backgrounds
+
+5. **Overview copy tightened** from 4 paragraphs to 2
+
+6. **Heading accents** — theme-colored borders on Overview and Experience headings
+
+#### 🐛 Site-wide Theme Color Bug Fix
+
+- **Root cause**: `applyTheme()` in `themes.ts` set `--themeColor` (camelCase) but all CSS read `--theme-color` (kebab-case)
+- **Fix**: Added `toKebabCase` helper, now sets both formats
+- **Impact**: Theme color switching now properly propagates to all CSS throughout the site
+
+### Files Created
+
+- `src/app/hooks/useInView.ts` — Custom Intersection Observer hook (fire-once)
+
+### Files Modified
+
+- `src/app/components/Job.tsx` — useInView integration, timeline nodes, badges, "Most Recent" label
+- `src/app/components/Jobs.tsx` — Pass index/isFirst props, use timelineContainer class
+- `src/app/components/job.module.css` — Timeline, fadeInUp, badges, mobile responsive
+- `src/app/work/page.tsx` — Condensed overview copy
+- `src/app/work/page.module.css` — Heading accent borders
+- `src/app/styles/themes.ts` — toKebabCase helper, dual-format CSS property setting
+- `package.json` — Version bump to 2.9.0
+
+### Atomic Commits (5, merged via PR #111)
+
+1. `✨ feat(work): add scroll-triggered entrance animations with useInView hook`
+2. `💫 feat(work): add vertical timeline and contract status badges`
+3. `📝 refactor(work): condense overview copy and add heading accents`
+4. `🐛 fix(themes): set CSS custom properties in both camelCase and kebab-case`
+5. `💫 style(work): fade timeline line to transparent at bottom`
+
+### Verification
+
+- Playwright visual verification of theme color propagation (default + Sunset theme)
+- Playwright screenshot of timeline fade effect
+- `bun run build` passing
+- `bun run format:fix` clean
+
+### Session Metrics
+
+- **PRs Created & Merged**: 1 (PR #111)
+- **Files Modified**: 7 + 1 created
+- **Commits Created**: 5 atomic commits
+- **Bugs Fixed**: 1 (site-wide theme color propagation)
+- **Version**: 2.9.0
+
+### Context for Next Session
+
+- **Current Branch**: main (clean, PR #111 merged)
+- **Version**: 2.9.0
+- **Production State**: Deployed with scroll animations, timeline, and theme fix
+
+---
+
+## Session 2026-02-05 (Afternoon)
+
+**Date**: 2026-02-05
+**Time**: Afternoon Session
+**Branch**: main (via npm-to-bun, fix/work-page-broken-images)
+**Session Focus**: Package Manager Migration & Production Bug Fix
+
+### Session Context
+
+- **Previous State**: Main branch clean after security updates
+- **User Request**: Migrate from npm to bun package manager
+- **Branch Strategy**: Feature branches with PRs for each change
+- **Session Type**: Infrastructure migration + production bug fix
+
+### Key Accomplishments
+
+#### 📦 npm to bun Migration (PR #109)
+
+1. **Installed bun** via Homebrew (v1.3.8)
+2. **Deleted npm lock files** from root and goodreads-lambda
+3. **Generated bun.lock** files for both projects
+4. **Added `packageManager` field** to package.json
+5. **Updated all documentation** (README, CLAUDE.md, ADMIN.md, PRD.md) command references
+6. **Configured Vercel** with `installCommand: "bun install"` in vercel.json
+7. **Verified all commands**: `bun run build`, `bun run lint`, `bun run format`, `bun run test`
+8. **Verified site rendering** via Playwright (homepage + blog page)
+9. **Version bump**: 2.8.2 → 2.8.3
+
+**Atomic Commits:**
+
+1. `88a2fce` - 🔧 chore: delete npm lock files
+2. `9816cf3` - 📦 chore: migrate to bun package manager
+3. `9a039ea` - 📝 docs: update command references from npm to bun
+4. `4cc5c43` - 🔧 chore: configure Vercel to use bun install
+
+#### 🐛 Fix Broken Images on /work Page (PR #110)
+
+1. **Diagnosed production issue**: Company logos on /work page returning 400 errors
+2. **Root cause identified**: `assetPrefix: '/'` in next.config.js caused double-slash paths (`//_next/static/media/...`)
+3. **Fix applied**: Removed redundant `assetPrefix` setting — Next.js serves from root by default
+4. **Verification**: Confirmed via Playwright console error inspection
+
+**Commit:**
+
+- `ae7b00b` - 🐛 fix: remove assetPrefix causing broken images on /work page
+
+### Key Learnings & Technical Insights
+
+#### Package Manager Migration
+
+1. **Bun compatibility**: Bun supports npm `overrides` with same syntax — no changes needed
+2. **`bun test` vs `bun run test`**: `bun test` uses bun's native test runner; `bun run test` runs the package.json script (Jest)
+3. **Vercel config**: `installCommand` in vercel.json is the simplest way to tell Vercel to use bun
+
+#### Next.js Image Configuration
+
+1. **assetPrefix pitfall**: Setting `assetPrefix: '/'` causes double-slash in static asset paths
+2. **Dev vs Production divergence**: The bug only appeared in production because the assetPrefix was conditional on `NODE_ENV === 'production'`
+3. **Diagnosis approach**: Playwright console error inspection immediately revealed the malformed URLs
+
+### Session Metrics
+
+- **Productivity Score**: 9/10 (Two PRs merged, infrastructure migration + production fix)
+- **PRs Created & Merged**: 2 (#109, #110)
+- **Files Modified**: 11 files
+- **Code Changes**: +2,491 / -17,399 lines (mostly lock file churn)
+- **Bugs Fixed**: 1 (broken production images)
+- **Commits Created**: 5 atomic commits
+
+### Context for Next Session
+
+- **Current Branch**: main (clean, up to date)
+- **Package Manager**: bun@1.3.8
+- **Production State**: Stable, images fixed, bun migration deployed
+- **Version**: 2.8.3
+- **Outstanding**: Verify /work page images render after Vercel redeploy
+
+---
+
 ## Session 2026-01-01
 
 **Date**: 2026-01-01
