@@ -7,6 +7,8 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ['react-icons'],
   },
+  // Explicitly opt into Turbopack (default in Next.js 16)
+  turbopack: {},
   poweredByHeader: false,
 
   images: {
@@ -60,21 +62,6 @@ const nextConfig = {
         pathname: '/**',
       },
     ],
-  },
-  webpack: (config, { isServer }) => {
-    config.resolve.fallback = { fs: false };
-
-    // Fix for Babel parsing issues
-    if (!isServer) {
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        fs: false,
-        net: false,
-        tls: false,
-      };
-    }
-
-    return config;
   },
   async headers() {
     return [
