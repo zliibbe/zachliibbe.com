@@ -3,6 +3,7 @@ import { execSync } from 'child_process';
 const CLAUDE_API_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-sonnet-4-6';
 const MAX_DIFF_CHARS = 60_000;
+const SHA_RE = /^[0-9a-f]{40}$/i;
 
 const {
   ANTHROPIC_API_KEY,
@@ -16,6 +17,12 @@ const {
 } = process.env;
 
 function getDiff(): string {
+  if (!SHA_RE.test(BASE_SHA ?? '') || !SHA_RE.test(HEAD_SHA ?? '')) {
+    throw new Error(
+      `Invalid SHA values: BASE_SHA=${BASE_SHA} HEAD_SHA=${HEAD_SHA}`
+    );
+  }
+
   try {
     return execSync(
       `git diff ${BASE_SHA} ${HEAD_SHA} \
@@ -97,9 +104,9 @@ ${diffContent}
   return data.content?.[0]?.text?.trim() ?? 'No response from Claude.';
 }
 
-async function postReview(body: string): Promise<void> {
+async function postComment(body: string): Promise<void> {
   const [owner, repo] = (REPO || '').split('/');
-  const url = `https://api.github.com/repos/${owner}/${repo}/pulls/${PR_NUMBER}/reviews`;
+  const url = `https://api.github.com/repos/${owner}/${repo}/issues/${PR_NUMBER}/comments`;
 
   const response = await fetch(url, {
     method: 'POST',
@@ -108,7 +115,7 @@ async function postReview(body: string): Promise<void> {
       'Content-Type': 'application/json',
       Accept: 'application/vnd.github.v3+json',
     },
-    body: JSON.stringify({ body, event: 'COMMENT' }),
+    body: JSON.stringify({ body }),
   });
 
   if (!response.ok) {
@@ -118,6 +125,18 @@ async function postReview(body: string): Promise<void> {
 }
 
 async function main() {
+  const missing = [
+    'ANTHROPIC_API_KEY',
+    'GITHUB_TOKEN',
+    'PR_NUMBER',
+    'REPO',
+    'BASE_SHA',
+    'HEAD_SHA',
+  ].filter(k => !process.env[k]);
+  if (missing.length) {
+    throw new Error(`Missing required env vars: ${missing.join(', ')}`);
+  }
+
   const diff = getDiff();
 
   if (!diff.trim()) {
@@ -134,8 +153,8 @@ async function main() {
     ? '**Bug Bot:** No bugs found.'
     : `**Bug Bot review:**\n\n${review}`;
 
-  await postReview(commentBody);
-  console.log('Review posted.');
+  await postComment(commentBody);
+  console.log('Comment posted.');
 }
 
 main().catch(err => {
