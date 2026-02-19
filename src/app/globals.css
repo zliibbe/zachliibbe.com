@@ -63,10 +63,10 @@
   --fs-750: 1.75rem; /* 28px */
   --fs-800: 2em; /* 32px */
 
-  --fs-button: var(var(--fs-300));
+  --fs-button: var(--fs-300);
   --fs-body: var(--fs-400);
-  --fs-primary-heading: var(var(--fs-800));
-  --fs-secondary-heading: var(var(--fs-700));
+  --fs-primary-heading: var(--fs-800);
+  --fs-secondary-heading: var(--fs-700);
 
   /* miscellaneous */
   --offWhite: #faf9f6;
