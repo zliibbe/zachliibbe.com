@@ -854,7 +854,7 @@ The Activities grid on `/live-feed` page is displaying black squares instead of 
 
 ### Phase 14: Migrate ESLint + Prettier → Biome ✅ (100% Complete)
 
-**Status:** Complete
+**Status:** Complete (2026-02-19)
 **Priority:** MEDIUM — toolchain modernization, faster linting/formatting
 
 **Motivation:**
