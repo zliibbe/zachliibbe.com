@@ -341,8 +341,8 @@ html[data-theme='dark'] {
 
 /* Text selection highlight — uses the active theme accent color */
 ::selection {
-  background-color: var(--theme-color);
-  color: #ffffff;
+  background-color: var(--accentPrimary);
+  color: #000000;
 }
 
 /* Smooth transitions */

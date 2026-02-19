@@ -137,7 +137,7 @@ export default function RootLayout({
                   style={{
                     display: 'inline-block',
                     padding: '10px 20px',
-                    backgroundColor: 'var(--accent-primary)',
+                    backgroundColor: 'var(--accentPrimary)',
                     color: 'white',
                     textDecoration: 'none',
                     borderRadius: '6px',
