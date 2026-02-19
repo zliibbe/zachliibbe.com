@@ -339,6 +339,12 @@ html[data-theme='dark'] {
   --linkedInColor: #0a66c2;
 }
 
+/* Text selection highlight — uses the active theme accent color */
+::selection {
+  background-color: var(--theme-color);
+  color: #ffffff;
+}
+
 /* Smooth transitions */
 .footer,
 .footer * {
