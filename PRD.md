@@ -835,6 +835,93 @@ The Activities grid on `/live-feed` page is displaying black squares instead of 
 
 ---
 
+---
+
+### Phase 13: Branch Cleanup
+
+**Status:** Pending
+**Priority:** HIGH — housekeeping, reduce noise in remote
+
+**Scope:**
+- Delete all merged/stale remote branches except `main` and `Add-Jest-and-React-Testing-Library`
+- Prune all local branches except `main` and `Add-Jest-and-React-Testing-Library`
+- Verify no unmerged work is lost before deleting
+
+**Remote branches to delete (all merged):**
+`blog/recent-development-work`, `chore/upgrade-next-16`, `dependabot/*`, `docs/update-readme`, `enhance/*`, `feature/*`, `fix/*`, `npm-to-bun`, `update-project-dependencies`, `vercel/*`
+
+---
+
+### Phase 14: Migrate ESLint + Prettier → Biome
+
+**Status:** Pending
+**Priority:** MEDIUM — toolchain modernization, faster linting/formatting
+
+**Motivation:**
+- Biome replaces both ESLint and Prettier with a single fast tool (written in Rust)
+- Faster CI and local feedback loops
+- Next.js 16 ESLint Flat Config is now default; good time to consolidate
+
+**Technical Requirements:**
+- [ ] Install `@biomejs/biome` and initialize `biome.json`
+- [ ] Migrate ESLint rules to Biome equivalents
+- [ ] Migrate Prettier config (`.prettierrc`) to Biome formatter settings
+- [ ] Update `package.json` scripts: replace `lint` and `format` / `format:fix`
+- [ ] Remove `eslint`, `eslint-config-next`, `eslint-plugin-prettier`, `eslint-config-prettier`, `prettier` from dependencies
+- [ ] Update `CLAUDE.md` and `README.md` to reflect new toolchain
+- [ ] Verify Bug Bot CI still works (uses `bun run lint` indirectly)
+
+---
+
+### Phase 15: Update /work and /about Content
+
+**Status:** Pending
+**Priority:** HIGH — current job missing, content is stale
+
+**Scope:**
+
+#### /work page
+- [ ] Add current job/role (not yet listed)
+- [ ] Review and update all existing job entries for accuracy
+- [ ] Confirm contract status indicators are current
+
+#### /about page — `.recentSection`
+- [ ] Update recent activities / highlights content
+- [ ] Ensure content reflects current interests and projects
+
+---
+
+### Phase 16: Add Currently Reading Section to /live-feed
+
+**Status:** Pending
+**Priority:** MEDIUM — improves live feed completeness
+
+**Motivation:**
+Currently `/live-feed` shows completed books ("Read" shelf) and audiobooks ("Listening" shelf) but has no "Currently Reading" section, even though the data is already fetched via `/api/goodreads/currently-reading`.
+
+**Scope:**
+- [ ] Rename existing "Reading" section → "Read" (books completed)
+- [ ] Add new "Reading" section above "Read" showing currently-in-progress books with progress %
+- [ ] Reuse existing `currently-reading` API data (already powers the footer widget)
+- [ ] Match visual style of existing book cards
+
+---
+
+### Phase 17: React Testing Library + CI Integration
+
+**Status:** Pending
+**Priority:** HIGH — `Add-Jest-and-React-Testing-Library` branch has scaffolding; needs actual tests and CI wiring
+
+**Scope:**
+- [ ] Merge or rebase `Add-Jest-and-React-Testing-Library` branch onto current main
+- [ ] Write meaningful component tests (focus on: chat widget, blog post card, theme toggle, nav)
+- [ ] Write API route unit tests for critical paths (chat rate limiting, blog post fetching)
+- [ ] Add test run step to Bug Bot workflow (or separate CI workflow)
+- [ ] Ensure `bun run test` passes cleanly in CI
+- [ ] Update `README.md` with testing instructions
+
+---
+
 ## Current Status & Conclusion
 
 This PRD has guided the successful implementation of a comprehensive personal website with advanced RAG-powered chat and complete blog management capabilities. The phased approach enabled iterative development with continuous user feedback.
