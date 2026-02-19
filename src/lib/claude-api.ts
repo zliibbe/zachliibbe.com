@@ -1,6 +1,6 @@
+import { kv } from '@vercel/kv';
 import { generateEmbedding } from './embeddings';
 import { queryVectors } from './pinecone';
-import { kv } from '@vercel/kv';
 
 const CLAUDE_API_KEY = process.env.ANTHROPIC_API_KEY;
 const CLAUDE_API_URL = 'https://api.anthropic.com/v1/messages';
@@ -116,7 +116,7 @@ export async function generateChatResponse(
         headers: Object.fromEntries(response.headers.entries()),
         url: CLAUDE_API_URL,
         hasApiKey: !!CLAUDE_API_KEY,
-        apiKeyPrefix: CLAUDE_API_KEY?.substring(0, 8) + '...',
+        apiKeyPrefix: `${CLAUDE_API_KEY?.substring(0, 8)}...`,
       });
 
       return {

@@ -1,10 +1,10 @@
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
-import { createPortal } from 'react-dom';
 import { usePathname } from 'next/navigation';
-import FloatingChatWidget, { ChatMessage } from './FloatingChatWidget';
+import { useCallback, useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
+import FloatingChatWidget, { type ChatMessage } from './FloatingChatWidget';
 
 interface ChatResponse {
   success: boolean;

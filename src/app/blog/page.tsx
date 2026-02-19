@@ -1,15 +1,14 @@
-import { Suspense } from 'react';
+import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Metadata } from 'next';
+import BlogFilters from '@/app/components/Blog/BlogFilters';
+import BlogSearch from '@/app/components/Blog/BlogSearch';
+import PostCard from '@/app/components/Blog/PostCard';
+import Footer from '@/app/components/Footer';
 import {
-  getPaginatedPostsWithImages,
   getAllCategories,
   getAllTags,
+  getPaginatedPostsWithImages,
 } from '@/lib/blog-with-images';
-import PostCard from '@/app/components/Blog/PostCard';
-import BlogSearch from '@/app/components/Blog/BlogSearch';
-import BlogFilters from '@/app/components/Blog/BlogFilters';
-import Footer from '@/app/components/Footer';
 import styles from './page.module.css';
 
 interface BlogPageProps {
@@ -23,7 +22,7 @@ interface BlogPageProps {
 
 export default async function BlogPage({ searchParams }: BlogPageProps) {
   const params = await searchParams;
-  const currentPage = parseInt(params.page || '1');
+  const currentPage = parseInt(params.page || '1', 10);
   const filters = {
     category: params.category,
     tag: params.tag,

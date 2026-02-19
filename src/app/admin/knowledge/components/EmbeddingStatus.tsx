@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { MdRefresh, MdTrendingUp, MdStorage, MdSpeed } from 'react-icons/md';
+import { useEffect, useState } from 'react';
+import { MdRefresh, MdSpeed, MdStorage, MdTrendingUp } from 'react-icons/md';
 import styles from './EmbeddingStatus.module.css';
 
 interface KnowledgeFile {

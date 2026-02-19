@@ -1,6 +1,6 @@
 'use client';
 
-import { FaTwitter, FaLinkedin, FaEnvelope } from 'react-icons/fa';
+import { FaEnvelope, FaLinkedin, FaTwitter } from 'react-icons/fa';
 import { analytics } from '../utils/analytics';
 
 interface ShareButtonsProps {

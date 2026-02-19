@@ -3,20 +3,20 @@
 import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import {
-  HiXMark,
-  HiPaperAirplane,
   HiChatBubbleLeftRight,
-  HiClipboard,
   HiCheck,
+  HiClipboard,
+  HiPaperAirplane,
+  HiXMark,
 } from 'react-icons/hi2';
 import styles from './FloatingChatWidget.module.css';
 import {
-  useChatMessages,
+  type ChatMessage,
   useChatInput,
+  useChatMessages,
   useChatResize,
-  useChatVisibility,
   useChatScroll,
-  ChatMessage,
+  useChatVisibility,
 } from './hooks';
 
 export type { ChatMessage };

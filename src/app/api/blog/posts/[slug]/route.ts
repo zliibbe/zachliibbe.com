@@ -1,10 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/lib/auth';
 import {
+  deleteBlogPost,
   getPostBySlug,
   updateBlogPost,
-  deleteBlogPost,
 } from '@/lib/blog-storage';
 
 type RouteContext = {

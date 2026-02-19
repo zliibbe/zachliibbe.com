@@ -14,9 +14,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - **Development server**: `bun run dev` - Starts Next.js development server on localhost:3000
 - **Build**: `bun run build` - Creates production build
-- **Linting**: `bun run lint` - Runs ESLint with Next.js config
-- **Formatting**: `bun run format` - Checks code formatting with Prettier
-- **Format fix**: `bun run format:fix` - Auto-fixes formatting issues
+- **Linting**: `bun run lint` - Runs Biome linter
+- **Check**: `bun run check` - Runs Biome lint + format check together
+- **Check fix**: `bun run check:fix` - Auto-fixes lint and formatting issues
+- **Formatting**: `bun run format` - Checks code formatting with Biome
+- **Format fix**: `bun run format:fix` - Auto-fixes formatting issues with Biome
 - **Testing**: `bun run test` - Run Jest test suite
 
 ### Development Guidelines
@@ -41,13 +43,12 @@ Follow the coding commandments located at `~/.claude/commandments.md` for all de
 
 ## Development Tools
 
-- **ESLint**: Next.js configuration with Prettier integration
-- **Prettier**: Code formatting with custom configuration
+- **Biome**: Single tool for linting and formatting (replaces ESLint + Prettier). Config in `biome.json`.
 - **TypeScript**: Strict type safety with custom path mapping
 - **Jest & React Testing Library**: Unit and integration testing
 - **Vercel**: Deployment platform with automatic CI/CD
 
-Run `bun run format:fix` after making changes to ensure Prettier and ESLint rules are follwed.
+Run `bun run check:fix` after making changes to ensure Biome lint and formatting rules are followed.
 
 ## Architecture Overview
 

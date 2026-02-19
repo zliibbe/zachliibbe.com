@@ -1,22 +1,21 @@
 'use client';
 
-import { Session } from 'next-auth';
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import {
-  MdArrowBack,
-  MdEdit,
-  MdRefresh,
-  MdAnalytics,
-  MdPlayArrow,
-  MdFolder,
-  MdDescription,
-} from 'react-icons/md';
+import type { Session } from 'next-auth';
+import { useEffect, useState } from 'react';
 import { HiChatBubbleLeftRight } from 'react-icons/hi2';
-import KnowledgeFileEditor from './KnowledgeFileEditor';
+import {
+  MdAnalytics,
+  MdArrowBack,
+  MdDescription,
+  MdEdit,
+  MdFolder,
+  MdRefresh,
+} from 'react-icons/md';
 import EmbeddingStatus from './EmbeddingStatus';
-import TestQueryInterface from './TestQueryInterface';
 import styles from './KnowledgeAdmin.module.css';
+import KnowledgeFileEditor from './KnowledgeFileEditor';
+import TestQueryInterface from './TestQueryInterface';
 
 interface KnowledgeAdminProps {
   session: Session;

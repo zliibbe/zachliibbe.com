@@ -1,5 +1,5 @@
-import moment from 'moment';
 import { kv } from '@vercel/kv';
+import moment from 'moment';
 
 // Create a local cache fallback for storage
 const localCache = new Map();
@@ -506,7 +506,7 @@ export function cleanGoodreadsUrl(url: string, title?: string): string {
   if (url.includes('goodreads.com/review/show/')) {
     // Extract the review ID from the URL
     const reviewIdMatch = url.match(/\/review\/show\/(\d+)/);
-    if (reviewIdMatch && reviewIdMatch[1]) {
+    if (reviewIdMatch?.[1]) {
       // Option 1: Use the Goodreads search API with the title
       if (title) {
         // Create a search URL that will redirect to the book page

@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
 import { createClient } from '@vercel/kv';
+import { NextResponse } from 'next/server';
 
 interface Book {
   title: string;
@@ -80,7 +80,7 @@ export async function GET(request: Request) {
 
       if (Array.isArray(data)) {
         books = data;
-      } else if (data && data.books && Array.isArray(data.books)) {
+      } else if (data?.books && Array.isArray(data.books)) {
         books = data.books;
       } else {
         console.error('Unexpected data format from Lambda:', data);

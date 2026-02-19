@@ -83,7 +83,7 @@ export async function getAccessToken(): Promise<string> {
     const tokenData = (await kv.get(STRAVA_TOKEN_KEY)) as TokenData;
 
     // If we have a token and it's not expired (with 5 min buffer), use it
-    if (tokenData && tokenData.access_token) {
+    if (tokenData?.access_token) {
       const now = Math.floor(Date.now() / 1000);
       if (tokenData.expires_at > now + 300) {
         return tokenData.access_token;

@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import type React from 'react';
+import { useEffect, useState } from 'react';
+import { getTimeAgo } from '@/app/utils/index';
 import styles from './CurrentlyReading.module.css';
 import footerStyles from './Footer.module.css';
-import { getTimeAgo } from '@/app/utils/index';
 
 type Book = {
   title: string;
@@ -66,7 +67,7 @@ export default function CurrentlyReading() {
         let booksArray = [];
         if (Array.isArray(data)) {
           booksArray = data;
-        } else if (data && data.books && Array.isArray(data.books)) {
+        } else if (data?.books && Array.isArray(data.books)) {
           booksArray = data.books;
         } else {
           console.error('Unexpected data format:', data);

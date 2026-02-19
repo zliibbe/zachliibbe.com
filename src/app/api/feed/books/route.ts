@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { XMLParser } from 'fast-xml-parser';
 
 // Fallback data in case the API fails
 const fallbackBooks = {
@@ -104,7 +103,7 @@ async function fetchGoodreadsShelf(shelf: string) {
 
         if (lambdaResponse.ok) {
           const data = await lambdaResponse.json();
-          if (data && data.books && data.books.length > 0) {
+          if (data?.books && data.books.length > 0) {
             // Transform Lambda data to match our expected format
             return data.books.map(
               (book: {

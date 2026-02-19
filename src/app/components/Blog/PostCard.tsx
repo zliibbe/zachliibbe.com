@@ -1,6 +1,6 @@
-import Link from 'next/link';
 import Image from 'next/image';
-import { BlogPostMetadata } from '@/types/blog';
+import Link from 'next/link';
+import type { BlogPostMetadata } from '@/types/blog';
 import styles from './PostCard.module.css';
 
 interface PostCardProps {

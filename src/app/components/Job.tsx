@@ -1,10 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
-import Image, { StaticImageData } from 'next/image';
-import styles from './job.module.css';
-import { analytics } from '../utils/analytics';
+import Image, { type StaticImageData } from 'next/image';
+import type React from 'react';
+import { useState } from 'react';
 import { useInView } from '../hooks/useInView';
+import { analytics } from '../utils/analytics';
+import styles from './job.module.css';
 
 interface JobProps {
   title: string;

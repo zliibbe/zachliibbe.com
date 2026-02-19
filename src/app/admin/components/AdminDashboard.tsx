@@ -1,10 +1,10 @@
 'use client';
 
-import { Session } from 'next-auth';
-import { signOut } from 'next-auth/react';
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { MdArticle, MdAnalytics, MdSettings, MdChat } from 'react-icons/md';
+import type { Session } from 'next-auth';
+import { signOut } from 'next-auth/react';
+import { useEffect, useState } from 'react';
+import { MdAnalytics, MdArticle, MdChat, MdSettings } from 'react-icons/md';
 import styles from './AdminDashboard.module.css';
 
 interface AdminDashboardProps {

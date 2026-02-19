@@ -1,14 +1,14 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 // import SafeCalendarHeatmap from "./CalendarHeatmapWrapper";
 import CalendarHeatmap from 'react-calendar-heatmap';
 import 'react-calendar-heatmap/dist/styles.css';
-import styles from './ActivityGrid.module.css';
 import moment from 'moment';
-import { StravaActivity } from '@/lib/strava/types';
-import { ReactCalendarHeatmapValue } from 'react-calendar-heatmap';
+import type { ReactCalendarHeatmapValue } from 'react-calendar-heatmap';
 import { getTimeAgo } from '@/app/utils/index';
+import type { StravaActivity } from '@/lib/strava/types';
+import styles from './ActivityGrid.module.css';
 
 // Note: Testing if SafeCalendarHeatmap wrapper is still needed for React 19
 // Temporarily using CalendarHeatmap directly to check for console errors

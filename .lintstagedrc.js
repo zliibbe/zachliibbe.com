@@ -1,10 +1,6 @@
-const path = require('path');
-
-const buildEslintCommand = filenames =>
-  `next lint --fix --file ${filenames
-    .map(f => path.relative(process.cwd(), f))
-    .join(' --file ')}`;
+const buildBiomeCommand = filenames =>
+  `biome check --write ${filenames.join(' ')}`;
 
 module.exports = {
-  '*.{js,jsx,ts,tsx}': [buildEslintCommand],
+  '*.{js,jsx,ts,tsx,json,css}': [buildBiomeCommand],
 };

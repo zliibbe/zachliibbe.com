@@ -1,8 +1,7 @@
-import React from 'react';
-import styles from './page.module.css';
+import type { Metadata } from 'next';
 import Footer from '../components/Footer';
-import { Metadata } from 'next';
 import { Jobs } from '../components/Jobs';
+import styles from './page.module.css';
 
 export default function Work() {
   return (

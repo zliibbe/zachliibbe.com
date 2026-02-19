@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { generateEmbedding } from '@/lib/embeddings';
@@ -45,11 +45,7 @@ export async function POST(request: NextRequest) {
     if (hasHighConfidenceContext) {
       response = `Based on the knowledge base, here's what I can tell you about "${query}": `;
       const topChunk = contextChunks[0];
-      if (
-        topChunk &&
-        topChunk.content &&
-        typeof topChunk.content === 'string'
-      ) {
+      if (topChunk?.content && typeof topChunk.content === 'string') {
         response += topChunk.content.slice(0, 200);
         if (topChunk.content.length > 200) {
           response += '...';

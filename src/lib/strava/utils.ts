@@ -1,5 +1,5 @@
 import { kv } from '@vercel/kv';
-import { StravaActivity } from './types';
+import type { StravaActivity } from './types';
 
 const ACTIVITIES_CACHE_KEY = 'strava_activities';
 const CACHE_DURATION = 60 * 25; // 25 minutes

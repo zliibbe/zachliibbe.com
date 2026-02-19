@@ -1,14 +1,15 @@
 'use client';
 
-import React, {
+import type React from 'react';
+import {
   createContext,
-  useContext,
-  useState,
-  useEffect,
   useCallback,
+  useContext,
+  useEffect,
   useMemo,
+  useState,
 } from 'react';
-import { Theme, themes, applyTheme } from '@/app/styles/themes';
+import { applyTheme, type Theme, themes } from '@/app/styles/themes';
 
 interface ThemeContextType {
   currentTheme: Theme['name'];

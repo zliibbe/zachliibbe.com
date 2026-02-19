@@ -1,21 +1,19 @@
-import {
+import type {
+  BlogFilterParams,
   BlogPost,
   BlogPostMetadata,
-  BlogFilterParams,
   FeaturedImage,
 } from '@/types/blog';
 import {
-  getPhotoForBlogPost,
+  getAllPosts,
+  getAllPublishedPosts,
+  getPostBySlug,
+} from './blog-storage';
+import {
   getPhotoAttribution,
+  getPhotoForBlogPost,
   trackPhotoDownload,
 } from './unsplash';
-import {
-  getAllPublishedPosts,
-  getAllPosts,
-  getPostBySlug,
-  getAllCategories as getStorageCategories,
-  getAllTags as getStorageTags,
-} from './blog-storage';
 
 // Cache for images to avoid repeated API calls
 const imageCache = new Map<string, FeaturedImage | undefined>();

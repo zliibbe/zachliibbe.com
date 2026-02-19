@@ -7,7 +7,7 @@
   color: var(--white);
 }
 
-[data-theme='dark'] .subtitle {
+[data-theme="dark"] .subtitle {
   color: var(--white);
 }
 
@@ -107,7 +107,7 @@
 }
 
 .archBlur::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 15%; /* Adjust this percentage to position blur below the head */
   left: 0;

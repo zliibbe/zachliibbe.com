@@ -1,10 +1,10 @@
 import type { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
-import fetch from 'node-fetch';
 import { XMLParser } from 'fast-xml-parser';
+import fetch from 'node-fetch';
 
 // Cache implementation to reduce Lambda executions
-let cachedData: { [key: string]: any } = {};
-let lastFetch: { [key: string]: number } = {};
+const cachedData: { [key: string]: any } = {};
+const lastFetch: { [key: string]: number } = {};
 const CACHE_DURATION = 1000 * 60 * 5; // 5 minutes
 
 function decodeHtmlEntities(text: string): string {

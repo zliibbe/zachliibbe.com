@@ -1,15 +1,15 @@
-import { notFound } from 'next/navigation';
-import Link from 'next/link';
+import type { Metadata } from 'next';
 import Image from 'next/image';
-import { Metadata } from 'next';
-import {
-  getPostBySlugWithImage,
-  getAllPublishedPostsWithImages,
-} from '@/lib/blog-with-images';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import BlogPostAnalytics from '@/app/components/BlogPostAnalytics';
 import Footer from '@/app/components/Footer';
 import ReadingProgress from '@/app/components/ReadingProgress';
-import BlogPostAnalytics from '@/app/components/BlogPostAnalytics';
 import ShareButtons from '@/app/components/ShareButtons';
+import {
+  getAllPublishedPostsWithImages,
+  getPostBySlugWithImage,
+} from '@/lib/blog-with-images';
 import styles from './page.module.css';
 
 // Revalidate this page periodically as a fallback in case on-demand revalidation wasn't triggered
@@ -46,7 +46,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         slug={post.slug}
         title={post.title}
         category={post.categories[0] || 'Uncategorized'}
-        readTimeMinutes={parseInt(post.readTime) || 0}
+        readTimeMinutes={parseInt(post.readTime, 10) || 0}
       />
       <main>
         <div className="universal-gradient-container">

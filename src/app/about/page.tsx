@@ -1,9 +1,8 @@
-import React from 'react';
-import styles from './page.module.css';
+import type { Metadata } from 'next';
 import Image from 'next/image';
 import headshot from '../../../public/headshot.png';
 import Footer from '../components/Footer';
-import { Metadata } from 'next';
+import styles from './page.module.css';
 
 export default function About() {
   return (

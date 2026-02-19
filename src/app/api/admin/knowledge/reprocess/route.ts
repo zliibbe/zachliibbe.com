@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { promises as fs } from 'node:fs';
+import path from 'node:path';
+import { type NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import { promises as fs } from 'fs';
-import path from 'path';
-import { generateEmbedding, chunkText } from '@/lib/embeddings';
+import { chunkText, generateEmbedding } from '@/lib/embeddings';
 import { upsertVector } from '@/lib/pinecone';
 
 const KNOWLEDGE_DIR = path.join(process.cwd(), 'src/data/knowledge');

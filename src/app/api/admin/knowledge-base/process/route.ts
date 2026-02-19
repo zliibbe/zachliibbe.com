@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 import { processKnowledgeBase } from '@/lib/knowledge-base';
 
 export async function POST(request: NextRequest) {

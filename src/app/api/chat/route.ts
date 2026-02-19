@@ -1,16 +1,16 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 import {
-  generateChatResponse,
   checkRateLimit,
+  generateChatResponse,
   getRateLimitStatus,
 } from '@/lib/claude-api';
 import {
-  handleApiError,
-  createApiError,
   ApiErrorCodes,
+  createApiError,
+  handleApiError,
+  validateArray,
   validateRequired,
   validateString,
-  validateArray,
 } from '@/lib/error-handling';
 
 interface ChatRequestBody {

@@ -71,7 +71,7 @@ A modern [Next.js](https://nextjs.org/) 15 portfolio website with RAG-powered AI
 - **React 19** - Latest React with improved performance and features
 - **Vercel KV Storage** - Edge-compatible Redis for caching and data persistence
 - **Image Optimization** - Next.js Image component with multiple CDN sources
-- **TypeScript** - Full type safety with strict configuration and ESLint CLI
+- **TypeScript** - Full type safety with strict configuration and Biome
 - **Responsive Design** - Mobile-first design with CSS Modules and custom properties
 
 ### 🤖 **Automated Code Review (Bug Bot)**
@@ -157,7 +157,9 @@ A modern [Next.js](https://nextjs.org/) 15 portfolio website with RAG-powered AI
 - `bun run dev` - Start development server
 - `bun run build` - Build for production
 - `bun run start` - Start production server
-- `bun run lint` - Run ESLint
+- `bun run lint` - Run Biome linter
+- `bun run check` - Run Biome lint + format check
+- `bun run check:fix` - Auto-fix lint and formatting issues
 - `bun run test` - Run Jest tests
 - `bun run test:watch` - Run tests in watch mode
 - `bun run test:coverage` - Generate test coverage report
@@ -168,8 +170,7 @@ A modern [Next.js](https://nextjs.org/) 15 portfolio website with RAG-powered AI
 
 This project enforces code consistency using:
 
-- **[Prettier](https://prettier.io/)** - Code formatting
-- **[ESLint](https://eslint.org/)** - Code linting with Next.js configuration
+- **[Biome](https://biomejs.dev/)** - Single tool for linting and formatting (replaces ESLint + Prettier)
 - **[TypeScript](https://www.typescriptlang.org/)** - Type checking
 - **[Jest](https://jestjs.io/)** - Unit testing with React Testing Library
 
@@ -209,8 +210,7 @@ This project enforces code consistency using:
 
 ### **Development & Testing**
 
-- [ESLint](https://eslint.org/) - Code linting with Prettier integration
-- [Prettier](https://prettier.io/) - Code formatting
+- [Biome](https://biomejs.dev/) - Linting and formatting (replaces ESLint + Prettier)
 - [Jest](https://jestjs.io/) - Testing framework
 - [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) - Component testing utilities
 
@@ -344,7 +344,7 @@ The application includes automated blog publishing via Vercel Cron Jobs:
 
 ### Development Guidelines
 
-- Follow the established code style (Prettier/ESLint)
+- Follow the established code style (run `bun run check:fix` to auto-fix via Biome)
 - Write tests for new functionality
 - Update documentation as needed
 - Test admin functionality with proper authentication
@@ -371,7 +371,7 @@ No emojis in commit titles. No `Co-Authored-By` lines.
 | `refactor` | Code restructuring       | `refactor(utils): simplify error handling logic`  |
 | `perf`     | Performance improvements | `perf(api): optimize database query caching`      |
 | `test`     | Adding/fixing tests      | `test(auth): add unit tests for login validation` |
-| `chore`    | Tooling/configuration    | `chore: update ESLint configuration`              |
+| `chore`    | Tooling/configuration    | `chore: update Biome configuration`               |
 | `ci`       | CI/CD changes            | `ci: add Claude-powered Bug Bot workflow`         |
 
 ### Scope Examples

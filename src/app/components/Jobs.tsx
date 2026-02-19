@@ -1,11 +1,10 @@
-import React from 'react';
-import Job from './Job';
-import styles from './job.module.css';
+import threeDSystemsLogo from '../../../public/3d-systems-logo.png';
 import beatLogo from '../../../public/beat-logo.png';
-import quantumLogo from '../../../public/quantum-logo.jpeg';
 import bluestaqLogo from '../../../public/bluestaq-logo.jpeg';
 import centuraLogo from '../../../public/centura-logo.png';
-import threeDSystemsLogo from '../../../public/3d-systems-logo.png';
+import quantumLogo from '../../../public/quantum-logo.jpeg';
+import Job from './Job';
+import styles from './job.module.css';
 
 export const Jobs = () => {
   const jobs = [

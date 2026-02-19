@@ -115,8 +115,8 @@
   font: inherit;
 }
 
-ul[role='list'],
-ol[role='list'] {
+ul[role="list"],
+ol[role="list"] {
   list-style: none;
 }
 
@@ -316,7 +316,7 @@ html {
 }
 
 /* Dark mode */
-html[data-theme='dark'] {
+html[data-theme="dark"] {
   --background-primary: var(--clr-neutral-800);
   --background-secondary: var(--clr-neutral-700);
   --text-primary: var(--white);

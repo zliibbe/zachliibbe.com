@@ -1,20 +1,20 @@
 'use client';
 
 import { useState } from 'react';
-import styles from './Preferences.module.css';
-import headerSyles from '../Header.module.css';
-import { Modal } from '../Modal/Modal';
 import {
-  PiGear,
-  PiX,
   PiCheck,
+  PiGear,
+  PiLightning,
   PiMoon,
   PiSun,
-  PiLightning,
+  PiX,
 } from 'react-icons/pi';
 import { useTheme } from '@/app/context/ThemeContext';
 import { themes } from '@/app/styles/themes';
 import { formatThemeName } from '@/app/utils/index';
+import headerSyles from '../Header.module.css';
+import { Modal } from '../Modal/Modal';
+import styles from './Preferences.module.css';
 
 export function Preferences() {
   const [isOpen, setIsOpen] = useState(false);

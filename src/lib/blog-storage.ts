@@ -1,7 +1,7 @@
-import fs from 'fs';
-import path from 'path';
-import { BlogPost, FeaturedImage } from '@/types/blog';
-import { markdownToHtml, generateExcerpt } from './markdown';
+import fs from 'node:fs';
+import path from 'node:path';
+import type { BlogPost, FeaturedImage } from '@/types/blog';
+import { generateExcerpt, markdownToHtml } from './markdown';
 
 // Import KV only when needed (production)
 let kv: {

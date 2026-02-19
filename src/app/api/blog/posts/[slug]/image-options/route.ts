@@ -1,15 +1,15 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
+import { type NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { getPostBySlug } from '@/lib/blog-storage';
+import { clearImageCache } from '@/lib/blog-with-images';
 import {
-  getPhotosForBlogPost,
   getPhotoAttribution,
+  getPhotosForBlogPost,
   trackPhotoDownload,
 } from '@/lib/unsplash';
-import { FeaturedImage } from '@/types/blog';
-import { clearImageCache } from '@/lib/blog-with-images';
+import type { FeaturedImage } from '@/types/blog';
 
 export async function GET(
   req: NextRequest,

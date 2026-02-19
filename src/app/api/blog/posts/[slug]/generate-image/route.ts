@@ -1,15 +1,15 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
+import { type NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { getPostBySlug, updateBlogPost } from '@/lib/blog-storage';
 import { clearImageCache } from '@/lib/blog-with-images';
 import {
-  getPhotoForBlogPost,
   getPhotoAttribution,
+  getPhotoForBlogPost,
   trackPhotoDownload,
 } from '@/lib/unsplash';
-import { FeaturedImage } from '@/types/blog';
+import type { FeaturedImage } from '@/types/blog';
 
 export async function POST(
   req: NextRequest,

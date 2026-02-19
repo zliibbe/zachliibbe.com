@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
-import { MdSend, MdClear, MdExpandMore, MdExpandLess } from 'react-icons/md';
+import type React from 'react';
+import { useState } from 'react';
+import { MdClear, MdExpandLess, MdExpandMore, MdSend } from 'react-icons/md';
 import styles from './TestQueryInterface.module.css';
 
 interface ContextChunk {
