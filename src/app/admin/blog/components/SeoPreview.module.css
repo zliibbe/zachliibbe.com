@@ -284,25 +284,24 @@
   margin-bottom: 0;
 }
 
-.recommendation:has-text('⚠️') {
+.recommendation[data-type='warning'] {
   background: #fef2f2;
   border-left-color: #ef4444;
   color: #b91c1c;
 }
 
-.recommendation:has-text('💡') {
+.recommendation[data-type='tip'] {
   background: #fefbeb;
   border-left-color: #f59e0b;
   color: #92400e;
 }
 
-.recommendation:has-text('✅') {
+.recommendation[data-type='success'] {
   background: #f0fdf4;
   border-left-color: #10b981;
   color: #065f46;
 }
 
-/* Fallback styles for recommendations without :has support */
 .recommendation {
   background: #f8fafc;
   border-left-color: #6b7280;

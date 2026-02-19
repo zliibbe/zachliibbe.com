@@ -209,35 +209,35 @@ export default function SeoPreview({ post }: SeoPreviewProps) {
         <h4 className={styles.subheading}>Recommendations</h4>
         <div className={styles.recommendations}>
           {pageTitle.length > 60 && (
-            <div className={styles.recommendation}>
+            <div className={styles.recommendation} data-type="warning">
               ⚠️ Title is too long. Consider shortening to under 60 characters
               for better search visibility.
             </div>
           )}
 
           {metaDescription.length < 120 && (
-            <div className={styles.recommendation}>
+            <div className={styles.recommendation} data-type="tip">
               💡 Meta description could be longer. Aim for 120-160 characters
               for better search snippets.
             </div>
           )}
 
           {post.categories.length === 0 && (
-            <div className={styles.recommendation}>
+            <div className={styles.recommendation} data-type="warning">
               ⚠️ No categories selected. Add at least one category for better
               content organization.
             </div>
           )}
 
           {post.tags.length === 0 && (
-            <div className={styles.recommendation}>
+            <div className={styles.recommendation} data-type="tip">
               💡 Consider adding relevant tags to improve discoverability and
               SEO.
             </div>
           )}
 
           {!post.excerpt.trim() && (
-            <div className={styles.recommendation}>
+            <div className={styles.recommendation} data-type="tip">
               💡 Add a custom excerpt for better control over search result
               descriptions.
             </div>
@@ -247,7 +247,7 @@ export default function SeoPreview({ post }: SeoPreviewProps) {
             metaDescription.length >= 120 &&
             metaDescription.length <= 160 &&
             post.categories.length > 0 && (
-              <div className={styles.recommendation}>
+              <div className={styles.recommendation} data-type="success">
                 ✅ Great! Your SEO looks good. Title, description, and
                 categories are optimized.
               </div>
