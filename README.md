@@ -28,10 +28,13 @@ A modern [Next.js](https://nextjs.org/) 15 portfolio website with RAG-powered AI
 
 ### 🎨 **Customizable Theme System**
 
-- **Dynamic Gradient Backgrounds** - Choose from multiple gradient options with customizable colors
+- **Dynamic Gradient Backgrounds** - Choose from 8 gradient themes with customizable colors
 - **Dark/Light Mode Toggle** - Automatic system preference detection with manual override
 - **Animation Controls** - Enable/disable gradient animations based on user preference
 - **Persistent Settings** - All preferences saved to localStorage for consistent experience
+- **Branded Selection** - Text selection highlight uses the active theme's accent color (`--accentPrimary`) with WCAG AA-compliant contrast
+- **Intentional UI Chrome** - `user-select: none` applied to decorative elements (nav, hero, footer copyright, preferences panel, blog filters/badges, contact tagline) so content text remains selectable
+- **CSS Custom Properties** - All theme variables use camelCase (`--themeColor`, `--accentPrimary`, etc.) set exclusively by `applyTheme()` — no kebab-case aliases
 
 ### 🔐 **Admin Dashboard**
 
@@ -64,12 +67,19 @@ A modern [Next.js](https://nextjs.org/) 15 portfolio website with RAG-powered AI
 
 ### 🚀 **Performance & Infrastructure**
 
-- **Next.js 15.5.4** - Latest React framework with App Router and RSC
+- **Next.js 15.5.10** - Latest React framework with App Router and RSC
 - **React 19** - Latest React with improved performance and features
 - **Vercel KV Storage** - Edge-compatible Redis for caching and data persistence
 - **Image Optimization** - Next.js Image component with multiple CDN sources
 - **TypeScript** - Full type safety with strict configuration and ESLint CLI
 - **Responsive Design** - Mobile-first design with CSS Modules and custom properties
+
+### 🤖 **Automated Code Review (Bug Bot)**
+
+- **Claude-Powered PR Reviews** - Every pull request is automatically reviewed by Claude Sonnet 4.6 via GitHub Actions
+- **Bug-Focused** - Reports only genuine bugs (null access, missing awaits, logic errors, security issues) — skips style and formatting
+- **Iterative** - Re-runs on every push; PRs are only merged after a clean "No bugs found." result
+- **Secure** - SHA validation, PR metadata sandboxed in XML tags to prevent prompt injection, `spawnSync` args array to prevent shell injection
 
 ## 🚀 Getting Started
 
@@ -124,6 +134,12 @@ A modern [Next.js](https://nextjs.org/) 15 portfolio website with RAG-powered AI
    # Cron Job Security (for scheduled publishing)
    CRON_SECRET=your-cron-secret
 
+   # Anthropic API (for RAG chat and Bug Bot PR reviews)
+   ANTHROPIC_API_KEY=your-anthropic-api-key
+
+   # OpenAI API (for knowledge base embeddings)
+   OPENAI_API_KEY=your-openai-api-key
+
    # Optional: Google Analytics
    GOOGLE_ANALYTICS_ID=your-ga-tracking-id
    ```
@@ -171,6 +187,12 @@ This project enforces code consistency using:
 - [NextAuth.js](https://next-auth.js.org/) - Authentication with Google OAuth
 - [Upstash Redis Adapter](https://docs.upstash.com/redis) - Session storage adapter
 
+### **AI & Machine Learning**
+
+- [Anthropic Claude API](https://www.anthropic.com/) - Conversational AI for chat and automated PR reviews
+- [OpenAI Embeddings API](https://platform.openai.com/) - `text-embedding-3-small` for knowledge base semantic search
+- [Pinecone](https://www.pinecone.io/) - Vector database (512-dimension serverless index)
+
 ### **Data & Integrations**
 
 - [Vercel KV](https://vercel.com/storage/kv) - Edge-compatible Redis storage for caching
@@ -192,15 +214,22 @@ This project enforces code consistency using:
 - [Jest](https://jestjs.io/) - Testing framework
 - [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) - Component testing utilities
 
-### **Deployment & Infrastructure**
+### **CI/CD & Deployment**
 
 - [Vercel](https://vercel.com/) - Hosting and deployment platform
+- [GitHub Actions](https://github.com/features/actions) - Bug Bot automated PR review workflow
 - [Serverless Functions](https://vercel.com/docs/functions) - API routes and cron jobs
 - [Google Analytics](https://analytics.google.com/) - Website analytics
 
 ## 📁 Project Structure
 
 ```
+.github/
+└── workflows/
+    └── bug-bot.yml         # Claude-powered automated PR review
+scripts/
+└── bug-bot.ts              # Bug Bot review script
+goodreads-lambda/           # Serverless function for Goodreads data scraping
 src/
 ├── app/                    # Next.js 15 App Router
 │   ├── admin/             # Admin dashboard and blog management
@@ -239,9 +268,18 @@ src/
 ### Theme System
 
 - **CSS Custom Properties**: Dynamic theming without JavaScript recompilation
-- **Gradient Backgrounds**: Multiple customizable gradient options
+- **Gradient Backgrounds**: 8 customizable gradient themes
+- **camelCase Variables**: All theme variables (`--themeColor`, `--accentPrimary`, `--gradientOne`, etc.) are set exclusively in camelCase by `applyTheme()` — use camelCase throughout CSS
+- **Branded Selection Highlight**: `::selection` uses `--accentPrimary` with black text; all 8 theme accent colors verified WCAG AA compliant
 - **Responsive Design**: Mobile-first approach with consistent layout patterns
 - **Accessibility**: WCAG compliant color contrast and keyboard navigation
+
+### Bug Bot
+
+- **Trigger**: Runs automatically on every PR (opened, synchronize, reopened) via `.github/workflows/bug-bot.yml`
+- **Script**: `scripts/bug-bot.ts` — fetches the PR diff, calls Claude Sonnet 4.6, posts findings as a PR comment
+- **Scope**: Reviews `.ts`, `.tsx`, `.js`, `.mjs`, `.cjs`, `.css`, `.json` files; excludes lock files and generated files
+- **GitHub Secret required**: `ANTHROPIC_API_KEY` must be set in repository Settings → Secrets → Actions
 
 ## 🚀 Deployment
 
@@ -260,7 +298,14 @@ Ensure all required environment variables are configured in your deployment plat
 - Authentication (NextAuth + Google OAuth)
 - Database (Vercel KV)
 - External APIs (Strava, Unsplash, Goodreads)
+- AI APIs (Anthropic, OpenAI)
 - Security tokens (CRON_SECRET)
+
+### GitHub Actions Secret
+
+The Bug Bot workflow requires one repository secret:
+
+- `ANTHROPIC_API_KEY` — set in repository **Settings → Secrets and variables → Actions**
 
 ### Cron Jobs
 
@@ -278,6 +323,7 @@ The application includes automated blog publishing via Vercel Cron Jobs:
 - `/api/strava/*` - Fitness activity data
 - `/api/feed/rss` - Blog RSS feed
 - `/api/blog/posts` - Blog post listing
+- `/api/chat` - RAG-powered AI chat
 
 ### Admin APIs (Protected)
 
@@ -290,9 +336,11 @@ The application includes automated blog publishing via Vercel Cron Jobs:
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+3. Make changes in small, focused increments — one logical change per commit
+4. Commit each change following the commit convention below (e.g. `feat(blog): add tag filtering`)
+5. Push to the branch (`git push origin feature/amazing-feature`)
+6. Open a Pull Request — Bug Bot will automatically review it
+7. Address any bugs Bug Bot reports, then push again until it returns "No bugs found."
 
 ### Development Guidelines
 
@@ -302,57 +350,29 @@ The application includes automated blog publishing via Vercel Cron Jobs:
 - Test admin functionality with proper authentication
 - Ensure mobile responsiveness for new features
 
-## 📋 Commit Convention & Emojis
+## 📋 Commit Convention
 
-This project uses conventional commits with emojis for clear, semantic version history. Each commit message follows the format: `<emoji> <type>(<scope>): <description>`
+This project uses conventional commits. Each commit message follows the format:
+
+```
+<type>(<scope>): <description>
+```
+
+No emojis in commit titles. No `Co-Authored-By` lines.
 
 ### Core Commit Types
 
-| Emoji | Type       | Description              | Example                                              |
-| ----- | ---------- | ------------------------ | ---------------------------------------------------- |
-| ✨    | `feat`     | New features             | `✨ feat(auth): add JWT token validation middleware` |
-| 🐛    | `fix`      | Bug fixes                | `🐛 fix(api): resolve race condition in user lookup` |
-| 📝    | `docs`     | Documentation changes    | `📝 docs: update README with installation steps`     |
-| 💄    | `style`    | Code style/formatting    | `💄 style(css): improve button hover animations`     |
-| ♻️    | `refactor` | Code restructuring       | `♻️ refactor(utils): simplify error handling logic`  |
-| ⚡️    | `perf`     | Performance improvements | `⚡️ perf(api): optimize database query caching`      |
-| ✅    | `test`     | Adding/fixing tests      | `✅ test(auth): add unit tests for login validation` |
-| 🔧    | `chore`    | Tooling/configuration    | `🔧 chore: update ESLint configuration`              |
-
-### Specialized Types
-
-| Emoji | Type       | Description               |
-| ----- | ---------- | ------------------------- |
-| 🚀    | `ci`       | CI/CD improvements        |
-| 🔒️    | `fix`      | Security fixes            |
-| 🚑️    | `fix`      | Critical hotfixes         |
-| 🚚    | `refactor` | Move/rename resources     |
-| 🏗️    | `refactor` | Architectural changes     |
-| 📦️    | `chore`    | Dependencies/packages     |
-| 🧑‍💻    | `chore`    | Developer experience      |
-| 🔍️    | `feat`     | SEO improvements          |
-| 🏷️    | `feat`     | Type definitions          |
-| 📱    | `feat`     | Responsive design         |
-| 🚸    | `feat`     | UX/usability improvements |
-| 🩹    | `fix`      | Non-critical fixes        |
-| 🥅    | `fix`      | Error handling            |
-| 🔥    | `fix`      | Remove code/files         |
-| 🎨    | `style`    | Code structure            |
-| 🚧    | `wip`      | Work in progress          |
-| 💚    | `fix`      | Fix CI builds             |
-| 📌    | `chore`    | Pin dependencies          |
-| 👷    | `ci`       | Build system updates      |
-| 📈    | `feat`     | Analytics/tracking        |
-| ✏️    | `fix`      | Typo fixes                |
-| ⏪️    | `revert`   | Revert changes            |
-| 💥    | `feat`     | Breaking changes          |
-| 🍱    | `assets`   | Asset updates             |
-| ♿️    | `feat`     | Accessibility             |
-| 💡    | `docs`     | Source comments           |
-| 🔊    | `feat`     | Add logs                  |
-| 🔇    | `fix`      | Remove logs               |
-| 🙈    | `chore`    | .gitignore updates        |
-| 🦺    | `feat`     | Validation logic          |
+| Type       | Description              | Example                                              |
+| ---------- | ------------------------ | ---------------------------------------------------- |
+| `feat`     | New features             | `feat(auth): add JWT token validation middleware`    |
+| `fix`      | Bug fixes                | `fix(api): resolve race condition in user lookup`    |
+| `docs`     | Documentation changes    | `docs: update README with installation steps`        |
+| `style`    | Code style/formatting    | `style(css): improve button hover animations`        |
+| `refactor` | Code restructuring       | `refactor(utils): simplify error handling logic`     |
+| `perf`     | Performance improvements | `perf(api): optimize database query caching`         |
+| `test`     | Adding/fixing tests      | `test(auth): add unit tests for login validation`    |
+| `chore`    | Tooling/configuration    | `chore: update ESLint configuration`                 |
+| `ci`       | CI/CD changes            | `ci: add Claude-powered Bug Bot workflow`            |
 
 ### Scope Examples
 
@@ -367,35 +387,7 @@ Common scopes used in this project:
 - `theme` - Theme system and styling
 - `build` - Build system and configuration
 - `deps` - Dependencies and packages
-
-### Commit Message Examples
-
-```bash
-# Feature additions
-✨ feat(blog): add scheduled publishing with cron jobs
-🔍️ feat(seo): implement dynamic meta tags for blog posts
-📱 feat(ui): add responsive navigation for mobile devices
-
-# Bug fixes
-🐛 fix(auth): resolve session timeout in admin dashboard
-🚑️ fix(api): patch critical memory leak in image processing
-🩹 fix(ui): correct button alignment on small screens
-
-# Performance & improvements
-⚡️ perf(cache): implement Redis caching for API responses
-♻️ refactor(components): extract reusable modal component
-🎨 style(blog): improve code block syntax highlighting
-
-# Maintenance & tooling
-🔧 chore(deps): update Next.js to version 15
-📦️ chore: add TypeScript strict mode configuration
-✅ test(api): add integration tests for blog endpoints
-
-# Documentation & assets
-📝 docs: add API documentation for admin endpoints
-🍱 assets: optimize blog post featured images
-💡 docs(code): add JSDoc comments for utility functions
-```
+- `ci` - CI/CD and GitHub Actions
 
 ### Atomic Commits
 
