@@ -1,8 +1,8 @@
-import type { Metadata } from 'next';
-import Image from 'next/image';
-import headshot from '../../../public/headshot.png';
-import Footer from '../components/Footer';
-import styles from './page.module.css';
+import type { Metadata } from "next";
+import Image from "next/image";
+import headshot from "../../../public/headshot.png";
+import Footer from "../components/Footer";
+import styles from "./page.module.css";
 
 export default function About() {
   return (
@@ -34,10 +34,11 @@ export default function About() {
                       ended up here.
                     </p>
                     <p>
-                      I&apos;m a full-stack software engineer looking for my
-                      next team - one where diverse viewpoints are genuinely
-                      valued and we focus on solving meaningful business
-                      problems, whether through code or other solutions.
+                      I&apos;m a full-stack software engineer currently working
+                      on backend Java/Spring services at Raytheon. I love teams
+                      where diverse viewpoints are genuinely valued and we focus
+                      on solving meaningful business problems, whether through
+                      code or other solutions.
                     </p>
                     <br />
                     <p>
@@ -70,23 +71,28 @@ export default function About() {
                       What I&apos;ve been up to recently...
                     </h6>
                     <li className={styles.recentItem}>
-                      Adjusting to my 5 & 3 year-old daughters being in school.
-                      What a wild change! We&apos;re getting used to the new
-                      routine (and it feels like we&apos;re part of the system
-                      now).
+                      Building a home server and migrating services into Docker
+                      containers — slowly replacing cloud subscriptions one
+                      self-hosted app at a time.
                     </li>
                     <li className={styles.recentItem}>
-                      Watching my daughters grow more confident on mountain bike
-                      trails at Ute Valley Park. Even when the going gets tough
-                      and there are tears, seeing them push through and
-                      experience that moment of triumph at the top of a trail or
-                      when they finally get the hang of a new skill makes me
-                      incredibly proud.
+                      Training for the{" "}
+                      <a
+                        className={styles.link}
+                        href="https://www.runcolfax.org/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Colfax Marathon
+                      </a>{" "}
+                      in May 2026. First marathon — the long runs are humbling
+                      but I&apos;m loving the process.
                     </li>
                     <li className={styles.recentItem}>
-                      I&apos;ve been healing up from dislocating my shoulder 😅
-                      at a recent pool party. I somehow disolcated it while
-                      diving in to the pool?!
+                      My oldest just turned 6 and has gotten completely hooked
+                      on rock climbing. Watching her tackle routes that scared
+                      her not too long ago is one of the best things I&apos;ve
+                      ever seen.
                     </li>
                   </div>
                 </div>
@@ -108,7 +114,7 @@ export default function About() {
                     big impact.
                   </li>
                   <li className={styles.listItem}>
-                    Curled up with a good book. Check out my{' '}
+                    Curled up with a good book. Check out my{" "}
                     <a
                       className={styles.link}
                       href="https://www.goodreads.com/review/list/24890536-zach?shelf=zach-read"
@@ -116,7 +122,7 @@ export default function About() {
                       rel="noopener noreferrer"
                     >
                       Goodreads
-                    </a>{' '}
+                    </a>{" "}
                     to see what I&apos;m reading or what I&apos;ve read
                     recently.
                   </li>
@@ -145,5 +151,5 @@ export default function About() {
 }
 
 export const metadata: Metadata = {
-  title: 'About | zachliibbe.com',
+  title: "About | zachliibbe.com",
 };
