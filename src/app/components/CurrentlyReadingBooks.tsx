@@ -84,7 +84,9 @@ export default function CurrentlyReadingBooks() {
   }
 
   if (error) {
-    return <p className={styles.emptyText}>Could not load currently reading.</p>;
+    return (
+      <p className={styles.emptyText}>Could not load currently reading.</p>
+    );
   }
 
   if (books.length === 0) {
@@ -102,7 +104,10 @@ export default function CurrentlyReadingBooks() {
         const progressLabel = getProgressLabel(book);
 
         return (
-          <div key={`${book.title}||${book.author}`} className={styles.bookCard}>
+          <div
+            key={`${book.title}||${book.author}`}
+            className={styles.bookCard}
+          >
             <a
               href={book.link || '#'}
               target="_blank"

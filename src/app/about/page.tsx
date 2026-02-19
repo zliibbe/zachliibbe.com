@@ -1,8 +1,8 @@
-import type { Metadata } from "next";
-import Image from "next/image";
-import headshot from "../../../public/headshot.png";
-import Footer from "../components/Footer";
-import styles from "./page.module.css";
+import type { Metadata } from 'next';
+import Image from 'next/image';
+import headshot from '../../../public/headshot.png';
+import Footer from '../components/Footer';
+import styles from './page.module.css';
 
 export default function About() {
   return (
@@ -76,7 +76,7 @@ export default function About() {
                       self-hosted app at a time.
                     </li>
                     <li className={styles.recentItem}>
-                      Training for the{" "}
+                      Training for the{' '}
                       <a
                         className={styles.link}
                         href="https://www.runcolfax.org/"
@@ -84,7 +84,7 @@ export default function About() {
                         rel="noopener noreferrer"
                       >
                         Colfax Marathon
-                      </a>{" "}
+                      </a>{' '}
                       in May 2026. First marathon — the long runs are humbling
                       but I&apos;m loving the process.
                     </li>
@@ -114,7 +114,7 @@ export default function About() {
                     big impact.
                   </li>
                   <li className={styles.listItem}>
-                    Curled up with a good book. Check out my{" "}
+                    Curled up with a good book. Check out my{' '}
                     <a
                       className={styles.link}
                       href="https://www.goodreads.com/review/list/24890536-zach?shelf=zach-read"
@@ -122,7 +122,7 @@ export default function About() {
                       rel="noopener noreferrer"
                     >
                       Goodreads
-                    </a>{" "}
+                    </a>{' '}
                     to see what I&apos;m reading or what I&apos;ve read
                     recently.
                   </li>
@@ -151,5 +151,5 @@ export default function About() {
 }
 
 export const metadata: Metadata = {
-  title: "About | zachliibbe.com",
+  title: 'About | zachliibbe.com',
 };
