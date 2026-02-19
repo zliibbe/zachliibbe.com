@@ -1,13 +1,30 @@
-import React from "react";
-import Job from "./Job";
+import threeDSystemsLogo from "../../../public/3d-systems-logo.png";
 import beatLogo from "../../../public/beat-logo.png";
-import quantumLogo from "../../../public/quantum-logo.jpeg";
 import bluestaqLogo from "../../../public/bluestaq-logo.jpeg";
 import centuraLogo from "../../../public/centura-logo.png";
-import threeDSystemsLogo from "../../../public/3d-systems-logo.png";
+import quantumLogo from "../../../public/quantum-logo.jpeg";
+import raytheonLogo from "../../../public/raytheon-logo.png";
+import Job from "./Job";
+import styles from "./job.module.css";
 
 export const Jobs = () => {
   const jobs = [
+    {
+      title: "Raytheon",
+      logo: raytheonLogo,
+      role: "Software Engineer",
+      companyName: "Raytheon",
+      companyLink: "https://www.rtx.com/raytheon",
+      description: "",
+      taskList: [
+        "Develop and maintain Java/Spring backend services supporting large-scale data workflows and API integrations.",
+        "Update legacy components and libraries to modern standards while protecting service reliability and uptime.",
+        "Create robust test suites using JUnit, improving regression reliability across services.",
+        "Improve CI/CD pipelines by integrating automated scenario tests that execute targeted code paths on every merge to main, reducing regression risk and increasing confidence in deployments.",
+      ],
+      timeframe: "Sep 2025 - Present",
+      id: 0,
+    },
     {
       title: "3D Systems",
       logo: threeDSystemsLogo,
@@ -16,14 +33,14 @@ export const Jobs = () => {
       companyLink: "https://www.3dsystems.com/ext-titan-pellet-3d-printers",
       description: "",
       taskList: [
-        "Developing and maintaining software for 3D printing systems, including firmware and user interfaces.",
-        "Establishing robust software quality assurance infrastructure by implementing Test-Driven Development (TDD) practices across multiple repositories, writing comprehensive test suites for untested codebases, and integrating CI/CD pipelines that enhanced code reliability and consistency.",
-        "Spearheading documentation initiatives by creating internal technical documentation for multiple repositories and establishing Git templates fostering a culture of documentation, significantly improving knowledge transfer and development efficiency.",
-        "Optimizing engineering workflows by reorganizing physical project components and implementing project-associated bin systems that measurably increased cross-functional team productivity and reduced project setup time.",
-        "Collaborating with controls engineers to improve integration between front-end printer interfaces and automation systems, contributing to the advancement of next-generation extrusion 3D printer platforms.",
+        "Developed and maintained software for 3D printing systems, including firmware and user interfaces.",
+        "Established robust software quality assurance infrastructure by implementing Test-Driven Development (TDD) practices across multiple repositories, writing comprehensive test suites for untested codebases, and integrating CI/CD pipelines that enhanced code reliability and consistency.",
+        "Spearheaded documentation initiatives by creating internal technical documentation for multiple repositories and establishing Git templates fostering a culture of documentation, significantly improving knowledge transfer and development efficiency.",
+        "Optimized engineering workflows by reorganizing physical project components and implementing project-associated bin systems that measurably increased cross-functional team productivity and reduced project setup time.",
+        "Collaborated with controls engineers to improve integration between front-end printer interfaces and automation systems, contributing to the advancement of next-generation extrusion 3D printer platforms.",
       ],
-      timeframe: "Mar 2025 - present",
-      id: 0,
+      timeframe: "Mar 2025 - Jun 2025",
+      id: 1,
     },
     {
       title: "B.E.A.T.",
@@ -38,7 +55,8 @@ export const Jobs = () => {
         "Collaborated with UX teams to revamp interface designs, increasing user satisfaction by 60%",
       ],
       timeframe: "Jan 2024 - Feb 2025",
-      id: 1,
+      contractStatus: "Contract position - completed successfully",
+      id: 2,
     },
     {
       title: "Quantum Research International",
@@ -53,7 +71,8 @@ export const Jobs = () => {
         "Partnered with Component Owners and Project Managers to translate mockups into functional user interfaces, achieving a 95% adherence rate to design specifications.",
       ],
       timeframe: "May 2023 - Sept 2023",
-      id: 2,
+      contractStatus: "Contract position - completed successfully",
+      id: 3,
     },
     {
       title: "Bluestaq",
@@ -69,7 +88,8 @@ export const Jobs = () => {
         "Worked cross-functionally with Component Owners, Project Managers, and testing team to deliver apps per customer specifications in an agile manner.",
       ],
       timeframe: "Jul 2022 - February 2023",
-      id: 3,
+      contractStatus: "Contract position - completed successfully",
+      id: 4,
     },
     {
       title: "Centura Health",
@@ -78,6 +98,7 @@ export const Jobs = () => {
       companyName: "Centura Health",
       companySubName: " (now CommonSpirit Health)",
       companyLink: "https://www.centura.org/",
+      id: 5,
       taskList: [
         {
           title: "Clinical RN Manager (Jun 2021 – Nov 2021):",
@@ -112,12 +133,13 @@ export const Jobs = () => {
         },
       ],
       timeframe: "May 2013 - Nov 2021",
-      id: 4,
     },
   ];
-  const jobCards = jobs.map((job) => <Job key={job.id} {...job} />);
+  const jobCards = jobs.map((job, index) => (
+    <Job key={job.id} {...job} index={index} isFirst={index === 0} />
+  ));
 
-  return <div className="jobs-container">{jobCards}</div>;
+  return <div className={styles.timelineContainer}>{jobCards}</div>;
 };
 
 export default Jobs;

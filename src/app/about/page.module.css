@@ -1,13 +1,86 @@
+.gradientContainer {
+  position: relative;
+  width: 100%;
+  margin-top: -4rem;
+  padding-top: 4rem;
+  overflow: visible;
+  z-index: 0;
+}
+
+.gradientBackground {
+  position: absolute;
+  top: -6rem;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: var(--gradient-height);
+  background: linear-gradient(
+    45deg,
+    var(--gradientOne),
+    var(--gradientTwo),
+    var(--gradientThree)
+  );
+  background-size: 400% 400%;
+  z-index: -1;
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  perspective: 1000;
+  animation: bg-animation var(--gradientTiming) ease infinite;
+  -webkit-animation: bg-animation var(--gradientTiming) ease infinite;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  pointer-events: none;
+  transition: background 0.5s ease;
+  opacity: 1;
+}
+
+@media (min-width: 768px) {
+  .gradientBackground {
+    height: calc(100% + 6.25rem);
+    clip-path: polygon(0 0, 100% 0, 100% 75%, 0 100%);
+  }
+}
+
 .container {
+  position: relative;
   display: flex;
   flex-direction: column;
   background: var(--background-primary);
+  color: var(--text-primary);
   min-height: 100vh;
   margin: 0 8rem;
   border-radius: 0.5rem;
   padding: 2rem;
   margin-bottom: 2rem;
-  color: var(--text-primary);
+  z-index: 1;
+}
+
+@keyframes bg-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.contentWrapper {
+  display: flex;
+  gap: 2rem;
+  padding: 0 2rem;
+  flex-grow: 1;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  flex-grow: 1;
 }
 
 .imageContainer {
@@ -50,7 +123,7 @@
 }
 
 .paragraph {
-  display: flex;
+  display: block;
   padding: 1rem 0;
 }
 
@@ -91,6 +164,52 @@
   margin-right: 3rem 0;
 }
 
+.recentSection {
+  padding: 2rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--border-radius);
+  background: var(--background-secondary);
+  color: var(--text-primary);
+  flex: 1;
+  height: fit-content;
+}
+
+/* Dark mode styles for recent section */
+[data-theme="dark"] .recentSection {
+  background: var(--clr-neutral-600);
+  color: var(--white);
+}
+
+[data-theme="dark"] .recentItem {
+  color: var(--white);
+}
+
+.recentTitle {
+  padding: 0.75rem 0;
+  margin-bottom: 1rem;
+  font-weight: var(--fw-bold);
+  user-select: none;
+}
+
+.recentItem {
+  padding: 0.75rem 0;
+  list-style: disc;
+  margin-left: 1rem;
+}
+
+.introAndRecentContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.introSection {
+  flex: 2;
+}
+
 /* smaller screens */
 @media (max-width: 768px) {
   .container {
@@ -100,8 +219,14 @@
 
   .contentWrapper {
     flex-direction: column;
+    padding: 1rem;
     margin: 0 0.25rem;
     text-align: left;
+  }
+
+  .introAndRecentContainer {
+    flex-direction: column;
+    gap: 1rem;
   }
 
   .signature {
@@ -112,5 +237,6 @@
 @media (min-width: 769px) {
   .container {
     margin: 0 4rem;
+    max-width: 85%; /* Narrow content to show gradient behind */
   }
 }

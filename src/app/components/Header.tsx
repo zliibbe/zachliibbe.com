@@ -1,20 +1,18 @@
-"use client";
-import Link from "next/link";
-import styles from "./Header.module.css";
-import { FaMountainSun, FaBars } from "react-icons/fa6";
-import { PiGear } from "react-icons/pi";
-import { useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
-import PrimaryNav from "./PrimaryNav";
-import { Preferences } from "./Preferences/Preferences";
-import Image from "next/image";
+'use client';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { LuSprout } from 'react-icons/lu';
+import styles from './Header.module.css';
+import { Preferences } from './Preferences/Preferences';
+import PrimaryNav from './PrimaryNav';
 
 const Header = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   const pathname = usePathname();
 
-  const isNotHomePage = pathname !== "/";
+  const isNotHomePage = pathname !== '/';
 
   useEffect(() => {
     const handleResize = () => {
@@ -22,8 +20,8 @@ const Header = () => {
     };
 
     handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const toggleNav = () => {
@@ -31,38 +29,21 @@ const Header = () => {
   };
 
   return (
-    <header
-      className={`${styles.header} ${isNotHomePage ? styles.gradientHeader : ""}`}
-    >
+    <header className={styles.header}>
       <div className={styles.headerContent}>
         <div className={styles.headerLeft}>
           <Link href="/" className={styles.homeLink}>
             <div className={styles.homeLinkContent}>
-              <FaMountainSun className={styles.homeIcon} />
+              <LuSprout className={styles.homeIcon} />
               {isNotHomePage && <h1 className={styles.name}>zach liibbe</h1>}
             </div>
           </Link>
         </div>
 
-        {!isDesktop && isNavOpen && (
-          <nav className={styles.mobileNav} id="primaryNav">
-            <PrimaryNav />
-          </nav>
-        )}
-
-        {isDesktop && <PrimaryNav />}
+        {/* Always show nav - horizontal scrollable on mobile */}
+        <PrimaryNav />
 
         <div className={styles.headerRight}>
-          {!isDesktop && (
-            <button
-              onClick={toggleNav}
-              className={styles.mobileNavToggle}
-              aria-controls="primaryNav"
-              aria-expanded={isNavOpen}
-            >
-              {isNavOpen ? "✕" : <FaBars className={styles.barsIcon} />}
-            </button>
-          )}
           <Preferences />
         </div>
       </div>

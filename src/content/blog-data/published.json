@@ -1,0 +1,77 @@
+[
+  {
+    "id": "1",
+    "slug": "hello-world-first-blog-post",
+    "title": "Hello World - First Blog Post",
+    "author": "Zach Liibbe",
+    "publishedAt": "2025-01-15",
+    "excerpt": "Welcome to my blog! This is my first post where I introduce the new blog system and share my thoughts on building in public.",
+    "content": "<h2>Welcome to My Blog!</h2>\n<p>I'm excited to finally have a blog on my personal website. This has been something I've wanted to add for a while, and I decided to build it from scratch using Next.js 15.</p>\n\n<h3>Why I Built This</h3>\n<p>I believe in learning and building in public. Having a space to document my journey, share lessons learned, and connect with other developers felt important.</p>\n\n<h3>What to Expect</h3>\n<ul>\n<li><strong>Development</strong>: Technical deep dives, lessons learned, and project updates</li>\n<li><strong>Personal</strong>: Life updates, reading recommendations, and random thoughts</li>\n<li><strong>Learning</strong>: New technologies I'm exploring and what I'm discovering</li>\n</ul>\n\n<p>Thanks for reading, and I hope you'll stick around as I continue to iterate and improve this little corner of the web!</p>",
+    "categories": ["Personal"],
+    "tags": ["nextjs", "blogging", "first-post"],
+    "readTime": "3 min read",
+    "status": "published"
+  },
+  {
+    "id": "2",
+    "slug": "building-blog-system",
+    "title": "Building a Simple Blog System with Next.js 15",
+    "author": "Zach Liibbe",
+    "publishedAt": "2025-01-18",
+    "excerpt": "How I built this blog system from scratch using Next.js 15, TypeScript, and zero external dependencies for markdown processing.",
+    "content": "<h2>The Philosophy: Keep It Simple</h2>\n<p>When building this blog, I had one main goal: avoid unnecessary complexity and dependencies. Instead of reaching for markdown parsers and complex build processes, I opted for a template-based approach.</p>\n\n<h3>The Architecture</h3>\n<p>The blog system consists of a few key pieces:</p>\n<ul>\n<li><strong>TypeScript interfaces</strong> for type safety</li>\n<li><strong>Simple data store</strong> with blog post objects</li>\n<li><strong>React components</strong> for rendering</li>\n<li><strong>Next.js App Router</strong> for routing</li>\n</ul>\n\n<h3>Why This Approach Works</h3>\n<p>By storing blog content as HTML strings in TypeScript objects, I get:</p>\n<ul>\n<li>✅ Zero build-time complexity</li>\n<li>✅ Full control over content structure</li>\n<li>✅ Easy to extend and modify</li>\n<li>✅ No external dependencies</li>\n<li>✅ Fast performance</li>\n</ul>\n\n<h3>Future Improvements</h3>\n<p>While this approach is simple, there are some natural evolution paths:</p>\n<ul>\n<li>Move content to a headless CMS</li>\n<li>Add an admin interface for editing</li>\n<li>Implement search functionality</li>\n<li>Add comment system</li>\n</ul>\n\n<p>But for now, simple is perfect. It gets the job done without overengineering.</p>",
+    "categories": ["Development"],
+    "tags": ["nextjs", "typescript", "architecture", "blog"],
+    "readTime": "5 min read",
+    "status": "published",
+    "featuredImage": {
+      "url": "https://images.unsplash.com/photo-1637937459053-c788742455be?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3OTcwNTF8MHwxfHNlYXJjaHw3fHxEZXZlbG9wbWVudCUyMHdlYiUyMGRldmVsb3BtZW50fGVufDB8MHx8fDE3NTczNDc4OTJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "alt": "a computer screen with a bunch of code on it",
+      "width": 3698,
+      "height": 2675,
+      "attribution": {
+        "text": "Photo by Jaffer Nizami on Unsplash",
+        "photographerUrl": "https://unsplash.com/@sonofara",
+        "unsplashUrl": "https://unsplash.com/photos/a-computer-screen-with-a-bunch-of-code-on-it-ytZ2SJvNAxs"
+      }
+    }
+  },
+  {
+    "id": "hello-world-2025",
+    "slug": "hello-world-admin-test",
+    "title": "Hello World - Testing the New Blog System",
+    "author": "Zach Liibbe",
+    "publishedAt": "2025-08-28",
+    "excerpt": "Welcome to the new blog system! This is a test post to verify that our file-based storage and admin interface are working correctly.",
+    "content": "<h2>Welcome to the New Blog System!</h2>\n\n<p>This is our first test post using the new file-based blog management system. Let's see how it works!</p>\n\n<h3>What's New?</h3>\n\n<ul>\n<li><strong>File-based storage</strong>: Posts are now stored in JSON files</li>\n<li><strong>Admin interface</strong>: Full CRUD operations through the admin dashboard</li>\n<li><strong>Markdown support</strong>: Write in markdown, display as HTML</li>\n<li><strong>Status management</strong>: Draft, scheduled, and published states</li>\n</ul>\n\n<h3>Testing Features</h3>\n\n<p>This post tests:</p>\n\n<ul>\n<li>✅ Creating published posts</li>\n<li>✅ Markdown to HTML conversion</li>\n<li>✅ Category and tag management</li>\n<li>✅ Reading time calculation</li>\n</ul>\n\n<blockquote>\n<p>This post was created to test the new blog system. Everything looks great!</p>\n</blockquote>\n\n<hr>\n\n<p>More testing to come as we continue developing the system.</p>",
+    "categories": ["Development", "Learning"],
+    "tags": ["testing", "blog-system", "nextjs"],
+    "readTime": "2 min read",
+    "status": "published",
+    "series": "Blog System Development",
+    "featuredImage": {
+      "url": "https://images.unsplash.com/photo-1630442923896-244dd3717b35?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3OTcwNTF8MHwxfHNlYXJjaHwyfHxEZXZlbG9wbWVudCUyMHRlc3Rpbmd8ZW58MHwwfHx8MTc1NzM0ODczOHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "alt": "black and white hp laptop computer",
+      "width": 6000,
+      "height": 4000,
+      "attribution": {
+        "text": "Photo by Fahim Muntashir on Unsplash",
+        "photographerUrl": "https://unsplash.com/@f12r",
+        "unsplashUrl": "https://unsplash.com/photos/black-and-white-hp-laptop-computer-pAgCpLoYXdQ"
+      }
+    }
+  },
+  {
+    "id": "code-block-test-2025",
+    "slug": "code-block-test",
+    "title": "Code Block Test Post",
+    "author": "Zach Liibbe",
+    "publishedAt": "2025-09-08",
+    "excerpt": "Testing code block rendering to debug production issues.",
+    "content": "<h2>Code Block Test</h2>\n\n<p>This post tests code block rendering.</p>\n\n<h3>JavaScript Example</h3>\n\n<pre><code class=\"language-javascript\">function hello() {\n  console.log(&quot;Hello, world!&quot;);\n  return &quot;success&quot;;\n}</code></pre>\n\n<h3>CSS Example</h3>\n\n<pre><code class=\"language-css\">.example {\n  color: blue;\n  background: white;\n}</code></pre>\n\n<p>And some inline <code>code here</code> for testing.</p>",
+    "categories": ["Development"],
+    "tags": ["testing", "code-blocks"],
+    "readTime": "1 min read",
+    "status": "published"
+  }
+]

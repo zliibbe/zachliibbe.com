@@ -1,9 +1,9 @@
-import { kv } from "@vercel/kv";
-import { StravaActivity } from "./types";
+import { kv } from '@vercel/kv';
+import type { StravaActivity } from './types';
 
-const ACTIVITIES_CACHE_KEY = "strava_activities";
+const ACTIVITIES_CACHE_KEY = 'strava_activities';
 const CACHE_DURATION = 60 * 25; // 25 minutes
-const LATEST_ACTIVITY_CACHE_KEY = "latest_activity";
+const LATEST_ACTIVITY_CACHE_KEY = 'latest_activity';
 const LATEST_ACTIVITY_CACHE_DURATION = 60 * 5; // 5 minutes (more frequent updates for latest)
 
 // Create a local cache fallback
@@ -15,18 +15,18 @@ const getStorage = () => {
     try {
       return kv;
     } catch (error) {
-      console.warn("Failed to initialize KV, falling back to local cache");
+      console.warn('Failed to initialize KV, falling back to local cache');
     }
   }
 
   // Fallback to local cache if KV isn't available or we're in development
   if (
-    process.env.ENABLE_LOCAL_CACHE_FALLBACK === "true" ||
-    process.env.NODE_ENV === "development"
+    process.env.ENABLE_LOCAL_CACHE_FALLBACK === 'true' ||
+    process.env.NODE_ENV === 'development'
   ) {
     return {
       get: async (key: string) => localCache.get(key),
-      set: async (key: string, value: any, options?: { ex?: number }) => {
+      set: async (key: string, value: unknown, options?: { ex?: number }) => {
         localCache.set(key, value);
         if (options?.ex) {
           setTimeout(() => localCache.delete(key), options.ex * 1000);
@@ -37,7 +37,7 @@ const getStorage = () => {
     };
   }
 
-  throw new Error("No storage mechanism available");
+  throw new Error('No storage mechanism available');
 };
 
 // Use this instead of direct kv references
@@ -45,13 +45,13 @@ const storage = getStorage();
 
 async function getAccessToken(): Promise<string> {
   const refreshTokenUrl = new URL(
-    "/api/refresh-token",
-    process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000",
+    '/api/refresh-token',
+    process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
   ).toString();
 
   const refreshResponse = await fetch(refreshTokenUrl, {
-    method: "POST",
-    cache: "no-store",
+    method: 'POST',
+    cache: 'no-store',
   });
 
   if (!refreshResponse.ok) {
@@ -74,22 +74,22 @@ export async function fetchStravaActivities(): Promise<StravaActivity[]> {
   const response = await fetch(activitiesUrl, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
-    cache: "no-store",
+    cache: 'no-store',
   });
 
   if (!response.ok) {
     const errorText = await response.text();
     throw new Error(
-      `Failed to fetch activities: ${response.status} - ${errorText}`,
+      `Failed to fetch activities: ${response.status} - ${errorText}`
     );
   }
 
   const activities = await response.json();
   if (!activities) {
-    throw new Error("No activities found");
+    throw new Error('No activities found');
   }
 
   return activities;
@@ -107,7 +107,7 @@ export async function getStravaActivities(): Promise<StravaActivity[]> {
       // If the latest activity is newer than what's in our cache, refresh the cache
       if (
         !cachedData.some(
-          (activity: StravaActivity) => activity.id === latestActivity.id,
+          (activity: StravaActivity) => activity.id === latestActivity.id
         )
       ) {
         const freshActivities = await fetchStravaActivities();
@@ -128,11 +128,11 @@ export async function getStravaActivities(): Promise<StravaActivity[]> {
     });
 
     return activities;
-  } catch (error: any) {
-    console.error("Storage error:", error);
+  } catch (error: unknown) {
+    console.error('Storage error:', error);
 
     // If cache error, try fetching fresh data
-    if (error.message?.includes("KV")) {
+    if (error instanceof Error && error.message?.includes('KV')) {
       return await fetchStravaActivities();
     }
 
@@ -142,32 +142,32 @@ export async function getStravaActivities(): Promise<StravaActivity[]> {
 }
 
 export async function fetchLatestActivity(
-  signal?: AbortSignal,
+  signal?: AbortSignal
 ): Promise<StravaActivity> {
   // Get a fresh access token
   const accessToken = await getAccessToken();
 
   // Fetch the latest activity with timeout signal
   const response = await fetch(
-    "https://www.strava.com/api/v3/athlete/activities?per_page=1",
+    'https://www.strava.com/api/v3/athlete/activities?per_page=1',
     {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
       signal, // Pass the AbortSignal for timeout handling
-    },
+    }
   );
 
   if (!response.ok) {
     throw new Error(
-      `Strava API error: ${response.status} ${response.statusText}`,
+      `Strava API error: ${response.status} ${response.statusText}`
     );
   }
 
   const activities = await response.json();
 
   if (!activities || activities.length === 0) {
-    throw new Error("No activities found");
+    throw new Error('No activities found');
   }
 
   return activities[0];

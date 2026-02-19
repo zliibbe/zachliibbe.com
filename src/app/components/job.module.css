@@ -1,11 +1,104 @@
+/* Timeline container */
+.timelineContainer {
+  position: relative;
+  padding-left: 2rem;
+}
+
+/* Vertical timeline line — fades out toward the bottom */
+.timelineContainer::before {
+  content: "";
+  position: absolute;
+  left: 0.5rem;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--theme-color);
+  opacity: 0.2;
+  mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+}
+
+/* Timeline node */
+.timelineNode {
+  position: absolute;
+  left: -1.65rem;
+  top: 0.5rem;
+  z-index: 1;
+}
+
+.node {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--theme-color);
+}
+
+.nodePulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 var(--theme-color);
+    opacity: 1;
+  }
+  50% {
+    box-shadow: 0 0 0 6px transparent;
+    opacity: 0.8;
+  }
+}
+
+/* Fade-in animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hidden {
+  opacity: 0;
+}
+
+.visible {
+  animation: fadeInUp 0.5s ease-out both;
+  animation-delay: calc(var(--index, 0) * 120ms);
+}
+
+/* Job card layout */
 .jobContainer {
+  position: relative;
+  margin: 1rem 0;
+}
+
+.jobContent {
   display: grid;
   grid-template-columns: auto 1fr;
   gap: 1rem;
   background: var(--background-primary);
   border-radius: var(--border-radius);
-  margin: 1rem;
+  padding: 0 0 0 0.5rem;
   transition: background-color 0.3s ease;
+}
+
+/* First job emphasis */
+.firstJob .jobContent {
+  border-top: 2px solid var(--theme-color);
+  padding-top: 0.75rem;
+}
+
+/* Most Recent label */
+.mostRecentLabel {
+  font-size: 0.75rem;
+  font-weight: var(--fw-semi-bold);
+  color: var(--theme-color);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .jobImage {
@@ -15,11 +108,12 @@
 }
 
 .companyLogo {
-  border-radius: var(--border-radius);
+  border-radius: 8px;
   object-fit: contain;
   width: 100%;
   height: auto;
   margin: 0.5rem 2rem 0 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .jobTitle {
@@ -48,7 +142,7 @@
 }
 
 .jobTitleAndCompany a.companyLink {
-  color: var(--theme-color) !important; /* Force theme color */
+  color: var(--theme-color) !important;
   text-decoration: none;
   font-size: 1.2rem;
 }
@@ -63,9 +157,35 @@
   padding-left: 0.5rem;
 }
 
+.jobTimeContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+}
+
 .jobTimeframe {
   color: var(--text-secondary);
   font-size: 1rem;
+}
+
+/* Contract status badge */
+.contractBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--theme-color) 10%, transparent);
+  color: var(--theme-color);
+  font-weight: var(--fw-semi-bold);
+}
+
+.contractBadge::before {
+  content: "\2713";
+  font-size: 0.7rem;
 }
 
 .jobDetails ul {
@@ -120,9 +240,27 @@
   margin-bottom: 0;
 }
 
+/* Mobile */
 @media (max-width: 767px) {
-  .jobContainer {
+  .timelineContainer {
+    padding-left: 0;
+  }
+
+  .timelineContainer::before {
+    display: none;
+  }
+
+  .timelineNode {
+    display: none;
+  }
+
+  .jobContent {
     grid-template-columns: 1fr;
+  }
+
+  .jobImage {
+    display: flex;
+    justify-content: center;
   }
 
   .jobTitle {
@@ -130,43 +268,15 @@
   }
 
   .companyLogo {
-    display: flex;
-    justify-content: center;
     margin: 0;
+    width: 3rem;
     height: 3rem;
   }
-}
 
-/* Dark mode styles */
-[data-theme="dark"] .jobContainer {
-  background: var(--black);
-  color: var(--white);
-}
-
-[data-theme="dark"] .recentSection {
-  background-color: var(--clr-neutral-600);
-}
-
-[data-theme="dark"] .jobTimeframe {
-  color: var(--clr-neutral-300);
-}
-
-[data-theme="dark"] .jobTitleAndCompany h3 {
-  color: var(--white);
-}
-
-[data-theme="dark"] .jobDetails p,
-[data-theme="dark"] .jobDetails li,
-[data-theme="dark"] .jobListItem {
-  color: var(--white);
-}
-
-[data-theme="dark"] .jobDivider {
-  background-color: var(--clr-neutral-600);
-}
-
-[data-theme="dark"] .subTaskItem {
-  color: var(--white);
+  .jobTimeContainer {
+    align-items: flex-start;
+    text-align: left;
+  }
 }
 
 .caretRight,
@@ -190,10 +300,26 @@
   border-top: 6px solid var(--text-primary);
 }
 
-[data-theme="dark"] .caretRight {
-  border-left-color: var(--white);
+.expandButton {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  transition: opacity 0.2s ease;
 }
 
-[data-theme="dark"] .caretDown {
-  border-top-color: var(--white);
+.expandButton:hover {
+  opacity: 0.8;
+}
+
+.expandButton:focus-visible {
+  outline: 2px solid var(--theme-color);
+  outline-offset: 2px;
+  border-radius: 4px;
 }

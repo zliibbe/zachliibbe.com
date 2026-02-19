@@ -1,6 +1,6 @@
-import { kv } from "@vercel/kv";
+import { kv } from '@vercel/kv';
 
-const STRAVA_TOKEN_KEY = "strava_token";
+const STRAVA_TOKEN_KEY = 'strava_token';
 
 interface TokenData {
   access_token: string;
@@ -12,7 +12,7 @@ export async function getStravaToken(): Promise<TokenData | null> {
   try {
     return await kv.get(STRAVA_TOKEN_KEY);
   } catch (error) {
-    console.error("Error getting token from KV:", error);
+    console.error('Error getting token from KV:', error);
     return null;
   }
 }
@@ -25,21 +25,21 @@ export async function refreshStravaToken(): Promise<string> {
   const refreshToken = process.env.STRAVA_REFRESH_TOKEN;
 
   if (!clientId || !clientSecret || !refreshToken) {
-    throw new Error("Missing Strava credentials in environment variables");
+    throw new Error('Missing Strava credentials in environment variables');
   }
 
   const params = new URLSearchParams({
     client_id: clientId,
     client_secret: clientSecret,
     refresh_token: refreshToken,
-    grant_type: "refresh_token",
+    grant_type: 'refresh_token',
   });
 
   try {
-    const response = await fetch("https://www.strava.com/oauth/token", {
-      method: "POST",
+    const response = await fetch('https://www.strava.com/oauth/token', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: params.toString(),
     });
@@ -48,7 +48,7 @@ export async function refreshStravaToken(): Promise<string> {
       const errorText = await response.text();
       console.error(
         `Strava token refresh failed: ${response.status}`,
-        errorText,
+        errorText
       );
       throw new Error(`Failed to refresh token: ${response.status}`);
     }
@@ -65,14 +65,14 @@ export async function refreshStravaToken(): Promise<string> {
     try {
       await kv.set(STRAVA_TOKEN_KEY, tokenData);
     } catch (error) {
-      console.warn("Failed to cache token in KV, continuing anyway:", error);
+      console.warn('Failed to cache token in KV, continuing anyway:', error);
     }
 
     return data.access_token;
   } catch (error) {
-    console.error("Error refreshing Strava token:", error);
+    console.error(`Error refreshing Strava token: ${error}`);
     throw new Error(
-      `Failed to refresh Strava token: ${error instanceof Error ? error.message : String(error)}`,
+      `Failed to refresh Strava token: ${error instanceof Error ? error.message : String(error)}`
     );
   }
 }
@@ -83,7 +83,7 @@ export async function getAccessToken(): Promise<string> {
     const tokenData = (await kv.get(STRAVA_TOKEN_KEY)) as TokenData;
 
     // If we have a token and it's not expired (with 5 min buffer), use it
-    if (tokenData && tokenData.access_token) {
+    if (tokenData?.access_token) {
       const now = Math.floor(Date.now() / 1000);
       if (tokenData.expires_at > now + 300) {
         return tokenData.access_token;
@@ -93,7 +93,7 @@ export async function getAccessToken(): Promise<string> {
     // Instead of using the API route, call refreshStravaToken directly
     return await refreshStravaToken();
   } catch (error) {
-    console.error("Error getting access token:", error);
-    throw new Error("Failed to get Strava access token");
+    console.error('Error getting access token:', error);
+    throw new Error('Failed to get Strava access token');
   }
 }

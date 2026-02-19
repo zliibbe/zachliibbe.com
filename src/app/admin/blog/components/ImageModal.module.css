@@ -1,0 +1,271 @@
+/* Loading Content */
+.loadingContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border-color);
+  border-top: 3px solid var(--accentPrimary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loadingText {
+  color: var(--text-secondary);
+  text-align: center;
+  margin: 0;
+}
+
+/* Quick Result Content */
+.quickResultContent {
+  text-align: center;
+}
+
+.imageContainer {
+  margin-bottom: 16px;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  display: inline-block;
+}
+
+.resultImage {
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.imageDetails {
+  margin-bottom: 24px;
+}
+
+.imageAlt {
+  font-weight: var(--fw-semi-bold);
+  color: var(--text-primary);
+  margin: 0 0 8px 0;
+}
+
+.attribution {
+  color: var(--text-secondary);
+  font-size: var(--fs-300);
+  margin: 0;
+}
+
+.attributionLink {
+  color: var(--theme-color);
+  text-decoration: none;
+}
+
+.attributionLink:hover {
+  text-decoration: underline;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+/* Selection Content */
+.selectionContent {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.imageGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.imageOption {
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 16px;
+  background: var(--background-secondary);
+  transition: all 0.2s ease;
+}
+
+.imageOption:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border-color: var(--accentPrimary);
+  transform: translateY(-1px);
+}
+
+.imageWrapper {
+  margin-bottom: 12px;
+  border-radius: calc(var(--border-radius) / 2);
+  overflow: hidden;
+}
+
+.selectionImage {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.imageInfo {
+  text-align: center;
+}
+
+.imageTitle {
+  font-weight: var(--fw-semi-bold);
+  color: var(--text-primary);
+  margin: 0 0 6px 0;
+}
+
+.imageAttribution {
+  color: var(--text-secondary);
+  font-size: var(--fs-300);
+  margin: 0 0 12px 0;
+}
+
+.selectButton {
+  background: var(--accentPrimary);
+  color: var(--black);
+  border: 1px solid var(--accentPrimary);
+  padding: 8px 16px;
+  border-radius: calc(var(--border-radius) / 2);
+  cursor: pointer;
+  font-size: var(--fs-300);
+  font-weight: var(--fw-semi-bold);
+  transition: all 0.2s ease;
+}
+
+.selectButton:hover {
+  background: var(--accentSecondary);
+  border-color: var(--accentSecondary);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(255, 215, 0, 0.3);
+}
+
+/* No Results */
+.noResults {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.noResultsIcon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+
+.noResultsText {
+  font-weight: var(--fw-semi-bold);
+  color: var(--text-primary);
+  margin: 0 0 8px 0;
+}
+
+.noResultsSubtext {
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Success Content */
+.successContent {
+  text-align: center;
+  padding: 20px;
+}
+
+.successIcon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+
+.successText {
+  font-weight: var(--fw-semi-bold);
+  color: var(--text-primary);
+  margin: 0 0 20px 0;
+}
+
+.successImageContainer {
+  margin-bottom: 16px;
+  display: inline-block;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+.successImage {
+  border-radius: var(--border-radius);
+}
+
+.successDetails {
+  color: var(--text-secondary);
+  font-size: var(--fs-300);
+  margin: 0 0 24px 0;
+  line-height: 1.5;
+}
+
+/* Error Content */
+.errorContent {
+  text-align: center;
+  padding: 20px;
+}
+
+.errorIcon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+
+.errorText {
+  color: var(--text-primary);
+  margin: 0 0 24px 0;
+}
+
+.errorActions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+/* Button Styles */
+.primaryButton {
+  background: var(--accentPrimary);
+  color: var(--black);
+  border: 1px solid var(--accentPrimary);
+  padding: 10px 20px;
+  border-radius: calc(var(--border-radius) / 2);
+  cursor: pointer;
+  font-weight: var(--fw-semi-bold);
+  transition: all 0.2s ease;
+}
+
+.primaryButton:hover {
+  background: var(--accentSecondary);
+  border-color: var(--accentSecondary);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(255, 215, 0, 0.4);
+}
+
+.secondaryButton {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  padding: 10px 20px;
+  border-radius: calc(var(--border-radius) / 2);
+  cursor: pointer;
+  font-weight: var(--fw-semi-bold);
+  transition: all 0.2s ease;
+}
+
+.secondaryButton:hover {
+  background: var(--background-secondary);
+  color: var(--text-primary);
+  border-color: var(--accentPrimary);
+  transform: translateY(-1px);
+}
+
+/* Dark mode support is now handled by CSS variables automatically */

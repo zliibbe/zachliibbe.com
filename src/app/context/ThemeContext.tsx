@@ -1,11 +1,19 @@
-"use client";
+'use client';
 
-import React, { createContext, useContext, useState, useEffect } from "react";
-import { Theme, themes, applyTheme } from "@/app/styles/themes";
+import type React from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+import { applyTheme, type Theme, themes } from '@/app/styles/themes';
 
 interface ThemeContextType {
-  currentTheme: Theme["name"];
-  setTheme: (theme: Theme["name"]) => void;
+  currentTheme: Theme['name'];
+  setTheme: (theme: Theme['name']) => void;
   isDarkMode: boolean;
   toggleDarkMode: () => void;
   isAnimated: boolean;
@@ -14,136 +22,181 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
+// Custom hook for localStorage with SSR safety
+function useLocalStorage<T>(key: string, defaultValue: T) {
+  const [storedValue, setStoredValue] = useState<T>(defaultValue);
+
+  useEffect(() => {
+    try {
+      const item = localStorage.getItem(key);
+      if (item) {
+        setStoredValue(JSON.parse(item));
+      }
+    } catch (error) {
+      console.warn(`Error reading localStorage key "${key}":`, error);
+      setStoredValue(defaultValue);
+    }
+  }, [key, defaultValue]);
+
+  const setValue = useCallback(
+    (value: T) => {
+      try {
+        setStoredValue(value);
+        localStorage.setItem(key, JSON.stringify(value));
+      } catch (error) {
+        console.warn(`Error setting localStorage key "${key}":`, error);
+      }
+    },
+    [key]
+  );
+
+  return [storedValue, setValue] as const;
+}
+
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [currentTheme, setCurrentTheme] = useState<Theme["name"]>("default");
+  const [currentTheme, setCurrentTheme] = useState<Theme['name']>('default');
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isAnimated, setIsAnimated] = useState(true);
+  const [isInitialized, setIsInitialized] = useState(false);
 
-  // Initial setup
-  useEffect(() => {
-    // Check for saved theme preference
-    const savedTheme = localStorage.getItem("selectedTheme") as Theme["name"];
-    const savedDarkMode = localStorage.getItem("darkMode");
-    const savedAnimation = localStorage.getItem("gradientAnimation");
+  const [savedTheme, setSavedTheme] = useLocalStorage<Theme['name'] | null>(
+    'selectedTheme',
+    null
+  );
+  const [savedDarkMode, setSavedDarkMode] = useLocalStorage<boolean | null>(
+    'darkMode',
+    null
+  );
+  const [savedAnimation, setSavedAnimation] = useLocalStorage(
+    'gradientAnimation',
+    true
+  );
 
-    // Check system dark mode preference
-    const prefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)",
-    ).matches;
-
-    // Set initial dark mode
-    const initialDarkMode =
-      savedDarkMode !== null ? JSON.parse(savedDarkMode) : prefersDark;
-    setIsDarkMode(initialDarkMode);
-
-    // Set the theme on the html element
+  // Memoized theme application
+  const applyDocumentTheme = useCallback((darkMode: boolean) => {
     document.documentElement.setAttribute(
-      "data-theme",
-      initialDarkMode ? "dark" : "light",
-    );
-
-    // Set initial theme
-    if (savedTheme && themes[savedTheme]) {
-      setCurrentTheme(savedTheme);
-      applyTheme(savedTheme);
-    } else {
-      setCurrentTheme("default");
-      applyTheme("default");
-    }
-
-    // Set initial animation state and apply it
-    const initialAnimationState = savedAnimation
-      ? JSON.parse(savedAnimation)
-      : true;
-    setIsAnimated(initialAnimationState);
-
-    // Add this line to set the CSS variable on initial load
-    document.documentElement.style.setProperty(
-      "--gradient-timing",
-      initialAnimationState ? "10s" : "0s",
+      'data-theme',
+      darkMode ? 'dark' : 'light'
     );
   }, []);
 
-  // Handle dark mode changes
-  useEffect(() => {
-    document.documentElement.setAttribute(
-      "data-theme",
-      isDarkMode ? "dark" : "light",
-    );
-    localStorage.setItem("darkMode", JSON.stringify(isDarkMode));
-  }, [isDarkMode]);
-
-  // Handle theme changes
-  const setTheme = (theme: Theme["name"]) => {
-    setCurrentTheme(theme);
-    applyTheme(theme);
-    localStorage.setItem("selectedTheme", theme);
-  };
-
-  // Handle dark mode toggle
-  const toggleDarkMode = () => {
-    setIsDarkMode((prev) => {
-      const newValue = !prev;
-
-      // Set theme attribute
-      document.documentElement.setAttribute(
-        "data-theme",
-        newValue ? "dark" : "light",
-      );
-
-      // Update localStorage
-      localStorage.setItem("darkMode", JSON.stringify(newValue));
-
-      return newValue;
-    });
-  };
-
-  // Handle animation toggle
-  const toggleAnimation = () => {
-    const newValue = !isAnimated;
-    setIsAnimated(newValue);
-    localStorage.setItem("gradientAnimation", JSON.stringify(newValue));
+  const applyAnimationTiming = useCallback((animated: boolean) => {
     document.documentElement.style.setProperty(
-      "--gradient-timing",
-      newValue ? "10s" : "0s",
+      '--gradient-timing',
+      animated ? '10s' : '0s'
     );
-  };
+  }, []);
+
+  // Initial setup - runs once on mount
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    // Check system dark mode preference
+    const prefersDark = window.matchMedia(
+      '(prefers-color-scheme: dark)'
+    ).matches;
+
+    // Initialize values
+    const initialDarkMode =
+      savedDarkMode !== null ? savedDarkMode : prefersDark;
+    const initialTheme =
+      savedTheme && themes[savedTheme] ? savedTheme : 'default';
+    const initialAnimation = savedAnimation;
+
+    // Set states
+    setIsDarkMode(initialDarkMode);
+    setCurrentTheme(initialTheme);
+    setIsAnimated(initialAnimation);
+
+    // Apply to DOM
+    applyDocumentTheme(initialDarkMode);
+    applyTheme(initialTheme);
+    applyAnimationTiming(initialAnimation);
+
+    setIsInitialized(true);
+  }, [
+    savedTheme,
+    savedDarkMode,
+    savedAnimation,
+    applyDocumentTheme,
+    applyAnimationTiming,
+  ]);
+
+  // Update DOM when dark mode changes (after initialization)
+  useEffect(() => {
+    if (!isInitialized) return;
+    applyDocumentTheme(isDarkMode);
+  }, [isDarkMode, isInitialized, applyDocumentTheme]);
 
   // Listen for system dark mode changes
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
     const darkModeMediaQuery = window.matchMedia(
-      "(prefers-color-scheme: dark)",
+      '(prefers-color-scheme: dark)'
     );
+
     const handleDarkModeChange = (e: MediaQueryListEvent) => {
-      if (!localStorage.getItem("darkMode")) {
+      // Only update if user hasn't explicitly set a preference
+      if (savedDarkMode === null) {
         setIsDarkMode(e.matches);
       }
     };
 
-    darkModeMediaQuery.addEventListener("change", handleDarkModeChange);
+    darkModeMediaQuery.addEventListener('change', handleDarkModeChange);
     return () =>
-      darkModeMediaQuery.removeEventListener("change", handleDarkModeChange);
-  }, []);
+      darkModeMediaQuery.removeEventListener('change', handleDarkModeChange);
+  }, [savedDarkMode]);
 
-  useEffect(() => {
-    // Apply theme to document
-    document.documentElement.setAttribute(
-      "data-theme",
-      isDarkMode ? "dark" : "light",
-    );
-  }, [isDarkMode]);
+  // Optimized handlers with useCallback
+  const setTheme = useCallback(
+    (theme: Theme['name']) => {
+      setCurrentTheme(theme);
+      applyTheme(theme);
+      setSavedTheme(theme);
+    },
+    [setSavedTheme]
+  );
+
+  const toggleDarkMode = useCallback(() => {
+    setIsDarkMode(prev => {
+      const newValue = !prev;
+      setSavedDarkMode(newValue);
+      return newValue;
+    });
+  }, [setSavedDarkMode]);
+
+  const toggleAnimation = useCallback(() => {
+    setIsAnimated(prev => {
+      const newValue = !prev;
+      setSavedAnimation(newValue);
+      applyAnimationTiming(newValue);
+      return newValue;
+    });
+  }, [setSavedAnimation, applyAnimationTiming]);
+
+  // Memoized context value to prevent unnecessary re-renders
+  const contextValue = useMemo(
+    () => ({
+      currentTheme,
+      setTheme,
+      isDarkMode,
+      toggleDarkMode,
+      isAnimated,
+      toggleAnimation,
+    }),
+    [
+      currentTheme,
+      setTheme,
+      isDarkMode,
+      toggleDarkMode,
+      isAnimated,
+      toggleAnimation,
+    ]
+  );
 
   return (
-    <ThemeContext.Provider
-      value={{
-        currentTheme,
-        setTheme,
-        isDarkMode,
-        toggleDarkMode,
-        isAnimated,
-        toggleAnimation,
-      }}
-    >
+    <ThemeContext.Provider value={contextValue}>
       {children}
     </ThemeContext.Provider>
   );
@@ -152,7 +205,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 export function useTheme() {
   const context = useContext(ThemeContext);
   if (context === undefined) {
-    throw new Error("useTheme must be used within a ThemeProvider");
+    throw new Error('useTheme must be used within a ThemeProvider');
   }
   return context;
 }

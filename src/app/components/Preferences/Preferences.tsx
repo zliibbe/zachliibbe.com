@@ -1,20 +1,20 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import styles from "./Preferences.module.css";
-import headerSyles from "../Header.module.css";
-import { Modal } from "../Modal/Modal";
+import { useState } from 'react';
 import {
-  PiGear,
-  PiX,
   PiCheck,
+  PiGear,
+  PiLightning,
   PiMoon,
   PiSun,
-  PiLightning,
-} from "react-icons/pi";
-import { useTheme } from "@/app/context/ThemeContext";
-import { themes } from "@/app/styles/themes";
-import { formatThemeName } from "@/app/utils/index";
+  PiX,
+} from 'react-icons/pi';
+import { useTheme } from '@/app/context/ThemeContext';
+import { themes } from '@/app/styles/themes';
+import { formatThemeName } from '@/app/utils/index';
+import headerSyles from '../Header.module.css';
+import { Modal } from '../Modal/Modal';
+import styles from './Preferences.module.css';
 
 export function Preferences() {
   const [isOpen, setIsOpen] = useState(false);
@@ -52,19 +52,19 @@ export function Preferences() {
 
           <div className={styles.section}>
             <span className={styles.themeNameRow}>
-              <h3>{"Gradient: "}</h3>
+              <h3>{'Gradient: '}</h3>
               <span className={styles.themeName}>
-                {formatThemeName(currentTheme) || "Default"}
+                {formatThemeName(currentTheme) || 'Default'}
               </span>
             </span>
 
             <div className={styles.gradientGrid}>
-              {Object.values(themes).map((theme) => (
+              {Object.values(themes).map(theme => (
                 <button
                   key={theme.name}
                   onClick={() => setTheme(theme.name)}
                   className={`${styles.gradientButton} ${
-                    currentTheme === theme.name ? styles.active : ""
+                    currentTheme === theme.name ? styles.active : ''
                   }`}
                   aria-label={`Select ${theme.label} theme`}
                   aria-pressed={currentTheme === theme.name}
@@ -89,15 +89,15 @@ export function Preferences() {
               <span className={styles.toggleLabel}>Gradient animation</span>
               <div className={styles.toggleContainer}>
                 <span className={styles.toggleLabel}>
-                  {isAnimated ? "On" : "Off"}
+                  {isAnimated ? 'On' : 'Off'}
                 </span>
                 <button
                   onClick={toggleAnimation}
                   className={`${styles.toggleButton} ${styles.animationToggle} ${
-                    isAnimated ? styles.active : ""
+                    isAnimated ? styles.active : ''
                   }`}
                   aria-pressed={isAnimated}
-                  aria-label={`Gradient animation ${isAnimated ? "on" : "off"}`}
+                  aria-label={`Gradient animation ${isAnimated ? 'on' : 'off'}`}
                 >
                   <PiLightning />
                 </button>
@@ -108,13 +108,13 @@ export function Preferences() {
               <span className={styles.toggleLabel}>Dark mode</span>
               <div className={styles.toggleContainer}>
                 <span className={styles.toggleLabel}>
-                  {isDarkMode ? "On" : "Off"}
+                  {isDarkMode ? 'On' : 'Off'}
                 </span>
                 <button
                   onClick={toggleDarkMode}
-                  className={`${styles.toggleButton} ${isDarkMode ? styles.active : ""}`}
+                  className={`${styles.toggleButton} ${isDarkMode ? styles.active : ''}`}
                   aria-pressed={isDarkMode}
-                  aria-label={`Dark mode ${isDarkMode ? "on" : "off"}`}
+                  aria-label={`Dark mode ${isDarkMode ? 'on' : 'off'}`}
                 >
                   {isDarkMode ? <PiSun /> : <PiMoon />}
                 </button>

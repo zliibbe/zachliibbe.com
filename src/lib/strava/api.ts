@@ -1,4 +1,4 @@
-import { getStravaAccessToken } from "@/app/utils/index";
+import { getStravaAccessToken } from '@/app/utils/index';
 
 export async function getActivities(limit = 200, after?: number) {
   try {
@@ -19,7 +19,7 @@ export async function getActivities(limit = 200, after?: number) {
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error(`Strava API error: ${response.status}`, errorText);
+      console.error(`Strava API error: ${response.status} - ${errorText}`);
       throw new Error(`Strava API returned ${response.status}: ${errorText}`);
     }
 
@@ -27,7 +27,7 @@ export async function getActivities(limit = 200, after?: number) {
 
     return data;
   } catch (error) {
-    console.error("Error in getActivities:", error);
+    console.error('Error in getActivities:', error);
     throw error;
   }
 }

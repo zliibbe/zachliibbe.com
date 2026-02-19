@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
-import { createClient } from "@vercel/kv";
+import { createClient } from '@vercel/kv';
+import { NextResponse } from 'next/server';
 
 interface Audiobook {
   title: string;
@@ -15,17 +15,17 @@ interface Audiobook {
 
 // Create KV client with the environment variables
 const kv = createClient({
-  url: process.env.KV_KV_REST_API_URL || "",
-  token: process.env.KV_KV_REST_API_TOKEN || "",
+  url: process.env.KV_KV_REST_API_URL || '',
+  token: process.env.KV_KV_REST_API_TOKEN || '',
 });
 
-export const dynamic = "force-dynamic";
-const CACHE_KEY = "goodreads_audiobooks";
+export const dynamic = 'force-dynamic';
+const CACHE_KEY = 'goodreads_audiobooks';
 const CACHE_DURATION = 300; // 5 minutes
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
-  const forceRefresh = url.searchParams.get("refresh") === "true";
+  const forceRefresh = url.searchParams.get('refresh') === 'true';
 
   try {
     // Try to get cached data first (unless force refresh)
@@ -36,7 +36,7 @@ export async function GET(request: Request) {
           return NextResponse.json(cachedData);
         }
       } catch (kvError) {
-        console.warn("KV cache error:", kvError);
+        console.warn('KV cache error:', kvError);
       }
     } else {
       // console.log("Force refresh requested, skipping cache");
@@ -46,8 +46,8 @@ export async function GET(request: Request) {
     const lambdaUrl = process.env.GOODREADS_GETAUDIOBOOKS_URL_PROD;
 
     if (!lambdaUrl) {
-      console.error("Lambda URL is not defined");
-      throw new Error("Lambda URL is not defined in environment variables");
+      console.error('Lambda URL is not defined');
+      throw new Error('Lambda URL is not defined in environment variables');
     }
 
     // Fetch data from Lambda function with timeout
@@ -56,10 +56,10 @@ export async function GET(request: Request) {
 
     try {
       const response = await fetch(lambdaUrl, {
-        method: "GET",
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
-          "Cache-Control": "no-cache",
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache',
         },
         signal: controller.signal,
       });
@@ -79,15 +79,15 @@ export async function GET(request: Request) {
 
       if (Array.isArray(data)) {
         audiobooks = data;
-      } else if (data && data.books && Array.isArray(data.books)) {
+      } else if (data?.books && Array.isArray(data.books)) {
         audiobooks = data.books;
       } else {
-        console.error("Unexpected data format from Lambda:", data);
-        throw new Error("Invalid data format from Lambda");
+        console.error('Unexpected data format from Lambda:', data);
+        throw new Error('Invalid data format from Lambda');
       }
 
       // Normalize the audiobooks data
-      const normalizedAudiobooks = audiobooks.map((book) => ({
+      const normalizedAudiobooks = audiobooks.map(book => ({
         title: book.title,
         author: book.author,
         coverImg: book.coverImg || book.coverUrl || null,
@@ -101,16 +101,16 @@ export async function GET(request: Request) {
         await kv.set(CACHE_KEY, normalizedAudiobooks, { ex: CACHE_DURATION });
         // console.log("Data cached successfully for 5 minutes");
       } catch (cacheError) {
-        console.warn("Failed to cache data:", cacheError);
+        console.warn('Failed to cache data:', cacheError);
       }
 
       return NextResponse.json(normalizedAudiobooks);
     } catch (fetchError) {
-      console.error("Error fetching from Lambda:", fetchError);
+      console.error('Error fetching from Lambda:', fetchError);
       throw fetchError;
     }
   } catch (error) {
-    console.error("Error fetching audiobooks:", error);
+    console.error(`Error fetching audiobooks: ${error}`);
 
     // Try to get stale data from cache as fallback
     try {
@@ -119,36 +119,36 @@ export async function GET(request: Request) {
         return NextResponse.json(staleData);
       }
     } catch (fallbackError) {
-      console.error("Failed to get stale data:", fallbackError);
+      console.error('Failed to get stale data:', fallbackError);
     }
 
     // Return hardcoded fallback data in case the API fails
     const fallbackAudiobooks: Audiobook[] = [
       {
-        title: "Good Inside",
-        author: "Dr. Becky Kennedy",
-        coverImg: "https://covers.openlibrary.org/b/isbn/9780063159488-M.jpg",
-        bookLink: "https://www.goodreads.com/book/show/59912428-good-inside",
-        dateRead: "2023-07-10",
+        title: 'Good Inside',
+        author: 'Dr. Becky Kennedy',
+        coverImg: 'https://covers.openlibrary.org/b/isbn/9780063159488-M.jpg',
+        bookLink: 'https://www.goodreads.com/book/show/59912428-good-inside',
+        dateRead: '2023-07-10',
         rating: 5,
       },
       {
-        title: "The Anxious Generation",
-        author: "Jonathan Haidt",
+        title: 'The Anxious Generation',
+        author: 'Jonathan Haidt',
         coverImg:
-          "https://books.google.com/books/content?id=uCvAEAAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_apig",
+          'https://books.google.com/books/content?id=uCvAEAAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_apig',
         bookLink:
-          "https://www.goodreads.com/book/show/61313190-the-anxious-generation",
-        dateRead: "2023-06-05",
+          'https://www.goodreads.com/book/show/61313190-the-anxious-generation',
+        dateRead: '2023-06-05',
         rating: 5,
       },
       {
-        title: "How Emotions Are Made",
-        author: "Lisa Feldman Barrett",
-        coverImg: "https://covers.openlibrary.org/b/isbn/9780544133310-M.jpg",
+        title: 'How Emotions Are Made',
+        author: 'Lisa Feldman Barrett',
+        coverImg: 'https://covers.openlibrary.org/b/isbn/9780544133310-M.jpg',
         bookLink:
-          "https://www.goodreads.com/book/show/23719305-how-emotions-are-made",
-        dateRead: "2023-05-15",
+          'https://www.goodreads.com/book/show/23719305-how-emotions-are-made',
+        dateRead: '2023-05-15',
         rating: 4.5,
       },
     ];

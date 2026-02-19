@@ -1,17 +1,17 @@
-import type { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
-import fetch from "node-fetch";
-import { XMLParser } from "fast-xml-parser";
+import type { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
+import { XMLParser } from 'fast-xml-parser';
+import fetch from 'node-fetch';
 
 // Cache implementation to reduce Lambda executions
-let cachedData: { [key: string]: any } = {};
-let lastFetch: { [key: string]: number } = {};
+const cachedData: { [key: string]: any } = {};
+const lastFetch: { [key: string]: number } = {};
 const CACHE_DURATION = 1000 * 60 * 5; // 5 minutes
 
 function decodeHtmlEntities(text: string): string {
   return text
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'")
     .replace(/&apos;/g, "'");
@@ -19,7 +19,7 @@ function decodeHtmlEntities(text: string): string {
 
 // Main handler for currently reading books
 export const getCurrentlyReading = async (
-  event: APIGatewayProxyEvent,
+  event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
   // console.log(
   //   "getCurrentlyReading Lambda function called",
@@ -27,8 +27,8 @@ export const getCurrentlyReading = async (
   // );
 
   const queryParams = event.queryStringParameters || {};
-  const limit = parseInt(queryParams.limit || "5", 10);
-  const shelf = "currently-reading"; // Force the shelf to be "currently-reading"
+  const limit = parseInt(queryParams.limit || '5', 10);
+  const shelf = 'currently-reading'; // Force the shelf to be "currently-reading"
 
   const cacheKey = `${shelf}_${limit}`;
 
@@ -39,10 +39,10 @@ export const getCurrentlyReading = async (
     now - (lastFetch[cacheKey] || 0) < CACHE_DURATION
   ) {
     const headers = {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
-      "Cache-Control": "public, max-age=300",
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Cache-Control': 'public, max-age=300',
     };
     return {
       statusCode: 200,
@@ -52,15 +52,15 @@ export const getCurrentlyReading = async (
   }
 
   try {
-    const userId = process.env.GOODREADS_USER_ID || "24890536";
+    const userId = process.env.GOODREADS_USER_ID || '24890536';
 
     // Use the shelf-specific RSS feed URL
     const feedUrl = `https://www.goodreads.com/review/list_rss/${userId}-zach?shelf=${shelf}`;
 
     const response = await fetch(feedUrl, {
       headers: {
-        "User-Agent": "Mozilla/5.0 (compatible; GoodreadsLambda/1.0)",
-        "Cache-Control": "no-cache",
+        'User-Agent': 'Mozilla/5.0 (compatible; GoodreadsLambda/1.0)',
+        'Cache-Control': 'no-cache',
       },
     });
 
@@ -77,7 +77,7 @@ export const getCurrentlyReading = async (
 
     // Check if items exist in the feed
     if (!result.rss || !result.rss.channel || !result.rss.channel.item) {
-      throw new Error("No books found in the RSS feed");
+      throw new Error('No books found in the RSS feed');
     }
 
     // Ensure items is always an array
@@ -93,10 +93,10 @@ export const getCurrentlyReading = async (
       // Extract book details
       const title = item.title
         ? decodeHtmlEntities(item.title)
-        : "Unknown Title";
+        : 'Unknown Title';
       const author = item.author_name
         ? decodeHtmlEntities(item.author_name)
-        : "Unknown Author";
+        : 'Unknown Author';
       const bookUrl = item.link || null;
 
       // Extract cover image URL - format varies in RSS feeds
@@ -148,15 +148,15 @@ export const getCurrentlyReading = async (
     cachedData[cacheKey] = {
       books: processedBooks,
       timestamp: new Date().toISOString(),
-      status: "success",
+      status: 'success',
     };
     lastFetch[cacheKey] = now;
 
     const headers = {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
-      "Cache-Control": "public, max-age=300",
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Cache-Control': 'public, max-age=300',
     };
     return {
       statusCode: 200,
@@ -164,19 +164,19 @@ export const getCurrentlyReading = async (
       body: JSON.stringify(cachedData[cacheKey]),
     };
   } catch (error) {
-    console.error("Lambda error:", error);
+    console.error('Lambda error:', error);
     const headers = {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
     };
     return {
       statusCode: 500,
       headers,
       body: JSON.stringify({
         error:
-          error instanceof Error ? error.message : "Unknown error occurred",
-        status: "error",
+          error instanceof Error ? error.message : 'Unknown error occurred',
+        status: 'error',
         timestamp: new Date().toISOString(),
       }),
     };
@@ -185,11 +185,11 @@ export const getCurrentlyReading = async (
 
 // Handler for read books
 export const getReadBooks = async (
-  event: APIGatewayProxyEvent,
+  event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
   const queryParams = event.queryStringParameters || {};
-  const limit = parseInt(queryParams.limit || "5", 10);
-  const shelf = "zach-read"; // Force the shelf to be "zach-read"
+  const limit = parseInt(queryParams.limit || '5', 10);
+  const shelf = 'zach-read'; // Force the shelf to be "zach-read"
 
   const cacheKey = `${shelf}_${limit}`;
 
@@ -200,10 +200,10 @@ export const getReadBooks = async (
     now - (lastFetch[cacheKey] || 0) < CACHE_DURATION
   ) {
     const headers = {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
-      "Cache-Control": "public, max-age=300",
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Cache-Control': 'public, max-age=300',
     };
     return {
       statusCode: 200,
@@ -213,18 +213,18 @@ export const getReadBooks = async (
   }
 
   try {
-    const userId = process.env.GOODREADS_USER_ID || "24890536";
+    const userId = process.env.GOODREADS_USER_ID || '24890536';
 
     // Use the shelf-specific RSS feed URL
     const feedUrl = `https://www.goodreads.com/review/list_rss/${userId}?shelf=${shelf}&sort=date_read&order=d`;
 
     const response = await fetch(feedUrl, {
       headers: {
-        "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-        Accept: "application/rss+xml, application/xml, text/xml, */*",
-        "Cache-Control": "no-cache",
-        Referer: "https://www.goodreads.com/",
+        'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+        Accept: 'application/rss+xml, application/xml, text/xml, */*',
+        'Cache-Control': 'no-cache',
+        Referer: 'https://www.goodreads.com/',
       },
     });
 
@@ -236,12 +236,12 @@ export const getReadBooks = async (
 
     // Check if the response is HTML instead of XML
     if (
-      xml.trim().startsWith("<!DOCTYPE html>") ||
-      xml.trim().startsWith("<html")
+      xml.trim().startsWith('<!DOCTYPE html>') ||
+      xml.trim().startsWith('<html')
     ) {
-      console.error("Received HTML instead of XML from Goodreads");
+      console.error('Received HTML instead of XML from Goodreads');
       throw new Error(
-        "Goodreads returned HTML instead of RSS feed - they may be blocking automated requests",
+        'Goodreads returned HTML instead of RSS feed - they may be blocking automated requests'
       );
     }
 
@@ -252,7 +252,7 @@ export const getReadBooks = async (
 
     // Check if items exist in the feed
     if (!result.rss || !result.rss.channel || !result.rss.channel.item) {
-      throw new Error("No books found in the RSS feed");
+      throw new Error('No books found in the RSS feed');
     }
 
     // Ensure items is always an array
@@ -268,10 +268,10 @@ export const getReadBooks = async (
       // Extract book details
       const title = item.title
         ? decodeHtmlEntities(item.title)
-        : "Unknown Title";
+        : 'Unknown Title';
       const author = item.author_name
         ? decodeHtmlEntities(item.author_name)
-        : "Unknown Author";
+        : 'Unknown Author';
       const bookUrl = item.link || null;
 
       // Extract cover image URL - format varies in RSS feeds
@@ -308,15 +308,15 @@ export const getReadBooks = async (
     cachedData[cacheKey] = {
       books,
       timestamp: new Date().toISOString(),
-      status: "success",
+      status: 'success',
     };
     lastFetch[cacheKey] = now;
 
     const headers = {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
-      "Cache-Control": "public, max-age=300",
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Cache-Control': 'public, max-age=300',
     };
     return {
       statusCode: 200,
@@ -324,19 +324,19 @@ export const getReadBooks = async (
       body: JSON.stringify(cachedData[cacheKey]),
     };
   } catch (error) {
-    console.error("Lambda error:", error);
+    console.error('Lambda error:', error);
     const headers = {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
     };
     return {
       statusCode: 500,
       headers,
       body: JSON.stringify({
         error:
-          error instanceof Error ? error.message : "Unknown error occurred",
-        status: "error",
+          error instanceof Error ? error.message : 'Unknown error occurred',
+        status: 'error',
         timestamp: new Date().toISOString(),
       }),
     };
@@ -345,11 +345,11 @@ export const getReadBooks = async (
 
 // Handler for audiobooks
 export const getAudiobooks = async (
-  event: APIGatewayProxyEvent,
+  event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
   const queryParams = event.queryStringParameters || {};
-  const limit = parseInt(queryParams.limit || "5", 10);
-  const shelf = "audiobooks"; // Force the shelf to be "audiobooks"
+  const limit = parseInt(queryParams.limit || '5', 10);
+  const shelf = 'audiobooks'; // Force the shelf to be "audiobooks"
 
   const cacheKey = `${shelf}_${limit}`;
 
@@ -360,10 +360,10 @@ export const getAudiobooks = async (
     now - (lastFetch[cacheKey] || 0) < CACHE_DURATION
   ) {
     const headers = {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
-      "Cache-Control": "public, max-age=300",
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Cache-Control': 'public, max-age=300',
     };
     return {
       statusCode: 200,
@@ -373,7 +373,7 @@ export const getAudiobooks = async (
   }
 
   try {
-    const userId = process.env.GOODREADS_USER_ID || "24890536";
+    const userId = process.env.GOODREADS_USER_ID || '24890536';
 
     // Use the shelf-specific RSS feed URL with sorting parameters
     const feedUrl = `https://www.goodreads.com/review/list_rss/${userId}?shelf=${shelf}&sort=date_read&order=d`;
@@ -381,11 +381,11 @@ export const getAudiobooks = async (
     // Improved headers to mimic a real browser request
     const response = await fetch(feedUrl, {
       headers: {
-        "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-        Accept: "application/rss+xml, application/xml, text/xml, */*",
-        "Cache-Control": "no-cache",
-        Referer: "https://www.goodreads.com/",
+        'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+        Accept: 'application/rss+xml, application/xml, text/xml, */*',
+        'Cache-Control': 'no-cache',
+        Referer: 'https://www.goodreads.com/',
       },
     });
 
@@ -397,12 +397,12 @@ export const getAudiobooks = async (
 
     // Check if the response is HTML instead of XML
     if (
-      xml.trim().startsWith("<!DOCTYPE html>") ||
-      xml.trim().startsWith("<html")
+      xml.trim().startsWith('<!DOCTYPE html>') ||
+      xml.trim().startsWith('<html')
     ) {
-      console.error("Received HTML instead of XML from Goodreads");
+      console.error('Received HTML instead of XML from Goodreads');
       throw new Error(
-        "Goodreads returned HTML instead of RSS feed - they may be blocking automated requests",
+        'Goodreads returned HTML instead of RSS feed - they may be blocking automated requests'
       );
     }
 
@@ -413,7 +413,7 @@ export const getAudiobooks = async (
 
     // Check if items exist in the feed
     if (!result.rss || !result.rss.channel || !result.rss.channel.item) {
-      throw new Error("No books found in the RSS feed");
+      throw new Error('No books found in the RSS feed');
     }
 
     // Ensure items is always an array
@@ -429,10 +429,10 @@ export const getAudiobooks = async (
       // Extract book details
       const title = item.title
         ? decodeHtmlEntities(item.title)
-        : "Unknown Title";
+        : 'Unknown Title';
       const author = item.author_name
         ? decodeHtmlEntities(item.author_name)
-        : "Unknown Author";
+        : 'Unknown Author';
       const bookUrl = item.link || null;
 
       // Extract cover image URL - format varies in RSS feeds
@@ -469,15 +469,15 @@ export const getAudiobooks = async (
     cachedData[cacheKey] = {
       books,
       timestamp: new Date().toISOString(),
-      status: "success",
+      status: 'success',
     };
     lastFetch[cacheKey] = now;
 
     const headers = {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
-      "Cache-Control": "public, max-age=300",
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Cache-Control': 'public, max-age=300',
     };
     return {
       statusCode: 200,
@@ -485,19 +485,19 @@ export const getAudiobooks = async (
       body: JSON.stringify(cachedData[cacheKey]),
     };
   } catch (error) {
-    console.error("Lambda error:", error);
+    console.error('Lambda error:', error);
     const headers = {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
     };
     return {
       statusCode: 500,
       headers,
       body: JSON.stringify({
         error:
-          error instanceof Error ? error.message : "Unknown error occurred",
-        status: "error",
+          error instanceof Error ? error.message : 'Unknown error occurred',
+        status: 'error',
         timestamp: new Date().toISOString(),
       }),
     };

@@ -1,27 +1,28 @@
-"use client";
+'use client';
 
-import React from "react";
-import { useEffect, useState } from "react";
-import styles from "./Footer.module.css";
-import Image from "next/image";
-import Link from "next/link";
+import moment from 'moment';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
 import {
+  FaEnvelope,
   FaGithub,
   FaGoodreads,
-  FaStrava,
   FaLinkedin,
-  FaEnvelope,
-} from "react-icons/fa6";
-import moment from "moment";
-import CurrentlyReading from "./CurrentlyReading";
-import { useTheme } from "@/app/context/ThemeContext";
+  FaStrava,
+} from 'react-icons/fa6';
+import { useTheme } from '@/app/context/ThemeContext';
 import {
   formatDistanceToMiles,
   formatDistanceToYards,
   formatElapsedTime,
   getTimeAgo,
-  numberToWords,
-} from "@/app/utils/index";
+} from '@/app/utils/index';
+import { analytics } from '../utils/analytics';
+import ActivityStatsCard from './ActivityStatsCard';
+import CurrentlyReading from './CurrentlyReading';
+import styles from './Footer.module.css';
 
 type Book = {
   title: string;
@@ -31,7 +32,15 @@ type Book = {
 
 export default function Footer() {
   const { isDarkMode } = useTheme();
-  const [activity, setActivity] = useState<any>(null);
+  const { data: session } = useSession();
+  const [activity, setActivity] = useState<{
+    id: number;
+    type: string;
+    name: string;
+    distance: number;
+    elapsed_time: number;
+    start_date: string;
+  } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [currentlyReading, setCurrentlyReading] = useState<Book[]>([]);
@@ -40,30 +49,35 @@ export default function Footer() {
 
   const year = moment().year();
 
+  // Analytics helper function
+  const handleExternalLinkClick = (url: string, linkText: string) => {
+    analytics.trackExternalLink(url, linkText);
+  };
+
   // Strava Activity Fetching
   const fetchActivity = async () => {
     try {
       setLoading(true);
       setError(null);
 
-      const response = await fetch("/api/strava/latest", {
+      const response = await fetch('/api/strava/latest', {
         next: {
           revalidate: 1800, // Revalidate cache every 30 minutes
         },
       });
 
       if (!response.ok) {
-        throw new Error("Failed to fetch activity");
+        throw new Error('Failed to fetch activity');
       }
 
       const latestActivity = await response.json();
       setActivity(latestActivity);
     } catch (err) {
       console.error(
-        "Footer: Error fetching activity:",
-        err instanceof Error ? err.message : err,
+        'Footer: Error fetching activity:',
+        err instanceof Error ? err.message : err
       );
-      setError("Failed to load most-recent activity");
+      setError('Failed to load most-recent activity');
       setActivity(null);
     } finally {
       setLoading(false);
@@ -76,7 +90,7 @@ export default function Footer() {
       setBookLoading(true);
       setBookError(null);
 
-      const response = await fetch("/api/goodreads/currently-reading");
+      const response = await fetch('/api/goodreads/currently-reading');
 
       if (!response.ok) {
         throw new Error(`Failed to fetch books: ${response.status}`);
@@ -87,17 +101,17 @@ export default function Footer() {
       let booksArray = [];
       if (Array.isArray(data)) {
         booksArray = data;
-      } else if (data && data.books && Array.isArray(data.books)) {
+      } else if (data?.books && Array.isArray(data.books)) {
         booksArray = data.books;
       } else {
-        throw new Error("No books data received");
+        throw new Error('No books data received');
       }
 
       setCurrentlyReading(booksArray);
     } catch (err) {
-      console.error("Error fetching books:", err);
+      console.error('Error fetching books:', err);
       setBookError(
-        err instanceof Error ? err.message : "Failed to fetch books",
+        err instanceof Error ? err.message : 'Failed to fetch books'
       );
       setCurrentlyReading([]); // Reset books on error
     } finally {
@@ -124,9 +138,9 @@ export default function Footer() {
    * @param activity - The Strava activity object
    * @returns Human-readable time ago string
    */
-  const getActivityTimeAgo = (activity: any) => {
+  const getActivityTimeAgo = (activity: { start_date?: string } | null) => {
     if (!activity || !activity.start_date) {
-      return "recently";
+      return 'recently';
     }
 
     // Pass the start_date to getTimeAgo
@@ -134,32 +148,34 @@ export default function Footer() {
   };
 
   const getActivityDisplay = () => {
-    if (loading) return { text: "Loading activity...", isLoading: true };
+    if (loading) return { text: 'Loading activity...', isLoading: true };
     if (error) return { text: error, isLoading: false };
-    if (!activity) return { text: "No recent activity", isLoading: false };
+    if (!activity) return { text: 'No recent activity', isLoading: false };
 
     const getActivityText = () => {
       // Use the new helper function instead of directly calling getTimeAgo
       const daysAgo = getActivityTimeAgo(activity);
       const activityUrl = `https://www.strava.com/activities/${activity.id}`;
 
-      switch (activity.type) {
-        case "Walk":
+      switch (activity.type.toLowerCase()) {
+        case 'walk':
           return (
             <>
-              Recorded a{" "}
+              Recorded a{' '}
               <a
                 href={activityUrl}
                 className={styles.stravaLink}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={`View ${formatDistanceToMiles(activity.distance)} walk on Strava`}
               >
                 {formatDistanceToMiles(activity.distance)} walk
-              </a>{" "}
+              </a>{' '}
               {daysAgo}.
             </>
           );
-        case "WeightTraining":
+        case 'weighttraining':
+        case 'workout':
           return (
             <>
               <a
@@ -167,69 +183,74 @@ export default function Footer() {
                 className={styles.stravaLink}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="View weight training session on Strava"
               >
                 Lifted weights
-              </a>{" "}
+              </a>{' '}
               for {formatElapsedTime(activity.elapsed_time)} {daysAgo}.
             </>
           );
-        case "Ride":
+        case 'ride':
           return (
             <>
-              Recorded a{" "}
+              Recorded a{' '}
               <a
                 href={activityUrl}
                 className={styles.stravaLink}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={`View ${formatDistanceToMiles(activity.distance)} bike ride on Strava`}
               >
                 {formatDistanceToMiles(activity.distance)} ride
-              </a>{" "}
+              </a>{' '}
               {daysAgo}.
             </>
           );
-        case "Run":
+        case 'run':
           return (
             <>
-              Recorded a{" "}
+              Recorded a{' '}
               <a
                 href={activityUrl}
                 className={styles.stravaLink}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={`View ${formatDistanceToMiles(activity.distance)} run on Strava`}
               >
                 {formatDistanceToMiles(activity.distance)} run
-              </a>{" "}
+              </a>{' '}
               {daysAgo}.
             </>
           );
-        case "Swim":
+        case 'swim':
           return (
             <>
-              Recorded a{" "}
+              Recorded a{' '}
               <a
                 href={activityUrl}
                 className={styles.stravaLink}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={`View ${formatDistanceToYards(activity.distance)} swim on Strava`}
               >
                 {formatDistanceToYards(activity.distance)} swim
-              </a>{" "}
+              </a>{' '}
               {formatElapsedTime(activity.elapsed_time)} {daysAgo}.
             </>
           );
         default:
           return (
             <>
-              Recorded{" "}
+              Recorded{' '}
               <a
                 href={activityUrl}
                 className={styles.stravaLink}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={`View ${activity.name} activity on Strava`}
               >
                 {activity.name} - {formatDistanceToMiles(activity.distance)}
-              </a>{" "}
+              </a>{' '}
               {daysAgo}.
             </>
           );
@@ -253,18 +274,49 @@ export default function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className={styles.feedIcon}
+                    aria-label="View Strava profile"
+                    onClick={() =>
+                      handleExternalLinkClick(
+                        'https://www.strava.com/athletes/zachliibbe',
+                        'Strava Profile'
+                      )
+                    }
                   >
                     <FaStrava className={styles.stravaIcon} size={30} />
                   </a>
-                  <p
-                    className={`${styles.liveFeedText} ${
-                      loading ? styles.loadingText : ""
-                    }`}
+                  <div
+                    className={styles.activityContainer}
+                    onTouchStart={e => {
+                      const container = e.currentTarget;
+                      const showStatsClass = styles.showStats || 'showStats';
+                      const isShowingStats =
+                        container.classList.contains(showStatsClass);
+
+                      if (!isShowingStats && !loading) {
+                        container.classList.add(showStatsClass);
+
+                        // Hide stats after 3 seconds of inactivity
+                        setTimeout(() => {
+                          container.classList.remove(showStatsClass);
+                        }, 3000);
+                      }
+                    }}
                   >
-                    <span className={styles.liveFeedTextContent}>
-                      {getActivityDisplay().text}
-                    </span>
-                  </p>
+                    <p
+                      className={`${styles.liveFeedText} ${
+                        loading ? styles.loadingText : ''
+                      }`}
+                    >
+                      <span className={styles.liveFeedTextContent}>
+                        {getActivityDisplay().text}
+                      </span>
+                    </p>
+                    {activity && !loading && (
+                      <div className={styles.activityStatsHover}>
+                        <ActivityStatsCard activity={activity} />
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 <div className={styles.liveFeedItem}>
@@ -272,6 +324,12 @@ export default function Footer() {
                     href="https://www.goodreads.com/user/show/24890536-zach-liibbe"
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() =>
+                      handleExternalLinkClick(
+                        'https://www.goodreads.com/user/show/24890536-zach-liibbe',
+                        'Goodreads Profile'
+                      )
+                    }
                   >
                     <span className={styles.feedIcon}>
                       <FaGoodreads className={styles.goodreadsIcon} size={30} />
@@ -294,6 +352,13 @@ export default function Footer() {
                 href="https://linkedin.com/in/zach-liibbe"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Visit LinkedIn profile"
+                onClick={() =>
+                  handleExternalLinkClick(
+                    'https://linkedin.com/in/zach-liibbe',
+                    'LinkedIn Profile'
+                  )
+                }
               >
                 <FaLinkedin
                   className={`${styles.socialIcon} ${styles.linkedInIcon}`}
@@ -305,11 +370,22 @@ export default function Footer() {
                 href="https://github.com/zliibbe"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Visit GitHub profile"
+                onClick={() =>
+                  handleExternalLinkClick(
+                    'https://github.com/zliibbe',
+                    'GitHub Profile'
+                  )
+                }
               >
                 <FaGithub className={styles.socialIcon} />
               </a>
 
-              <a className={styles.socialLink} href="/contact">
+              <a
+                className={styles.socialLink}
+                href="/contact"
+                aria-label="Go to contact page"
+              >
                 <FaEnvelope
                   className={`${styles.socialIcon} ${styles.emailIcon}`}
                 />
@@ -348,6 +424,11 @@ export default function Footer() {
                 />
               </a>
               <span>in Colorado Springs, CO</span>
+              {session && (
+                <Link href="/admin" className={styles.adminLink}>
+                  Admin
+                </Link>
+              )}
             </div>
           </div>
         </div>

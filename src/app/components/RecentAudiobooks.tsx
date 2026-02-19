@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import Image from "next/image";
-import styles from "../live-feed/LiveFeed.module.css";
-import { PiHeadphones } from "react-icons/pi";
-import { FaStar, FaStarHalf } from "react-icons/fa6";
-import { formatDate, cleanGoodreadsUrl } from "@/app/utils/index";
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import { FaStar, FaStarHalf } from 'react-icons/fa6';
+import { PiHeadphones } from 'react-icons/pi';
+import { cleanGoodreadsUrl, formatDate } from '@/app/utils/index';
+import styles from '../live-feed/LiveFeed.module.css';
 
 interface Audiobook {
   title: string;
@@ -34,8 +34,8 @@ export default function RecentAudiobooks({
       if (onLoadingChange) onLoadingChange(true);
 
       try {
-        const response = await fetch("/api/goodreads/audiobooks", {
-          cache: "no-store", // Don't use cache to ensure we get fresh data or fallbacks
+        const response = await fetch('/api/goodreads/audiobooks', {
+          cache: 'no-store', // Don't use cache to ensure we get fresh data or fallbacks
         });
 
         const data = await response.json();
@@ -51,20 +51,20 @@ export default function RecentAudiobooks({
               ? cleanGoodreadsUrl(book.link, book.title)
               : book.title
                 ? `https://www.goodreads.com/book/title?id=${encodeURIComponent(book.title)}`
-                : "#",
+                : '#',
           }));
 
           setAudiobooks(processedBooks);
           setError(null);
         } else {
-          console.warn("No audiobooks returned from API");
-          setError("No audiobooks data received");
+          console.warn('No audiobooks returned from API');
+          setError('No audiobooks data received');
           setAudiobooks([]);
         }
       } catch (err) {
-        console.error("Error fetching audiobooks:", err);
+        console.error('Error fetching audiobooks:', err);
         setError(
-          err instanceof Error ? err.message : "Failed to fetch audiobooks",
+          err instanceof Error ? err.message : 'Failed to fetch audiobooks'
         );
       } finally {
         setLoading(false);
@@ -97,7 +97,7 @@ export default function RecentAudiobooks({
         <FaStar
           key={`empty-star-${i}`}
           className={`${styles.starIcon} ${styles.starEmpty}`}
-        />,
+        />
       );
     }
 
@@ -113,10 +113,10 @@ export default function RecentAudiobooks({
       <>
         <p className={styles.error}>Error: {error}</p>
         <div className={styles.bookGrid}>
-          {audiobooks.map((book) => (
+          {audiobooks.map(book => (
             <div key={book.title + book.author} className={styles.bookCard}>
               <a
-                href={book.bookLink || "#"}
+                href={book.bookLink || '#'}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.bookLinkWrapper}
@@ -164,10 +164,10 @@ export default function RecentAudiobooks({
 
   return (
     <div className={styles.bookGrid}>
-      {audiobooks.map((book) => (
+      {audiobooks.map(book => (
         <div key={book.title + book.author} className={styles.bookCard}>
           <a
-            href={book.bookLink || "#"}
+            href={book.bookLink || '#'}
             target="_blank"
             rel="noopener noreferrer"
             className={styles.bookLinkWrapper}

@@ -1,11 +1,11 @@
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from 'next/server';
 
 // Specify Edge runtime
-export const runtime = "edge";
+export const runtime = 'edge';
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
-  const shelf = searchParams.get("shelf") || "read";
+  const shelf = searchParams.get('shelf') || 'read';
 
   try {
     // Use the deployed Lambda URL
@@ -13,8 +13,8 @@ export async function GET(request: NextRequest) {
 
     const response = await fetch(lambdaUrl, {
       headers: {
-        "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+        'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
       },
     });
 
@@ -26,14 +26,14 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(data);
   } catch (error) {
-    console.error("Error fetching from Goodreads Lambda:", error);
+    console.error('Error fetching from Goodreads Lambda:', error);
     return NextResponse.json(
       {
         error:
-          error instanceof Error ? error.message : "Unknown error occurred",
-        status: "error",
+          error instanceof Error ? error.message : 'Unknown error occurred',
+        status: 'error',
       },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

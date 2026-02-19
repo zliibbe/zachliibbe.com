@@ -1,13 +1,28 @@
 :root {
   /* default theme colors */
-  --theme-color: #2795ba;
+  --theme-color: #1a6b8a;
   --gradientOne: #67c6b5;
   --gradientTwo: #2795ba;
   --gradientThree: #cb2048;
   --accentPrimary: #ffd700;
-  --clr-accent-300: #fff3b0;
+  --accentSecondary: #fff3b0;
 
   --gradientTiming: 10s;
+
+  /* Gradient aliases for consistency between pages */
+  --gradient-one: var(--gradientOne);
+  --gradient-two: var(--gradientTwo);
+  --gradient-three: var(--gradientThree);
+  --gradient-timing: var(--gradientTiming);
+
+  /* Universal gradient positioning */
+  --gradient-height: calc(60vh + 3rem);
+
+  /* Small screen gradient height to align with archBlur bottom */
+  --gradient-height-mobile: calc(488px + 27rem);
+  --gradient-container-margin-top: -4rem;
+  --gradient-container-padding-top: 4rem;
+  --gradient-top-offset: -6rem;
 
   /* neutral colors */
   --white: #fffafa; /* snow white */
@@ -48,10 +63,10 @@
   --fs-750: 1.75rem; /* 28px */
   --fs-800: 2em; /* 32px */
 
-  --fs-button: var(var(--fs-300));
+  --fs-button: var(--fs-300);
   --fs-body: var(--fs-400);
-  --fs-primary-heading: var(var(--fs-800));
-  --fs-secondary-heading: var(var(--fs-700));
+  --fs-primary-heading: var(--fs-800);
+  --fs-secondary-heading: var(--fs-700);
 
   /* miscellaneous */
   --offWhite: #faf9f6;
@@ -202,7 +217,13 @@ html:focus-within {
   background-color: var(--offWhiteBackgroundColor);
 }
 
-a:hover {
+a,
+.link,
+.navLink,
+.socialLink,
+.techLink,
+.homeLink {
+  cursor: pointer;
   text-decoration: underline;
 }
 
@@ -253,6 +274,8 @@ button.srOnly {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+    transition-property:
+      color, background-color, border-color, opacity, transform !important;
   }
 }
 
@@ -279,7 +302,7 @@ html {
   --background-primary: var(--white);
   --text-primary: var(--black);
   --text-inverse: var(--white);
-  --text-secondary: var(--clr-neutral-300);
+  --text-secondary: var(--clr-neutral-600);
   --border-color: var(--clr-neutral-700);
   --modal-bg: var(--clr-neutral-800);
 
@@ -294,21 +317,32 @@ html {
 
 /* Dark mode */
 html[data-theme="dark"] {
-  --background-primary: var(--black);
-  --background-secondary: var(--clr-neutral-500);
+  --background-primary: var(--clr-neutral-800);
+  --background-secondary: var(--clr-neutral-700);
   --text-primary: var(--white);
   --text-inverse: var(--black);
-  --text-secondary: var(--clr-neutral-300);
-  --border-color: var(--clr-neutral-700);
+  --text-secondary: var(--clr-neutral-250);
+  --border-color: var(--clr-neutral-600);
   --modal-bg: var(--clr-neutral-800);
 
   /* Adjust component specific colors */
   --job-bg: var(--background-secondary);
 
+  /* Admin-specific dark mode colors for better contrast */
+  --admin-card-bg: var(--clr-neutral-800);
+  --admin-card-border: var(--clr-neutral-600);
+  --admin-hover-bg: var(--clr-neutral-700);
+
   /* Social media colors with dark mode adjustments */
   --stravaColor: #fc4c02;
   --goodreadsColor: #e6b386; /* Lighter shade for dark mode */
   --linkedInColor: #0a66c2;
+}
+
+/* Text selection highlight — uses the active theme accent color */
+::selection {
+  background-color: var(--accentPrimary);
+  color: #000000;
 }
 
 /* Smooth transitions */
@@ -361,14 +395,23 @@ html[data-theme="dark"] {
   }
 }
 
-/* Ensure the root-container uses the theme variables */
+/* Ensure the root-container uses the theme variables and sticky footer layout */
 .root-container {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   color: var(--text-primary);
   background-color: var(--background-primary);
   transition:
     color 0.3s ease,
     background-color 0.3s ease;
+}
+
+/* Make main content take available space for proper footer positioning */
+main {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 /* Add transitions to all themed elements */
@@ -401,21 +444,70 @@ body {
   background-color: var(--background-primary);
 }
 
-.loadingText {
-  color: var(--clr-neutral-200);
-  font-style: italic;
-  opacity: 0.7;
-  animation: pulse 1.5s infinite;
+/* Universal gradient styles for consistent background across all pages */
+.universal-gradient-container {
+  position: relative;
+  width: 100%;
+  min-height: 70vh;
+  margin-top: var(--gradient-container-margin-top);
+  padding-top: var(--gradient-container-padding-top);
+  overflow: visible;
+  z-index: 0;
 }
 
-@keyframes pulse {
+.universal-gradient-background {
+  position: absolute;
+  top: var(--gradient-top-offset);
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: var(--gradient-height);
+  background: linear-gradient(
+    45deg,
+    var(--gradient-one),
+    var(--gradient-two),
+    var(--gradient-three)
+  );
+  background-size: 400% 400%;
+  z-index: -1;
+  will-change: background-position;
+  animation: universal-bg-animation var(--gradient-timing) ease infinite;
+  -webkit-animation: universal-bg-animation var(--gradient-timing) ease infinite;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  pointer-events: none;
+  transition: background 0.5s ease;
+  opacity: 1;
+}
+
+/* Mobile: Use special height to align with archBlur */
+@media (max-width: 767px) {
+  .universal-gradient-background {
+    height: var(--gradient-height-mobile);
+  }
+}
+
+@media (min-width: 768px) {
+  .universal-gradient-background {
+    height: calc(var(--gradient-height) + 6.25rem);
+    clip-path: polygon(0 0, 100% 0, 100% 75%, 0 100%);
+  }
+}
+
+@media (min-width: 1024px) {
+  .universal-gradient-background {
+    height: calc(var(--gradient-height) + 9.25rem);
+    clip-path: polygon(0 0, 100% 0, 100% 75%, 0 100%);
+  }
+}
+
+@keyframes universal-bg-animation {
   0% {
-    opacity: 0.4;
+    background-position: 0% 50%;
   }
   50% {
-    opacity: 0.7;
+    background-position: 100% 50%;
   }
   100% {
-    opacity: 0.4;
+    background-position: 0% 50%;
   }
 }

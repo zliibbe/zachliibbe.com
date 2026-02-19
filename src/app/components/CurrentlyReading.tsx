@@ -1,9 +1,10 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
-import styles from "./CurrentlyReading.module.css";
-import footerStyles from "./Footer.module.css";
-import { getTimeAgo } from "@/app/utils/index";
+import type React from 'react';
+import { useEffect, useState } from 'react';
+import { getTimeAgo } from '@/app/utils/index';
+import styles from './CurrentlyReading.module.css';
+import footerStyles from './Footer.module.css';
 
 type Book = {
   title: string;
@@ -20,7 +21,11 @@ export default function CurrentlyReading() {
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [debugInfo, setDebugInfo] = useState<any>(null);
+  const [debugInfo, setDebugInfo] = useState<{
+    status: number;
+    statusText: string;
+    rawResponse: string;
+  } | null>(null);
 
   useEffect(() => {
     async function fetchBooks() {
@@ -28,9 +33,7 @@ export default function CurrentlyReading() {
         setLoading(true);
         setError(null);
 
-        const response = await fetch(
-          "/api/goodreads/currently-reading?refresh=true",
-        );
+        const response = await fetch('/api/goodreads/currently-reading');
         const responseText = await response.text();
 
         // Store raw response for debugging
@@ -41,7 +44,7 @@ export default function CurrentlyReading() {
             rawResponse: responseText.substring(0, 500), // First 500 chars for debugging
           });
         } catch (e) {
-          console.error("Error setting debug info:", e);
+          console.error('Error setting debug info:', e);
         }
 
         if (!response.ok) {
@@ -54,9 +57,9 @@ export default function CurrentlyReading() {
           data = JSON.parse(responseText);
           // console.log("Received data from API:", data);
         } catch (parseError) {
-          console.error("Error parsing JSON:", parseError);
+          console.error('Error parsing JSON:', parseError);
           throw new Error(
-            `Invalid JSON response: ${responseText.substring(0, 100)}...`,
+            `Invalid JSON response: ${responseText.substring(0, 100)}...`
           );
         }
 
@@ -64,27 +67,29 @@ export default function CurrentlyReading() {
         let booksArray = [];
         if (Array.isArray(data)) {
           booksArray = data;
-        } else if (data && data.books && Array.isArray(data.books)) {
+        } else if (data?.books && Array.isArray(data.books)) {
           booksArray = data.books;
         } else {
-          console.error("Unexpected data format:", data);
-          throw new Error("No books data received");
+          console.error('Unexpected data format:', data);
+          throw new Error('No books data received');
         }
 
         // Normalize the data to ensure consistent property names
-        const normalizedBooks = booksArray.map((book: any) => {
-          // console.log("Processing book:", book);
-          return {
-            title: book.title,
-            author: book.author,
-            coverImg: book.coverImg || book.cover_url || null,
-            link: book.link || book.url || null,
-            currentPage: book.currentPage || book.current_page || null,
-            totalPages: book.totalPages || book.total_pages || null,
-            lastUpdated: book.lastUpdated || book.last_updated || null,
-            isPercentage: book.isPercentage || false,
-          };
-        });
+        const normalizedBooks = booksArray.map(
+          (book: Record<string, unknown>) => {
+            // console.log("Processing book:", book);
+            return {
+              title: book.title,
+              author: book.author,
+              coverImg: book.coverImg || book.cover_url || null,
+              link: book.link || book.url || null,
+              currentPage: book.currentPage || book.current_page || null,
+              totalPages: book.totalPages || book.total_pages || null,
+              lastUpdated: book.lastUpdated || book.last_updated || null,
+              isPercentage: book.isPercentage || false,
+            };
+          }
+        );
 
         // console.log("normalizedBooks:", normalizedBooks);
 
@@ -99,15 +104,15 @@ export default function CurrentlyReading() {
 
         setBooks(normalizedBooks);
       } catch (err) {
-        console.error("Error fetching currently reading books:", err);
+        console.error('Error fetching currently reading books:', err);
         setError(
-          err instanceof Error ? err.message : "An unknown error occurred",
+          err instanceof Error ? err.message : 'An unknown error occurred'
         );
 
         // Set fallback data for testing
         const fallbackBook: Book = {
-          title: "The Four Winds",
-          author: "Kristin Hannah",
+          title: 'The Four Winds',
+          author: 'Kristin Hannah',
           currentPage: 156,
           totalPages: 464,
           lastUpdated: new Date().toISOString(),
@@ -130,7 +135,7 @@ export default function CurrentlyReading() {
     );
   if (error) {
     // In development, show debug info
-    if (process.env.NODE_ENV === "development" || debugInfo) {
+    if (process.env.NODE_ENV === 'development' || debugInfo) {
       // console.log("Debug info:", debugInfo);
     }
     return <span>Error loading reading progress: {error}</span>;
@@ -144,29 +149,59 @@ export default function CurrentlyReading() {
 
   // console.log("currentBook:", currentBook);
 
+  // Create inline style for cover image if available
+  const coverImageStyle = currentBook?.coverImg
+    ? ({
+        '--cover-image': `url(${currentBook.coverImg})`,
+      } as React.CSSProperties)
+    : undefined;
+
+  // Handle mobile touch: first tap shows cover, second tap follows link
+  const handleTouchStart = (e: React.TouchEvent<HTMLAnchorElement>) => {
+    const target = e.currentTarget;
+    const showCoverClass = styles.showCover || 'showCover';
+    const isShowingCover = target.classList.contains(showCoverClass);
+
+    if (!isShowingCover) {
+      e.preventDefault();
+      target.classList.add(showCoverClass);
+
+      // Hide cover after 3 seconds of inactivity
+      setTimeout(() => {
+        target.classList.remove(showCoverClass);
+      }, 3000);
+    }
+    // If already showing cover, let the link work normally (second tap)
+  };
+
   return (
     <>
-      Currently reading{" "}
-      {currentBook.link ? (
+      Currently reading{' '}
+      {currentBook?.link ? (
         <a
           href={currentBook.link}
           target="_blank"
           rel="noopener noreferrer"
           className={styles.bookTitle}
+          style={coverImageStyle}
+          onTouchStart={handleTouchStart}
         >
-          <strong>{currentBook.title}</strong>
+          <strong>{currentBook?.title}</strong>
         </a>
       ) : (
-        <strong className={styles.bookTitle}>{currentBook.title}</strong>
+        <strong className={styles.bookTitle} style={coverImageStyle}>
+          {currentBook?.title}
+        </strong>
       )}
-      {currentBook.author && <span> by {currentBook.author}</span>}
-      {currentBook.currentPage && currentBook.totalPages && (
+      {currentBook?.author && <span> by {currentBook.author}</span>}
+      {currentBook?.currentPage && currentBook?.totalPages && (
         <span className={styles.readingProgress}>
-          {currentBook.isPercentage
-            ? ` (${currentBook.currentPage}% complete`
-            : ` (on page ${currentBook.currentPage}/${currentBook.totalPages}`}
-          {currentBook.lastUpdated && ` ${getTimeAgo(currentBook.lastUpdated)}`}
-          {")"}
+          {currentBook?.isPercentage
+            ? ` (${currentBook?.currentPage}% complete`
+            : ` (on page ${currentBook?.currentPage}/${currentBook?.totalPages}`}
+          {currentBook?.lastUpdated &&
+            ` ${getTimeAgo(currentBook.lastUpdated)}`}
+          {')'}
         </span>
       )}
     </>

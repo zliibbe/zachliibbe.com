@@ -1,5 +1,5 @@
-import moment from "moment";
-import { kv } from "@vercel/kv";
+import { kv } from '@vercel/kv';
+import moment from 'moment';
 
 // Create a local cache fallback for storage
 const localCache = new Map();
@@ -13,10 +13,10 @@ const localCache = new Map();
  * Scrolls the window to the top with smooth animation
  */
 export function scrollToTop() {
-  let isBrowser = () => typeof window !== "undefined";
+  const isBrowser = () => typeof window !== 'undefined';
 
   if (!isBrowser()) return;
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 /**
@@ -26,9 +26,9 @@ export function scrollToTop() {
  */
 export function formatThemeName(str: string) {
   return str
-    .split("-")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
+    .split('-')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
 }
 
 /**
@@ -38,49 +38,49 @@ export function formatThemeName(str: string) {
  */
 export function numberToWords(num: number): string {
   const ones = [
-    "",
-    "one",
-    "two",
-    "three",
-    "four",
-    "five",
-    "six",
-    "seven",
-    "eight",
-    "nine",
+    '',
+    'one',
+    'two',
+    'three',
+    'four',
+    'five',
+    'six',
+    'seven',
+    'eight',
+    'nine',
   ];
   const teens = [
-    "ten",
-    "eleven",
-    "twelve",
-    "thirteen",
-    "fourteen",
-    "fifteen",
-    "sixteen",
-    "seventeen",
-    "eighteen",
-    "nineteen",
+    'ten',
+    'eleven',
+    'twelve',
+    'thirteen',
+    'fourteen',
+    'fifteen',
+    'sixteen',
+    'seventeen',
+    'eighteen',
+    'nineteen',
   ];
   const tens = [
-    "",
-    "",
-    "twenty",
-    "thirty",
-    "forty",
-    "fifty",
-    "sixty",
-    "seventy",
-    "eighty",
-    "ninety",
+    '',
+    '',
+    'twenty',
+    'thirty',
+    'forty',
+    'fifty',
+    'sixty',
+    'seventy',
+    'eighty',
+    'ninety',
   ];
 
-  if (num < 10) return ones[num];
-  if (num < 20) return teens[num - 10];
+  if (num < 10) return ones[num]!;
+  if (num < 20) return teens[num - 10]!;
 
   const ten = Math.floor(num / 10);
   const one = num % 10;
 
-  return one ? `${tens[ten]}-${ones[one]}` : tens[ten];
+  return one ? `${tens[ten]!}-${ones[one]!}` : tens[ten]!;
 }
 
 /**
@@ -94,7 +94,7 @@ export function numberToWords(num: number): string {
  * @returns Formatted date string (e.g., "Aug 15, 2023")
  */
 export function formatDate(dateString: string): string {
-  if (!dateString) return "Unknown date";
+  if (!dateString) return 'Unknown date';
 
   try {
     // Parse the date using moment
@@ -102,14 +102,14 @@ export function formatDate(dateString: string): string {
 
     // Check if the date is valid
     if (!date.isValid()) {
-      return "Invalid date";
+      return 'Invalid date';
     }
 
     // Format the date (e.g., "Aug 15, 2023")
-    return date.format("MMM D, YYYY");
+    return date.format('MMM D, YYYY');
   } catch (error) {
-    console.error("Error formatting date:", error);
-    return "Date error";
+    console.error('Error formatting date:', error);
+    return 'Date error';
   }
 }
 
@@ -119,13 +119,13 @@ export function formatDate(dateString: string): string {
  * @returns Formatted duration string (e.g., "1h 30m")
  */
 export function formatDuration(seconds: number): string {
-  if (!seconds || seconds <= 0) return "0m";
+  if (!seconds || seconds <= 0) return '0m';
 
   const hours = Math.floor(seconds / 3600);
   const minutes = Math.floor((seconds % 3600) / 60);
 
   if (hours > 0) {
-    return `${hours}h ${minutes > 0 ? `${minutes}m` : ""}`;
+    return `${hours}h ${minutes > 0 ? `${minutes}m` : ''}`;
   }
 
   return `${minutes}m`;
@@ -137,14 +137,14 @@ export function formatDuration(seconds: number): string {
  * @returns Formatted time string (e.g., "5 minutes" or "2h 30m")
  */
 export function formatElapsedTime(seconds: number): string {
-  if (!seconds) return "0 min";
+  if (!seconds) return '0 min';
 
   const minutes = Math.floor(seconds / 60);
   const hours = Math.floor(minutes / 60);
   const remainingMinutes = minutes % 60;
 
   if (hours === 0) {
-    return minutes === 1 ? "1 minute" : `${minutes} minutes`;
+    return minutes === 1 ? '1 minute' : `${minutes} minutes`;
   }
 
   return remainingMinutes > 0 ? `${hours}h ${remainingMinutes}m` : `${hours}h`;
@@ -156,17 +156,17 @@ export function formatElapsedTime(seconds: number): string {
  * @returns Human-readable time ago string (e.g., "2 hours ago")
  */
 export function getTimeAgo(timestamp: number | string): string {
-  if (!timestamp) return "Unknown time";
+  if (!timestamp) return 'Unknown time';
 
   try {
     const now = moment();
     let activityTime;
 
     // Handle different timestamp formats
-    if (typeof timestamp === "number") {
+    if (typeof timestamp === 'number') {
       activityTime = moment.unix(timestamp);
     } else if (
-      typeof timestamp === "object" &&
+      typeof timestamp === 'object' &&
       (timestamp as { start_date?: string }).start_date
     ) {
       // Handle case where an entire activity object was passed
@@ -177,34 +177,34 @@ export function getTimeAgo(timestamp: number | string): string {
     }
 
     if (!activityTime.isValid()) {
-      console.error("Invalid timestamp:", timestamp);
-      return "recently";
+      console.error('Invalid timestamp:', timestamp);
+      return 'recently';
     }
 
     // Check if the activity was yesterday by comparing calendar dates
     const isYesterday =
-      activityTime.format("YYYY-MM-DD") ===
-      moment().subtract(1, "days").format("YYYY-MM-DD");
+      activityTime.format('YYYY-MM-DD') ===
+      moment().subtract(1, 'days').format('YYYY-MM-DD');
 
-    const diffMinutes = now.diff(activityTime, "minutes");
-    const diffHours = now.diff(activityTime, "hours");
-    const diffDays = now.diff(activityTime, "days");
+    const diffMinutes = now.diff(activityTime, 'minutes');
+    const diffHours = now.diff(activityTime, 'hours');
+    const diffDays = now.diff(activityTime, 'days');
 
     // Format based on how long ago
     if (diffMinutes < 60) {
-      return diffMinutes <= 1 ? "just now" : `${diffMinutes} minutes ago`;
+      return diffMinutes <= 1 ? 'just now' : `${diffMinutes} minutes ago`;
     } else if (diffHours < 24 && !isYesterday) {
-      return diffHours === 1 ? "1 hour ago" : `${diffHours} hours ago`;
+      return diffHours === 1 ? '1 hour ago' : `${diffHours} hours ago`;
     } else if (isYesterday || diffDays === 1) {
-      return "yesterday";
+      return 'yesterday';
     } else if (diffDays < 7) {
       return `${diffDays} days ago`;
     } else {
-      return activityTime.format("MMM D");
+      return activityTime.format('MMM D');
     }
   } catch (error) {
-    console.error("Error calculating time ago:", error);
-    return "recently";
+    console.error('Error calculating time ago:', error);
+    return 'recently';
   }
 }
 
@@ -220,7 +220,7 @@ export function getTimeAgo(timestamp: number | string): string {
  * @returns Formatted distance string (e.g., "5.2 mi")
  */
 export function formatDistance(meters: number, decimals: number = 1): string {
-  if (!meters || meters <= 0) return "0 mi";
+  if (!meters || meters <= 0) return '0 mi';
 
   // Convert meters to miles (1 meter = 0.000621371 miles)
   const miles = meters * 0.000621371;
@@ -235,7 +235,7 @@ export function formatDistance(meters: number, decimals: number = 1): string {
  * @returns Formatted distance string (e.g., "5-mile")
  */
 export function formatDistanceToMiles(meters: number): string {
-  if (!meters) return "0 mi";
+  if (!meters) return '0 mi';
   const miles = (meters / 1609.344).toFixed(0);
   return `${miles}-mile`;
 }
@@ -246,7 +246,7 @@ export function formatDistanceToMiles(meters: number): string {
  * @returns Formatted distance string (e.g., "500-yard")
  */
 export function formatDistanceToYards(meters: number): string {
-  if (!meters) return "0 yards";
+  if (!meters) return '0 yards';
   const yards = (meters * 1.094).toFixed(0); // Convert meters to yards
   return `${yards}-yard`;
 }
@@ -277,18 +277,18 @@ export const getStorage = () => {
     try {
       return kv;
     } catch (error) {
-      console.warn("Failed to initialize KV, falling back to local cache");
+      console.warn('Failed to initialize KV, falling back to local cache');
     }
   }
 
   // Fallback to local cache if KV isn't available or we're in development
   if (
-    process.env.ENABLE_LOCAL_CACHE_FALLBACK === "true" ||
-    process.env.NODE_ENV === "development"
+    process.env.ENABLE_LOCAL_CACHE_FALLBACK === 'true' ||
+    process.env.NODE_ENV === 'development'
   ) {
     return {
       get: async (key: string) => localCache.get(key),
-      set: async (key: string, value: any, options?: { ex?: number }) => {
+      set: async (key: string, value: unknown, options?: { ex?: number }) => {
         localCache.set(key, value);
         if (options?.ex) {
           setTimeout(() => localCache.delete(key), options.ex * 1000);
@@ -299,7 +299,7 @@ export const getStorage = () => {
     };
   }
 
-  throw new Error("No storage mechanism available");
+  throw new Error('No storage mechanism available');
 };
 
 /**
@@ -308,9 +308,9 @@ export const getStorage = () => {
  */
 
 // Strava cache constants
-const ACTIVITIES_CACHE_KEY = "strava_activities";
+const ACTIVITIES_CACHE_KEY = 'strava_activities';
 const CACHE_DURATION = 60 * 25; // 25 minutes
-const LATEST_ACTIVITY_CACHE_KEY = "latest_activity";
+const LATEST_ACTIVITY_CACHE_KEY = 'latest_activity';
 const LATEST_ACTIVITY_CACHE_DURATION = 60 * 5; // 5 minutes
 
 /**
@@ -320,7 +320,7 @@ const LATEST_ACTIVITY_CACHE_DURATION = 60 * 5; // 5 minutes
 export async function getStravaAccessToken(): Promise<string> {
   try {
     const storage = getStorage();
-    const STRAVA_TOKEN_CACHE_KEY = "strava_access_token";
+    const STRAVA_TOKEN_CACHE_KEY = 'strava_access_token';
 
     // Check for cached token
     const cachedToken = await storage.get(STRAVA_TOKEN_CACHE_KEY);
@@ -330,13 +330,13 @@ export async function getStravaAccessToken(): Promise<string> {
 
     // If no cached token, use the API route to get a new one
     const refreshTokenUrl = new URL(
-      "/api/refresh-token",
-      process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000",
+      '/api/refresh-token',
+      process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
     ).toString();
 
     const refreshResponse = await fetch(refreshTokenUrl, {
-      method: "POST",
-      cache: "no-store",
+      method: 'POST',
+      cache: 'no-store',
     });
 
     if (!refreshResponse.ok) {
@@ -359,8 +359,8 @@ export async function getStravaAccessToken(): Promise<string> {
 
     return accessToken;
   } catch (error) {
-    console.error("Error getting Strava access token:", error);
-    throw new Error("Failed to get Strava access token");
+    console.error('Error getting Strava access token:', error);
+    throw new Error('Failed to get Strava access token');
   }
 }
 
@@ -368,7 +368,7 @@ export async function getStravaAccessToken(): Promise<string> {
  * Fetches Strava activities directly from the API
  * @returns Promise with array of Strava activities
  */
-export async function fetchStravaActivities(): Promise<any[]> {
+export async function fetchStravaActivities(): Promise<unknown[]> {
   const accessToken = await getStravaAccessToken();
 
   // Get activities from the past year
@@ -380,22 +380,22 @@ export async function fetchStravaActivities(): Promise<any[]> {
   const response = await fetch(activitiesUrl, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
-    cache: "no-store",
+    cache: 'no-store',
   });
 
   if (!response.ok) {
     const errorText = await response.text();
     throw new Error(
-      `Failed to fetch activities: ${response.status} - ${errorText}`,
+      `Failed to fetch activities: ${response.status} - ${errorText}`
     );
   }
 
   const activities = await response.json();
   if (!activities) {
-    throw new Error("No activities found");
+    throw new Error('No activities found');
   }
 
   return activities;
@@ -405,7 +405,7 @@ export async function fetchStravaActivities(): Promise<any[]> {
  * Gets Strava activities with caching
  * @returns Promise with array of Strava activities
  */
-export async function getStravaActivities(): Promise<any[]> {
+export async function getStravaActivities(): Promise<unknown[]> {
   try {
     const storage = getStorage();
     const cachedData = await storage.get(ACTIVITIES_CACHE_KEY);
@@ -416,7 +416,9 @@ export async function getStravaActivities(): Promise<any[]> {
 
       // If the latest activity is newer than what's in our cache, refresh the cache
       if (
-        !cachedData.some((activity: any) => activity.id === latestActivity.id)
+        !cachedData.some(
+          (activity: { id: number }) => activity.id === latestActivity.id
+        )
       ) {
         const freshActivities = await fetchStravaActivities();
         await storage.set(ACTIVITIES_CACHE_KEY, freshActivities, {
@@ -425,7 +427,7 @@ export async function getStravaActivities(): Promise<any[]> {
         return freshActivities;
       }
 
-      return cachedData as any[];
+      return cachedData as unknown[];
     }
 
     const activities = await fetchStravaActivities();
@@ -436,11 +438,11 @@ export async function getStravaActivities(): Promise<any[]> {
     });
 
     return activities;
-  } catch (error: any) {
-    console.error("Storage error:", error);
+  } catch (error: unknown) {
+    console.error('Storage error:', error);
 
     // If cache error, try fetching fresh data
-    if (error.message?.includes("KV")) {
+    if (error instanceof Error && error.message?.includes('KV')) {
       return await fetchStravaActivities();
     }
 
@@ -454,31 +456,38 @@ export async function getStravaActivities(): Promise<any[]> {
  * @param signal - Optional AbortSignal for timeout handling
  * @returns Promise with the latest Strava activity
  */
-export async function fetchLatestActivity(signal?: AbortSignal): Promise<any> {
+export async function fetchLatestActivity(signal?: AbortSignal): Promise<{
+  id: number;
+  type: string;
+  name: string;
+  distance: number;
+  elapsed_time: number;
+  start_date: string;
+}> {
   // Get a fresh access token
   const accessToken = await getStravaAccessToken();
 
   // Fetch the latest activity with timeout signal
   const response = await fetch(
-    "https://www.strava.com/api/v3/athlete/activities?per_page=1",
+    'https://www.strava.com/api/v3/athlete/activities?per_page=1',
     {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
       signal, // Pass the AbortSignal for timeout handling
-    },
+    }
   );
 
   if (!response.ok) {
     throw new Error(
-      `Strava API error: ${response.status} ${response.statusText}`,
+      `Strava API error: ${response.status} ${response.statusText}`
     );
   }
 
   const activities = await response.json();
 
   if (!activities || activities.length === 0) {
-    throw new Error("No activities found");
+    throw new Error('No activities found');
   }
 
   return activities[0];
@@ -491,13 +500,13 @@ export async function fetchLatestActivity(signal?: AbortSignal): Promise<any> {
  * @returns A properly formatted Goodreads URL
  */
 export function cleanGoodreadsUrl(url: string, title?: string): string {
-  if (!url) return "#";
+  if (!url) return '#';
 
   // Case 1: Handle review URLs from RSS feeds
-  if (url.includes("goodreads.com/review/show/")) {
+  if (url.includes('goodreads.com/review/show/')) {
     // Extract the review ID from the URL
     const reviewIdMatch = url.match(/\/review\/show\/(\d+)/);
-    if (reviewIdMatch && reviewIdMatch[1]) {
+    if (reviewIdMatch?.[1]) {
       // Option 1: Use the Goodreads search API with the title
       if (title) {
         // Create a search URL that will redirect to the book page
@@ -507,7 +516,7 @@ export function cleanGoodreadsUrl(url: string, title?: string): string {
   }
 
   // Case 2: Handle book URLs that already have the correct format
-  if (url.includes("goodreads.com/book/show/")) {
+  if (url.includes('goodreads.com/book/show/')) {
     // Extract just the book ID and slug part, removing query parameters
     const match = url.match(/\/book\/show\/([^?]+)/);
     if (match) {

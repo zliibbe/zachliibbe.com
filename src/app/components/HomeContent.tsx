@@ -1,8 +1,7 @@
-"use client";
+'use client';
 
-import React from "react";
-import { useTheme } from "../context/ThemeContext";
-import styles from "../page.module.css";
+import type React from 'react';
+import { useTheme } from '../context/ThemeContext';
 
 export default function HomeContent({
   children,
