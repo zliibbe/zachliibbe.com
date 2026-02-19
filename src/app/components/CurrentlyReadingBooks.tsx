@@ -27,6 +27,10 @@ export default function CurrentlyReadingBooks() {
           cache: 'no-store',
         });
 
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
         const data = await response.json();
 
         if (Array.isArray(data) && data.length > 0) {
@@ -64,7 +68,7 @@ export default function CurrentlyReadingBooks() {
 
   const getProgressLabel = (book: CurrentlyReadingBook): string | null => {
     if (book.isPercentage && book.currentPage != null) {
-      return `${book.currentPage}% complete`;
+      return `${Math.min(book.currentPage, 100)}% complete`;
     }
     if (book.currentPage != null && book.totalPages) {
       return `Page ${book.currentPage} of ${book.totalPages}`;
@@ -94,7 +98,7 @@ export default function CurrentlyReadingBooks() {
         const progressLabel = getProgressLabel(book);
 
         return (
-          <div key={book.title + book.author} className={styles.bookCard}>
+          <div key={`${book.title}||${book.author}`} className={styles.bookCard}>
             <a
               href={book.link || '#'}
               target="_blank"
