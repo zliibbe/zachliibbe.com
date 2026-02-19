@@ -362,17 +362,17 @@ No emojis in commit titles. No `Co-Authored-By` lines.
 
 ### Core Commit Types
 
-| Type       | Description              | Example                                              |
-| ---------- | ------------------------ | ---------------------------------------------------- |
-| `feat`     | New features             | `feat(auth): add JWT token validation middleware`    |
-| `fix`      | Bug fixes                | `fix(api): resolve race condition in user lookup`    |
-| `docs`     | Documentation changes    | `docs: update README with installation steps`        |
-| `style`    | Code style/formatting    | `style(css): improve button hover animations`        |
-| `refactor` | Code restructuring       | `refactor(utils): simplify error handling logic`     |
-| `perf`     | Performance improvements | `perf(api): optimize database query caching`         |
-| `test`     | Adding/fixing tests      | `test(auth): add unit tests for login validation`    |
-| `chore`    | Tooling/configuration    | `chore: update ESLint configuration`                 |
-| `ci`       | CI/CD changes            | `ci: add Claude-powered Bug Bot workflow`            |
+| Type       | Description              | Example                                           |
+| ---------- | ------------------------ | ------------------------------------------------- |
+| `feat`     | New features             | `feat(auth): add JWT token validation middleware` |
+| `fix`      | Bug fixes                | `fix(api): resolve race condition in user lookup` |
+| `docs`     | Documentation changes    | `docs: update README with installation steps`     |
+| `style`    | Code style/formatting    | `style(css): improve button hover animations`     |
+| `refactor` | Code restructuring       | `refactor(utils): simplify error handling logic`  |
+| `perf`     | Performance improvements | `perf(api): optimize database query caching`      |
+| `test`     | Adding/fixing tests      | `test(auth): add unit tests for login validation` |
+| `chore`    | Tooling/configuration    | `chore: update ESLint configuration`              |
+| `ci`       | CI/CD changes            | `ci: add Claude-powered Bug Bot workflow`         |
 
 ### Scope Examples
 
