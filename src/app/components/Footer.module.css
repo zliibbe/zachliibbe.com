@@ -273,6 +273,7 @@ html[data-theme='dark'] .stravaLink {
   justify-content: center;
   gap: 0.5rem;
   margin-top: 1rem;
+  user-select: none;
 }
 
 .techLink {

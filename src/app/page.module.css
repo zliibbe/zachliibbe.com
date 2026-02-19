@@ -60,6 +60,7 @@
   justify-content: center;
   align-content: center;
   padding: 0 1rem;
+  user-select: none;
 }
 
 .homeImage {
