@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useState, useRef, useCallback } from 'react';
 import matter from 'gray-matter';
+import type React from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { markdownToHtml } from '@/lib/markdown';
-import { BlogPost } from '@/types/blog';
+import type { BlogPost } from '@/types/blog';
 import styles from './MarkdownEditor.module.css';
 import Modal from './Modal';
 import SeoPreview from './SeoPreview';

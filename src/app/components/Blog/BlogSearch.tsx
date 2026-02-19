@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useRef } from 'react';
+import type React from 'react';
+import { useRef } from 'react';
 import { analytics } from '@/app/utils/analytics';
 
 interface BlogSearchProps {
@@ -34,7 +35,7 @@ export default function BlogSearch({
     const formData = new FormData(e.currentTarget);
     const query = formData.get('search') as string;
 
-    if (query && query.trim() && analytics.isEnabled()) {
+    if (query?.trim() && analytics.isEnabled()) {
       analytics.trackSearch(query.trim(), resultsCount);
     }
   };

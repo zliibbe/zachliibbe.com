@@ -1,7 +1,7 @@
-import styles from './page.module.css';
-import EmailCopy from './EmailCopy';
+import type { Metadata } from 'next';
 import Footer from '../components/Footer';
-import { Metadata } from 'next';
+import EmailCopy from './EmailCopy';
+import styles from './page.module.css';
 
 export default function Contact() {
   return (

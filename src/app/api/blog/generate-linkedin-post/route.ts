@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 
 interface LinkedInPostRequest {
   slug: string;
@@ -206,7 +206,7 @@ function generateValueStatement(excerpt: string, category: string): string {
     const sentences = statement.split('. ');
     statement = sentences[0]!;
     if (statement.length > 150) {
-      statement = statement.substring(0, 147) + '...';
+      statement = `${statement.substring(0, 147)}...`;
     } else {
       statement += '.';
     }

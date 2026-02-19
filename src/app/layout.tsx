@@ -1,16 +1,16 @@
 import { Lexend, Roboto_Mono } from 'next/font/google';
 import './globals.css';
-import Header from './components/Header';
-import React from 'react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ThemeProvider } from './context/ThemeContext';
-import { Metadata } from 'next';
 import Script from 'next/script';
-import Analytics from './components/Analytics';
-import AuthProvider from '@/lib/auth-provider';
+import type React from 'react';
 import ChatProvider from '@/components/chat/ChatProvider';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
-import { SpeedInsights } from '@vercel/speed-insights/next';
+import AuthProvider from '@/lib/auth-provider';
+import Analytics from './components/Analytics';
+import Header from './components/Header';
+import { ThemeProvider } from './context/ThemeContext';
 
 const robotoMono = Roboto_Mono({
   subsets: ['latin'],

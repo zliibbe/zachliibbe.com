@@ -1,7 +1,7 @@
-import { useState, useEffect, useCallback } from 'react';
-import { BlogPost } from '@/types/blog';
-import Modal from './Modal';
+import { useCallback, useEffect, useState } from 'react';
+import type { BlogPost } from '@/types/blog';
 import styles from './LinkedInPostModal.module.css';
+import Modal from './Modal';
 
 interface LinkedInPostModalProps {
   isOpen: boolean;

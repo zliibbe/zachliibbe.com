@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Metadata } from 'next';
+import { useEffect, useState } from 'react';
 import styles from './page.module.css';
 
 interface UnsplashStatus {

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useRef } from 'react';
+import { useCallback, useState } from 'react';
 import { analytics } from '@/app/utils/analytics';
 
 export interface ChatMessage {

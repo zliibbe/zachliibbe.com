@@ -18,7 +18,7 @@
 }
 
 .heading::before {
-  content: '🔍';
+  content: "🔍";
   font-size: 1rem;
 }
 
@@ -130,7 +130,7 @@
   font-size: 0.8125rem;
   margin-bottom: 0.125rem;
   font-family:
-    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 .twitterTitle {
@@ -140,7 +140,7 @@
   line-height: 1.25;
   margin-bottom: 0.125rem;
   font-family:
-    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 .twitterDescription {
@@ -148,7 +148,7 @@
   font-size: 0.9375rem;
   line-height: 1.25;
   font-family:
-    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 /* LinkedIn Card Preview */
@@ -192,7 +192,7 @@
   line-height: 1.25;
   margin-bottom: 0.25rem;
   font-family:
-    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 .linkedinDescription {
@@ -201,7 +201,7 @@
   line-height: 1.33;
   margin-bottom: 0.5rem;
   font-family:
-    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 .linkedinDomain {
@@ -209,7 +209,7 @@
   font-size: 0.75rem;
   text-transform: lowercase;
   font-family:
-    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 /* SEO Metrics */
@@ -284,19 +284,19 @@
   margin-bottom: 0;
 }
 
-.recommendation[data-type='warning'] {
+.recommendation[data-type="warning"] {
   background: #fef2f2;
   border-left-color: #ef4444;
   color: #b91c1c;
 }
 
-.recommendation[data-type='tip'] {
+.recommendation[data-type="tip"] {
   background: #fefbeb;
   border-left-color: #f59e0b;
   color: #92400e;
 }
 
-.recommendation[data-type='success'] {
+.recommendation[data-type="success"] {
   background: #f0fdf4;
   border-left-color: #10b981;
   color: #065f46;

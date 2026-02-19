@@ -1,8 +1,8 @@
-import { getServerSession } from 'next-auth/next';
-import { NextAuthOptions } from 'next-auth';
-import GoogleProvider from 'next-auth/providers/google';
 import { UpstashRedisAdapter } from '@next-auth/upstash-redis-adapter';
 import { kv } from '@vercel/kv';
+import type { NextAuthOptions } from 'next-auth';
+import { getServerSession } from 'next-auth/next';
+import GoogleProvider from 'next-auth/providers/google';
 
 // Dynamic URL configuration for OAuth
 function getBaseUrl() {

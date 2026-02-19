@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
 import { createClient } from '@vercel/kv';
+import { NextResponse } from 'next/server';
 
 // Create KV client with the new environment variables
 const kv = createClient({

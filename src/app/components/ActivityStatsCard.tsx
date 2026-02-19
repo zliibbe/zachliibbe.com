@@ -1,12 +1,11 @@
 'use client';
 
-import React from 'react';
-import styles from './ActivityStatsCard.module.css';
 import {
   formatDistanceToMiles,
   formatDistanceToYards,
   formatElapsedTime,
 } from '@/app/utils/index';
+import styles from './ActivityStatsCard.module.css';
 
 interface ActivityStatsCardProps {
   activity: {

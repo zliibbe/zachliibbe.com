@@ -86,7 +86,7 @@
   font-size: 0.875rem;
 }
 
-.toggleLabel input[type='checkbox'] {
+.toggleLabel input[type="checkbox"] {
   accent-color: var(--linkedInColor);
 }
 

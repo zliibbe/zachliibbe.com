@@ -1,16 +1,16 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Session } from 'next-auth';
-import Link from 'next/link';
 import Image from 'next/image';
-import { MdOpenInNew, MdCreate, MdHourglassEmpty } from 'react-icons/md';
-import { BlogPost, FeaturedImage } from '@/types/blog';
-import MarkdownEditor from './MarkdownEditor';
-import ImageModal, { ImageOption } from './ImageModal';
-import LinkedInPostModal from './LinkedInPostModal';
-import Modal from './Modal';
+import Link from 'next/link';
+import type { Session } from 'next-auth';
+import { useEffect, useState } from 'react';
+import { MdCreate, MdHourglassEmpty, MdOpenInNew } from 'react-icons/md';
+import type { BlogPost, FeaturedImage } from '@/types/blog';
 import styles from './BlogAdmin.module.css';
+import ImageModal, { type ImageOption } from './ImageModal';
+import LinkedInPostModal from './LinkedInPostModal';
+import MarkdownEditor from './MarkdownEditor';
+import Modal from './Modal';
 
 interface BlogAdminProps {
   session: Session;
@@ -70,7 +70,7 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
     try {
       setLoading(true);
       // Add cache busting to ensure fresh data
-      const timestamp = new Date().getTime();
+      const timestamp = Date.now();
       const response = await fetch(`/api/admin/blog/posts?t=${timestamp}`, {
         cache: 'no-store',
         headers: {
@@ -800,7 +800,7 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
                               >
                                 {post.status.toUpperCase()}
                               </span>
-                              {post.featuredImage && post.featuredImage.url && (
+                              {post.featuredImage?.url && (
                                 <span
                                   className={styles.imageIndicator}
                                   title="Has featured image"

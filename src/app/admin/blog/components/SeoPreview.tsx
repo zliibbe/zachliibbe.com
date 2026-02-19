@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import styles from './SeoPreview.module.css';
 
 interface BlogPost {
@@ -22,7 +21,7 @@ export default function SeoPreview({ post }: SeoPreviewProps) {
   const getMetaDescription = () => {
     if (post.excerpt.trim()) {
       return post.excerpt.length > 160
-        ? post.excerpt.slice(0, 157) + '...'
+        ? `${post.excerpt.slice(0, 157)}...`
         : post.excerpt;
     }
 
@@ -37,7 +36,7 @@ export default function SeoPreview({ post }: SeoPreviewProps) {
       .replace(/\n/g, ' ') // Replace newlines with spaces
       .trim();
 
-    return plainText.length > 160 ? plainText.slice(0, 157) + '...' : plainText;
+    return plainText.length > 160 ? `${plainText.slice(0, 157)}...` : plainText;
   };
 
   // Generate page title for SEO

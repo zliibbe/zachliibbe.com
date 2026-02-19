@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { processScheduledPublications } from '@/lib/blog-storage';
 import { revalidatePath } from 'next/cache';
+import { type NextRequest, NextResponse } from 'next/server';
+import { processScheduledPublications } from '@/lib/blog-storage';
 
 // No IP allowlist: Vercel IPs can change. Use secret-based auth only.
 
@@ -15,7 +15,7 @@ function isValidCronRequest(request: NextRequest): boolean {
   }
 
   const authHeader = request.headers.get('authorization');
-  if (authHeader && authHeader.startsWith('Bearer ')) {
+  if (authHeader?.startsWith('Bearer ')) {
     const token = authHeader.substring('Bearer '.length).trim();
     if (token === cronSecret) {
       return true;

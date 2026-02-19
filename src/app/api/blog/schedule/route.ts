@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/lib/auth';
-import { schedulePost, getPostBySlug } from '@/lib/blog-storage';
+import { getPostBySlug, schedulePost } from '@/lib/blog-storage';
 
 export async function POST(request: NextRequest) {
   try {
@@ -85,7 +85,7 @@ export async function POST(request: NextRequest) {
 
     // Validate scheduled date format and future date
     const scheduledDate = new Date(scheduledFor);
-    if (isNaN(scheduledDate.getTime())) {
+    if (Number.isNaN(scheduledDate.getTime())) {
       return NextResponse.json(
         { error: 'Invalid scheduledFor date format. Use ISO 8601 format.' },
         { status: 400 }

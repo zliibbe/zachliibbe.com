@@ -1,13 +1,13 @@
-import { NextRequest, NextResponse } from 'next/server';
+import fs from 'node:fs';
+import path from 'node:path';
+import { type NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import {
   getAllDrafts,
-  getAllScheduledPosts,
   getAllPublishedPosts,
+  getAllScheduledPosts,
 } from '@/lib/blog-storage';
-import fs from 'fs';
-import path from 'path';
 
 export async function GET(request: NextRequest) {
   try {

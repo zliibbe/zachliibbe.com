@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
-import styles from './PrimaryNav.module.css';
 import { usePathname } from 'next/navigation';
+import styles from './PrimaryNav.module.css';
 
 export default function PrimaryNav() {
   const pathname = usePathname();

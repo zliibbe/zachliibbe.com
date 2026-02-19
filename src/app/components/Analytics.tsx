@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, Suspense } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
+import { Suspense, useEffect } from 'react';
 import { analytics } from '../utils/analytics';
 
 /**

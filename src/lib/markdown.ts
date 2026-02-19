@@ -120,6 +120,6 @@ export function generateExcerpt(
   const lastSpace = truncated.lastIndexOf(' ');
 
   return lastSpace > 0
-    ? truncated.slice(0, lastSpace) + '...'
-    : truncated + '...';
+    ? `${truncated.slice(0, lastSpace)}...`
+    : `${truncated}...`;
 }

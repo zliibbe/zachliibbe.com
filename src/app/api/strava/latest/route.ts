@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
 import { kv } from '@vercel/kv';
+import { NextResponse } from 'next/server';
 import { getAccessToken } from '@/lib/strava/auth';
 
 export const dynamic = 'force-dynamic';

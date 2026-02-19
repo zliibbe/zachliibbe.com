@@ -1,8 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import Modal from './Modal';
 import styles from './ImageModal.module.css';
+import Modal from './Modal';
 
 export interface ImageOption {
   id: string;
@@ -159,8 +159,7 @@ export default function ImageModal({
                 </div>
                 <p className={styles.successDetails}>
                   📸 {image.alt}
-                  <br />
-                  📷 Photo by {image.attribution.text}
+                  <br />📷 Photo by {image.attribution.text}
                 </p>
               </>
             )}

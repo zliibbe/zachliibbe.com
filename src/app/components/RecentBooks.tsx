@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import styles from '../live-feed/LiveFeed.module.css';
+import { useEffect, useState } from 'react';
 import { FaStar, FaStarHalf } from 'react-icons/fa6';
-import { formatDate, cleanGoodreadsUrl } from '@/app/utils/index';
+import { cleanGoodreadsUrl, formatDate } from '@/app/utils/index';
+import styles from '../live-feed/LiveFeed.module.css';
 
 interface Book {
   title: string;

@@ -131,7 +131,7 @@
   background: var(--background-primary);
   color: var(--text-primary);
   font-family:
-    'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New',
+    "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New",
     monospace;
   font-size: var(--fs-300);
   line-height: 1.6;
@@ -220,7 +220,7 @@
   padding: 0.125rem 0.25rem;
   border-radius: 3px;
   font-family:
-    'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New',
+    "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New",
     monospace;
   font-size: 0.9em;
   color: var(--text-primary);

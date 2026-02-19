@@ -1,7 +1,7 @@
-import { promises as fs } from 'fs';
-import path from 'path';
+import { promises as fs } from 'node:fs';
+import path from 'node:path';
 import { chunkText, generateEmbeddings } from './embeddings';
-import { upsertVectors, KnowledgeVector } from './pinecone';
+import { type KnowledgeVector, upsertVectors } from './pinecone';
 
 export interface KnowledgeFile {
   filename: string;

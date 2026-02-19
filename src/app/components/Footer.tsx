@@ -1,30 +1,28 @@
 'use client';
 
-import React from 'react';
-import { useEffect, useState } from 'react';
-import styles from './Footer.module.css';
+import moment from 'moment';
 import Image from 'next/image';
 import Link from 'next/link';
-import { analytics } from '../utils/analytics';
 import { useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
 import {
+  FaEnvelope,
   FaGithub,
   FaGoodreads,
-  FaStrava,
   FaLinkedin,
-  FaEnvelope,
+  FaStrava,
 } from 'react-icons/fa6';
-import moment from 'moment';
-import CurrentlyReading from './CurrentlyReading';
-import ActivityStatsCard from './ActivityStatsCard';
 import { useTheme } from '@/app/context/ThemeContext';
 import {
   formatDistanceToMiles,
   formatDistanceToYards,
   formatElapsedTime,
   getTimeAgo,
-  numberToWords,
 } from '@/app/utils/index';
+import { analytics } from '../utils/analytics';
+import ActivityStatsCard from './ActivityStatsCard';
+import CurrentlyReading from './CurrentlyReading';
+import styles from './Footer.module.css';
 
 type Book = {
   title: string;
@@ -103,7 +101,7 @@ export default function Footer() {
       let booksArray = [];
       if (Array.isArray(data)) {
         booksArray = data;
-      } else if (data && data.books && Array.isArray(data.books)) {
+      } else if (data?.books && Array.isArray(data.books)) {
         booksArray = data.books;
       } else {
         throw new Error('No books data received');

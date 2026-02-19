@@ -1,12 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
+import { type NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/lib/auth';
-import {
-  publishDraft,
-  getPostBySlug,
-  updateBlogPost,
-} from '@/lib/blog-storage';
-import { revalidatePath } from 'next/cache';
+import { getPostBySlug, updateBlogPost } from '@/lib/blog-storage';
 
 export async function POST(request: NextRequest) {
   try {

@@ -66,13 +66,13 @@
 }
 
 /* Dark mode adjustments */
-html[data-theme='dark'] .statsCard {
+html[data-theme="dark"] .statsCard {
   background: var(--background-secondary);
   border-color: var(--clr-neutral-400);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
-html[data-theme='dark'] .header {
+html[data-theme="dark"] .header {
   border-bottom-color: var(--clr-neutral-400);
 }
 

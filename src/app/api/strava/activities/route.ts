@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
 import { kv } from '@vercel/kv';
+import { NextResponse } from 'next/server';
 import { getAccessToken } from '@/lib/strava/auth';
 import type { StravaActivity } from '@/lib/strava/types';
 
@@ -26,7 +26,7 @@ export async function GET(request: Request) {
     // Get parameters from the request
     const url = new URL(request.url);
     const days = url.searchParams.get('days')
-      ? parseInt(url.searchParams.get('days')!)
+      ? parseInt(url.searchParams.get('days')!, 10)
       : 365;
 
     // Calculate the timestamp for 'days' ago

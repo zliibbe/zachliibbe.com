@@ -6,7 +6,7 @@
 
 /* Vertical timeline line — fades out toward the bottom */
 .timelineContainer::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0.5rem;
   top: 0;
@@ -184,7 +184,7 @@
 }
 
 .contractBadge::before {
-  content: '\2713';
+  content: "\2713";
   font-size: 0.7rem;
 }
 
@@ -231,7 +231,7 @@
 }
 
 .subTaskItem:before {
-  content: '- ';
+  content: "- ";
   position: absolute;
   left: 0;
 }

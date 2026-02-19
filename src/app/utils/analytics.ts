@@ -1,9 +1,4 @@
-import {
-  GAEvent,
-  GAConfig,
-  GAPageView,
-  GACustomEvent,
-} from '@/types/analytics';
+import type { GAConfig, GACustomEvent, GAPageView } from '@/types/analytics';
 
 // Configuration (single responsibility)
 const getConfig = (): GAConfig => ({

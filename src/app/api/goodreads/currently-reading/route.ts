@@ -1,6 +1,6 @@
-import { NextResponse } from 'next/server';
 import { kv } from '@vercel/kv';
 import { XMLParser } from 'fast-xml-parser';
+import { NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
 const CACHE_KEY = 'goodreads_currently_reading';

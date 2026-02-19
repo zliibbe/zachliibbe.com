@@ -1,4 +1,4 @@
-import { spawnSync } from 'child_process';
+import { spawnSync } from 'node:child_process';
 
 const CLAUDE_API_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-sonnet-4-6';
@@ -53,7 +53,7 @@ async function reviewWithClaude(diff: string): Promise<string> {
 
   const truncated = diff.length > MAX_DIFF_CHARS;
   const diffContent = truncated
-    ? diff.slice(0, MAX_DIFF_CHARS) + '\n\n[diff truncated]'
+    ? `${diff.slice(0, MAX_DIFF_CHARS)}\n\n[diff truncated]`
     : diff;
 
   const systemPrompt = `You are a senior code reviewer for a Next.js 15 / TypeScript / React portfolio site.

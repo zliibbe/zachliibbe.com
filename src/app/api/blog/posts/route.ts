@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/lib/auth';
-import { getAllPosts, createBlogPost } from '@/lib/blog-storage';
+import { createBlogPost, getAllPosts } from '@/lib/blog-storage';
 
 export async function GET(request: NextRequest) {
   try {

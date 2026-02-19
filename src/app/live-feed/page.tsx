@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import styles from './LiveFeed.module.css';
+import { useEffect, useState } from 'react';
+import type { StravaActivity } from '@/lib/strava/types';
 import ActivityGrid from '../components/ActivityGrid';
-import RecentBooks from '../components/RecentBooks';
-import RecentAudiobooks from '../components/RecentAudiobooks';
-import { StravaActivity } from '@/lib/strava/types';
 import Footer from '../components/Footer';
+import RecentAudiobooks from '../components/RecentAudiobooks';
+import RecentBooks from '../components/RecentBooks';
+import styles from './LiveFeed.module.css';
 
 export default function LiveFeedPage() {
   const [activities, setActivities] = useState<StravaActivity[]>([]);
