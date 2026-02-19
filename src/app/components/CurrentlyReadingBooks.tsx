@@ -58,7 +58,7 @@ export default function CurrentlyReadingBooks() {
 
   const getProgress = (book: CurrentlyReadingBook): number | null => {
     if (book.isPercentage && book.currentPage != null) {
-      return book.currentPage;
+      return Math.min(book.currentPage, 100);
     }
     if (book.currentPage != null && book.totalPages) {
       return Math.round((book.currentPage / book.totalPages) * 100);
@@ -83,7 +83,11 @@ export default function CurrentlyReadingBooks() {
     return <p className={styles.loadingText}>Loading currently reading...</p>;
   }
 
-  if (error || books.length === 0) {
+  if (error) {
+    return <p className={styles.emptyText}>Could not load currently reading.</p>;
+  }
+
+  if (books.length === 0) {
     return (
       <p className={styles.emptyText}>
         Nothing in the queue right now. ¯\_(ツ)_/¯{' '}
@@ -98,7 +102,7 @@ export default function CurrentlyReadingBooks() {
         const progressLabel = getProgressLabel(book);
 
         return (
-          <div key={`${book.title}||${book.author}`} className={styles.bookCard}>
+          <div key={book.link || `${book.title}||${book.author}`} className={styles.bookCard}>
             <a
               href={book.link || '#'}
               target="_blank"
