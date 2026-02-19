@@ -852,9 +852,9 @@ The Activities grid on `/live-feed` page is displaying black squares instead of 
 
 ---
 
-### Phase 14: Migrate ESLint + Prettier → Biome
+### Phase 14: Migrate ESLint + Prettier → Biome ✅ (100% Complete)
 
-**Status:** Pending
+**Status:** Complete
 **Priority:** MEDIUM — toolchain modernization, faster linting/formatting
 
 **Motivation:**
@@ -863,13 +863,13 @@ The Activities grid on `/live-feed` page is displaying black squares instead of 
 - Next.js 16 ESLint Flat Config is now default; good time to consolidate
 
 **Technical Requirements:**
-- [ ] Install `@biomejs/biome` and initialize `biome.json`
-- [ ] Migrate ESLint rules to Biome equivalents
-- [ ] Migrate Prettier config (`.prettierrc`) to Biome formatter settings
-- [ ] Update `package.json` scripts: replace `lint` and `format` / `format:fix`
-- [ ] Remove `eslint`, `eslint-config-next`, `eslint-plugin-prettier`, `eslint-config-prettier`, `prettier` from dependencies
-- [ ] Update `CLAUDE.md` and `README.md` to reflect new toolchain
-- [ ] Verify Bug Bot CI still works (uses `bun run lint` indirectly)
+- [x] Install `@biomejs/biome` and initialize `biome.json`
+- [x] Migrate ESLint rules to Biome equivalents
+- [x] Migrate Prettier config (`.prettierrc`) to Biome formatter settings
+- [x] Update `package.json` scripts: replace `lint` and `format` / `format:fix`
+- [x] Remove `eslint`, `eslint-config-next`, `eslint-plugin-prettier`, `eslint-config-prettier`, `prettier` from dependencies
+- [x] Update `CLAUDE.md` and `README.md` to reflect new toolchain
+- [x] Applied 158 auto-fixes across 111 files; 87 warnings remain (pre-existing a11y issues)
 
 ---
 
@@ -919,6 +919,39 @@ Currently `/live-feed` shows completed books ("Read" shelf) and audiobooks ("Lis
 - [ ] Add test run step to Bug Bot workflow (or separate CI workflow)
 - [ ] Ensure `bun run test` passes cleanly in CI
 - [ ] Update `README.md` with testing instructions
+
+---
+
+### Phase 18: Create AGENTS.md — Claude Code Agent Strategy
+
+**Status:** Pending
+**Priority:** MEDIUM — establish best practices for Claude Code subagent usage
+
+**Motivation:**
+Claude Code supports specialized subagents (Bash, Explore, Plan, general-purpose, etc.). An `AGENTS.md` file documents the intended agent strategy for this project, helping Claude Code pick the right agent for the right task and ensuring consistent, token-efficient workflows.
+
+**Scope:**
+- [ ] Brainstorm which tasks in this codebase benefit most from specialized agents
+- [ ] Define when to use: Explore agent (codebase search), Plan agent (architecture), Bash agent (CI/git), general-purpose (complex multi-step research)
+- [ ] Document project-specific conventions (e.g. "use Explore before editing any CSS", "always use Plan for new features touching > 3 files")
+- [ ] Create `AGENTS.md` at the project root with finalized agent usage guidelines
+- [ ] Reference `AGENTS.md` from `CLAUDE.md`
+
+---
+
+### Phase 19: Fix `useButtonType` a11y Warnings
+
+**Status:** Pending
+**Priority:** LOW — 60 buttons across the codebase missing explicit `type` attribute
+
+**Motivation:**
+Biome's `useButtonType` rule flags buttons without an explicit `type="button"` (or `type="submit"` / `type="reset"`). Omitting `type` defaults to `type="submit"`, which can accidentally submit forms. These are pre-existing a11y issues surfaced by the Biome migration.
+
+**Scope:**
+- [ ] Run `bunx biome check . --max-diagnostics=500 2>&1 | grep useButtonType` to list all affected files
+- [ ] Add `type="button"` to non-form-submitting buttons; `type="submit"` where intentional
+- [ ] Upgrade `useButtonType` from `"warn"` back to `"error"` in `biome.json` after fixes
+- [ ] Verify `bun run check` passes with 0 errors
 
 ---
 
