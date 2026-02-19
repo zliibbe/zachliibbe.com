@@ -1,5 +1,54 @@
 # Development Session Log
 
+## Session 2026-02-13
+
+**Date**: 2026-02-13
+**Time**: Brief Session
+**Branch**: fix/dependabot-vulnerabilities (PR #112 open)
+**Session Focus**: Homebrew Update Discussion & Security Vulnerability Review
+
+### Session Context
+
+- **Previous State**: Main branch clean after work page polish (PR #111, v2.9.0)
+- **User Request**: Clarify Claude Code Homebrew update notification discrepancy
+- **Branch**: `fix/dependabot-vulnerabilities` with 2 security commits (pre-existing from earlier work)
+- **Version**: 2.9.1
+
+### Key Discussion
+
+#### Claude Code Homebrew Update Notification
+
+- User noticed "Update available" in Claude Code status bar despite `brew upgrade claude-code` reporting latest installed
+- **Explanation**: Known issue — Homebrew packages lag behind native installer releases; status bar checks against native release channel
+- **Resolution**: User opted to stay with Homebrew and wait for package sync
+
+### Pre-existing Work (PR #112)
+
+PR #112 was already open from a prior session with 2 security commits:
+
+1. `fa7d6cd` — Upgrade `next` 15.5.9 → 15.5.10 (DoS via HTTP deserialization & Image Optimizer)
+2. `1848b02` — Upgrade `fast-xml-parser` 4.x → 5.x (RangeError DoS via numeric entities)
+
+- Vercel preview checks: **Passed**
+- PR status: **Open, ready for merge**
+
+### Session Metrics
+
+- **PRs Created**: 0 (PR #112 pre-existing)
+- **Commits Created**: 0
+- **Files Modified**: 0
+- **Bugs Fixed**: 0
+- **Version**: 2.9.1
+
+### Context for Next Session
+
+- **Current Branch**: fix/dependabot-vulnerabilities (PR #112 open, checks passing)
+- **Action Needed**: Merge PR #112 to main
+- **Version**: 2.9.1
+- **Production State**: Stable on v2.9.0, security patches pending merge
+
+---
+
 ## Session 2026-02-05 (Evening)
 
 **Date**: 2026-02-05
