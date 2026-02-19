@@ -118,19 +118,13 @@ export const themes = {
   },
 } as const;
 
-// Convert camelCase to kebab-case for CSS custom properties
-function toKebabCase(str: string): string {
-  return str.replace(/([A-Z])/g, '-$1').toLowerCase();
-}
-
 // Helper function to apply theme
 export function applyTheme(themeName: Theme['name']) {
   const theme = themes[themeName];
   const root = document.documentElement;
 
-  // Apply theme colors as both camelCase and kebab-case CSS custom properties
+  // Apply theme colors as camelCase CSS custom properties
   Object.entries(theme.colors).forEach(([key, value]) => {
     root.style.setProperty(`--${key}`, value);
-    root.style.setProperty(`--${toKebabCase(key)}`, value);
   });
 }

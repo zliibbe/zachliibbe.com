@@ -69,6 +69,7 @@
   font-size: 1rem;
   color: white;
   transition-duration: 500ms;
+  user-select: none;
 }
 
 .homeLink:hover .homeIcon {
