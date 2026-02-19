@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import type { StravaActivity } from '@/lib/strava/types';
 import ActivityGrid from '../components/ActivityGrid';
+import CurrentlyReadingBooks from '../components/CurrentlyReadingBooks';
 import Footer from '../components/Footer';
 import RecentAudiobooks from '../components/RecentAudiobooks';
 import RecentBooks from '../components/RecentBooks';
@@ -84,7 +85,24 @@ export default function LiveFeedPage() {
 
                 <section className={styles.section}>
                   <div className={styles.sectionHeader}>
-                    <h2>Reading</h2>
+                    <h2>Currently Reading</h2>
+                    <p>
+                      What I&apos;m currently working through (via my{' '}
+                      <a
+                        href="https://www.goodreads.com/review/list/24890536-zach-liibbe?ref=nav_mybooks&shelf=currently-reading"
+                        className={styles.apiLink}
+                      >
+                        Goodreads &apos;Currently Reading&apos; Shelf
+                      </a>
+                      )
+                    </p>
+                  </div>
+                  <CurrentlyReadingBooks />
+                </section>
+
+                <section className={styles.section}>
+                  <div className={styles.sectionHeader}>
+                    <h2>Read</h2>
                     <p>
                       Books recently completed (via my{' '}
                       <a
