@@ -1,5 +1,72 @@
 # Development Session Log
 
+## Session 2026-02-19
+
+**Date**: 2026-02-19
+**Branch**: Various feature branches → main
+**Session Focus**: Next.js 16 upgrade + Biome migration (Phases 13–14)
+
+### Key Accomplishments
+
+#### PR #116 — README atomic commit expectations
+- Added Contributing section steps showing atomic commit workflow
+- Merged with merge commit
+
+#### PR #117 — Next.js 15.5.10 → 16.1.6 upgrade (Phase 11 cont.)
+- Upgraded via `bunx @next/codemod@canary upgrade latest`
+- Fixed Turbopack incompatibilities:
+  - Removed webpack fallback config, added `turbopack: {}`
+  - Fixed `var(var(--fs-300))` double-wrapped CSS vars in globals.css
+  - Replaced non-standard `:has-text()` with `[data-type]` attribute selectors in SeoPreview
+  - Added `images.localPatterns` for `/api/utils/image-proxy` (omit `search` field to allow any query string)
+  - Reverted tsconfig `jsx` from `"react-jsx"` (codemod error) back to `"preserve"`
+- Bug Bot caught tsconfig jsx change; fixed and re-pushed
+
+#### PR #118 — Biome migration (Phase 14)
+- Replaced ESLint + Prettier with Biome (`@biomejs/biome@2.4.2`)
+- `biome migrate prettier` succeeded; `biome migrate eslint` failed (circular structure in Next.js Flat Config) — manually configured rules
+- Applied 158 auto-fixes across 111 files (import type, node: protocol, optional chaining, template literals, unused imports, etc.)
+- Disabled rules beyond original ESLint permissiveness: `noNonNullAssertion`, `noImportantStyles`, `noUnusedFunctionParameters`, `useExhaustiveDependencies`
+- Downgraded noisy a11y rules to warn: `useButtonType` (60 occurrences), `noStaticElementInteractions` (9)
+- Bug Bot caught `.lintstagedrc.js` still calling `next lint` — fixed to use `biome check --write`
+- Deleted `eslint.config.mjs`, `.prettierrc`; updated scripts, CLAUDE.md, README.md
+- Version bumped to 2.12.0
+
+#### PRD Updates
+- Phase 14 marked complete (2026-02-19)
+- Phase 18 added: AGENTS.md strategy for Claude Code subagents
+- Phase 19 added: Fix `useButtonType` a11y warnings (60 buttons need `type="button"`)
+
+### Session Metrics
+
+- **PRs Created & Merged**: 3 (#116, #117, #118)
+- **Commits**: ~18 atomic commits
+- **Files Modified**: 125+ files (bulk from Biome auto-fixes)
+- **Bugs Fixed**: 3 (tsconfig jsx, image localPatterns, lint-staged ESLint ref)
+- **Version**: 2.11.0 → 2.12.0
+
+### Key Learnings
+
+- `localPatterns.search` in Next.js 16 does NOT support globs — omit field to allow any query string
+- `biome migrate eslint` fails on Flat Config + `@next/eslint-plugin-next` due to circular JSON structure
+- Biome `--write` applies safe fixes; `--write --unsafe` needed for node: protocol, optional chaining, etc.
+- Always restart dev server after editing `next.config.js` — Fast Refresh doesn't pick up config changes
+
+### Next Session Priorities
+
+1. **Phase 15** — Update `/work` page (add current job) and `/about` `.recentSection` content
+2. **Phase 16** — Add "Currently Reading" section to `/live-feed`
+3. **Phase 18** — Brainstorm and create `AGENTS.md`
+
+### Context for Next Session
+
+- **Branch**: main (clean, v2.12.0)
+- **Framework**: Next.js 16.1.6 with Turbopack default
+- **Linting**: `bun run check:fix` (Biome) — NOT `format:fix`
+- **Next phase**: Phase 15 (content updates for /work and /about)
+
+---
+
 ## Session 2026-02-13
 
 **Date**: 2026-02-13
