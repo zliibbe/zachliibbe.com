@@ -174,6 +174,44 @@ This project enforces code consistency using:
 - **[TypeScript](https://www.typescriptlang.org/)** - Type checking
 - **[Jest](https://jestjs.io/)** - Unit testing with React Testing Library
 
+## 🧪 Testing
+
+### Running Tests
+
+```sh
+bun run test            # Run full test suite once
+bun run test:watch      # Run in watch mode (re-runs on file save)
+bun run test:coverage   # Generate coverage report
+```
+
+### Test Stack
+
+- **[Jest](https://jestjs.io/)** — test runner configured via `jest.config.js` using `next/jest`
+- **[React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)** — component rendering and user interaction queries
+- **[@testing-library/jest-dom](https://github.com/testing-library/jest-dom)** — custom matchers (`toBeInTheDocument`, `toHaveAttribute`, etc.)
+- **`jest-environment-jsdom`** — browser-like DOM for component tests; API route tests use `@jest-environment node`
+
+### Test Suites
+
+| Suite | File | Coverage |
+|---|---|---|
+| `PrimaryNav` | `src/app/components/__tests__/PrimaryNav.test.tsx` | Link rendering, hrefs, active class by pathname, blog prefix matching |
+| `PostCard` | `src/app/components/Blog/__tests__/PostCard.test.tsx` | Title, excerpt, date formatting, author, categories, tags, featured image |
+| `useChatMessages` | `src/components/chat/hooks/__tests__/useChatMessages.test.ts` | Initial state, message flow, error handling (rate limit, 500), clearMessages |
+| `/api/chat` route | `src/app/api/chat/__tests__/route.test.ts` | 200/400/429/500 paths, rate limit headers, IP extraction, CORS preflight |
+
+### Writing New Tests
+
+- Co-locate test files in a `__tests__/` directory next to the component or module
+- Use `.test.tsx` for component tests and `.test.ts` for hooks and API routes
+- Add `/** @jest-environment node */` at the top of any API route test file
+- Global mocks (Next.js router, `next/image`, `fetch`, browser APIs) are set up in `jest.setup.js`
+- Mock module aliases (`@/...`) resolve automatically via `moduleNameMapper` in `jest.config.js`
+
+### CI
+
+Tests run automatically on every pull request and push to `main` via `.github/workflows/test.yml`. The PR must pass tests before merging.
+
 ## ⚙️ Tech Stack
 
 ### **Frontend**
@@ -217,7 +255,7 @@ This project enforces code consistency using:
 ### **CI/CD & Deployment**
 
 - [Vercel](https://vercel.com/) - Hosting and deployment platform
-- [GitHub Actions](https://github.com/features/actions) - Bug Bot automated PR review workflow
+- [GitHub Actions](https://github.com/features/actions) - Bug Bot PR review + Jest test suite workflows
 - [Serverless Functions](https://vercel.com/docs/functions) - API routes and cron jobs
 - [Google Analytics](https://analytics.google.com/) - Website analytics
 
@@ -226,7 +264,8 @@ This project enforces code consistency using:
 ```
 .github/
 └── workflows/
-    └── bug-bot.yml         # Claude-powered automated PR review
+    ├── bug-bot.yml         # Claude-powered automated PR review
+    └── test.yml            # Jest test suite (runs on every PR and push to main)
 scripts/
 └── bug-bot.ts              # Bug Bot review script
 goodreads-lambda/           # Serverless function for Goodreads data scraping
