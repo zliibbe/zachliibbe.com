@@ -24,7 +24,7 @@ export default function CurrentlyReadingBooks() {
     async function fetchBooks() {
       try {
         const response = await fetch('/api/goodreads/currently-reading', {
-          cache: 'no-store',
+          headers: { 'Cache-Control': 'no-cache' },
         });
 
         if (!response.ok) {
