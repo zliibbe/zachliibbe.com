@@ -893,17 +893,17 @@ The Activities grid on `/live-feed` page is displaying black squares instead of 
 
 ### Phase 16: Add Currently Reading Section to /live-feed
 
-**Status:** Pending
+**Status:** Complete ✅
 **Priority:** MEDIUM — improves live feed completeness
 
 **Motivation:**
 Currently `/live-feed` shows completed books ("Read" shelf) and audiobooks ("Listening" shelf) but has no "Currently Reading" section, even though the data is already fetched via `/api/goodreads/currently-reading`.
 
 **Scope:**
-- [ ] Rename existing "Reading" section → "Read" (books completed)
-- [ ] Add new "Reading" section above "Read" showing currently-in-progress books with progress %
-- [ ] Reuse existing `currently-reading` API data (already powers the footer widget)
-- [ ] Match visual style of existing book cards
+- [x] Rename existing "Reading" section → "Read" (books completed)
+- [x] Add new "Currently Reading" section above "Read" showing currently-in-progress books with progress %
+- [x] Reuse existing `currently-reading` API data (already powers the footer widget)
+- [x] Match visual style of existing book cards
 
 ---
 
