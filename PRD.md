@@ -873,21 +873,21 @@ The Activities grid on `/live-feed` page is displaying black squares instead of 
 
 ---
 
-### Phase 15: Update /work and /about Content
+### Phase 15: Update /work and /about Content ✅ (100% Complete)
 
-**Status:** Pending
+**Status:** Complete (2026-02-19)
 **Priority:** HIGH — current job missing, content is stale
 
 **Scope:**
 
 #### /work page
-- [ ] Add current job/role (not yet listed)
-- [ ] Review and update all existing job entries for accuracy
-- [ ] Confirm contract status indicators are current
+- [x] Add current job/role (Raytheon, Sep 2025 – Present, via Prime Tech)
+- [x] Review and update all existing job entries for accuracy
+- [x] Confirm contract status indicators are current
 
 #### /about page — `.recentSection`
-- [ ] Update recent activities / highlights content
-- [ ] Ensure content reflects current interests and projects
+- [x] Update recent activities / highlights content
+- [x] Ensure content reflects current interests and projects
 
 ---
 
