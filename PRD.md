@@ -918,7 +918,7 @@ Currently `/live-feed` shows completed books ("Read" shelf) and audiobooks ("Lis
 - [x] Write API route unit tests for critical paths (chat rate limiting, validation, CORS)
 - [x] Add separate `Tests` CI workflow (`.github/workflows/test.yml`)
 - [x] Ensure `bun run test` passes cleanly in CI (42/42 tests passing)
-- [ ] Update `README.md` with testing instructions
+- [x] Update `README.md` with testing instructions
 
 ---
 
