@@ -421,7 +421,6 @@
   font-size: var(--fs-400);
   color: var(--text-tertiary);
   text-align: right;
-  white-space: nowrap;
 }
 
 /* For very small screens */
