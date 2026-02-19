@@ -1,4 +1,4 @@
-import { execSync } from 'child_process';
+import { spawnSync } from 'child_process';
 
 const CLAUDE_API_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-sonnet-4-6';
@@ -16,30 +16,41 @@ const {
   HEAD_SHA,
 } = process.env;
 
-function getDiff(): string {
-  if (!SHA_RE.test(BASE_SHA ?? '') || !SHA_RE.test(HEAD_SHA ?? '')) {
-    throw new Error(
-      `Invalid SHA values: BASE_SHA=${BASE_SHA} HEAD_SHA=${HEAD_SHA}`
-    );
+function getDiff(baseSha: string, headSha: string): string {
+  const result = spawnSync(
+    'git',
+    [
+      'diff',
+      baseSha,
+      headSha,
+      '--',
+      '*.ts',
+      '*.tsx',
+      '*.js',
+      '*.mjs',
+      '*.cjs',
+      '*.css',
+      '*.json',
+      ':(exclude)*.lockb',
+      ':(exclude)package-lock.json',
+      ':(exclude)*.d.ts',
+      ':(exclude).serverless/**',
+    ],
+    { maxBuffer: 10 * 1024 * 1024 }
+  );
+
+  if (result.error) throw result.error;
+  if (result.status !== 0) {
+    throw new Error(`git diff failed: ${result.stderr?.toString()}`);
   }
 
-  try {
-    return execSync(
-      `git diff ${BASE_SHA} ${HEAD_SHA} \
-        -- '*.ts' '*.tsx' '*.js' '*.mjs' '*.cjs' '*.css' '*.json' \
-        ':(exclude)*.lockb' \
-        ':(exclude)package-lock.json' \
-        ':(exclude)*.d.ts' \
-        ':(exclude).serverless/**'`,
-      { maxBuffer: 10 * 1024 * 1024 }
-    ).toString();
-  } catch (err) {
-    console.error('Failed to get diff:', err);
-    return '';
-  }
+  return result.stdout.toString();
 }
 
 async function reviewWithClaude(diff: string): Promise<string> {
+  const safeTitle = (PR_TITLE || '(none)').slice(0, 200).replace(/`/g, "'");
+  const safeBody = (PR_BODY || '(none)').slice(0, 1000).replace(/`/g, "'");
+
   const truncated = diff.length > MAX_DIFF_CHARS;
   const diffContent = truncated
     ? diff.slice(0, MAX_DIFF_CHARS) + '\n\n[diff truncated]'
@@ -47,8 +58,8 @@ async function reviewWithClaude(diff: string): Promise<string> {
 
   const prompt = `You are a senior code reviewer for a Next.js 15 / TypeScript / React portfolio site.
 
-PR title: ${PR_TITLE || '(none)'}
-PR description: ${PR_BODY || '(none)'}
+PR title: ${safeTitle}
+PR description: ${safeBody}
 
 Review the diff below for genuine bugs only. Focus on:
 - Logic errors and off-by-one mistakes
@@ -104,8 +115,11 @@ ${diffContent}
   return data.content?.[0]?.text?.trim() ?? 'No response from Claude.';
 }
 
-async function postComment(body: string): Promise<void> {
-  const [owner, repo] = (REPO || '').split('/');
+async function postComment(
+  owner: string,
+  repo: string,
+  body: string
+): Promise<void> {
   const url = `https://api.github.com/repos/${owner}/${repo}/issues/${PR_NUMBER}/comments`;
 
   const response = await fetch(url, {
@@ -137,7 +151,19 @@ async function main() {
     throw new Error(`Missing required env vars: ${missing.join(', ')}`);
   }
 
-  const diff = getDiff();
+  const repoParts = (REPO || '').split('/');
+  if (repoParts.length !== 2 || !repoParts[0] || !repoParts[1]) {
+    throw new Error(`REPO must be in "owner/repo" format, got: ${REPO}`);
+  }
+  const [owner, repo] = repoParts;
+
+  if (!SHA_RE.test(BASE_SHA ?? '') || !SHA_RE.test(HEAD_SHA ?? '')) {
+    throw new Error(
+      `Invalid SHA values: BASE_SHA=${BASE_SHA} HEAD_SHA=${HEAD_SHA}`
+    );
+  }
+
+  const diff = getDiff(BASE_SHA!, HEAD_SHA!);
 
   if (!diff.trim()) {
     console.log('No relevant code changes — skipping review.');
@@ -153,7 +179,7 @@ async function main() {
     ? '**Bug Bot:** No bugs found.'
     : `**Bug Bot review:**\n\n${review}`;
 
-  await postComment(commentBody);
+  await postComment(owner, repo, commentBody);
   console.log('Comment posted.');
 }
 
