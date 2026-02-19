@@ -17,7 +17,13 @@ const nextConfig = {
         pathname: '/api/utils/image-proxy',
       },
       {
-        pathname: '/**',
+        pathname: '/images/**',
+      },
+      {
+        pathname: '/*.png',
+      },
+      {
+        pathname: '/*.svg',
       },
     ],
     remotePatterns: [

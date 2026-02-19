@@ -102,7 +102,7 @@ export default function CurrentlyReadingBooks() {
         const progressLabel = getProgressLabel(book);
 
         return (
-          <div key={book.link || `${book.title}||${book.author}`} className={styles.bookCard}>
+          <div key={`${book.title}||${book.author}`} className={styles.bookCard}>
             <a
               href={book.link || '#'}
               target="_blank"
