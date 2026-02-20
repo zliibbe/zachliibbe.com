@@ -28,10 +28,15 @@ export default function EmailCopy() {
 
   return (
     <>
-      <p className={styles.emailText} onClick={handleClick}>
+      <button
+        type="button"
+        className={styles.emailText}
+        onClick={handleClick}
+        aria-label="Copy email address zliibbe@gmail.com to clipboard"
+      >
         zliibbe@gmail.com
-      </p>
-      <p className={styles.text}>Click my email to copy. ☺️ </p>
+      </button>
+      <p className={styles.text}>Click or press Enter to copy. ☺️ </p>
       <p
         className={`${styles.notification} ${
           showNotification ? styles.visible : ''
