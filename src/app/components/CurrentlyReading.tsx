@@ -52,6 +52,7 @@ export default function CurrentlyReading() {
         }
 
         // Parse the response text
+        // biome-ignore lint/suspicious/noImplicitAnyLet: assigned from JSON.parse inside try/catch; shape narrowed with Array.isArray below
         let data;
         try {
           data = JSON.parse(responseText);
