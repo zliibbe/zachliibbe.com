@@ -144,7 +144,6 @@
 }
 
 .themeName {
-  margin-left: 0.5rem;
   color: var(--text-secondary);
   justify-self: center;
   margin: 0 0 1rem 0.5rem;

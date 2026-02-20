@@ -90,6 +90,8 @@
   align-items: center;
   padding: 1rem 2rem;
   font-size: 1.25rem;
+  font-family: inherit;
+  border: none;
   cursor: pointer;
   color: white;
   border-radius: var(--border-radius);

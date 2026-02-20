@@ -141,6 +141,7 @@ export default function UnsplashAdminPage() {
               <ul className={styles.checklist}>
                 {status.productionRequirements.criteria.map(
                   (criterion, index) => (
+                    // biome-ignore lint/suspicious/noArrayIndexKey: static checklist with no stable IDs; order is fixed
                     <li key={index} className={styles.checklistItem}>
                       <span className={styles.checkbox}>☐</span>
                       {criterion}

@@ -126,16 +126,22 @@ const Job: React.FC<JobProps> = ({
             <ul>
               {taskList.map((task, taskIndex) =>
                 typeof task === 'string' ? (
-                  <li key={taskIndex} className={styles.jobListItem}>
+                  <li
+                    key={`${taskIndex}-${task}`}
+                    className={styles.jobListItem}
+                  >
                     {task}
                   </li>
                 ) : (
-                  <li key={taskIndex} className={styles.jobListItem}>
+                  <li
+                    key={`${taskIndex}-${task.title}`}
+                    className={styles.jobListItem}
+                  >
                     <div className={styles.taskTitle}>{task.title}</div>
                     <ul className={styles.subTaskList}>
                       {task.subtasks.map((subtask, subIndex) => (
                         <li
-                          key={`${taskIndex}-${subIndex}`}
+                          key={`${taskIndex}-${subIndex}-${subtask}`}
                           className={styles.subTaskItem}
                         >
                           {subtask}

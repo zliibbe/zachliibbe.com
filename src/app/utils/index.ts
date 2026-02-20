@@ -160,7 +160,7 @@ export function getTimeAgo(timestamp: number | string): string {
 
   try {
     const now = moment();
-    let activityTime;
+    let activityTime: moment.Moment;
 
     // Handle different timestamp formats
     if (typeof timestamp === 'number') {

@@ -433,9 +433,12 @@ export default function MarkdownEditor({
                 placeholder="Add tag..."
                 value={newTag}
                 onChange={e => setNewTag(e.target.value)}
-                onKeyDown={e =>
-                  e.key === 'Enter' && (e.preventDefault(), handleAddTag())
-                }
+                onKeyDown={e => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    handleAddTag();
+                  }
+                }}
                 className={styles.input}
               />
               <button
@@ -520,6 +523,7 @@ export default function MarkdownEditor({
             <div className={styles.preview}>
               <div
                 className={styles.previewContent}
+                // biome-ignore lint/security/noDangerouslySetInnerHtml: admin-only markdown preview; content is trusted author input
                 dangerouslySetInnerHTML={{
                   __html: markdownToHtml(post.content),
                 }}

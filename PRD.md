@@ -992,7 +992,7 @@ Several site behaviors are currently hard-coded or require code changes to adjus
 
 ### Phase 22: Investigate and Resolve Biome Warnings
 
-**Status:** Pending
+**Status:** Complete ✅ (2026-02-19)
 **Priority:** LOW — 17 pre-existing `warn`-severity Biome lint warnings; assess each before deciding to fix or suppress
 
 **Motivation:**
@@ -1004,10 +1004,10 @@ Several site behaviors are currently hard-coded or require code changes to adjus
 - ~15 additional warnings TBD (run `bun run check 2>&1 | grep "warn"` to enumerate)
 
 **Scope:**
-- [ ] Run `bun run check` and capture the full list of warnings
-- [ ] For each warning: decide fix / suppress / downgrade
-- [ ] Apply changes; `bun run check` should report 0 remaining warnings
-- [ ] Consider whether any rules should be elevated from `"warn"` to `"error"` in `biome.json`
+- [x] Run `bun run check` and capture the full list of warnings
+- [x] For each warning: decide fix / suppress / downgrade
+- [x] Apply changes; `bun run check` reports 0 remaining warnings
+- [x] Consider whether any rules should be elevated from `"warn"` to `"error"` in `biome.json`
 
 ---
 

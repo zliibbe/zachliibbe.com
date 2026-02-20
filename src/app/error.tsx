@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect } from 'react';
 import styles from './page.module.css';
 
+// biome-ignore lint/suspicious/noShadowRestrictedNames: Next.js requires the error boundary export to be named exactly "Error"
 export default function Error({
   error,
   reset,

@@ -161,6 +161,7 @@ export default function TestQueryInterface() {
             {exampleQueries.map((example, index) => (
               <button
                 type="button"
+                // biome-ignore lint/suspicious/noArrayIndexKey: static list of example queries; order never changes
                 key={index}
                 onClick={() => handleExampleQuery(example)}
                 className={styles.exampleButton}
@@ -186,6 +187,7 @@ export default function TestQueryInterface() {
             {testResults.map((result, index) => {
               const isExpanded = expandedResults.has(index);
               return (
+                // biome-ignore lint/suspicious/noArrayIndexKey: test results are append-only; index is a stable identity here
                 <div key={index} className={styles.resultCard}>
                   <div className={styles.resultHeader}>
                     <div className={styles.resultQuery}>
@@ -224,6 +226,7 @@ export default function TestQueryInterface() {
                       </div>
                       <div className={styles.contextChunks}>
                         {result.contextChunks.map((chunk, chunkIndex) => (
+                          // biome-ignore lint/suspicious/noArrayIndexKey: context chunks have no stable ID; index is only identifier available
                           <div key={chunkIndex} className={styles.contextChunk}>
                             <div className={styles.chunkHeader}>
                               <div className={styles.chunkSource}>
