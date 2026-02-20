@@ -267,6 +267,47 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
     }
   };
 
+  const [runningScheduledPublish, setRunningScheduledPublish] = useState(false);
+
+  const handleRunScheduledPublishing = async () => {
+    setRunningScheduledPublish(true);
+    try {
+      const response = await fetch('/api/admin/blog/run-scheduled-publish', {
+        method: 'POST',
+      });
+      const data = await response.json();
+      if (response.ok) {
+        await loadPosts();
+        setGeneralModal({
+          isOpen: true,
+          type: 'success',
+          title: 'Scheduled Publishing Complete',
+          message:
+            data.publishedCount > 0
+              ? `Published ${data.publishedCount} post${data.publishedCount === 1 ? '' : 's'}: ${data.published.map((p: { title: string }) => p.title).join(', ')}`
+              : 'No posts were due for publishing.',
+        });
+      } else {
+        setGeneralModal({
+          isOpen: true,
+          type: 'error',
+          title: 'Scheduled Publishing Failed',
+          message: data.error || 'Unknown error occurred',
+        });
+      }
+    } catch (error) {
+      console.error('Error running scheduled publishing:', error);
+      setGeneralModal({
+        isOpen: true,
+        type: 'error',
+        title: 'Scheduled Publishing Failed',
+        message: 'Please try again.',
+      });
+    } finally {
+      setRunningScheduledPublish(false);
+    }
+  };
+
   const handleGenerateImage = async (post: BlogPost, forceReplace = false) => {
     try {
       // Show loading modal
@@ -729,6 +770,24 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
                   </button>
                 </div>
               </div>
+
+              {activeTab === 'scheduled' && (
+                <div className={styles.scheduledPublishBanner}>
+                  <span className={styles.scheduledPublishInfo}>
+                    Cron runs daily at 16:00 UTC. Trigger it manually below.
+                  </span>
+                  <button
+                    type="button"
+                    className={styles.actionButtonPrimary}
+                    onClick={handleRunScheduledPublishing}
+                    disabled={runningScheduledPublish}
+                  >
+                    {runningScheduledPublish
+                      ? 'Publishing...'
+                      : 'Run Scheduled Publishing Now'}
+                  </button>
+                </div>
+              )}
 
               <div className={styles.postsContainer}>
                 {loading ? (
