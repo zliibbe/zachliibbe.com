@@ -924,18 +924,18 @@ Currently `/live-feed` shows completed books ("Read" shelf) and audiobooks ("Lis
 
 ### Phase 18: Create AGENTS.md — Claude Code Agent Strategy
 
-**Status:** Pending
+**Status:** Complete ✅ (2026-02-19)
 **Priority:** MEDIUM — establish best practices for Claude Code subagent usage
 
 **Motivation:**
 Claude Code supports specialized subagents (Bash, Explore, Plan, general-purpose, etc.). An `AGENTS.md` file documents the intended agent strategy for this project, helping Claude Code pick the right agent for the right task and ensuring consistent, token-efficient workflows.
 
 **Scope:**
-- [ ] Brainstorm which tasks in this codebase benefit most from specialized agents
-- [ ] Define when to use: Explore agent (codebase search), Plan agent (architecture), Bash agent (CI/git), general-purpose (complex multi-step research)
-- [ ] Document project-specific conventions (e.g. "use Explore before editing any CSS", "always use Plan for new features touching > 3 files")
-- [ ] Create `AGENTS.md` at the project root with finalized agent usage guidelines
-- [ ] Reference `AGENTS.md` from `CLAUDE.md`
+- [x] Brainstorm which tasks in this codebase benefit most from specialized agents
+- [x] Define when to use: Explore agent (codebase search), Plan agent (architecture), Bash agent (CI/git), general-purpose (complex multi-step research)
+- [x] Document project-specific conventions (e.g. "use Explore before editing any CSS", "always use Plan for new features touching > 3 files")
+- [x] Create `AGENTS.md` at the project root with finalized agent usage guidelines
+- [x] Reference `AGENTS.md` from `CLAUDE.md`
 
 ---
 
@@ -952,6 +952,62 @@ Biome's `useButtonType` rule flags buttons without an explicit `type="button"` (
 - [x] Suppress `noStaticElementInteractions` for modal backdrop and mouse-only drag resize handles with biome-ignore comments
 - [x] Upgrade `useButtonType` and `noStaticElementInteractions` from `"warn"` to `"error"` in `biome.json`
 - [x] Verify 0 error-severity violations remain (`bun run check` shows 0 errors from these rules)
+
+---
+
+### Phase 20: Admin Analytics Dashboard (`/admin/analytics`)
+
+**Status:** Pending
+**Priority:** MEDIUM — visibility into site traffic, blog performance, and AI chat usage
+
+**Motivation:**
+The site uses Google Analytics for general traffic, but there's no admin-facing dashboard that aggregates blog post performance, AI chat usage, and visitor engagement in one place. A `/admin/analytics` page would give quick access to the metrics that matter most.
+
+**Scope:**
+- [ ] Create `/admin/analytics` page with auth protection
+- [ ] Blog post performance: views per post, top posts, publish rate
+- [ ] AI chat usage: total conversations, messages per session, common questions (from KV logs if available)
+- [ ] Embed or link Google Analytics summary (or use GA Data API for key metrics)
+- [ ] Add `/admin/analytics` link to Admin Dashboard nav
+
+---
+
+### Phase 21: Admin Settings Page (`/admin/settings`)
+
+**Status:** Pending
+**Priority:** LOW — centralized control panel for site configuration
+
+**Motivation:**
+Several site behaviors are currently hard-coded or require code changes to adjust (e.g. chat greeting text, knowledge base model parameters, cron schedule). A `/admin/settings` page would allow runtime configuration without deploys.
+
+**Scope:**
+- [ ] Create `/admin/settings` page with auth protection
+- [ ] Chat widget settings: greeting text, suggested questions, enable/disable widget
+- [ ] Blog settings: default category, auto-LinkedIn-post toggle, scheduling timezone
+- [ ] Cron/scheduling: manual trigger button for "Publish Scheduled Posts Now" (fixes scheduled publishing visibility)
+- [ ] Persist settings to Vercel KV under a `settings:*` key namespace
+- [ ] Add `/admin/settings` link to Admin Dashboard nav
+
+---
+
+### Phase 22: Investigate and Resolve Biome Warnings
+
+**Status:** Pending
+**Priority:** LOW — 17 pre-existing `warn`-severity Biome lint warnings; assess each before deciding to fix or suppress
+
+**Motivation:**
+`bun run check` consistently reports 17 warnings. These are not blocking (rules are set to `"warn"`, not `"error"`), but unreviewed warnings accumulate technical debt and make it harder to spot new regressions. Each warning should be triaged: fix it, downgrade to `"info"`, or suppress with a biome-ignore comment and a documented reason.
+
+**Known warnings (as of 2026-02-19):**
+- `lint/suspicious/noShadowRestrictedNames` — `src/app/error.tsx:7` names the Next.js error boundary export `Error`, shadowing the global. Next.js requires this exact export name; suppress with biome-ignore.
+- `lint/suspicious/noImplicitAnyLet` — `src/app/utils/index.ts:163` declares `let activityTime` without a type annotation. Fix by adding an explicit type.
+- ~15 additional warnings TBD (run `bun run check 2>&1 | grep "warn"` to enumerate)
+
+**Scope:**
+- [ ] Run `bun run check` and capture the full list of warnings
+- [ ] For each warning: decide fix / suppress / downgrade
+- [ ] Apply changes; `bun run check` should report 0 remaining warnings
+- [ ] Consider whether any rules should be elevated from `"warn"` to `"error"` in `biome.json`
 
 ---
 
