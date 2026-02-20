@@ -21,6 +21,7 @@ export default function Error({
       <p>An unexpected error occurred. Please try again.</p>
       <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
         <button
+          type="button"
           onClick={() => reset()}
           className={styles.link}
           style={{

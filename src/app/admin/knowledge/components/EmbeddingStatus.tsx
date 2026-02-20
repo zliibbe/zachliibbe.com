@@ -112,6 +112,7 @@ export default function EmbeddingStatus({ files }: EmbeddingStatusProps) {
       <div className={styles.header}>
         <h2>Embedding Status & Performance</h2>
         <button
+          type="button"
           onClick={handleRefresh}
           disabled={refreshing}
           className={styles.refreshButton}

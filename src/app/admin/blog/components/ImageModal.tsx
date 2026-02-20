@@ -79,11 +79,16 @@ export default function ImageModal({
                   </p>
                 </div>
                 <div className={styles.actions}>
-                  <button className={styles.primaryButton} onClick={onClose}>
+                  <button
+                    type="button"
+                    className={styles.primaryButton}
+                    onClick={onClose}
+                  >
                     Perfect!
                   </button>
                   {onRetry && (
                     <button
+                      type="button"
                       className={styles.secondaryButton}
                       onClick={onRetry}
                     >
@@ -118,6 +123,7 @@ export default function ImageModal({
                         {img.attribution.text}
                       </p>
                       <button
+                        type="button"
                         className={styles.selectButton}
                         onClick={() => onSelectImage?.(img)}
                       >
@@ -163,7 +169,11 @@ export default function ImageModal({
                 </p>
               </>
             )}
-            <button className={styles.primaryButton} onClick={onClose}>
+            <button
+              type="button"
+              className={styles.primaryButton}
+              onClick={onClose}
+            >
               Done
             </button>
           </div>
@@ -175,11 +185,19 @@ export default function ImageModal({
             <div className={styles.errorIcon}>❌</div>
             <p className={styles.errorText}>{message}</p>
             <div className={styles.errorActions}>
-              <button className={styles.primaryButton} onClick={onClose}>
+              <button
+                type="button"
+                className={styles.primaryButton}
+                onClick={onClose}
+              >
                 Close
               </button>
               {onRetry && (
-                <button className={styles.secondaryButton} onClick={onRetry}>
+                <button
+                  type="button"
+                  className={styles.secondaryButton}
+                  onClick={onRetry}
+                >
                   Try Again
                 </button>
               )}

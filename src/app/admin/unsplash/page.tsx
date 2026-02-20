@@ -225,7 +225,11 @@ export default function UnsplashAdminPage() {
         </div>
 
         <div className={styles.footer}>
-          <button onClick={fetchStatus} className={styles.refreshButton}>
+          <button
+            type="button"
+            onClick={fetchStatus}
+            className={styles.refreshButton}
+          >
             Refresh Status
           </button>
         </div>

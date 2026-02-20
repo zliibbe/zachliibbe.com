@@ -81,6 +81,7 @@ export default function KnowledgeAdmin({ session }: KnowledgeAdminProps) {
     <div className={styles.overview}>
       <div className={styles.actions}>
         <button
+          type="button"
           onClick={handleReprocessAll}
           disabled={reprocessing}
           className={styles.actionButton}
@@ -108,6 +109,7 @@ export default function KnowledgeAdmin({ session }: KnowledgeAdminProps) {
             </div>
             <div className={styles.fileActions}>
               <button
+                type="button"
                 onClick={() => handleEditFile(file)}
                 className={styles.editButton}
                 title="Edit file"
@@ -128,6 +130,7 @@ export default function KnowledgeAdmin({ session }: KnowledgeAdminProps) {
   const renderNavigation = () => (
     <div className={styles.navigation}>
       <button
+        type="button"
         onClick={() => setViewMode('overview')}
         className={viewMode === 'overview' ? styles.active : ''}
       >
@@ -135,6 +138,7 @@ export default function KnowledgeAdmin({ session }: KnowledgeAdminProps) {
         Files
       </button>
       <button
+        type="button"
         onClick={() => setViewMode('status')}
         className={viewMode === 'status' ? styles.active : ''}
       >
@@ -142,6 +146,7 @@ export default function KnowledgeAdmin({ session }: KnowledgeAdminProps) {
         Status
       </button>
       <button
+        type="button"
         onClick={() => setViewMode('testing')}
         className={viewMode === 'testing' ? styles.active : ''}
       >

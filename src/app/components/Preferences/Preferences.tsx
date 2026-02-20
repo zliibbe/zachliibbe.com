@@ -30,6 +30,7 @@ export function Preferences() {
   return (
     <>
       <button
+        type="button"
         onClick={() => setIsOpen(true)}
         className={`${headerSyles.gearIcon} ${styles.gearIcon}`}
         aria-label="Open preferences"
@@ -42,6 +43,7 @@ export function Preferences() {
           <div className={styles.header}>
             <h2>Preferences</h2>
             <button
+              type="button"
               onClick={() => setIsOpen(false)}
               className={styles.closeButton}
               aria-label="Close preferences"
@@ -61,6 +63,7 @@ export function Preferences() {
             <div className={styles.gradientGrid}>
               {Object.values(themes).map(theme => (
                 <button
+                  type="button"
                   key={theme.name}
                   onClick={() => setTheme(theme.name)}
                   className={`${styles.gradientButton} ${
@@ -92,6 +95,7 @@ export function Preferences() {
                   {isAnimated ? 'On' : 'Off'}
                 </span>
                 <button
+                  type="button"
                   onClick={toggleAnimation}
                   className={`${styles.toggleButton} ${styles.animationToggle} ${
                     isAnimated ? styles.active : ''
@@ -111,6 +115,7 @@ export function Preferences() {
                   {isDarkMode ? 'On' : 'Off'}
                 </span>
                 <button
+                  type="button"
                   onClick={toggleDarkMode}
                   className={`${styles.toggleButton} ${isDarkMode ? styles.active : ''}`}
                   aria-pressed={isDarkMode}

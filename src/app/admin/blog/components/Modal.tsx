@@ -60,13 +60,20 @@ export default function Modal({
   };
 
   return (
-    <div className={styles.overlay} ref={modalRef} onClick={handleOverlayClick}>
+    // biome-ignore lint/a11y/noStaticElementInteractions: modal backdrop; keyboard (Escape) handled via document event listener
+    <div
+      className={styles.overlay}
+      ref={modalRef}
+      onClick={handleOverlayClick}
+      role="presentation"
+    >
       <div className={`${styles.modal} ${styles[size]}`}>
         {(title || showCloseButton) && (
           <div className={styles.header}>
             {title && <h2 className={styles.title}>{title}</h2>}
             {showCloseButton && (
               <button
+                type="button"
                 className={styles.closeButton}
                 onClick={onClose}
                 aria-label="Close modal"

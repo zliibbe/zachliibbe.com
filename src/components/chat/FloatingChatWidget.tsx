@@ -98,6 +98,7 @@ export default function FloatingChatWidget({
           <div className={styles.chatHeader}>
             <h3>Ask AI about Zach</h3>
             <button
+              type="button"
               onClick={() => closeChat(messages.length)}
               className={styles.closeButton}
               aria-label="Close chat"
@@ -116,6 +117,7 @@ export default function FloatingChatWidget({
                 <div className={styles.suggestedQuestions}>
                   <p className={styles.suggestedTitle}>Try asking about:</p>
                   <button
+                    type="button"
                     className={styles.suggestionButton}
                     onClick={() =>
                       setInputValue(
@@ -126,6 +128,7 @@ export default function FloatingChatWidget({
                     What technologies does Zach have experience with?
                   </button>
                   <button
+                    type="button"
                     className={styles.suggestionButton}
                     onClick={() =>
                       setInputValue("Tell me about Zach's recent projects")
@@ -134,6 +137,7 @@ export default function FloatingChatWidget({
                     Tell me about Zach&apos;s recent projects
                   </button>
                   <button
+                    type="button"
                     className={styles.suggestionButton}
                     onClick={() =>
                       setInputValue("What was Zach's role at 3D Systems?")
@@ -142,6 +146,7 @@ export default function FloatingChatWidget({
                     What was Zach&apos;s role at 3D Systems?
                   </button>
                   <button
+                    type="button"
                     className={styles.suggestionButton}
                     onClick={() =>
                       setInputValue(
@@ -201,6 +206,7 @@ export default function FloatingChatWidget({
                     message.content &&
                     !message.isStreaming && (
                       <button
+                        type="button"
                         onClick={() => copyMessage(message.id, message.content)}
                         className={styles.copyButton}
                         aria-label="Copy message"
@@ -243,35 +249,43 @@ export default function FloatingChatWidget({
             </div>
           </form>
 
-          {/* Resize handles */}
+          {/* Resize handles — mouse-only drag handles, not keyboard-interactive */}
+          {/* biome-ignore lint/a11y/noStaticElementInteractions: mouse-only drag resize handle */}
           <div
             className={`${styles.resizeHandle} ${styles.resizeHandleNW}`}
             onMouseDown={handleResizeStart('nw')}
           />
+          {/* biome-ignore lint/a11y/noStaticElementInteractions: mouse-only drag resize handle */}
           <div
             className={`${styles.resizeHandle} ${styles.resizeHandleN}`}
             onMouseDown={handleResizeStart('n')}
           />
+          {/* biome-ignore lint/a11y/noStaticElementInteractions: mouse-only drag resize handle */}
           <div
             className={`${styles.resizeHandle} ${styles.resizeHandleNE}`}
             onMouseDown={handleResizeStart('ne')}
           />
+          {/* biome-ignore lint/a11y/noStaticElementInteractions: mouse-only drag resize handle */}
           <div
             className={`${styles.resizeHandle} ${styles.resizeHandleW}`}
             onMouseDown={handleResizeStart('w')}
           />
+          {/* biome-ignore lint/a11y/noStaticElementInteractions: mouse-only drag resize handle */}
           <div
             className={`${styles.resizeHandle} ${styles.resizeHandleE}`}
             onMouseDown={handleResizeStart('e')}
           />
+          {/* biome-ignore lint/a11y/noStaticElementInteractions: mouse-only drag resize handle */}
           <div
             className={`${styles.resizeHandle} ${styles.resizeHandleSW}`}
             onMouseDown={handleResizeStart('sw')}
           />
+          {/* biome-ignore lint/a11y/noStaticElementInteractions: mouse-only drag resize handle */}
           <div
             className={`${styles.resizeHandle} ${styles.resizeHandleS}`}
             onMouseDown={handleResizeStart('s')}
           />
+          {/* biome-ignore lint/a11y/noStaticElementInteractions: mouse-only drag resize handle */}
           <div
             className={`${styles.resizeHandle} ${styles.resizeHandleSE}`}
             onMouseDown={handleResizeStart('se')}
@@ -281,6 +295,7 @@ export default function FloatingChatWidget({
 
       {!isOpen && (
         <button
+          type="button"
           onClick={toggleChat}
           className={styles.chatToggle}
           aria-label="Open chat"
@@ -307,6 +322,7 @@ export default function FloatingChatWidget({
                 AI to learn about Zach? Click the chat below to get started.
               </div>
               <button
+                type="button"
                 className={styles.greetingClose}
                 onClick={dismissGreeting}
                 aria-label="Close greeting"
