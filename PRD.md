@@ -1011,6 +1011,86 @@ Several site behaviors are currently hard-coded or require code changes to adjus
 
 ---
 
+---
+
+## Site-Wide Design Language
+
+Before undertaking any visual exploration (Phases 23–25), all work must be evaluated against the established design language below. The goal of exploratory phases is to **strengthen and deepen** this identity — not to diverge from it or introduce inconsistency.
+
+### Existing Visual Identity (What's Working)
+
+- **Gradient-first theming** — The site's signature is its dynamic gradient background system (customizable via the Preferences widget). Accent colors (`--accentPrimary`, `--themeColor`, gradient variables) flow through every surface. Any new design elements should feel like they belong to this palette, not compete with it.
+- **Dark/light mode parity** — All UI elements are legible and intentional in both modes. New work must maintain full contrast compliance in both.
+- **Motion as enhancement** — Scroll-triggered reveals (via `useInView`) are used tastefully on content-heavy pages. Animations should feel natural and purposeful, never decorative noise.
+- **Restraint and clarity** — The site leans minimal: plenty of whitespace, clean typography, no visual clutter. Explorations should add character without adding complexity.
+- **CSS Modules + custom properties** — The entire styling system is scoped CSS Modules referencing shared CSS variables from `globals.css`. Any new components must follow this pattern — no inline style overrides of theme values, no hard-coded colors.
+
+### Design Principles for Exploratory Phases
+
+1. **Additive, not disruptive** — A page redesign should feel like a natural evolution of the existing site, not a departure. A visitor navigating from `/` to `/about` to `/blog` should feel visual continuity.
+2. **One new idea per phase** — Introduce at most one new layout pattern or visual motif per exploratory phase. Validate it works within the existing system before expanding it.
+3. **Reversibility** — Because these phases are exploratory, implementations should be scoped so they can be reverted cleanly without affecting other pages.
+4. **Content-first** — Layout and visual changes must never compromise readability or content hierarchy. Typography legibility, heading structure, and information flow come before aesthetic novelty.
+
+---
+
+### Phase 23: /about Page Visual Redesign *(Exploratory)*
+
+**Status:** Pending
+**Priority:** LOW — current design is intentional and acceptable; this phase is exploratory only
+**Agent:** `frontend-design` skill
+
+> **Note:** The current `/about` design is liked and may be kept as-is. This phase exists to explore alternatives. Any output should be treated as a design spike — nothing is shipped unless it's clearly an improvement.
+
+**Motivation:**
+The `/about` page is the primary personal landing page. Exploration of bolder typographic treatments, asymmetric composition, or subtle motion may surface ideas worth incorporating incrementally, even if the overall layout stays largely the same.
+
+**Scope (exploratory — not all items need to be implemented):**
+- [ ] Explore hero/intro section with bolder typographic treatment
+- [ ] Explore asymmetric or grid-breaking layout for "Recent" sidebar
+- [ ] Explore subtle scroll-triggered animations (consistent with existing `useInView` patterns)
+- [ ] Ensure any changes maintain dark/light mode contrast
+- [ ] Keep all existing content; exploration is layout/visual only
+
+---
+
+### Phase 24: Blog Listing Page (`/blog`) Editorial Redesign *(Exploratory)*
+
+**Status:** Pending
+**Priority:** LOW — current card grid is functional and acceptable; exploratory only
+**Agent:** `frontend-design` skill
+
+> **Note:** The current `/blog` listing is liked and may be kept as-is. This phase is a design spike to explore whether an editorial-style layout would be a meaningful improvement.
+
+**Motivation:**
+Exploration of a featured-post treatment, stronger typographic hierarchy, or tag filters may surface ideas worth incorporating. The existing PostCard component and routing must be preserved.
+
+**Scope (exploratory — not all items need to be implemented):**
+- [ ] Explore post card with stronger typographic hierarchy (title, date, excerpt)
+- [ ] Explore a "featured post" treatment for the most recent post
+- [ ] Explore category/tag filter tabs above the post list
+- [ ] Maintain existing PostCard data shape and routing
+
+---
+
+### Phase 25: Contact Page Visual Polish *(Exploratory)*
+
+**Status:** Pending
+**Priority:** LOW — contact page is functional and acceptable; exploratory only
+**Agent:** `frontend-design` skill
+
+> **Note:** The current contact page design is liked and may be kept as-is. This phase explores whether the email copy CTA and "copied!" notification can be elevated without disrupting the existing feel.
+
+**Motivation:**
+The email copy button (now a proper `<button>` after Phase 22) is a natural candidate for a micro-interaction polish pass. Exploration only — no changes unless clearly better.
+
+**Scope (exploratory — not all items need to be implemented):**
+- [ ] Explore elevating the email copy button into a more distinctive animated CTA
+- [ ] Explore polishing the "copied!" notification animation
+- [ ] Review overall page composition for visual coherence
+
+---
+
 ## Current Status & Conclusion
 
 This PRD has guided the successful implementation of a comprehensive personal website with advanced RAG-powered chat and complete blog management capabilities. The phased approach enabled iterative development with continuous user feedback.
