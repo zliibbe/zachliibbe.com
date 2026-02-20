@@ -61,6 +61,7 @@ export default function AdminDashboard({ session }: AdminDashboardProps) {
                     Welcome, {session.user?.name || session.user?.email}
                   </span>
                   <button
+                    type="button"
                     onClick={handleSignOut}
                     className={styles.signOutButton}
                   >

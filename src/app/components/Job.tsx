@@ -78,6 +78,7 @@ const Job: React.FC<JobProps> = ({
             )}
             {isHealthcareJob ? (
               <button
+                type="button"
                 onClick={() => setIsExpanded(!isExpanded)}
                 className={styles.expandButton}
                 aria-expanded={isExpanded}

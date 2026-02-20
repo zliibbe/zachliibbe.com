@@ -939,19 +939,19 @@ Claude Code supports specialized subagents (Bash, Explore, Plan, general-purpose
 
 ---
 
-### Phase 19: Fix `useButtonType` a11y Warnings
+### Phase 19: Fix `useButtonType` a11y Warnings ✅ (100% Complete)
 
-**Status:** Pending
+**Status:** Complete (2026-02-19)
 **Priority:** LOW — 60 buttons across the codebase missing explicit `type` attribute
 
 **Motivation:**
 Biome's `useButtonType` rule flags buttons without an explicit `type="button"` (or `type="submit"` / `type="reset"`). Omitting `type` defaults to `type="submit"`, which can accidentally submit forms. These are pre-existing a11y issues surfaced by the Biome migration.
 
 **Scope:**
-- [ ] Run `bunx biome check . --max-diagnostics=500 2>&1 | grep useButtonType` to list all affected files
-- [ ] Add `type="button"` to non-form-submitting buttons; `type="submit"` where intentional
-- [ ] Upgrade `useButtonType` from `"warn"` back to `"error"` in `biome.json` after fixes
-- [ ] Verify `bun run check` passes with 0 errors
+- [x] Add `type="button"` to non-form-submitting buttons across 18 files
+- [x] Suppress `noStaticElementInteractions` for modal backdrop and mouse-only drag resize handles with biome-ignore comments
+- [x] Upgrade `useButtonType` and `noStaticElementInteractions` from `"warn"` to `"error"` in `biome.json`
+- [x] Verify 0 error-severity violations remain (`bun run check` shows 0 errors from these rules)
 
 ---
 

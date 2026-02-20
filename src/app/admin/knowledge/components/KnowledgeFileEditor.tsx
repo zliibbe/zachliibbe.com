@@ -87,6 +87,7 @@ export default function KnowledgeFileEditor({
         </div>
         <div className={styles.editorControls}>
           <button
+            type="button"
             onClick={() => setPreviewMode(!previewMode)}
             className={`${styles.controlButton} ${previewMode ? styles.active : ''}`}
             title={previewMode ? 'Switch to editor' : 'Switch to preview'}
@@ -95,6 +96,7 @@ export default function KnowledgeFileEditor({
             {previewMode ? 'Edit' : 'Preview'}
           </button>
           <button
+            type="button"
             onClick={handleSave}
             disabled={!hasChanges || saving}
             className={styles.saveButton}
@@ -104,6 +106,7 @@ export default function KnowledgeFileEditor({
             {saving ? 'Saving...' : 'Save'}
           </button>
           <button
+            type="button"
             onClick={handleClose}
             className={styles.closeButton}
             title="Close editor"

@@ -1,5 +1,88 @@
 # Development Session Log
 
+## Session 2026-02-19 (Part 2)
+
+**Date**: 2026-02-19
+**Branch**: feature/phase-16-currently-reading, Add-Jest-and-React-Testing-Library → main
+**Session Focus**: Phases 15–17 — content updates, Currently Reading section, Jest test suite + CI
+
+### Key Accomplishments
+
+#### PR #119 — Phase 15: /work and /about content updates
+- Added Raytheon as current role on /work page with contract status badge
+- Updated 3D Systems bullets to past tense
+- Refreshed /about intro paragraph and recent section content
+- Version bumped to 2.12.1
+
+#### PR #120 — Phase 16: Currently Reading section on /live-feed
+- New `CurrentlyReadingBooks` client component (`src/app/components/CurrentlyReadingBooks.tsx`)
+  - Fetches `/api/goodreads/currently-reading`
+  - Composite key `${title}||${author}` (Bug Bot caught nullable `book.link`)
+  - `Cache-Control: no-cache` header (Bug Bot caught `cache: 'no-store'` is server-side only)
+  - Separate error/empty states; `Math.min` clamp on progress %
+- `LiveFeed.module.css` — added `.emptyText`, `.progressBar`, `.progressFill`, `.progressText`
+- `page.tsx` — added Currently Reading section, renamed "Reading" → "Read"
+- 6 Bug Bot iterations before "No bugs found."
+- Version bumped to 2.12.2
+
+#### `next.config.js` localPatterns hotfix (direct to main)
+- Fixed `localPatterns: [{ pathname: '/**' }]` → specific patterns: `/images/**`, `/*.png`, `/*.svg`
+- Bug Bot flagged `/**` as too broad a wildcard (security concern)
+- Also applied same fix to feature/phase-16 branch
+
+#### PR #121 — Phase 17: Jest + React Testing Library test suite + CI
+- Merged `Add-Jest-and-React-Testing-Library` branch into main
+- **Tests written** (42 passing):
+  - `PrimaryNav.test.tsx` — 5 tests (links, hrefs, active class, blog prefix, no false actives)
+  - `PostCard.test.tsx` — 10 tests (title, excerpt, timezone-safe date, author, categories, tags)
+  - `useChatMessages.test.ts` — 12 tests with `jest.useFakeTimers()`
+  - `route.test.ts` (chat API) — 15 tests with `@jest-environment node` docblock
+- **Config fixes**:
+  - `moduleNameMapping` typo → `moduleNameMapper` in `jest.config.js`
+  - `jest.setup.js` window.matchMedia guarded with `typeof window !== 'undefined'`
+  - `src/types/jest-dom.d.ts` created for `@testing-library/jest-dom` types
+  - `tsconfig.json` merge conflict resolved (es2020 target, expanded paths, `["react","node","jest"]` types)
+- **CI workflow**: `.github/workflows/test.yml` — runs `bun run test --ci` on PRs and pushes to main
+- Version bumped to 2.13.0
+
+#### README.md — Testing section
+- Added `## 🧪 Testing` section with commands, stack, test suites table, writing guide, CI note
+- Updated project structure tree and CI tech stack entry
+- Version bumped to 2.13.1
+
+#### PRD.md — Phase 16 & 17 marked Complete ✅
+
+### Session Metrics
+
+- **PRs Created & Merged**: 3 (#119, #120, #121) + 1 hotfix to main
+- **Files Created**: `CurrentlyReadingBooks.tsx`, `jest-dom.d.ts`, `test.yml`, 4 test files
+- **Files Modified**: `LiveFeed.module.css`, `live-feed/page.tsx`, `next.config.js`, `jest.config.js`, `jest.setup.js`, `tsconfig.json`, `README.md`, `PRD.md`, `package.json`
+- **Bugs Fixed**: 8 (Bug Bot cycles on phase 16, jest config typo, timezone date, node env, window guard, tsconfig conflict, localPatterns security)
+- **Version**: 2.12.1 → 2.13.1
+
+### Key Learnings
+
+- `cache: 'no-store'` is a Next.js server-side `fetch` extension — browser `fetch` ignores it. Use `headers: { 'Cache-Control': 'no-cache' }` instead
+- `jest-environment-jsdom` doesn't have `Request` global (needed by `NextRequest`) — use `/** @jest-environment node */` docblock for API route tests
+- `@testing-library/jest-dom` has no standalone `@types/` package — reference it via `/// <reference types="@testing-library/jest-dom" />` in a `.d.ts` file
+- `jest.useFakeTimers()` required for testing async streaming hooks that use `setTimeout`
+- `images.localPatterns` with `/**` considered too broad by security review — enumerate specific paths
+
+### Next Session Priorities
+
+1. **Phase 18** — Create `AGENTS.md` (Claude Code subagent strategy)
+2. **Phase 19** — Fix `useButtonType` a11y warnings (60 buttons need `type="button"`)
+3. **Phase 20** — (per PRD, check for next planned phase)
+
+### Context for Next Session
+
+- **Branch**: main (clean, v2.13.1)
+- **Test suite**: 42 tests passing, CI running on every PR
+- **Linting**: `bun run check:fix` (Biome)
+- **Next phase**: Phase 18 (AGENTS.md)
+
+---
+
 ## Session 2026-02-19
 
 **Date**: 2026-02-19

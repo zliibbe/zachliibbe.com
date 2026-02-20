@@ -39,6 +39,7 @@ export default function SignIn() {
             <h1>Admin Access</h1>
             <p>Sign in to access the blog administration interface.</p>
             <button
+              type="button"
               onClick={handleGoogleSignIn}
               disabled={isLoading}
               className={styles.googleButton}

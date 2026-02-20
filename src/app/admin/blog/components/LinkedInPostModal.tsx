@@ -181,6 +181,7 @@ ${post.tags
 
             <div className={styles.actions}>
               <button
+                type="button"
                 className={styles.regenerateButton}
                 onClick={generateLinkedInPost}
                 disabled={isGenerating}
@@ -189,6 +190,7 @@ ${post.tags
               </button>
 
               <button
+                type="button"
                 className={styles.hookButton}
                 onClick={generateLinkedInPost}
                 disabled={isGenerating}
@@ -199,6 +201,7 @@ ${post.tags
 
               <div className={styles.primaryActions}>
                 <button
+                  type="button"
                   className={styles.copyButton}
                   onClick={copyToClipboard}
                   disabled={!generatedPost && !customPost}
@@ -207,6 +210,7 @@ ${post.tags
                 </button>
 
                 <button
+                  type="button"
                   className={styles.postButton}
                   onClick={handlePostAndRedirect}
                   disabled={!generatedPost && !customPost}

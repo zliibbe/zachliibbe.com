@@ -179,6 +179,7 @@ export class ErrorBoundary extends Component<Props, State> {
           )}
 
           <button
+            type="button"
             onClick={this.handleRetry}
             style={{
               padding: '8px 16px',

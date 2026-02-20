@@ -611,6 +611,7 @@ Use Ctrl/Cmd + S to save, Ctrl/Cmd + P to toggle preview, Ctrl/Cmd + O for SEO p
             {errorModal.message}
           </p>
           <button
+            type="button"
             onClick={closeErrorModal}
             style={{
               background: '#3b82f6',

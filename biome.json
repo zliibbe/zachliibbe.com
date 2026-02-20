@@ -55,8 +55,8 @@
     "rules": {
       "recommended": true,
       "a11y": {
-        "useButtonType": "warn",
-        "noStaticElementInteractions": "warn",
+        "useButtonType": "error",
+        "noStaticElementInteractions": "error",
         "useKeyWithClickEvents": "warn"
       },
       "complexity": {

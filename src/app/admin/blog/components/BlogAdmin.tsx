@@ -685,6 +685,7 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
                   <h1>Blog Management</h1>
                 </div>
                 <button
+                  type="button"
                   className={styles.newPostButton}
                   onClick={handleNewPost}
                 >
@@ -697,12 +698,14 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
               <div className={styles.tabsContainer}>
                 <div className={styles.tabs}>
                   <button
+                    type="button"
                     className={`${styles.tab} ${activeTab === 'all' ? styles.tabActive : ''}`}
                     onClick={() => setActiveTab('all')}
                   >
                     All Posts ({posts.length})
                   </button>
                   <button
+                    type="button"
                     className={`${styles.tab} ${activeTab === 'published' ? styles.tabActive : ''}`}
                     onClick={() => setActiveTab('published')}
                   >
@@ -710,12 +713,14 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
                     {posts.filter(p => p.status === 'published').length})
                   </button>
                   <button
+                    type="button"
                     className={`${styles.tab} ${activeTab === 'drafts' ? styles.tabActive : ''}`}
                     onClick={() => setActiveTab('drafts')}
                   >
                     Drafts ({posts.filter(p => p.status === 'draft').length})
                   </button>
                   <button
+                    type="button"
                     className={`${styles.tab} ${activeTab === 'scheduled' ? styles.tabActive : ''}`}
                     onClick={() => setActiveTab('scheduled')}
                   >
@@ -753,6 +758,7 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
                         : `Switch to another tab or create a new post.`}
                     </p>
                     <button
+                      type="button"
                       className={styles.createFirstPostButton}
                       onClick={handleNewPost}
                     >
@@ -855,6 +861,7 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
 
                             <div className={styles.postActions}>
                               <button
+                                type="button"
                                 className={styles.actionButton}
                                 onClick={() => handleEditPost(post)}
                               >
@@ -862,6 +869,7 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
                               </button>
                               {post.status === 'draft' && (
                                 <button
+                                  type="button"
                                   className={styles.actionButtonPrimary}
                                   onClick={() => handlePublishPost(post)}
                                 >
@@ -870,6 +878,7 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
                               )}
                               {post.status === 'scheduled' && (
                                 <button
+                                  type="button"
                                   className={styles.actionButtonPrimary}
                                   onClick={() => handlePublishPost(post)}
                                 >
@@ -881,6 +890,7 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
                               {!post.featuredImage ||
                               !post.featuredImage.url ? (
                                 <button
+                                  type="button"
                                   className={styles.actionButton}
                                   onClick={() =>
                                     handleSelectFromImageOptions(post)
@@ -891,6 +901,7 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
                                 </button>
                               ) : (
                                 <button
+                                  type="button"
                                   className={styles.actionButton}
                                   onClick={() =>
                                     handleSelectFromImageOptions(post, true)
@@ -903,6 +914,7 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
                               {post.status === 'published' &&
                                 !post.mediumUrl && (
                                   <button
+                                    type="button"
                                     className={styles.actionButton}
                                     onClick={() =>
                                       handleCrossPostToMedium(post)
@@ -913,6 +925,7 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
                                 )}
                               {post.mediumUrl && (
                                 <button
+                                  type="button"
                                   className={styles.actionButton}
                                   onClick={() =>
                                     window.open(post.mediumUrl, '_blank')
@@ -928,6 +941,7 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
                               )}
                               {post.status === 'published' && (
                                 <button
+                                  type="button"
                                   className={styles.actionButton}
                                   onClick={() => handleCreateLinkedInPost(post)}
                                   title="Generate LinkedIn post from this blog post"
@@ -936,6 +950,7 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
                                 </button>
                               )}
                               <button
+                                type="button"
                                 className={styles.actionButtonDanger}
                                 onClick={() => handleDeletePost(post)}
                               >
@@ -999,6 +1014,7 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
             style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}
           >
             <button
+              type="button"
               onClick={closeGeneralModal}
               style={{
                 background: '#3b82f6',
@@ -1019,6 +1035,7 @@ export default function BlogAdmin({ session }: BlogAdminProps) {
               generalModal.type === 'confirmation') &&
               generalModal.onConfirm && (
                 <button
+                  type="button"
                   onClick={() => {
                     generalModal.onConfirm?.();
                     closeGeneralModal();

@@ -122,7 +122,11 @@ export default function TestQueryInterface() {
           </p>
         </div>
         {testResults.length > 0 && (
-          <button onClick={clearResults} className={styles.clearButton}>
+          <button
+            type="button"
+            onClick={clearResults}
+            className={styles.clearButton}
+          >
             <MdClear />
             Clear Results
           </button>
@@ -156,6 +160,7 @@ export default function TestQueryInterface() {
           <div className={styles.exampleButtons}>
             {exampleQueries.map((example, index) => (
               <button
+                type="button"
                 key={index}
                 onClick={() => handleExampleQuery(example)}
                 className={styles.exampleButton}
@@ -194,6 +199,7 @@ export default function TestQueryInterface() {
                         {new Date(result.timestamp).toLocaleTimeString()}
                       </span>
                       <button
+                        type="button"
                         onClick={() => toggleResultExpansion(index)}
                         className={styles.expandButton}
                       >
