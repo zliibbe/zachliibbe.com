@@ -41,6 +41,10 @@ Follow the coding commandments located at `~/.claude/commandments.md` for all de
 - **Avoid primitive obsessions**: Use higher-level objects with validation
 - **YAGNI**: Build only what's currently needed
 
+## Subagent Strategy
+
+See `AGENTS.md` at the project root for detailed guidance on when to use each Claude Code subagent type (Explore, Plan, Bash, general-purpose) and project-specific conventions for codebase searches, API route creation, and CSS editing.
+
 ## Development Tools
 
 - **Biome**: Single tool for linting and formatting (replaces ESLint + Prettier). Config in `biome.json`.
