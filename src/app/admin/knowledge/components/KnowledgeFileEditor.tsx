@@ -121,6 +121,7 @@ export default function KnowledgeFileEditor({
           <div className={styles.preview}>
             <div
               className={styles.previewContent}
+              // biome-ignore lint/security/noDangerouslySetInnerHtml: admin-only knowledge file preview; content is trusted markdown from the knowledge base
               dangerouslySetInnerHTML={{ __html: previewContent }}
             />
           </div>

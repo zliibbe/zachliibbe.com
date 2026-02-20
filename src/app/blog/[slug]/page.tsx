@@ -132,6 +132,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
                   <div
                     className={styles.postContent}
+                    // biome-ignore lint/security/noDangerouslySetInnerHtml: blog post HTML generated server-side from author-controlled markdown
                     dangerouslySetInnerHTML={{ __html: post.content }}
                   />
 
