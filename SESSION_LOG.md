@@ -1,5 +1,109 @@
 # Development Session Log
 
+## Session 2026-02-20 (Part 2 — Phase 23 Kickoff)
+
+**Date**: 2026-02-20
+**Branch**: main (no changes made)
+**Session Focus**: Phase 23 — about page design spike setup
+
+### Summary
+
+Short session. Picked up immediately from previous context to begin Phase 23 (`/about` redesign) using the `frontend-design` skill. Read the current `about/page.tsx`, `about/page.module.css`, and `globals.css` to gather design context; invoked the `frontend-design` skill with a detailed brief covering all site-wide design constraints. User invoked `/end-session` before implementation was written.
+
+**No code changes. No commits. Version still 2.14.1.**
+
+### Next Session
+
+Pick up Phase 23 design spike exactly where it left off:
+- Branch to create: `feature/phase-23-about-redesign-spike`
+- Files to modify: `src/app/about/page.tsx`, `src/app/about/page.module.css`
+- File to create: `src/app/about/AboutContent.tsx` (client component for `useInView` animations)
+- Design direction decided: editorial/personal — large typographic hero (`Hey, I'm Zach.`), bento grid for "recently" cards, `useInView` staggered section reveals, section headings with left accent border using `--theme-color`
+- All content must be preserved; spike is purely layout/visual exploration
+
+---
+
+## Session 2026-02-20
+
+**Date**: 2026-02-20
+**Branch**: feature/phase-20-21-analytics-settings-agentsmd, fix/phase-22-biome-warnings → main
+**Session Focus**: Phases 18, 22 — AGENTS.md, scheduled publishing fix, Biome warnings, PRD design language
+
+### Key Accomplishments
+
+#### PR #123 — AGENTS.md + scheduled publishing fix + PRD phases 20–22
+
+**AGENTS.md (Phase 18 complete)**
+- Created `AGENTS.md` at project root documenting when to use each Claude Code subagent type
+- Covers Explore (codebase discovery), Plan (architecture, >3 files), Bash (terminal ops), general-purpose (complex research)
+- Project-specific conventions: CSS editing, admin API route patterns, blog storage, parallelization guidelines
+- Referenced from `CLAUDE.md` via new "Subagent Strategy" section
+
+**Scheduled publishing bug fix**
+- Root cause: Vercel cron at `0 16 * * *` sends `Authorization: Bearer <CRON_SECRET>`; if `CRON_SECRET` env var is not set in Vercel, `isValidCronRequest()` returns false and every cron call gets 401
+- Fix: New `POST /api/admin/blog/run-scheduled-publish` — session-authenticated (NextAuth), no CRON_SECRET required
+- Added "Run Scheduled Publishing Now" button + banner to BlogAdmin Scheduled tab
+- Unblocks the 2 overdue posts from Sept 2025 immediately
+
+**PRD updates**: Added Phase 20 (`/admin/analytics`), Phase 21 (`/admin/settings`), Phase 22 (Biome warnings triage)
+
+#### PR #124 — Phase 22: Resolve all 17 Biome warnings → 0
+
+Triaged all 17 `warn`-severity Biome violations. `bun run check` now reports **0 warnings, 0 errors**.
+
+| # | Rule | Resolution |
+|---|------|------------|
+| 1 | `noCommaOperator` (MarkdownEditor onKeyDown) | Fixed — explicit `if` block |
+| 2–4 | `noDangerouslySetInnerHtml` (admin + blog) | Suppressed — trusted author markdown |
+| 5–8 | `noArrayIndexKey` (TestQueryInterface, unsplash) | Suppressed — static/append-only lists |
+| 9–11 | `noArrayIndexKey` (Job.tsx) | Fixed — compound `${index}-${content}` keys (Bug Bot caught pure content-string keys could collide) |
+| 12–13 | `noShorthandPropertyOverrides` (CSS) | Fixed — removed redundant `margin-top`/`margin-left` |
+| 14 | `noImplicitAnyLet` (CurrentlyReading) | Suppressed — JSON.parse inside try/catch; adding union type breaks downstream narrowing |
+| 15 | `noImplicitAnyLet` (utils/index.ts) | Fixed — `let activityTime: moment.Moment` |
+| 16 | `useKeyWithClickEvents` (EmailCopy) | Fixed — `<p>` → `<button type="button">` with `aria-label`; helper text updated; CSS reset for button defaults |
+| 17 | `noShadowRestrictedNames` (error.tsx) | Suppressed — Next.js requires export named exactly `Error` |
+
+**Key lesson — biome-ignore placement in JSX**: `{/* biome-ignore */}` JSX expression comments are NOT recognized as Biome suppressions (produce `suppressions/unused` warning). Use `// biome-ignore` line comments placed INSIDE the JSX tag immediately before the violating prop (e.g., before `dangerouslySetInnerHTML=` or before `key=`).
+
+#### Direct to main — Site-wide design language + exploratory phases 23–25
+
+- Added "Site-Wide Design Language" section to PRD documenting the existing visual identity (gradient-first theming, dark/light parity, `useInView` motion, CSS Modules + custom properties)
+- Four design principles for exploratory phases: additive not disruptive, one new idea per phase, reversibility, content-first
+- Added Phase 23 (`/about` redesign), Phase 24 (`/blog` listing editorial), Phase 25 (contact visual polish) — all marked **exploratory**, current designs are liked and may be kept
+- Noted `frontend-design` skill (`skills.sh/anthropics/skills/frontend-design`) as the agent for these phases
+
+### Session Metrics
+
+- **PRs Created & Merged**: 2 (#123, #124)
+- **Commits**: 14 atomic commits + 1 direct-to-main
+- **Files Modified**: 20 files
+- **Code Changes**: +407 / -19 lines
+- **Bugs Fixed**: 2 (scheduled publishing 401, Bug Bot's compound key collision catch)
+- **Warnings Resolved**: 17 → 0
+- **Version**: 2.13.2 → 2.14.1
+
+### Key Learnings
+
+- Biome suppression in JSX: `// biome-ignore` must be a standard JS line comment inside the JSX attribute list, immediately before the violating prop — NOT a `{/* */}` JSX expression comment
+- `noImplicitAnyLet` for `JSON.parse` inside try/catch: typing as `unknown` breaks optional chaining downstream; pragmatic choice is biome-ignore with clear rationale
+- Vercel cron authentication: `CRON_SECRET` must be set as an env var in Vercel dashboard; if missing, every cron trigger returns 401 silently
+- Compound React keys (`${index}-${content}`) are better than pure content strings (not unique) or pure index (Biome warns); they're also not flagged by `noArrayIndexKey` since `key` isn't set to the bare index variable
+
+### Next Session Priorities
+
+1. **Phase 23 (exploratory)** — `/about` page design exploration using `frontend-design` skill; open file already in IDE. Treat as design spike — produce options, don't ship unless clearly better
+2. **Phase 20** — `/admin/analytics` dashboard (MEDIUM priority, most useful of remaining functional phases)
+3. **Phase 21** — `/admin/settings` page (LOW priority, runtime config via KV)
+
+### Context for Next Session
+
+- **Branch**: main (clean, v2.14.1)
+- **Linting**: `bun run check` → 0 warnings, 0 errors (maintained)
+- **Design exploration**: `frontend-design` skill at skills.sh/anthropics/skills/frontend-design; PRD has design language principles to guide the agent
+- **Scheduled posts**: 2 Sept 2025 posts can now be published via "Run Scheduled Publishing Now" button in `/admin/blog` → Scheduled tab
+
+---
+
 ## Session 2026-02-19 (Part 2)
 
 **Date**: 2026-02-19
