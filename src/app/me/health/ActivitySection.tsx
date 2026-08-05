@@ -108,23 +108,25 @@ function StepsBar({
           </ChartTooltip>
         )}
       </div>
-      <table className={shared.srOnlyTable}>
-        <caption>Daily steps</caption>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Steps</th>
-          </tr>
-        </thead>
-        <tbody>
-          {points.map(p => (
-            <tr key={p.date}>
-              <td>{p.date}</td>
-              <td>{p.steps}</td>
+      <div className={shared.srOnly}>
+        <table>
+          <caption>Daily steps</caption>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Steps</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {points.map(p => (
+              <tr key={p.date}>
+                <td>{p.date}</td>
+                <td>{p.steps}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

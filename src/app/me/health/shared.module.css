@@ -64,6 +64,16 @@ html[data-theme="dark"] .section {
   margin-bottom: 1.5rem;
 }
 
+@media (max-width: 768px) {
+  .statRow {
+    justify-content: center;
+  }
+
+  .statTile {
+    flex: 1 1 100%;
+  }
+}
+
 .statTile {
   display: flex;
   flex-direction: column;
@@ -146,6 +156,7 @@ html[data-theme="dark"] .section {
 
 /* Trend line chart (TrendLineChart) */
 .trendBlock {
+  position: relative;
   margin-top: 1rem;
 }
 
@@ -176,14 +187,24 @@ html[data-theme="dark"] .section {
   font-variant-numeric: tabular-nums;
 }
 
-.srOnlyTable {
+/*
+ * Wraps a <table> (or any element whose intrinsic size ignores a small
+ * explicit width/height -- tables are the classic case: `height: 1px` is
+ * treated as a minimum, not a cap, so a many-row table renders at full
+ * height regardless). The wrapping div has no such quirk, so it's the div
+ * that gets clipped to 1x1px, not the table inside it.
+ */
+.srOnly {
   position: absolute;
+  top: 0;
+  left: 0;
   width: 1px;
   height: 1px;
   padding: 0;
   margin: -1px;
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
   white-space: nowrap;
   border: 0;
 }

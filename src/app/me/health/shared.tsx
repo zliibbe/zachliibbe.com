@@ -230,23 +230,25 @@ export function TrendLineChart({
           </ChartTooltip>
         )}
       </div>
-      <table className={styles.srOnlyTable}>
-        <caption>{tableCaption}</caption>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          {points.map(p => (
-            <tr key={p.date}>
-              <td>{p.date}</td>
-              <td>{formatValue(p.value)}</td>
+      <div className={styles.srOnly}>
+        <table>
+          <caption>{tableCaption}</caption>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Value</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {points.map(p => (
+              <tr key={p.date}>
+                <td>{p.date}</td>
+                <td>{formatValue(p.value)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
