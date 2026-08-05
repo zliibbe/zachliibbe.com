@@ -1,0 +1,143 @@
+import { fireEvent, render, screen, within } from '@testing-library/react';
+import { formatDuration, StatTile, TrendLineChart } from '../shared';
+
+describe('formatDuration', () => {
+  it('formats whole hours and minutes', () => {
+    expect(formatDuration(27120)).toBe('7h 32m');
+  });
+
+  it('rounds partial minutes', () => {
+    expect(formatDuration(90)).toBe('0h 2m');
+  });
+
+  it('handles zero', () => {
+    expect(formatDuration(0)).toBe('0h 0m');
+  });
+});
+
+describe('StatTile', () => {
+  it('renders the label and value', () => {
+    render(
+      <StatTile label="Steps, 2026-08-04" value="7,275" accentColor="#2a78d6" />
+    );
+    expect(screen.getByText('Steps, 2026-08-04')).toBeInTheDocument();
+    expect(screen.getByText('7,275')).toBeInTheDocument();
+  });
+
+  it('renders a sparkline when given at least 2 values', () => {
+    render(
+      <StatTile
+        label="Steps"
+        value="100"
+        sparkline={[1, 2, 3]}
+        accentColor="#2a78d6"
+      />
+    );
+    expect(
+      screen.getByRole('img', { name: /Trend sparkline/ })
+    ).toBeInTheDocument();
+  });
+
+  it('renders no sparkline with fewer than 2 values', () => {
+    render(
+      <StatTile
+        label="Steps"
+        value="100"
+        sparkline={[1]}
+        accentColor="#2a78d6"
+      />
+    );
+    expect(
+      screen.queryByRole('img', { name: /Trend sparkline/ })
+    ).not.toBeInTheDocument();
+  });
+});
+
+describe('TrendLineChart', () => {
+  const points = [
+    { date: '2026-08-01', value: 7.0 },
+    { date: '2026-08-02', value: 7.5 },
+    { date: '2026-08-03', value: 8.0 },
+  ];
+
+  it('renders nothing with fewer than 2 points', () => {
+    const { container } = render(
+      <TrendLineChart
+        points={[{ date: '2026-08-01', value: 7 }]}
+        accentColor="#2a78d6"
+        title="Sleep"
+        tableCaption="Sleep by night"
+      />
+    );
+    expect(container).toBeEmptyDOMElement();
+  });
+
+  it('renders the title and an accessible table with every point', () => {
+    render(
+      <TrendLineChart
+        points={points}
+        accentColor="#2a78d6"
+        title="Sleep duration"
+        tableCaption="Sleep duration by night"
+      />
+    );
+    expect(screen.getByText('Sleep duration')).toBeInTheDocument();
+    expect(screen.getByText('Sleep duration by night')).toBeInTheDocument();
+    // header row + one row per point
+    expect(screen.getAllByRole('row')).toHaveLength(points.length + 1);
+  });
+
+  it('shows the most recent value by default, before any interaction', () => {
+    render(
+      <TrendLineChart
+        points={points}
+        accentColor="#2a78d6"
+        title="Sleep"
+        formatValue={v => `${v}h`}
+        tableCaption="caption"
+      />
+    );
+    // "8h" appears twice by design: the visible SVG end-label and the
+    // sr-only accessible table row for the same point.
+    const svg = screen.getByRole('img', { name: /most recent 8h/ });
+    expect(within(svg).getByText('8h')).toBeInTheDocument();
+    expect(screen.queryByRole('status')).not.toBeInTheDocument();
+  });
+
+  it('shows a tooltip for the focused point on keyboard focus, matching the hover contract', () => {
+    render(
+      <TrendLineChart
+        points={points}
+        accentColor="#2a78d6"
+        title="Sleep"
+        formatValue={v => `${v}h`}
+        tableCaption="caption"
+      />
+    );
+
+    const firstHitZone = screen.getByRole('button', { name: /2026-08-01/ });
+    fireEvent.focus(firstHitZone);
+
+    const tooltip = screen.getByRole('status');
+    expect(within(tooltip).getByText('7h')).toBeInTheDocument();
+    expect(within(tooltip).getByText('2026-08-01')).toBeInTheDocument();
+  });
+
+  it('hides the tooltip on blur', () => {
+    render(
+      <TrendLineChart
+        points={points}
+        accentColor="#2a78d6"
+        title="Sleep"
+        formatValue={v => `${v}h`}
+        tableCaption="caption"
+      />
+    );
+
+    const firstHitZone = screen.getByRole('button', { name: /2026-08-01/ });
+    fireEvent.focus(firstHitZone);
+    fireEvent.blur(firstHitZone);
+
+    expect(screen.queryByRole('status')).not.toBeInTheDocument();
+  });
+});
