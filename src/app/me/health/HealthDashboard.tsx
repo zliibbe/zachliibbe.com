@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import type {
   ActivitySnapshot,
+  GarminActivity,
   SleepSnapshot,
 } from '@/lib/garmin-health/types';
 import styles from './HealthDashboard.module.css';
@@ -118,6 +119,78 @@ function CategorySection<T extends Snapshot>({
   );
 }
 
+// 'activities' has no per-day series (see getRecentActivities), so it can't
+// reuse CategorySection's {latest, series} shape -- bespoke fetch/render.
+function RecentActivitiesSection() {
+  const [activities, setActivities] = useState<GarminActivity[] | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/api/me/health/activities', {
+          cache: 'no-store',
+        });
+        if (!response.ok) {
+          throw new Error(`Failed to fetch activities: ${response.status}`);
+        }
+        const json = await response.json();
+        if (!cancelled) {
+          setActivities(json.activities ?? []);
+        }
+      } catch (err: unknown) {
+        if (!cancelled) {
+          setError(
+            err instanceof Error ? err.message : 'An unknown error occurred'
+          );
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchData();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  return (
+    <section className={styles.section}>
+      <div className={styles.sectionHeader}>
+        <h2>Recent Activities</h2>
+        <p>The most recent activities logged directly in Garmin Connect.</p>
+      </div>
+
+      {loading && (
+        <p className={styles.loadingText}>Loading recent activities...</p>
+      )}
+      {error && <p className={styles.error}>Error: {error}</p>}
+      {!loading &&
+        !error &&
+        activities &&
+        (activities.length === 0 ? (
+          <p className={styles.emptyText}>No activities synced yet.</p>
+        ) : (
+          <>
+            <div className={styles.statRow}>
+              <span className={styles.statLabel}>Synced activities</span>
+              <span className={styles.statValue}>{activities.length}</span>
+            </div>
+            <pre className={styles.jsonDump}>
+              {JSON.stringify(activities, null, 2)}
+            </pre>
+          </>
+        ))}
+    </section>
+  );
+}
+
 export default function HealthDashboard() {
   return (
     <main>
@@ -144,12 +217,7 @@ export default function HealthDashboard() {
                 description="Steps, calories, distance, and floors."
               />
 
-              <section className={styles.section}>
-                <div className={styles.sectionHeader}>
-                  <h2>Recent Activities</h2>
-                  <p className={styles.emptyText}>Coming soon.</p>
-                </div>
-              </section>
+              <RecentActivitiesSection />
 
               <section className={styles.section}>
                 <div className={styles.sectionHeader}>

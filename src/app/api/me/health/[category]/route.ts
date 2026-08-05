@@ -1,9 +1,14 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/lib/auth';
-import { getLatestSnapshot, getSeries } from '@/lib/garmin-health/kv';
+import {
+  getLatestSnapshot,
+  getRecentActivities,
+  getSeries,
+} from '@/lib/garmin-health/kv';
 import type {
   ActivitySnapshot,
+  GarminActivity,
   GarminCategory,
   SleepSnapshot,
 } from '@/lib/garmin-health/types';
@@ -11,8 +16,12 @@ import type {
 export const dynamic = 'force-dynamic';
 
 // Categories are wired up one phase at a time on the sync side. Extend as
-// 'activities' | 'training' land.
-const SUPPORTED_CATEGORIES: readonly GarminCategory[] = ['sleep', 'activity'];
+// 'training' lands.
+const SUPPORTED_CATEGORIES: readonly GarminCategory[] = [
+  'sleep',
+  'activity',
+  'activities',
+];
 
 type RouteContext = {
   params: Promise<{ category: string }>;
@@ -30,6 +39,8 @@ async function fetchCategoryData(category: GarminCategory, days: number) {
         latest: await getLatestSnapshot<ActivitySnapshot>('activity'),
         series: await getSeries<ActivitySnapshot>('activity', days),
       };
+    case 'activities':
+      return { activities: await getRecentActivities<GarminActivity>() };
   }
 }
 

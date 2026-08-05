@@ -19,6 +19,11 @@ export interface ActivitySnapshot {
   floors?: Record<string, unknown>;
 }
 
+// A single Garmin-logged activity, from get_activities(). Loosely typed
+// (Garmin's native response shape, unmapped) rather than guessed at --
+// rendered as raw JSON until the dashboard redesign.
+export type GarminActivity = Record<string, unknown>;
+
 // Categories are added one phase at a time on the Python side. Extend this
-// union as 'activities' | 'training' land.
-export type GarminCategory = 'sleep' | 'activity';
+// union as 'training' lands.
+export type GarminCategory = 'sleep' | 'activity' | 'activities';
