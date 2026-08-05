@@ -24,6 +24,14 @@ export interface ActivitySnapshot {
 // rendered as raw JSON until the dashboard redesign.
 export type GarminActivity = Record<string, unknown>;
 
-// Categories are added one phase at a time on the Python side. Extend this
-// union as 'training' lands.
-export type GarminCategory = 'sleep' | 'activity' | 'activities';
+export interface TrainingSnapshot {
+  date: string;
+  training_readiness?: unknown;
+  training_status?: Record<string, unknown>;
+  max_metrics?: Record<string, unknown>;
+  race_predictions?: Record<string, unknown>;
+  endurance_score?: Record<string, unknown>;
+}
+
+// All four v1 categories are now wired up on the Python side.
+export type GarminCategory = 'sleep' | 'activity' | 'activities' | 'training';

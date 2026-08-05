@@ -11,16 +11,17 @@ import type {
   GarminActivity,
   GarminCategory,
   SleepSnapshot,
+  TrainingSnapshot,
 } from '@/lib/garmin-health/types';
 
 export const dynamic = 'force-dynamic';
 
-// Categories are wired up one phase at a time on the sync side. Extend as
-// 'training' lands.
+// All four v1 categories are now wired up on the sync side.
 const SUPPORTED_CATEGORIES: readonly GarminCategory[] = [
   'sleep',
   'activity',
   'activities',
+  'training',
 ];
 
 type RouteContext = {
@@ -41,6 +42,11 @@ async function fetchCategoryData(category: GarminCategory, days: number) {
       };
     case 'activities':
       return { activities: await getRecentActivities<GarminActivity>() };
+    case 'training':
+      return {
+        latest: await getLatestSnapshot<TrainingSnapshot>('training'),
+        series: await getSeries<TrainingSnapshot>('training', days),
+      };
   }
 }
 
