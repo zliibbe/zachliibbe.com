@@ -1,7 +1,8 @@
 /*
- * Sleep-specific chart styles. Section chrome, stat tiles, and sparklines
- * live in shared.module.css; --chart-surface/--chart-muted/--chart-baseline
- * are declared there on .section and cascade down to the classes below.
+ * Sleep-specific chart styles. Section chrome, stat tiles, sparklines, and
+ * the trend-line chart live in shared.module.css/shared.tsx;
+ * --chart-surface/--chart-muted/--chart-baseline are declared on .section
+ * there and cascade down to the classes below.
  */
 
 /* Sleep stages stacked bar */
@@ -13,6 +14,10 @@
   display: flex;
   gap: 2px;
   height: 24px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
   border-radius: 4px;
   overflow: hidden;
   background-color: var(--chart-surface);
@@ -23,6 +28,15 @@
   align-items: center;
   justify-content: center;
   min-width: 2px;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline-offset: 2px;
+}
+
+.stagesSegment[data-hovered] {
+  filter: brightness(1.15);
 }
 
 .stagesSegmentLabel {
@@ -52,31 +66,4 @@
   height: 10px;
   border-radius: 2px;
   flex-shrink: 0;
-}
-
-/* Trend line */
-.trendBlock {
-  margin-top: 1rem;
-}
-
-.trendHeader {
-  margin-bottom: 0.5rem;
-}
-
-.trendTitle {
-  font-size: var(--fs-400);
-  font-weight: var(--fw-semi-bold);
-  color: var(--text-primary);
-}
-
-.trendSvg {
-  width: 100%;
-  height: auto;
-  max-width: 640px;
-}
-
-.trendEndLabel {
-  font-size: 11px;
-  fill: var(--text-primary);
-  font-variant-numeric: tabular-nums;
 }

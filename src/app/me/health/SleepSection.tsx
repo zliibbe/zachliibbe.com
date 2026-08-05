@@ -5,7 +5,12 @@ import { useTheme } from '@/app/context/ThemeContext';
 import { type Theme, themes } from '@/app/styles/themes';
 import type { SleepSnapshot } from '@/lib/garmin-health/types';
 import styles from './SleepSection.module.css';
-import { formatDuration, StatTile } from './shared';
+import {
+  ChartTooltip,
+  formatDuration,
+  StatTile,
+  TrendLineChart,
+} from './shared';
 import shared from './shared.module.css';
 
 // gradientOne/Two/Three are the theme's 3 brand hues, but two themes reuse
@@ -60,6 +65,7 @@ function SleepStagesBar({
   row: SleepRow;
   themeName: Theme['name'];
 }) {
+  const [hoverKey, setHoverKey] = useState<string | null>(null);
   const stageColors = getStageColors(themeName);
   const stageSegments: {
     key: keyof Pick<
@@ -83,30 +89,57 @@ function SleepStagesBar({
   const total = segments.reduce((sum, s) => sum + s.seconds, 0);
   if (total === 0) return null;
 
+  let cumulativePct = 0;
+  const withPosition = segments.map(s => {
+    const pct = (s.seconds / total) * 100;
+    const centerPct = cumulativePct + pct / 2;
+    cumulativePct += pct;
+    return { ...s, pct, centerPct };
+  });
+  const hovered = withPosition.find(s => s.key === hoverKey) ?? null;
+
   return (
     <div className={styles.stagesBlock}>
-      <div
-        className={styles.stagesBar}
-        role="img"
-        aria-label="Sleep stage breakdown"
-      >
-        {segments.map(s => {
-          const pct = (s.seconds / total) * 100;
-          return (
-            <div
+      <div className={shared.chartWrapper}>
+        <fieldset
+          className={styles.stagesBar}
+          aria-label="Sleep stage breakdown"
+        >
+          {withPosition.map(s => (
+            <button
               key={s.key}
+              type="button"
               className={styles.stagesSegment}
-              style={{ flexGrow: pct, backgroundColor: s.colorVar }}
-              title={`${s.label}: ${formatDuration(s.seconds)}`}
+              data-hovered={s.key === hoverKey || undefined}
+              style={{ flexGrow: s.pct, backgroundColor: s.colorVar }}
+              aria-label={`${s.label}: ${formatDuration(s.seconds)}`}
+              onMouseEnter={() => setHoverKey(s.key)}
+              onMouseLeave={() => setHoverKey(null)}
+              onFocus={() => setHoverKey(s.key)}
+              onBlur={() => setHoverKey(null)}
             >
-              {pct >= 12 && (
+              {s.pct >= 12 && (
                 <span className={styles.stagesSegmentLabel}>
                   {formatDuration(s.seconds)}
                 </span>
               )}
+            </button>
+          ))}
+        </fieldset>
+        {hovered && (
+          <ChartTooltip left={`${hovered.centerPct}%`} top="0%">
+            <div className={shared.tooltipRow}>
+              <span
+                className={shared.tooltipKey}
+                style={{ backgroundColor: hovered.colorVar }}
+              />
+              <span className={shared.tooltipValue}>
+                {formatDuration(hovered.seconds)}
+              </span>
+              <span className={shared.tooltipLabel}>{hovered.label}</span>
             </div>
-          );
-        })}
+          </ChartTooltip>
+        )}
       </div>
       <div className={styles.stagesLegend}>
         {segments.map(s => (
@@ -119,103 +152,6 @@ function SleepStagesBar({
           </span>
         ))}
       </div>
-    </div>
-  );
-}
-
-function SleepTrendLine({
-  rows,
-  accentColor,
-}: {
-  rows: SleepRow[];
-  accentColor: string;
-}) {
-  const points = rows
-    .filter(r => r.totalSeconds !== null)
-    .map(r => ({ date: r.date, hours: (r.totalSeconds as number) / 3600 }));
-  if (points.length < 2) return null;
-
-  const w = 640;
-  const h = 140;
-  const padding = 24;
-  const min = Math.min(...points.map(p => p.hours), 0);
-  const max = Math.max(...points.map(p => p.hours));
-  const range = max - min || 1;
-
-  const coords = points.map((p, i) => {
-    const x = padding + (i / (points.length - 1)) * (w - padding * 2);
-    const y = h - padding - ((p.hours - min) / range) * (h - padding * 2);
-    return { ...p, x, y };
-  });
-  const path = coords
-    .map((c, i) => `${i === 0 ? 'M' : 'L'}${c.x.toFixed(1)},${c.y.toFixed(1)}`)
-    .join(' ');
-  const last = coords.at(-1);
-  if (!last) return null;
-
-  return (
-    <div className={styles.trendBlock}>
-      <div className={styles.trendHeader}>
-        <h3 className={styles.trendTitle}>
-          Sleep duration, last {points.length} nights
-        </h3>
-      </div>
-      <svg
-        className={styles.trendSvg}
-        viewBox={`0 0 ${w} ${h}`}
-        role="img"
-        aria-label={`Sleep duration trend over ${points.length} nights, most recent ${last.hours.toFixed(1)} hours`}
-      >
-        <line
-          x1={padding}
-          y1={h - padding}
-          x2={w - padding}
-          y2={h - padding}
-          stroke="var(--chart-baseline)"
-          strokeWidth="1"
-        />
-        <path
-          d={path}
-          fill="none"
-          stroke={accentColor}
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <circle
-          cx={last.x}
-          cy={last.y}
-          r="4"
-          fill={accentColor}
-          stroke="var(--chart-surface)"
-          strokeWidth="2"
-        />
-        <text
-          x={last.x}
-          y={last.y - 10}
-          textAnchor="end"
-          className={styles.trendEndLabel}
-        >
-          {last.hours.toFixed(1)}h
-        </text>
-      </svg>
-      <table className={shared.srOnlyTable}>
-        <caption>Sleep duration by night</caption>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Hours</th>
-          </tr>
-        </thead>
-        <tbody>
-          {points.map(p => (
-            <tr key={p.date}>
-              <td>{p.date}</td>
-              <td>{p.hours.toFixed(1)}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
     </div>
   );
 }
@@ -302,7 +238,16 @@ export default function SleepSection() {
           </div>
 
           <SleepStagesBar row={mostRecent} themeName={currentTheme} />
-          <SleepTrendLine rows={withSleepData} accentColor={accentColor} />
+          <TrendLineChart
+            points={withSleepData.map(r => ({
+              date: r.date,
+              value: (r.totalSeconds as number) / 3600,
+            }))}
+            accentColor={accentColor}
+            title={`Sleep duration, last ${withSleepData.length} nights`}
+            formatValue={v => `${v.toFixed(1)}h`}
+            tableCaption="Sleep duration by night"
+          />
         </>
       )}
     </section>

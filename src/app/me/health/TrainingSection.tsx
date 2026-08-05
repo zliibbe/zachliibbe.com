@@ -4,9 +4,8 @@ import { useEffect, useState } from 'react';
 import { useTheme } from '@/app/context/ThemeContext';
 import { themes } from '@/app/styles/themes';
 import type { TrainingSnapshot } from '@/lib/garmin-health/types';
-import { StatTile } from './shared';
+import { StatTile, TrendLineChart } from './shared';
 import shared from './shared.module.css';
-import styles from './TrainingSection.module.css';
 
 interface TrainingRow {
   date: string;
@@ -53,103 +52,6 @@ function mostRecentValue(
     if (v !== null) return { date: row.date, value: v };
   }
   return null;
-}
-
-function LoadTrendLine({
-  rows,
-  accentColor,
-}: {
-  rows: TrainingRow[];
-  accentColor: string;
-}) {
-  const points = rows
-    .filter(r => r.weeklyTrainingLoad !== null)
-    .map(r => ({ date: r.date, value: r.weeklyTrainingLoad as number }));
-  if (points.length < 2) return null;
-
-  const w = 640;
-  const h = 140;
-  const padding = 24;
-  const min = Math.min(...points.map(p => p.value), 0);
-  const max = Math.max(...points.map(p => p.value));
-  const range = max - min || 1;
-
-  const coords = points.map((p, i) => {
-    const x = padding + (i / (points.length - 1)) * (w - padding * 2);
-    const y = h - padding - ((p.value - min) / range) * (h - padding * 2);
-    return { ...p, x, y };
-  });
-  const path = coords
-    .map((c, i) => `${i === 0 ? 'M' : 'L'}${c.x.toFixed(1)},${c.y.toFixed(1)}`)
-    .join(' ');
-  const last = coords.at(-1);
-  if (!last) return null;
-
-  return (
-    <div className={styles.trendBlock}>
-      <div className={styles.trendHeader}>
-        <h3 className={styles.trendTitle}>
-          Weekly training load, last {points.length} days
-        </h3>
-      </div>
-      <svg
-        className={styles.trendSvg}
-        viewBox={`0 0 ${w} ${h}`}
-        role="img"
-        aria-label={`Weekly training load trend, most recent ${last.value}`}
-      >
-        <line
-          x1={padding}
-          y1={h - padding}
-          x2={w - padding}
-          y2={h - padding}
-          stroke="var(--chart-baseline)"
-          strokeWidth="1"
-        />
-        <path
-          d={path}
-          fill="none"
-          stroke={accentColor}
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <circle
-          cx={last.x}
-          cy={last.y}
-          r="4"
-          fill={accentColor}
-          stroke="var(--chart-surface)"
-          strokeWidth="2"
-        />
-        <text
-          x={last.x}
-          y={last.y - 10}
-          textAnchor="end"
-          className={styles.trendEndLabel}
-        >
-          {last.value}
-        </text>
-      </svg>
-      <table className={shared.srOnlyTable}>
-        <caption>Weekly training load by day</caption>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Load</th>
-          </tr>
-        </thead>
-        <tbody>
-          {points.map(p => (
-            <tr key={p.date}>
-              <td>{p.date}</td>
-              <td>{p.value}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
 }
 
 export default function TrainingSection() {
@@ -238,7 +140,17 @@ export default function TrainingSection() {
             )}
           </div>
 
-          <LoadTrendLine rows={allRows} accentColor={accentColor} />
+          <TrendLineChart
+            points={allRows
+              .filter(r => r.weeklyTrainingLoad !== null)
+              .map(r => ({
+                date: r.date,
+                value: r.weeklyTrainingLoad as number,
+              }))}
+            accentColor={accentColor}
+            title={`Weekly training load, last ${allRows.length} days`}
+            tableCaption="Weekly training load by day"
+          />
         </>
       )}
     </section>

@@ -17,7 +17,10 @@
   align-items: flex-end;
   gap: 4px;
   height: 140px;
+  min-width: 0;
+  margin: 0;
   padding: 0 2px;
+  border: none;
   border-bottom: 1px solid var(--chart-baseline);
 }
 
@@ -26,10 +29,21 @@
   display: flex;
   align-items: flex-end;
   height: 100%;
+  border: none;
+  padding: 0;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+  outline-offset: 2px;
 }
 
 .stepsBarFill {
+  display: block;
   width: 100%;
   min-height: 2px;
   border-radius: 4px 4px 0 0;
+}
+
+.stepsBarFill[data-hovered] {
+  filter: brightness(1.15);
 }

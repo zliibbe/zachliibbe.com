@@ -5,7 +5,7 @@ import { useTheme } from '@/app/context/ThemeContext';
 import { themes } from '@/app/styles/themes';
 import type { ActivitySnapshot } from '@/lib/garmin-health/types';
 import styles from './ActivitySection.module.css';
-import { StatTile } from './shared';
+import { ChartTooltip, StatTile } from './shared';
 import shared from './shared.module.css';
 
 interface ActivityRow {
@@ -51,35 +51,62 @@ function StepsBar({
   rows: ActivityRow[];
   accentColor: string;
 }) {
+  const [hoverDate, setHoverDate] = useState<string | null>(null);
   const points = rows.filter(r => r.steps !== null) as (ActivityRow & {
     steps: number;
   })[];
   if (points.length < 2) return null;
 
   const max = Math.max(...points.map(p => p.steps));
+  const hoverIndex = points.findIndex(p => p.date === hoverDate);
+  const hovered = hoverIndex >= 0 ? points[hoverIndex] : null;
 
   return (
     <div className={styles.stepsBlock}>
       <div className={styles.stepsHeader}>
         <h3 className={styles.stepsTitle}>Steps, last {points.length} days</h3>
       </div>
-      <div
-        className={styles.stepsBars}
-        role="img"
-        aria-label="Daily step counts"
-      >
-        {points.map(p => {
-          const pct = max > 0 ? (p.steps / max) * 100 : 0;
-          return (
-            <div key={p.date} className={styles.stepsBarColumn}>
-              <div
-                className={styles.stepsBarFill}
-                style={{ height: `${pct}%`, backgroundColor: accentColor }}
-                title={`${p.date}: ${p.steps.toLocaleString()} steps`}
+      <div className={shared.chartWrapper}>
+        <fieldset className={styles.stepsBars} aria-label="Daily step counts">
+          {points.map(p => {
+            const pct = max > 0 ? (p.steps / max) * 100 : 0;
+            return (
+              <button
+                key={p.date}
+                type="button"
+                className={styles.stepsBarColumn}
+                aria-label={`${p.date}: ${p.steps.toLocaleString()} steps`}
+                onMouseEnter={() => setHoverDate(p.date)}
+                onMouseLeave={() => setHoverDate(null)}
+                onFocus={() => setHoverDate(p.date)}
+                onBlur={() => setHoverDate(null)}
+              >
+                <span
+                  className={styles.stepsBarFill}
+                  data-hovered={p.date === hoverDate || undefined}
+                  style={{ height: `${pct}%`, backgroundColor: accentColor }}
+                />
+              </button>
+            );
+          })}
+        </fieldset>
+        {hovered && (
+          <ChartTooltip
+            left={`${((hoverIndex + 0.5) / points.length) * 100}%`}
+            top={`${100 - (hovered.steps / max) * 100}%`}
+          >
+            <div className={shared.tooltipRow}>
+              <span
+                className={shared.tooltipKey}
+                style={{ backgroundColor: accentColor }}
               />
+              <span className={shared.tooltipValue}>
+                {hovered.steps.toLocaleString()}
+              </span>
+              <span className={shared.tooltipLabel}>{hovered.date}</span>
             </div>
-          );
-        })}
+          </ChartTooltip>
+        )}
       </div>
       <table className={shared.srOnlyTable}>
         <caption>Daily steps</caption>

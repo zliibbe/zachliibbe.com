@@ -97,6 +97,85 @@ html[data-theme="dark"] .section {
   flex-shrink: 0;
 }
 
+/* Hover layer: wrapper anchors the tooltip's percentage-based position */
+.chartWrapper {
+  position: relative;
+}
+
+.tooltip {
+  position: absolute;
+  transform: translate(-50%, calc(-100% - 10px));
+  pointer-events: none;
+  z-index: 10;
+  background-color: var(--chart-surface);
+  border: 1px solid var(--chart-baseline);
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+  font-size: var(--fs-300);
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.tooltipRow {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+}
+
+.tooltipRow + .tooltipRow {
+  margin-top: 0.15rem;
+}
+
+.tooltipKey {
+  display: inline-block;
+  width: 10px;
+  height: 2px;
+  border-radius: 1px;
+  flex-shrink: 0;
+}
+
+.tooltipValue {
+  font-weight: var(--fw-semi-bold);
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.tooltipLabel {
+  color: var(--text-secondary);
+}
+
+/* Trend line chart (TrendLineChart) */
+.trendBlock {
+  margin-top: 1rem;
+}
+
+.trendHeader {
+  margin-bottom: 0.5rem;
+}
+
+.trendTitle {
+  font-size: var(--fs-400);
+  font-weight: var(--fw-semi-bold);
+  color: var(--text-primary);
+}
+
+.trendSvg {
+  width: 100%;
+  height: auto;
+  max-width: 640px;
+  display: block;
+}
+
+.trendSvg rect[role="button"] {
+  cursor: crosshair;
+}
+
+.trendEndLabel {
+  font-size: 11px;
+  fill: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
 .srOnlyTable {
   position: absolute;
   width: 1px;
