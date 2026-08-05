@@ -5,6 +5,7 @@ import type {
   ActivitySnapshot,
   GarminActivity,
   SleepSnapshot,
+  TrainingSnapshot,
 } from '@/lib/garmin-health/types';
 import styles from './HealthDashboard.module.css';
 
@@ -219,12 +220,11 @@ export default function HealthDashboard() {
 
               <RecentActivitiesSection />
 
-              <section className={styles.section}>
-                <div className={styles.sectionHeader}>
-                  <h2>Advanced Training</h2>
-                  <p className={styles.emptyText}>Coming soon.</p>
-                </div>
-              </section>
+              <CategorySection<TrainingSnapshot>
+                category="training"
+                title="Advanced Training"
+                description="Training readiness/status, VO2 max, race predictions, and endurance score."
+              />
             </div>
           </div>
         </div>
