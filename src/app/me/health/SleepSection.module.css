@@ -1,0 +1,82 @@
+/*
+ * Sleep-specific chart styles. Section chrome, stat tiles, and sparklines
+ * live in shared.module.css; --chart-surface/--chart-muted/--chart-baseline
+ * are declared there on .section and cascade down to the classes below.
+ */
+
+/* Sleep stages stacked bar */
+.stagesBlock {
+  margin-bottom: 2rem;
+}
+
+.stagesBar {
+  display: flex;
+  gap: 2px;
+  height: 24px;
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: var(--chart-surface);
+}
+
+.stagesSegment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2px;
+}
+
+.stagesSegmentLabel {
+  font-size: 0.65rem;
+  color: var(--text-inverse, #fff);
+  white-space: nowrap;
+  padding: 0 4px;
+}
+
+.stagesLegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+
+.stagesLegendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: var(--fs-300);
+  color: var(--text-secondary);
+}
+
+.stagesLegendSwatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* Trend line */
+.trendBlock {
+  margin-top: 1rem;
+}
+
+.trendHeader {
+  margin-bottom: 0.5rem;
+}
+
+.trendTitle {
+  font-size: var(--fs-400);
+  font-weight: var(--fw-semi-bold);
+  color: var(--text-primary);
+}
+
+.trendSvg {
+  width: 100%;
+  height: auto;
+  max-width: 640px;
+}
+
+.trendEndLabel {
+  font-size: 11px;
+  fill: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
