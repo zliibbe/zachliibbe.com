@@ -13,10 +13,13 @@ import {
 } from './shared';
 import shared from './shared.module.css';
 
-// gradientOne/Two/Three are the theme's 3 brand hues, but two themes reuse
-// the same hex across two of those slots (ocean: One===Two; evergreen:
-// Two===Three), which would make two sleep stages render identically.
-// Substitute accentPrimary for the colliding slot only in those themes.
+// gradientOne/Two/Three are the theme's 3 brand hues. In several themes two
+// of those slots are identical or close enough in hue/lightness that a
+// colorblind reader (and, for a few, even a normal-vision reader) can't tell
+// two sleep stages apart -- confirmed by running each theme's triplet
+// through the dataviz skill's validate_palette.js (CVD separation +
+// normal-vision floor checks). Substitute accentPrimary for the colliding
+// slot only in those themes; the rest use the brand gradient as-is.
 function getStageColors(themeName: Theme['name']) {
   const c = themes[themeName].colors;
   if (themeName === 'ocean') {
@@ -26,8 +29,19 @@ function getStageColors(themeName: Theme['name']) {
       rem: c.gradientThree,
     };
   }
-  if (themeName === 'evergreen') {
+  if (
+    themeName === 'evergreen' ||
+    themeName === 'twilight' ||
+    themeName === 'forest'
+  ) {
     return { deep: c.gradientOne, light: c.gradientTwo, rem: c.accentPrimary };
+  }
+  if (themeName === 'sunset' || themeName === 'lotusBloom') {
+    return {
+      deep: c.gradientOne,
+      light: c.accentPrimary,
+      rem: c.gradientThree,
+    };
   }
   return { deep: c.gradientOne, light: c.gradientTwo, rem: c.gradientThree };
 }
