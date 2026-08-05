@@ -54,3 +54,12 @@ export async function getSeries<T>(
   const blobs = await kv.mget<(T | null)[]>(...keys);
   return blobs.filter((blob): blob is T => blob !== null);
 }
+
+/**
+ * The 'activities' category has no per-day series -- it's a flat "latest
+ * N" list wholesale-replaced each sync run, matching latestKey('activities').
+ */
+export async function getRecentActivities<T>(): Promise<T[]> {
+  const result = await kv.get<T[]>(latestKey('activities'));
+  return result ?? [];
+}
