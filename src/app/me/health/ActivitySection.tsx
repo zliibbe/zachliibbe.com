@@ -5,7 +5,7 @@ import { useTheme } from '@/app/context/ThemeContext';
 import { themes } from '@/app/styles/themes';
 import type { ActivitySnapshot } from '@/lib/garmin-health/types';
 import styles from './ActivitySection.module.css';
-import { ChartTooltip, StatTile } from './shared';
+import { ChartTooltip, StalenessIndicator, StatTile } from './shared';
 import shared from './shared.module.css';
 
 interface ActivityRow {
@@ -178,11 +178,15 @@ export default function ActivitySection() {
 
   const withData = (rows ?? []).filter(r => r.steps !== null);
   const mostRecent = withData[withData.length - 1] ?? null;
+  const latestSyncedDate = rows?.at(-1)?.date ?? null;
 
   return (
     <section className={shared.section}>
       <div className={shared.sectionHeader}>
-        <h2>Daily Activity</h2>
+        <div className={shared.sectionHeaderTitleRow}>
+          <h2>Daily Activity</h2>
+          <StalenessIndicator latestDate={latestSyncedDate} />
+        </div>
         <p>
           Steps, calories, distance, and floors, synced from Garmin Connect.
         </p>

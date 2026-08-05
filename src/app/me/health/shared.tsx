@@ -253,6 +253,68 @@ export function TrendLineChart({
   );
 }
 
+const STALE_THRESHOLD_DAYS = 2;
+
+// Days between the most recent date present in KV (regardless of which
+// fields Garmin had populated by sync time) and today. A gap here means the
+// sync job itself didn't run/write -- not that Garmin hasn't finished
+// computing a slow-to-arrive metric yet, which is why callers should pass
+// the latest date from the raw series, not from a metric-filtered "most
+// recent value" lookup.
+function daysSinceDate(dateStr: string): number | null {
+  const latest = new Date(`${dateStr}T00:00:00Z`);
+  if (Number.isNaN(latest.getTime())) return null;
+  const now = new Date();
+  const todayUtc = Date.UTC(
+    now.getUTCFullYear(),
+    now.getUTCMonth(),
+    now.getUTCDate()
+  );
+  return Math.floor((todayUtc - latest.getTime()) / (1000 * 60 * 60 * 24));
+}
+
+// A reserved status color, not a theme color -- per the dataviz skill,
+// status (state) and categorical (identity) colors are different jobs and
+// must never share a hue. Ships with an icon and text, never color alone.
+export function StalenessIndicator({
+  latestDate,
+}: {
+  latestDate: string | null;
+}) {
+  if (!latestDate) return null;
+  const days = daysSinceDate(latestDate);
+  if (days === null || days <= STALE_THRESHOLD_DAYS) return null;
+
+  return (
+    <output className={styles.staleness}>
+      <svg
+        className={styles.stalenessIcon}
+        viewBox="0 0 16 16"
+        aria-hidden="true"
+      >
+        <path
+          d="M8 1.5 1 14h14L8 1.5Z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.4"
+          strokeLinejoin="round"
+        />
+        <line
+          x1="8"
+          y1="6"
+          x2="8"
+          y2="9.5"
+          stroke="currentColor"
+          strokeWidth="1.4"
+          strokeLinecap="round"
+        />
+        <circle cx="8" cy="11.8" r="0.9" fill="currentColor" />
+      </svg>
+      Last synced {days} days ago
+    </output>
+  );
+}
+
 export function StatTile({
   label,
   value,

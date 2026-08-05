@@ -8,6 +8,7 @@ import styles from './SleepSection.module.css';
 import {
   ChartTooltip,
   formatDuration,
+  StalenessIndicator,
   StatTile,
   TrendLineChart,
 } from './shared';
@@ -217,11 +218,18 @@ export default function SleepSection() {
 
   const withSleepData = (rows ?? []).filter(r => r.totalSeconds !== null);
   const mostRecent = withSleepData[withSleepData.length - 1] ?? null;
+  // Freshness of the sync job itself, independent of which fields Garmin
+  // had finished computing -- so use the raw series' latest date, not
+  // mostRecent (which is filtered down to rows with sleep data present).
+  const latestSyncedDate = rows?.at(-1)?.date ?? null;
 
   return (
     <section className={shared.section}>
       <div className={shared.sectionHeader}>
-        <h2>Sleep &amp; Recovery</h2>
+        <div className={shared.sectionHeaderTitleRow}>
+          <h2>Sleep &amp; Recovery</h2>
+          <StalenessIndicator latestDate={latestSyncedDate} />
+        </div>
         <p>Sleep stages and stress, synced from Garmin Connect.</p>
       </div>
 

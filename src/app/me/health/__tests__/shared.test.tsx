@@ -1,5 +1,10 @@
 import { fireEvent, render, screen, within } from '@testing-library/react';
-import { formatDuration, StatTile, TrendLineChart } from '../shared';
+import {
+  formatDuration,
+  StalenessIndicator,
+  StatTile,
+  TrendLineChart,
+} from '../shared';
 
 describe('formatDuration', () => {
   it('formats whole hours and minutes', () => {
@@ -50,6 +55,35 @@ describe('StatTile', () => {
     expect(
       screen.queryByRole('img', { name: /Trend sparkline/ })
     ).not.toBeInTheDocument();
+  });
+});
+
+describe('StalenessIndicator', () => {
+  beforeEach(() => {
+    jest.useFakeTimers().setSystemTime(new Date('2026-08-05T12:00:00Z'));
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
+  it('renders nothing when there is no data yet', () => {
+    const { container } = render(<StalenessIndicator latestDate={null} />);
+    expect(container).toBeEmptyDOMElement();
+  });
+
+  it('renders nothing when the latest sync is within the threshold', () => {
+    const { container } = render(
+      <StalenessIndicator latestDate="2026-08-04" />
+    );
+    expect(container).toBeEmptyDOMElement();
+  });
+
+  it('shows a staleness warning once the latest sync is older than the threshold', () => {
+    render(<StalenessIndicator latestDate="2026-08-01" />);
+    expect(screen.getByRole('status')).toHaveTextContent(
+      'Last synced 4 days ago'
+    );
   });
 });
 

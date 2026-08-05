@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useTheme } from '@/app/context/ThemeContext';
 import { themes } from '@/app/styles/themes';
 import type { TrainingSnapshot } from '@/lib/garmin-health/types';
-import { StatTile, TrendLineChart } from './shared';
+import { StalenessIndicator, StatTile, TrendLineChart } from './shared';
 import shared from './shared.module.css';
 
 interface TrainingRow {
@@ -103,11 +103,15 @@ export default function TrainingSection() {
   const vo2 = mostRecentValue(allRows, 'vo2Max');
   const load = mostRecentValue(allRows, 'weeklyTrainingLoad');
   const hasAnyData = vo2 !== null || load !== null;
+  const latestSyncedDate = rows?.at(-1)?.date ?? null;
 
   return (
     <section className={shared.section}>
       <div className={shared.sectionHeader}>
-        <h2>Advanced Training</h2>
+        <div className={shared.sectionHeaderTitleRow}>
+          <h2>Advanced Training</h2>
+          <StalenessIndicator latestDate={latestSyncedDate} />
+        </div>
         <p>VO2 max and training load, synced from Garmin Connect.</p>
       </div>
 
