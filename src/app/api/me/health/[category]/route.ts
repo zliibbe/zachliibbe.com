@@ -2,18 +2,36 @@ import { type NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/lib/auth';
 import { getLatestSnapshot, getSeries } from '@/lib/garmin-health/kv';
-import type { GarminCategory, SleepSnapshot } from '@/lib/garmin-health/types';
+import type {
+  ActivitySnapshot,
+  GarminCategory,
+  SleepSnapshot,
+} from '@/lib/garmin-health/types';
 
 export const dynamic = 'force-dynamic';
 
-// Categories are wired up one phase at a time on the sync side; only
-// 'sleep' has real data today. Extend as 'activity' | 'activities' |
-// 'training' land.
-const SUPPORTED_CATEGORIES: readonly GarminCategory[] = ['sleep'];
+// Categories are wired up one phase at a time on the sync side. Extend as
+// 'activities' | 'training' land.
+const SUPPORTED_CATEGORIES: readonly GarminCategory[] = ['sleep', 'activity'];
 
 type RouteContext = {
   params: Promise<{ category: string }>;
 };
+
+async function fetchCategoryData(category: GarminCategory, days: number) {
+  switch (category) {
+    case 'sleep':
+      return {
+        latest: await getLatestSnapshot<SleepSnapshot>('sleep'),
+        series: await getSeries<SleepSnapshot>('sleep', days),
+      };
+    case 'activity':
+      return {
+        latest: await getLatestSnapshot<ActivitySnapshot>('activity'),
+        series: await getSeries<ActivitySnapshot>('activity', days),
+      };
+  }
+}
 
 export async function GET(request: NextRequest, context: RouteContext) {
   const session = await getServerSession(authOptions);
@@ -33,11 +51,8 @@ export async function GET(request: NextRequest, context: RouteContext) {
   const days = Number(searchParams.get('range') ?? '30');
 
   try {
-    const [latest, series] = await Promise.all([
-      getLatestSnapshot<SleepSnapshot>('sleep'),
-      getSeries<SleepSnapshot>('sleep', days),
-    ]);
-    return NextResponse.json({ latest, series });
+    const data = await fetchCategoryData(category as GarminCategory, days);
+    return NextResponse.json(data);
   } catch (error) {
     console.error(`[me/health/${category}] KV read error:`, error);
     return NextResponse.json(

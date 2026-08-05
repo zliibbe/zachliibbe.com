@@ -12,7 +12,13 @@ export interface SleepSnapshot {
   resting_hr?: Record<string, unknown>;
 }
 
-// Categories are added one phase at a time on the Python side; only
-// 'sleep' has data today. Extend this union as 'activity' | 'activities' |
-// 'training' land.
-export type GarminCategory = 'sleep';
+export interface ActivitySnapshot {
+  date: string;
+  summary?: Record<string, unknown>;
+  steps?: unknown;
+  floors?: Record<string, unknown>;
+}
+
+// Categories are added one phase at a time on the Python side. Extend this
+// union as 'activities' | 'training' land.
+export type GarminCategory = 'sleep' | 'activity';
