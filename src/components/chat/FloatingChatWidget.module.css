@@ -526,7 +526,7 @@
   position: absolute;
   bottom: 150px;
   right: 0;
-  background: rgba(var(--theme-color-rgb, 26, 107, 138), 0.15);
+  background: rgba(var(--theme-color-rgb, 26, 107, 138), 0.94);
   backdrop-filter: blur(1rem);
   -webkit-backdrop-filter: blur(1rem);
   border: 2px solid rgba(var(--clr-neutral-400-rgb, 102, 102, 102), 0.4);
@@ -612,7 +612,7 @@
     white-space: normal;
     text-align: center;
     padding: 1rem;
-    background: rgba(var(--theme-color-rgb, 26, 107, 138), 0.15);
+    background: rgba(var(--theme-color-rgb, 26, 107, 138), 0.94);
     backdrop-filter: blur(1rem);
     -webkit-backdrop-filter: blur(1rem);
     border: 2px solid rgba(var(--clr-neutral-400-rgb, 102, 102, 102), 0.4);
@@ -866,7 +866,7 @@
   position: absolute;
   top: 40vh;
   left: 2.5rem;
-  background: rgba(var(--theme-color-rgb, 26, 107, 138), 0.15);
+  background: rgba(var(--theme-color-rgb, 26, 107, 138), 0.94);
   backdrop-filter: blur(1rem);
   -webkit-backdrop-filter: blur(1rem);
   border: 2px solid rgba(var(--clr-neutral-400-rgb, 102, 102, 102), 0.4);
