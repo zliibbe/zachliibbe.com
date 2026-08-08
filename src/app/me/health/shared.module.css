@@ -139,6 +139,66 @@ html[data-theme="dark"] .staleness {
   flex-shrink: 0;
 }
 
+/* Loading skeletons -- initial load only, never shown again on refetch */
+@keyframes skeletonPulse {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.skeletonBar,
+.skeletonChart,
+.skeletonListRow {
+  background-color: var(--chart-baseline);
+  border-radius: 4px;
+  animation: skeletonPulse 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeletonBar,
+  .skeletonChart,
+  .skeletonListRow {
+    animation: none;
+    opacity: 0.7;
+  }
+}
+
+.skeletonBar {
+  display: block;
+  height: 0.8rem;
+}
+
+.skeletonLabel {
+  width: 60%;
+}
+
+.skeletonValue {
+  width: 40%;
+  height: 1.5rem;
+  margin-top: 0.35rem;
+}
+
+.skeletonChart {
+  width: 100%;
+  border-radius: var(--border-radius);
+  margin-top: 1rem;
+}
+
+.skeletonList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.skeletonListRow {
+  height: 2.75rem;
+  width: 100%;
+}
+
 /* Hover layer: wrapper anchors the tooltip's percentage-based position */
 .chartWrapper {
   position: relative;

@@ -4,7 +4,13 @@ import { useEffect, useState } from 'react';
 import { useTheme } from '@/app/context/ThemeContext';
 import { themes } from '@/app/styles/themes';
 import type { TrainingSnapshot } from '@/lib/garmin-health/types';
-import { StalenessIndicator, StatTile, TrendLineChart } from './shared';
+import {
+  SkeletonChart,
+  SkeletonStatRow,
+  StalenessIndicator,
+  StatTile,
+  TrendLineChart,
+} from './shared';
 import shared from './shared.module.css';
 
 interface TrainingRow {
@@ -116,7 +122,11 @@ export default function TrainingSection() {
       </div>
 
       {loading && (
-        <p className={shared.loadingText}>Loading training data...</p>
+        <>
+          <p className={shared.srOnly}>Loading training data...</p>
+          <SkeletonStatRow count={2} />
+          <SkeletonChart height={140} />
+        </>
       )}
       {error && <p className={shared.error}>Error: {error}</p>}
       {!loading && !error && !hasAnyData && (

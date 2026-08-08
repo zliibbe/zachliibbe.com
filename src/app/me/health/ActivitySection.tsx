@@ -5,7 +5,13 @@ import { useTheme } from '@/app/context/ThemeContext';
 import { themes } from '@/app/styles/themes';
 import type { ActivitySnapshot } from '@/lib/garmin-health/types';
 import styles from './ActivitySection.module.css';
-import { ChartTooltip, StalenessIndicator, StatTile } from './shared';
+import {
+  ChartTooltip,
+  SkeletonChart,
+  SkeletonStatRow,
+  StalenessIndicator,
+  StatTile,
+} from './shared';
 import shared from './shared.module.css';
 
 interface ActivityRow {
@@ -193,7 +199,11 @@ export default function ActivitySection() {
       </div>
 
       {loading && (
-        <p className={shared.loadingText}>Loading activity data...</p>
+        <>
+          <p className={shared.srOnly}>Loading activity data...</p>
+          <SkeletonStatRow count={4} />
+          <SkeletonChart height={140} />
+        </>
       )}
       {error && <p className={shared.error}>Error: {error}</p>}
       {!loading && !error && !mostRecent && (

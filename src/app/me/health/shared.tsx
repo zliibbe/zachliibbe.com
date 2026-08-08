@@ -315,6 +315,51 @@ export function StalenessIndicator({
   );
 }
 
+// Initial-load-only placeholders -- per the dataviz skill, a refetch should
+// hold the previous render at reduced opacity instead, never re-show a
+// skeleton. These sections only fetch once on mount, so that distinction
+// doesn't come up yet, but don't reuse these for a future refetch/filter.
+export function SkeletonStatTile() {
+  return (
+    <div className={styles.statTile} aria-hidden="true">
+      <span className={`${styles.skeletonBar} ${styles.skeletonLabel}`} />
+      <span className={`${styles.skeletonBar} ${styles.skeletonValue}`} />
+    </div>
+  );
+}
+
+export function SkeletonStatRow({ count }: { count: number }) {
+  return (
+    <div className={styles.statRow}>
+      {Array.from({ length: count }, (_, i) => (
+        // biome-ignore lint/suspicious/noArrayIndexKey: static placeholder list, never reordered
+        <SkeletonStatTile key={i} />
+      ))}
+    </div>
+  );
+}
+
+export function SkeletonChart({ height = 140 }: { height?: number }) {
+  return (
+    <div
+      className={styles.skeletonChart}
+      style={{ height }}
+      aria-hidden="true"
+    />
+  );
+}
+
+export function SkeletonList({ count }: { count: number }) {
+  return (
+    <div className={styles.skeletonList} aria-hidden="true">
+      {Array.from({ length: count }, (_, i) => (
+        // biome-ignore lint/suspicious/noArrayIndexKey: static placeholder list, never reordered
+        <div key={i} className={styles.skeletonListRow} />
+      ))}
+    </div>
+  );
+}
+
 export function StatTile({
   label,
   value,

@@ -5,6 +5,7 @@ import { useTheme } from '@/app/context/ThemeContext';
 import { themes } from '@/app/styles/themes';
 import type { GarminActivity } from '@/lib/garmin-health/types';
 import styles from './RecentActivitiesSection.module.css';
+import { SkeletonList } from './shared';
 import shared from './shared.module.css';
 
 interface ActivityRow {
@@ -113,7 +114,10 @@ export default function RecentActivitiesSection() {
       </div>
 
       {loading && (
-        <p className={shared.loadingText}>Loading recent activities...</p>
+        <>
+          <p className={shared.srOnly}>Loading recent activities...</p>
+          <SkeletonList count={6} />
+        </>
       )}
       {error && <p className={shared.error}>Error: {error}</p>}
       {!loading &&

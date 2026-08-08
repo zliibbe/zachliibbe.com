@@ -8,6 +8,8 @@ import styles from './SleepSection.module.css';
 import {
   ChartTooltip,
   formatDuration,
+  SkeletonChart,
+  SkeletonStatRow,
   StalenessIndicator,
   StatTile,
   TrendLineChart,
@@ -233,7 +235,14 @@ export default function SleepSection() {
         <p>Sleep stages and stress, synced from Garmin Connect.</p>
       </div>
 
-      {loading && <p className={shared.loadingText}>Loading sleep data...</p>}
+      {loading && (
+        <>
+          <p className={shared.srOnly}>Loading sleep data...</p>
+          <SkeletonStatRow count={2} />
+          <SkeletonChart height={44} />
+          <SkeletonChart height={140} />
+        </>
+      )}
       {error && <p className={shared.error}>Error: {error}</p>}
       {!loading && !error && !mostRecent && (
         <p className={shared.emptyText}>No sleep data synced yet.</p>

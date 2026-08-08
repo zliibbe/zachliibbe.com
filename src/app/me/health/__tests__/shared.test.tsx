@@ -1,6 +1,9 @@
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import {
   formatDuration,
+  SkeletonChart,
+  SkeletonList,
+  SkeletonStatRow,
   StalenessIndicator,
   StatTile,
   TrendLineChart,
@@ -55,6 +58,29 @@ describe('StatTile', () => {
     expect(
       screen.queryByRole('img', { name: /Trend sparkline/ })
     ).not.toBeInTheDocument();
+  });
+});
+
+describe('skeleton placeholders', () => {
+  it('renders one placeholder tile per count and hides them from assistive tech', () => {
+    const { container } = render(<SkeletonStatRow count={3} />);
+    expect(container.querySelectorAll('[aria-hidden="true"]')).toHaveLength(
+      3
+    );
+  });
+
+  it('renders a chart placeholder at the requested height', () => {
+    const { container } = render(<SkeletonChart height={44} />);
+    const chart = container.querySelector('[aria-hidden="true"]');
+    expect(chart).toHaveStyle({ height: '44px' });
+  });
+
+  it('renders one row per count for a list placeholder', () => {
+    const { container } = render(<SkeletonList count={4} />);
+    expect(container.querySelectorAll('[aria-hidden="true"]')).toHaveLength(
+      1
+    );
+    expect(container.firstElementChild?.children).toHaveLength(4);
   });
 });
 
