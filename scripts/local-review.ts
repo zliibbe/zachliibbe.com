@@ -123,7 +123,13 @@ function main() {
     .filter(Boolean)
     .pop();
 
-  if (lastLine === 'No bugs found.') {
+  // Guard against fail-open: real findings are required (by the system
+  // prompt) to be a markdown list of "**File & area**" items, so their
+  // presence overrides a last line that happens to read "No bugs found." --
+  // e.g. the model quoting this exact literal while reviewing this file.
+  const hasListedFinding = /\*\*File & area\*\*/.test(review);
+
+  if (lastLine === 'No bugs found.' && !hasListedFinding) {
     console.log('Bug Bot: No bugs found.');
     return;
   }
