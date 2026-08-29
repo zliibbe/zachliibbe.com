@@ -40,8 +40,8 @@
 }
 
 .stagesSegmentLabel {
+  /* color is set inline per-segment based on its background's contrast */
   font-size: 0.65rem;
-  color: var(--text-inverse, #fff);
   white-space: nowrap;
   padding: 0 4px;
 }

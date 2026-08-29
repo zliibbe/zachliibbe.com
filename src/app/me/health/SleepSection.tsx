@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTheme } from '@/app/context/ThemeContext';
 import { type Theme, themes } from '@/app/styles/themes';
 import type { SleepSnapshot } from '@/lib/garmin-health/types';
@@ -13,6 +13,7 @@ import {
   StalenessIndicator,
   StatTile,
   TrendLineChart,
+  useHealthCategoryData,
 } from './shared';
 import shared from './shared.module.css';
 
@@ -47,6 +48,25 @@ function getStageColors(themeName: Theme['name']) {
     };
   }
   return { deep: c.gradientOne, light: c.gradientTwo, rem: c.gradientThree };
+}
+
+// Must match --chart-muted in shared.module.css, which is the same fixed
+// gray in every mode -- used only to pick a readable label color for the
+// Awake segment; the segment itself still renders via the CSS var.
+const CHART_MUTED_HEX = '#898781';
+
+// Segment fill colors are arbitrary theme/brand hues (not chosen for
+// contrast against any one label color), so the label needs a per-segment
+// light/dark choice rather than a single CSS color tied to site light/dark
+// mode -- a light theme color (e.g. ocean's gold accentPrimary) needs dark
+// text regardless of whether the site itself is in light or dark mode.
+function getContrastTextColor(hex: string): string {
+  const clean = hex.replace('#', '');
+  const r = Number.parseInt(clean.substring(0, 2), 16);
+  const g = Number.parseInt(clean.substring(2, 4), 16);
+  const b = Number.parseInt(clean.substring(4, 6), 16);
+  const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+  return brightness > 140 ? '#000' : '#fff';
 }
 
 interface SleepRow {
@@ -91,11 +111,32 @@ function SleepStagesBar({
     >;
     label: string;
     colorVar: string;
+    contrastHex: string;
   }[] = [
-    { key: 'deepSeconds', label: 'Deep', colorVar: stageColors.deep },
-    { key: 'lightSeconds', label: 'Light', colorVar: stageColors.light },
-    { key: 'remSeconds', label: 'REM', colorVar: stageColors.rem },
-    { key: 'awakeSeconds', label: 'Awake', colorVar: 'var(--chart-muted)' },
+    {
+      key: 'deepSeconds',
+      label: 'Deep',
+      colorVar: stageColors.deep,
+      contrastHex: stageColors.deep,
+    },
+    {
+      key: 'lightSeconds',
+      label: 'Light',
+      colorVar: stageColors.light,
+      contrastHex: stageColors.light,
+    },
+    {
+      key: 'remSeconds',
+      label: 'REM',
+      colorVar: stageColors.rem,
+      contrastHex: stageColors.rem,
+    },
+    {
+      key: 'awakeSeconds',
+      label: 'Awake',
+      colorVar: 'var(--chart-muted)',
+      contrastHex: CHART_MUTED_HEX,
+    },
   ];
   const segments = stageSegments
     .map(s => ({
@@ -136,7 +177,10 @@ function SleepStagesBar({
               onBlur={() => setHoverKey(null)}
             >
               {s.pct >= 12 && (
-                <span className={styles.stagesSegmentLabel}>
+                <span
+                  className={styles.stagesSegmentLabel}
+                  style={{ color: getContrastTextColor(s.contrastHex) }}
+                >
                   {formatDuration(s.seconds)}
                 </span>
               )}
@@ -176,47 +220,16 @@ function SleepStagesBar({
 export default function SleepSection() {
   const { currentTheme } = useTheme();
   const accentColor = themes[currentTheme].colors.gradientOne;
-  const [rows, setRows] = useState<SleepRow[] | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    const fetchData = async () => {
-      try {
-        const response = await fetch('/api/me/health/sleep?range=14', {
-          cache: 'no-store',
-        });
-        if (!response.ok) {
-          throw new Error(`Failed to fetch sleep data: ${response.status}`);
-        }
-        const json = await response.json();
-        const series: SleepSnapshot[] = json.series ?? [];
-        const extracted = series
-          .map(extractRow)
-          .sort((a, b) => a.date.localeCompare(b.date));
-        if (!cancelled) {
-          setRows(extracted);
-        }
-      } catch (err: unknown) {
-        if (!cancelled) {
-          setError(
-            err instanceof Error ? err.message : 'An unknown error occurred'
-          );
-        }
-      } finally {
-        if (!cancelled) {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchData();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  const { rows, loading, error } = useHealthCategoryData<
+    SleepSnapshot,
+    SleepRow
+  >({
+    url: '/api/me/health/sleep?range=14',
+    jsonKey: 'series',
+    label: 'sleep data',
+    extractRow,
+    sortKey: r => r.date,
+  });
 
   const withSleepData = (rows ?? []).filter(r => r.totalSeconds !== null);
   const mostRecent = withSleepData[withSleepData.length - 1] ?? null;

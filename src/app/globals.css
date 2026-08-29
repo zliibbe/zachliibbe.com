@@ -313,6 +313,9 @@ html {
   --stravaColor: #fc4c02;
   --goodreadsColor: #794d23;
   --linkedInColor: #0a66c2;
+
+  /* Status colors (reserved -- not theme colors) */
+  --color-warning: #92400e;
 }
 
 /* Dark mode */
@@ -324,6 +327,9 @@ html[data-theme="dark"] {
   --text-secondary: var(--clr-neutral-250);
   --border-color: var(--clr-neutral-600);
   --modal-bg: var(--clr-neutral-800);
+
+  /* Status colors (reserved -- not theme colors) */
+  --color-warning: #f59e0b;
 
   /* Adjust component specific colors */
   --job-bg: var(--background-secondary);

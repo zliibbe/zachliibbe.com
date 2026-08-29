@@ -1,10 +1,79 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './shared.module.css';
 
 export function formatDuration(seconds: number): string {
   const h = Math.floor(seconds / 3600);
-  const m = Math.round((seconds % 3600) / 60);
+  const m = Math.floor((seconds % 3600) / 60);
   return `${h}h ${m}m`;
+}
+
+export function formatDistance(meters: number): string {
+  return `${(meters / 1000).toFixed(1)} km`;
+}
+
+// Every /me/health section fetches one category's series on mount, extracts
+// rows from the raw JSON, and tracks loading/error/cancelled state the same
+// way -- the only real differences are the URL, which JSON array key holds
+// the raw rows, how to extract a row, and whether the result needs sorting
+// by date (Recent Activities arrives pre-ordered from Garmin; sorting by
+// date string would scramble same-day entries).
+export function useHealthCategoryData<TRaw, TRow>({
+  url,
+  jsonKey,
+  label,
+  extractRow,
+  sortKey,
+}: {
+  url: string;
+  jsonKey: string;
+  label: string;
+  extractRow: (raw: TRaw) => TRow;
+  // Omit for data that arrives pre-ordered (e.g. Recent Activities) --
+  // sorting by a same-day date string would scramble same-day entries.
+  sortKey?: (row: TRow) => string;
+}): { rows: TRow[] | null; loading: boolean; error: string | null } {
+  const [rows, setRows] = useState<TRow[] | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const fetchData = async () => {
+      try {
+        const response = await fetch(url, { cache: 'no-store' });
+        if (!response.ok) {
+          throw new Error(`Failed to fetch ${label}: ${response.status}`);
+        }
+        const json = await response.json();
+        const raw: TRaw[] = json[jsonKey] ?? [];
+        const extracted = raw.map(extractRow);
+        if (sortKey) {
+          extracted.sort((a, b) => sortKey(a).localeCompare(sortKey(b)));
+        }
+        if (!cancelled) {
+          setRows(extracted);
+        }
+      } catch (err: unknown) {
+        if (!cancelled) {
+          setError(
+            err instanceof Error ? err.message : 'An unknown error occurred'
+          );
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchData();
+    return () => {
+      cancelled = true;
+    };
+  }, [url, jsonKey, label]);
+
+  return { rows, loading, error };
 }
 
 export function Sparkline({

@@ -1,11 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { useTheme } from '@/app/context/ThemeContext';
 import { themes } from '@/app/styles/themes';
 import type { GarminActivity } from '@/lib/garmin-health/types';
 import styles from './RecentActivitiesSection.module.css';
-import { SkeletonList } from './shared';
+import { formatDistance, SkeletonList, useHealthCategoryData } from './shared';
 import shared from './shared.module.css';
 
 interface ActivityRow {
@@ -54,57 +53,25 @@ function extractRow(activity: GarminActivity): ActivityRow {
   };
 }
 
-function formatDistance(meters: number): string {
-  return `${(meters / 1000).toFixed(1)} km`;
-}
-
 function formatDuration(seconds: number): string {
   const h = Math.floor(seconds / 3600);
-  const m = Math.round((seconds % 3600) / 60);
+  const m = Math.floor((seconds % 3600) / 60);
   return h > 0 ? `${h}h ${m}m` : `${m}m`;
 }
 
 export default function RecentActivitiesSection() {
   const { currentTheme } = useTheme();
   const accentColor = themes[currentTheme].colors.gradientThree;
-  const [activities, setActivities] = useState<ActivityRow[] | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    const fetchData = async () => {
-      try {
-        const response = await fetch('/api/me/health/activities', {
-          cache: 'no-store',
-        });
-        if (!response.ok) {
-          throw new Error(`Failed to fetch activities: ${response.status}`);
-        }
-        const json = await response.json();
-        const raw: GarminActivity[] = json.activities ?? [];
-        if (!cancelled) {
-          setActivities(raw.map(extractRow));
-        }
-      } catch (err: unknown) {
-        if (!cancelled) {
-          setError(
-            err instanceof Error ? err.message : 'An unknown error occurred'
-          );
-        }
-      } finally {
-        if (!cancelled) {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchData();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  const {
+    rows: activities,
+    loading,
+    error,
+  } = useHealthCategoryData<GarminActivity, ActivityRow>({
+    url: '/api/me/health/activities',
+    jsonKey: 'activities',
+    label: 'activities',
+    extractRow,
+  });
 
   return (
     <section className={shared.section}>

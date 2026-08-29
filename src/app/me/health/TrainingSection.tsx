@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { useTheme } from '@/app/context/ThemeContext';
 import { themes } from '@/app/styles/themes';
 import type { TrainingSnapshot } from '@/lib/garmin-health/types';
@@ -10,6 +9,7 @@ import {
   StalenessIndicator,
   StatTile,
   TrendLineChart,
+  useHealthCategoryData,
 } from './shared';
 import shared from './shared.module.css';
 
@@ -63,47 +63,16 @@ function mostRecentValue(
 export default function TrainingSection() {
   const { currentTheme } = useTheme();
   const accentColor = themes[currentTheme].colors.accentPrimary;
-  const [rows, setRows] = useState<TrainingRow[] | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    const fetchData = async () => {
-      try {
-        const response = await fetch('/api/me/health/training?range=30', {
-          cache: 'no-store',
-        });
-        if (!response.ok) {
-          throw new Error(`Failed to fetch training data: ${response.status}`);
-        }
-        const json = await response.json();
-        const series: TrainingSnapshot[] = json.series ?? [];
-        const extracted = series
-          .map(extractRow)
-          .sort((a, b) => a.date.localeCompare(b.date));
-        if (!cancelled) {
-          setRows(extracted);
-        }
-      } catch (err: unknown) {
-        if (!cancelled) {
-          setError(
-            err instanceof Error ? err.message : 'An unknown error occurred'
-          );
-        }
-      } finally {
-        if (!cancelled) {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchData();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  const { rows, loading, error } = useHealthCategoryData<
+    TrainingSnapshot,
+    TrainingRow
+  >({
+    url: '/api/me/health/training?range=30',
+    jsonKey: 'series',
+    label: 'training data',
+    extractRow,
+    sortKey: r => r.date,
+  });
 
   const allRows = rows ?? [];
   const vo2 = mostRecentValue(allRows, 'vo2Max');

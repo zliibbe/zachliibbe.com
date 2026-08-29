@@ -1,16 +1,18 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTheme } from '@/app/context/ThemeContext';
 import { themes } from '@/app/styles/themes';
 import type { ActivitySnapshot } from '@/lib/garmin-health/types';
 import styles from './ActivitySection.module.css';
 import {
   ChartTooltip,
+  formatDistance,
   SkeletonChart,
   SkeletonStatRow,
   StalenessIndicator,
   StatTile,
+  useHealthCategoryData,
 } from './shared';
 import shared from './shared.module.css';
 
@@ -44,10 +46,6 @@ function extractRow(snapshot: ActivitySnapshot): ActivityRow {
     calories: num(summary.totalKilocalories),
     floorsAscended,
   };
-}
-
-function formatDistance(meters: number): string {
-  return `${(meters / 1000).toFixed(1)} km`;
 }
 
 function StepsBar({
@@ -140,47 +138,16 @@ function StepsBar({
 export default function ActivitySection() {
   const { currentTheme } = useTheme();
   const accentColor = themes[currentTheme].colors.gradientTwo;
-  const [rows, setRows] = useState<ActivityRow[] | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    const fetchData = async () => {
-      try {
-        const response = await fetch('/api/me/health/activity?range=14', {
-          cache: 'no-store',
-        });
-        if (!response.ok) {
-          throw new Error(`Failed to fetch activity data: ${response.status}`);
-        }
-        const json = await response.json();
-        const series: ActivitySnapshot[] = json.series ?? [];
-        const extracted = series
-          .map(extractRow)
-          .sort((a, b) => a.date.localeCompare(b.date));
-        if (!cancelled) {
-          setRows(extracted);
-        }
-      } catch (err: unknown) {
-        if (!cancelled) {
-          setError(
-            err instanceof Error ? err.message : 'An unknown error occurred'
-          );
-        }
-      } finally {
-        if (!cancelled) {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchData();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  const { rows, loading, error } = useHealthCategoryData<
+    ActivitySnapshot,
+    ActivityRow
+  >({
+    url: '/api/me/health/activity?range=14',
+    jsonKey: 'series',
+    label: 'activity data',
+    extractRow,
+    sortKey: r => r.date,
+  });
 
   const withData = (rows ?? []).filter(r => r.steps !== null);
   const mostRecent = withData[withData.length - 1] ?? null;

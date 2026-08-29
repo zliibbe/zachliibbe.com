@@ -14,12 +14,18 @@ describe('formatDuration', () => {
     expect(formatDuration(27120)).toBe('7h 32m');
   });
 
-  it('rounds partial minutes', () => {
-    expect(formatDuration(90)).toBe('0h 2m');
+  it('truncates partial minutes', () => {
+    expect(formatDuration(90)).toBe('0h 1m');
   });
 
   it('handles zero', () => {
     expect(formatDuration(0)).toBe('0h 0m');
+  });
+
+  it('never rounds minutes up to 60', () => {
+    // Regression: Math.round((3599 % 3600) / 60) rounds up to 60,
+    // producing the invalid "0h 60m" instead of carrying into the hour.
+    expect(formatDuration(3599)).toBe('0h 59m');
   });
 });
 
@@ -64,9 +70,7 @@ describe('StatTile', () => {
 describe('skeleton placeholders', () => {
   it('renders one placeholder tile per count and hides them from assistive tech', () => {
     const { container } = render(<SkeletonStatRow count={3} />);
-    expect(container.querySelectorAll('[aria-hidden="true"]')).toHaveLength(
-      3
-    );
+    expect(container.querySelectorAll('[aria-hidden="true"]')).toHaveLength(3);
   });
 
   it('renders a chart placeholder at the requested height', () => {
@@ -77,9 +81,7 @@ describe('skeleton placeholders', () => {
 
   it('renders one row per count for a list placeholder', () => {
     const { container } = render(<SkeletonList count={4} />);
-    expect(container.querySelectorAll('[aria-hidden="true"]')).toHaveLength(
-      1
-    );
+    expect(container.querySelectorAll('[aria-hidden="true"]')).toHaveLength(1);
     expect(container.firstElementChild?.children).toHaveLength(4);
   });
 });

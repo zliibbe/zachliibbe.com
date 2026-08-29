@@ -53,17 +53,7 @@ html[data-theme="dark"] .section {
   gap: 0.35rem;
   font-size: 0.8rem;
   font-weight: 500;
-  color: #92400e;
-}
-
-@media (prefers-color-scheme: dark) {
-  html:not([data-theme="light"]) .staleness {
-    color: #f59e0b;
-  }
-}
-
-html[data-theme="dark"] .staleness {
-  color: #f59e0b;
+  color: var(--color-warning);
 }
 
 .stalenessIcon {
