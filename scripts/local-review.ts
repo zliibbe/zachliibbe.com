@@ -68,10 +68,15 @@ Otherwise respond with a markdown list. For each bug:
 
 Be brief and high-signal. Only report bugs you are confident about.`;
 
+  // Strip ANTHROPIC_API_KEY so the CLI falls back to the claude.ai
+  // subscription login instead of metered API billing.
+  const { ANTHROPIC_API_KEY: _unused, ...childEnv } = process.env;
+
   const result = spawnSync('claude', ['-p', prompt], {
     input: diffContent,
     encoding: 'utf-8',
     maxBuffer: 10 * 1024 * 1024,
+    env: childEnv,
   });
 
   if (result.error) {
