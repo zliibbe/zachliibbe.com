@@ -123,7 +123,15 @@ function main() {
     .filter(Boolean)
     .pop();
 
-  if (lastLine === 'No bugs found.') {
+  // Guard against fail-open: real findings are required (by the system
+  // prompt) to be a markdown list of "- **File & area**:" items, so their
+  // presence overrides a last line that happens to read "No bugs found."
+  // Anchored to actual list-item syntax at line start, not just the
+  // substring, so prose merely mentioning the phrase (plausible when the
+  // reviewed diff is this file, which contains that literal) doesn't count.
+  const hasListedFinding = /^-\s*\*\*File & area\*\*:/m.test(review);
+
+  if (lastLine === 'No bugs found.' && !hasListedFinding) {
     console.log('Bug Bot: No bugs found.');
     return;
   }
