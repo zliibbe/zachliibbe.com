@@ -1,0 +1,69 @@
+/*
+ * Sleep-specific chart styles. Section chrome, stat tiles, sparklines, and
+ * the trend-line chart live in shared.module.css/shared.tsx;
+ * --chart-surface/--chart-muted/--chart-baseline are declared on .section
+ * there and cascade down to the classes below.
+ */
+
+/* Sleep stages stacked bar */
+.stagesBlock {
+  margin-bottom: 2rem;
+}
+
+.stagesBar {
+  display: flex;
+  gap: 2px;
+  height: 24px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: var(--chart-surface);
+}
+
+.stagesSegment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2px;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline-offset: 2px;
+}
+
+.stagesSegment[data-hovered] {
+  filter: brightness(1.15);
+}
+
+.stagesSegmentLabel {
+  /* color is set inline per-segment based on its background's contrast */
+  font-size: 0.65rem;
+  white-space: nowrap;
+  padding: 0 4px;
+}
+
+.stagesLegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+
+.stagesLegendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: var(--fs-300);
+  color: var(--text-secondary);
+}
+
+.stagesLegendSwatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
