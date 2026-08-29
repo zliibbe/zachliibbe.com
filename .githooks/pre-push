@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -e
+
+zero="0000000000000000000000000000000000000000"
+
+while read -r local_ref local_sha remote_ref remote_sha; do
+  if [ "$local_sha" = "$zero" ]; then
+    continue
+  fi
+
+  if [ "$remote_sha" = "$zero" ]; then
+    base_sha=$(git merge-base main "$local_sha" 2>/dev/null || echo "$local_sha")
+  else
+    base_sha="$remote_sha"
+  fi
+
+  if [ "$base_sha" = "$local_sha" ]; then
+    continue
+  fi
+
+  BASE_SHA="$base_sha" HEAD_SHA="$local_sha" bun scripts/local-review.ts
+done
