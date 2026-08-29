@@ -118,6 +118,14 @@ export const themes = {
   },
 } as const;
 
+function hexToRgbString(hex: string): string {
+  const clean = hex.replace('#', '');
+  const r = Number.parseInt(clean.substring(0, 2), 16);
+  const g = Number.parseInt(clean.substring(2, 4), 16);
+  const b = Number.parseInt(clean.substring(4, 6), 16);
+  return `${r}, ${g}, ${b}`;
+}
+
 // Helper function to apply theme
 export function applyTheme(themeName: Theme['name']) {
   const theme = themes[themeName];
@@ -127,4 +135,12 @@ export function applyTheme(themeName: Theme['name']) {
   Object.entries(theme.colors).forEach(([key, value]) => {
     root.style.setProperty(`--${key}`, value);
   });
+
+  // Also expose themeColor as an rgb triple so rgba(var(--theme-color-rgb), alpha)
+  // usages (chat widget, admin knowledge pages, blog) track the live theme
+  // instead of silently falling back to their hardcoded default.
+  root.style.setProperty(
+    '--theme-color-rgb',
+    hexToRgbString(theme.colors.themeColor)
+  );
 }

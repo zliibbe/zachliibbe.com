@@ -659,7 +659,7 @@
     height: 0;
     border-left: 0.6875rem solid transparent;
     border-right: 0.6875rem solid transparent;
-    border-top: 0.6875rem solid rgba(var(--theme-color-rgb, 26, 107, 138), 0.15);
+    border-top: 0.6875rem solid rgba(var(--theme-color-rgb, 26, 107, 138), 0.94);
   }
 
   /* Adjust greeting bubble positioning for mobile */
@@ -775,7 +775,7 @@
 .promptText {
   font-size: var(--fs-700);
   font-weight: 500;
-  color: var(--text-primary);
+  color: var(--white);
   margin: 0;
   user-select: none;
 }
@@ -887,7 +887,7 @@
 .greetingText {
   font-size: var(--fs-600);
   font-weight: var(--fw-semi-bold);
-  color: var(--text-primary);
+  color: var(--white);
   text-shadow:
     0 1px 2px rgba(0, 0, 0, 0.3),
     0 0 4px rgba(255, 255, 255, 0.5);
