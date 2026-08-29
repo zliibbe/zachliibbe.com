@@ -113,7 +113,17 @@ function main() {
   console.log(`Bug Bot: reviewing diff (${diff.length} chars) locally...`);
   const review = reviewWithClaudeCode(diff);
 
-  if (review === 'No bugs found.') {
+  // The model sometimes prefaces its verdict with a sentence or two of
+  // reasoning even when told to respond with exactly "No bugs found." --
+  // check the concluding line rather than requiring an exact full-string
+  // match, so a strayed preamble doesn't get treated as a real finding.
+  const lastLine = review
+    .split('\n')
+    .map(line => line.trim())
+    .filter(Boolean)
+    .pop();
+
+  if (lastLine === 'No bugs found.') {
     console.log('Bug Bot: No bugs found.');
     return;
   }
