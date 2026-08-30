@@ -2,6 +2,7 @@ import threeDSystemsLogo from '../../../public/3d-systems-logo.png';
 import beatLogo from '../../../public/beat-logo.png';
 import bluestaqLogo from '../../../public/bluestaq-logo.jpeg';
 import centuraLogo from '../../../public/centura-logo.png';
+import cultivateGeospatialLogo from '../../../public/cultivate-geospatial-logo.jpeg';
 import quantumLogo from '../../../public/quantum-logo.jpeg';
 import raytheonLogo from '../../../public/raytheon-logo.png';
 import Job from './Job';
@@ -9,6 +10,21 @@ import styles from './job.module.css';
 
 export const Jobs = () => {
   const jobs = [
+    {
+      title: 'Cultivate Geospatial',
+      logo: cultivateGeospatialLogo,
+      role: 'Software Engineer',
+      companyName: 'Cultivate Geospatial',
+      companyLink: 'https://www.cultivategeospatial.com',
+      description: '',
+      taskList: [
+        'Build full-stack, frontend-heavy features for government and enterprise GIS customers, including the Architect of the Capitol and local governments such as Hamilton County, IN, St. Paul, MN, and Rochelle, IL.',
+        "Develop an AI-powered agent that analyzes ArcGIS, Portal, and OS logs to generate targeted, personalized recommendations for improving customers' technical infrastructure.",
+        "Collaborate cross-functionally with GIS specialists to improve the user experience and repairability of customers' ArcGIS environments through the agent.",
+      ],
+      timeframe: 'Mar 2026 - Present',
+      id: 6,
+    },
     {
       title: 'Raytheon',
       logo: raytheonLogo,
@@ -22,7 +38,7 @@ export const Jobs = () => {
         'Create robust test suites using JUnit, improving regression reliability across services.',
         'Improve CI/CD pipelines by integrating automated scenario tests that execute targeted code paths on every merge to main, reducing regression risk and increasing confidence in deployments.',
       ],
-      timeframe: 'Sep 2025 - Present',
+      timeframe: 'Sep 2025 - Mar 2026',
       id: 0,
     },
     {
